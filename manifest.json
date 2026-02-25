@@ -1,0 +1,37 @@
+{
+  "name": "Activate HQ — Lexington",
+  "short_name": "Activate HQ",
+  "description": "GM Command Center for Activate Games Lexington",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#00e5ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "Tasks",
+      "url": "./index.html#tasks",
+      "description": "Jump to today's tasks"
+    },
+    {
+      "name": "Shift Handoff",
+      "url": "./index.html#handoff",
+      "description": "Log a shift handoff"
+    }
+  ]
+}
