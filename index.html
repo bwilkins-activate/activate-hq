@@ -923,7 +923,16 @@ input[type="file"]:hover{border-color:var(--accent)}
 // ─────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    storage: window.localStorage,
+    storageKey: 'activate-hq-auth',
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false,
+    lock: async (name, acquireTimeout, fn) => { return fn(); }
+  }
+});
 let currentUser = null;
 let syncTimeout = null;
 
