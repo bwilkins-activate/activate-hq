@@ -919,6 +919,42 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <script>
 // ─────────────────────────────────────────────────────
+// SUPABASE INIT — must be first so syncToCloud is available everywhere
+// ─────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentUser = null;
+let syncTimeout = null;
+
+const TABLES = {
+  todos:'ag_todos', weekData:'ag_week', customLinks:'ag_links',
+  outreachList:'ag_outreach', convoNotes:'ag_convonotes', staffList:'ag_staff',
+  handoffs:'ag_handoffs', trips:'ag_trips', schedules:'ag_schedules'
+};
+
+async function syncToCloud(key, data) {
+  if (!currentUser) return;
+  const table = TABLES[key];
+  if (!table) return;
+  setSyncStatus('syncing', 'Saving...');
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(async () => {
+    try {
+      const { error } = await sb.from(table).upsert(
+        { user_id: currentUser.id, data: data },
+        { onConflict: 'user_id' }
+      );
+      if (error) throw error;
+      setSyncStatus('synced', 'Synced ✓');
+    } catch(e) {
+      setSyncStatus('error', 'Sync failed — saved locally');
+      console.error('Sync error:', e);
+    }
+  }, 600);
+}
+
+// ─────────────────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────────────────
 let todos      = JSON.parse(localStorage.getItem('ag_todos')     || '[]');
@@ -1048,7 +1084,7 @@ function renderHomeTodos(){
 // ─────────────────────────────────────────────────────
 // TASKS
 // ─────────────────────────────────────────────────────
-function saveTodos(){ localStorage.setItem('ag_todos',JSON.stringify(todos)); }
+function saveTodos(){ localStorage.setItem('ag_todos',JSON.stringify(todos)); syncToCloud('todos',todos); }
 function addTodo(){
   const text=document.getElementById('todoInput').value.trim();
   if(!text)return;
@@ -1102,7 +1138,7 @@ function updateRevMetrics(){
   document.getElementById('return-count').textContent=ret;
   if(goal>0){const pct=Math.round(rev/goal*100);document.getElementById('rev-vs-goal').className='stat-sub '+(pct>=100?'up':pct>=75?'':'down');document.getElementById('rev-vs-goal').textContent=pct+'% of $'+goal.toLocaleString()+' goal';}
 }
-function saveWeekData(){ localStorage.setItem('ag_week',JSON.stringify(weekData)); }
+function saveWeekData(){ localStorage.setItem('ag_week',JSON.stringify(weekData)); syncToCloud('weekData',weekData); }
 function logDay(){
   const date=document.getElementById('inp-date').value;
   const rev=parseFloat(document.getElementById('inp-rev').value)||0;
@@ -1133,7 +1169,7 @@ function renderWeekChart(){
 // ─────────────────────────────────────────────────────
 // STAFF
 // ─────────────────────────────────────────────────────
-function saveStaff(){ localStorage.setItem('ag_staff',JSON.stringify(staffList)); }
+function saveStaff(){ localStorage.setItem('ag_staff',JSON.stringify(staffList)); syncToCloud('staffList',staffList); }
 function openStaffModal(id){
   editingStaffId=id||null;
   const m=staffList.find(s=>s.id===id);
@@ -1187,7 +1223,7 @@ function renderStaff(){
 // ─────────────────────────────────────────────────────
 // SHIFT HANDOFF
 // ─────────────────────────────────────────────────────
-function saveHandoffs(){ localStorage.setItem('ag_handoffs',JSON.stringify(handoffs)); }
+function saveHandoffs(){ localStorage.setItem('ag_handoffs',JSON.stringify(handoffs)); syncToCloud('handoffs',handoffs); }
 function saveHandoff(){
   const date=document.getElementById('ho-date').value;
   const shift=document.getElementById('ho-shift').value;
@@ -1225,7 +1261,7 @@ function renderHandoffs(){
 // ─────────────────────────────────────────────────────
 // TRAINING TRIPS
 // ─────────────────────────────────────────────────────
-function saveTrips(){ localStorage.setItem('ag_trips',JSON.stringify(trips)); }
+function saveTrips(){ localStorage.setItem('ag_trips',JSON.stringify(trips)); syncToCloud('trips',trips); }
 function addTrip(){
   const loc=document.getElementById('trip-loc').value.trim();
   if(!loc){alert('Please enter a location');return;}
@@ -1369,6 +1405,7 @@ function saveSchedule(shifts, weekStart, filename){
   schedules.unshift({id:Date.now(),weekStart,filename,shifts,saved:new Date().toLocaleDateString()});
   if(schedules.length>10)schedules=schedules.slice(0,10);
   localStorage.setItem('ag_schedules',JSON.stringify(schedules));
+  syncToCloud('schedules', schedules);
   document.getElementById('schedPreviewArea').innerHTML='<div class="card" style="border-color:rgba(168,255,62,.3);color:var(--accent3)">✅ Schedule saved! It will now show in "Who\'s Working Today" on the Home tab.</div>';
   renderSavedSchedules();
   updateHomeStats();
@@ -1397,7 +1434,7 @@ function renderSavedSchedules(){
 // ─────────────────────────────────────────────────────
 // LINKS
 // ─────────────────────────────────────────────────────
-function saveLinks(){ localStorage.setItem('ag_links',JSON.stringify(customLinks)); }
+function saveLinks(){ localStorage.setItem('ag_links',JSON.stringify(customLinks)); syncToCloud('customLinks',customLinks); }
 function addCustomLink(){
   const name=document.getElementById('link-name').value.trim();
   const url=document.getElementById('link-url').value.trim();
@@ -1461,7 +1498,7 @@ function renderDocs(){
 // ─────────────────────────────────────────────────────
 // OUTREACH
 // ─────────────────────────────────────────────────────
-function saveOutreach(){ localStorage.setItem('ag_outreach',JSON.stringify(outreachList)); }
+function saveOutreach(){ localStorage.setItem('ag_outreach',JSON.stringify(outreachList)); syncToCloud('outreachList',outreachList); }
 function addOutreach(){
   const name=document.getElementById('out-name').value.trim();
   if(!name)return;
@@ -1491,7 +1528,7 @@ function renderOutreach(){
 // ─────────────────────────────────────────────────────
 // CONV NOTES
 // ─────────────────────────────────────────────────────
-function saveConvoNotes(){ localStorage.setItem('ag_convonotes',JSON.stringify(convoNotes)); }
+function saveConvoNotes(){ localStorage.setItem('ag_convonotes',JSON.stringify(convoNotes)); syncToCloud('convoNotes',convoNotes); }
 function addConvoNote(){
   const person=document.getElementById('cn-person').value.trim();
   if(!person){alert('Please enter a person or topic');return;}
@@ -1689,29 +1726,6 @@ renderSavedSchedules();
 updateHomeStats();
 updateExportCounts();
 
-// ─────────────────────────────────────────────────────
-// SUPABASE SYNC
-// ─────────────────────────────────────────────────────
-const SUPABASE_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let currentUser = null;
-let syncTimeout = null;
-
-// TABLE MAP — each data key maps to a Supabase table
-const TABLES = {
-  todos:       'ag_todos',
-  weekData:    'ag_week',
-  customLinks: 'ag_links',
-  outreachList:'ag_outreach',
-  convoNotes:  'ag_convonotes',
-  staffList:   'ag_staff',
-  handoffs:    'ag_handoffs',
-  trips:       'ag_trips',
-  schedules:   'ag_schedules',
-};
-
 // ── AUTH ──────────────────────────────────────────────
 async function handleLogin() {
   const email = document.getElementById('loginEmail').value.trim();
@@ -1813,53 +1827,10 @@ async function loadAllFromSupabase() {
 }
 
 // ── SAVE A SINGLE KEY TO SUPABASE ────────────────────
-async function syncToCloud(key, data) {
-  if (!currentUser) return;
-  const table = TABLES[key];
-  if (!table) return;
-  setSyncStatus('syncing', 'Saving...');
-  clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(async () => {
-    try {
-      const uid = currentUser.id;
-      const { error } = await sb.from(table).upsert(
-        { user_id: uid, data: data },
-        { onConflict: 'user_id' }
-      );
-      if (error) throw error;
-      setSyncStatus('synced', 'Synced ✓');
-    } catch(e) {
-      setSyncStatus('error', 'Sync failed — saved locally');
-    }
-  }, 800); // debounce — wait 800ms after last change before saving
-}
+
 
 // ── PATCH SAVE FUNCTIONS TO ALSO SYNC ────────────────
-const _saveTodos       = saveTodos;
-const _saveWeekData    = saveWeekData;
-const _saveLinks       = saveLinks;
-const _saveOutreach    = saveOutreach;
-const _saveConvoNotes  = saveConvoNotes;
-const _saveStaff       = saveStaff;
-const _saveHandoffs    = saveHandoffs;
-const _saveTrips       = saveTrips;
-
-// Override each save to also push to Supabase
-window.saveTodos      = () => { localStorage.setItem('ag_todos', JSON.stringify(todos));            syncToCloud('todos', todos); };
-window.saveWeekData   = () => { localStorage.setItem('ag_week', JSON.stringify(weekData));          syncToCloud('weekData', weekData); };
-window.saveLinks      = () => { localStorage.setItem('ag_links', JSON.stringify(customLinks));      syncToCloud('customLinks', customLinks); };
-window.saveOutreach   = () => { localStorage.setItem('ag_outreach', JSON.stringify(outreachList));  syncToCloud('outreachList', outreachList); };
-window.saveConvoNotes = () => { localStorage.setItem('ag_convonotes', JSON.stringify(convoNotes));  syncToCloud('convoNotes', convoNotes); };
-window.saveStaff      = () => { localStorage.setItem('ag_staff', JSON.stringify(staffList));        syncToCloud('staffList', staffList); };
-window.saveHandoffs   = () => { localStorage.setItem('ag_handoffs', JSON.stringify(handoffs));      syncToCloud('handoffs', handoffs); };
-window.saveTrips      = () => { localStorage.setItem('ag_trips', JSON.stringify(trips));            syncToCloud('trips', trips); };
-
-// Also sync schedules when saved
-const _origSaveSchedule = saveSchedule;
-window.saveSchedule = (shifts, weekStart, filename) => {
-  _origSaveSchedule(shifts, weekStart, filename);
-  syncToCloud('schedules', schedules);
-};
+// ── SAVE FUNCTIONS now call syncToCloud directly (see definitions above) ──
 
 // ── SUPABASE TABLE SETUP (auto-creates tables on first run) ──
 async function ensureTables() {
