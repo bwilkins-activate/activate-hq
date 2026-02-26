@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#00e5ff">
 <!-- Apple touch icon fallback (inline SVG-based) -->
 <link rel="apple-touch-icon" href="icon-192.png">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -301,30 +301,21 @@ input[type="file"]:hover{border-color:var(--accent)}
 </style>
 </head>
 <body>
-<!-- LOGIN SCREEN -->
+<!-- SYNC SETUP SCREEN -->
 <div id="loginScreen" style="position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;">
   <div style="width:100%;max-width:400px">
     <div style="text-align:center;margin-bottom:32px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:4px;color:var(--accent)">ACTIVATE HQ</div>
       <div style="font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:4px">Lexington Command Center</div>
     </div>
-    <div id="loginError" style="display:none;background:rgba(255,77,109,.15);border:1px solid rgba(255,77,109,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent2);margin-bottom:14px"></div>
-    <div style="margin-bottom:12px">
-      <div class="input-label" style="margin-bottom:5px">Email</div>
-      <input type="text" id="loginEmail" placeholder="your@email.com" onkeydown="if(event.key==='Enter')document.getElementById('loginPassword').focus()">
-    </div>
+    <div id="loginError" style="display:none;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px"></div>
     <div style="margin-bottom:20px">
-      <div class="input-label" style="margin-bottom:5px">Password</div>
-      <input type="password" id="loginPassword" placeholder="••••••••" onkeydown="if(event.key==='Enter')handleLogin()">
+      <div class="input-label" style="margin-bottom:5px">Sync Key</div>
+      <input type="password" id="loginPassword" placeholder="Enter your sync key (min 6 chars)" onkeydown="if(event.key==='Enter')handleLogin()">
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace">Same key on all your devices = shared data</div>
     </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Sign In</button>
-    <div style="text-align:center;margin-top:16px">
-      <span style="font-size:13px;color:var(--muted)">No account? </span>
-      <button onclick="handleSignup()" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">Create one →</button>
-    </div>
-    <div style="text-align:center;margin-top:10px">
-      <button onclick="handleForgotPassword()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">Forgot password?</button>
-    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Connect →</button>
+    <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">First time? Just enter any key you'll remember.<br>Use the same key on your iPhone to sync.</div>
   </div>
 </div>
 
@@ -919,13 +910,15 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <script>
 // ─────────────────────────────────────────────────────
-// SUPABASE INIT — must be first so syncToCloud is available everywhere
+// SYNC — Direct REST API (no auth SDK — avoids LockManager bug)
 // ─────────────────────────────────────────────────────
-const SUPABASE_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let currentUser = null;
+const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+// Sync uses a fixed row key per "account" — stored as sync_id in localStorage
+// No auth SDK needed — tables use open RLS with sync_id as the key
+let syncId = localStorage.getItem('ag_sync_id') || null;
 let syncTimeout = null;
+let currentUser = { id: syncId }; // compatibility shim
 
 const TABLES = {
   todos:'ag_todos', weekData:'ag_week', customLinks:'ag_links',
@@ -933,19 +926,24 @@ const TABLES = {
   handoffs:'ag_handoffs', trips:'ag_trips', schedules:'ag_schedules'
 };
 
+function sbHeaders() {
+  return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' };
+}
+
 async function syncToCloud(key, data) {
-  if (!currentUser) return;
+  if (!syncId) return;
   const table = TABLES[key];
   if (!table) return;
   setSyncStatus('syncing', 'Saving...');
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(async () => {
     try {
-      const { error } = await sb.from(table).upsert(
-        { user_id: currentUser.id, data: data },
-        { onConflict: 'user_id' }
-      );
-      if (error) throw error;
+      const resp = await fetch(`${SB_URL}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: { ...sbHeaders(), 'Prefer': 'resolution=merge-duplicates' },
+        body: JSON.stringify({ sync_id: syncId, data: data })
+      });
+      if (!resp.ok) throw new Error(await resp.text());
       setSyncStatus('synced', 'Synced ✓');
     } catch(e) {
       setSyncStatus('error', 'Sync failed — saved locally');
@@ -1726,46 +1724,36 @@ renderSavedSchedules();
 updateHomeStats();
 updateExportCounts();
 
-// ── AUTH ──────────────────────────────────────────────
+// ── AUTH — Simple sync key (no auth SDK) ─────────────
 async function handleLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
+  const password = document.getElementById('loginPassword').value.trim();
+  if (password.length < 6) { showLoginError('Sync key must be at least 6 characters.'); return; }
   setLoginLoading(true);
-  const { error } = await sb.auth.signInWithPassword({ email, password });
+  // Hash the password into a deterministic UUID-like sync_id
+  const encoder = new TextEncoder();
+  const data = encoder.encode('activate-hq:' + password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hex = hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  const id = `${hex.slice(0,8)}-${hex.slice(8,12)}-4${hex.slice(13,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`;
+  syncId = id;
+  currentUser = { id };
+  localStorage.setItem('ag_sync_id', id);
   setLoginLoading(false);
-  if (error) showLoginError(error.message);
-}
-
-async function handleSignup() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  if (!email || !password) { showLoginError('Please enter an email and password.'); return; }
-  if (password.length < 6) { showLoginError('Password must be at least 6 characters.'); return; }
-  setLoginLoading(true);
-  const { error } = await sb.auth.signUp({ email, password });
-  setLoginLoading(false);
-  if (error) showLoginError(error.message);
-  else showLoginError('✅ Account created! Check your email to confirm, then sign in.', true);
-}
-
-async function handleForgotPassword() {
-  const email = document.getElementById('loginEmail').value.trim();
-  if (!email) { showLoginError('Enter your email above first.'); return; }
-  const { error } = await sb.auth.resetPasswordForEmail(email);
-  if (error) showLoginError(error.message);
-  else showLoginError('✅ Password reset email sent!', true);
+  await activateApp();
 }
 
 async function handleSignOut() {
-  await sb.auth.signOut();
-  currentUser = null;
+  syncId = null;
+  currentUser = { id: null };
+  localStorage.removeItem('ag_sync_id');
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('syncBar').style.display = 'none';
 }
 
 function setLoginLoading(loading) {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = loading ? 'Signing in...' : 'Sign In';
+  btn.textContent = loading ? 'Connecting...' : 'Connect →';
   btn.disabled = loading;
 }
 
@@ -1776,6 +1764,14 @@ function showLoginError(msg, isSuccess = false) {
   el.style.background = isSuccess ? 'rgba(168,255,62,.1)' : 'rgba(255,77,109,.15)';
   el.style.borderColor = isSuccess ? 'rgba(168,255,62,.3)' : 'rgba(255,77,109,.3)';
   el.style.color = isSuccess ? 'var(--accent3)' : 'var(--accent2)';
+}
+
+async function activateApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  const syncBar = document.getElementById('syncBar');
+  syncBar.style.display = 'flex';
+  document.getElementById('syncUser').textContent = 'synced';
+  await loadAllFromSupabase();
 }
 
 function setSyncStatus(status, msg) {
@@ -1789,33 +1785,31 @@ function setSyncStatus(status, msg) {
   msgEl.textContent = msg || 'Synced';
 }
 
-// ── LOAD ALL DATA FROM SUPABASE ───────────────────────
+// ── LOAD ALL DATA FROM SUPABASE (direct REST) ────────
 async function loadAllFromSupabase() {
+  if (!syncId) return;
   setSyncStatus('syncing', 'Loading your data...');
   try {
-    const uid = currentUser.id;
-    const loads = await Promise.all(
+    const results = await Promise.all(
       Object.entries(TABLES).map(([key, table]) =>
-        sb.from(table).select('data').eq('user_id', uid).single()
+        fetch(`${SB_URL}/rest/v1/${table}?sync_id=eq.${syncId}&select=data`, { headers: sbHeaders() })
+          .then(r => r.json())
+          .then(rows => ({ key, row: rows[0] || null }))
       )
     );
-    const keys = Object.keys(TABLES);
-    loads.forEach((result, i) => {
-      const key = keys[i];
-      if (result.data && result.data.data) {
-        // Update the global variable
-        if (key === 'todos')        { todos = result.data.data;        localStorage.setItem('ag_todos', JSON.stringify(todos)); }
-        if (key === 'weekData')     { weekData = result.data.data;     localStorage.setItem('ag_week', JSON.stringify(weekData)); }
-        if (key === 'customLinks')  { customLinks = result.data.data;  localStorage.setItem('ag_links', JSON.stringify(customLinks)); }
-        if (key === 'outreachList') { outreachList = result.data.data; localStorage.setItem('ag_outreach', JSON.stringify(outreachList)); }
-        if (key === 'convoNotes')   { convoNotes = result.data.data;   localStorage.setItem('ag_convonotes', JSON.stringify(convoNotes)); }
-        if (key === 'staffList')    { staffList = result.data.data;    localStorage.setItem('ag_staff', JSON.stringify(staffList)); }
-        if (key === 'handoffs')     { handoffs = result.data.data;     localStorage.setItem('ag_handoffs', JSON.stringify(handoffs)); }
-        if (key === 'trips')        { trips = result.data.data;        localStorage.setItem('ag_trips', JSON.stringify(trips)); }
-        if (key === 'schedules')    { schedules = result.data.data;    localStorage.setItem('ag_schedules', JSON.stringify(schedules)); }
-      }
+    results.forEach(({ key, row }) => {
+      if (!row || !row.data) return;
+      const d = row.data;
+      if (key === 'todos')        { todos = d;        localStorage.setItem('ag_todos', JSON.stringify(d)); }
+      if (key === 'weekData')     { weekData = d;     localStorage.setItem('ag_week', JSON.stringify(d)); }
+      if (key === 'customLinks')  { customLinks = d;  localStorage.setItem('ag_links', JSON.stringify(d)); }
+      if (key === 'outreachList') { outreachList = d; localStorage.setItem('ag_outreach', JSON.stringify(d)); }
+      if (key === 'convoNotes')   { convoNotes = d;   localStorage.setItem('ag_convonotes', JSON.stringify(d)); }
+      if (key === 'staffList')    { staffList = d;    localStorage.setItem('ag_staff', JSON.stringify(d)); }
+      if (key === 'handoffs')     { handoffs = d;     localStorage.setItem('ag_handoffs', JSON.stringify(d)); }
+      if (key === 'trips')        { trips = d;        localStorage.setItem('ag_trips', JSON.stringify(d)); }
+      if (key === 'schedules')    { schedules = d;    localStorage.setItem('ag_schedules', JSON.stringify(d)); }
     });
-    // Re-render everything with cloud data
     renderTodos(); renderWeekChart(); renderLinks(); renderOutreach();
     loadNotes(); renderConvoNotes(); renderDocs(); renderStaff();
     renderHandoffs(); renderTrips(); renderSavedSchedules();
@@ -1823,6 +1817,7 @@ async function loadAllFromSupabase() {
     setSyncStatus('synced', 'Synced ✓');
   } catch(e) {
     setSyncStatus('error', 'Sync error — using local data');
+    console.error('Load error:', e);
   }
 }
 
@@ -1832,77 +1827,22 @@ async function loadAllFromSupabase() {
 // ── PATCH SAVE FUNCTIONS TO ALSO SYNC ────────────────
 // ── SAVE FUNCTIONS now call syncToCloud directly (see definitions above) ──
 
-// ── SUPABASE TABLE SETUP (auto-creates tables on first run) ──
-async function ensureTables() {
-  // We use a simple key-value pattern: each table has user_id + data (jsonb)
-  // Tables are created via Supabase dashboard SQL — show user instructions if needed
-  const testResult = await sb.from('ag_todos').select('user_id').limit(1);
-  if (testResult.error && testResult.error.code === '42P01') {
-    // Tables don't exist yet — show setup instructions
-    showTableSetupInstructions();
-    return false;
-  }
-  return true;
-}
-
-function showTableSetupInstructions() {
-  const msg = `Your Supabase database needs one-time setup.\n\nGo to your Supabase project → SQL Editor → New Query, paste this SQL and click Run:\n\n${getSetupSQL()}\n\nThen reload this page.`;
-  alert(msg);
-  // Also copy to clipboard
-  navigator.clipboard.writeText(getSetupSQL()).catch(()=>{});
-}
-
-function getSetupSQL() {
-  const tables = Object.values(TABLES);
-  return tables.map(t => `
-CREATE TABLE IF NOT EXISTS ${t} (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  data JSONB DEFAULT '[]'::jsonb,
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-ALTER TABLE ${t} ENABLE ROW LEVEL SECURITY;
-CREATE POLICY IF NOT EXISTS "Users can manage own data" ON ${t}
-  FOR ALL USING (auth.uid() = user_id);`).join('\n');
-}
-
-// ── REAL-TIME SYNC + VISIBILITY REFRESH ──────────────
+// ── AUTO-LOGIN + REFRESH ─────────────────────────────
 function refreshAllData() {
-  if (!currentUser) return;
+  if (!syncId) return;
   loadAllFromSupabase();
 }
-
-// Refresh when user switches back to the tab/app
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') refreshAllData();
-});
-
-// Refresh when app comes back into focus (iPhone home screen → app)
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshAllData(); });
 window.addEventListener('focus', refreshAllData);
 window.addEventListener('pageshow', refreshAllData);
+setInterval(() => { if (document.visibilityState === 'visible') refreshAllData(); }, 30000);
 
-// Poll every 30 seconds as a fallback
-setInterval(() => {
-  if (document.visibilityState === 'visible') refreshAllData();
-}, 30000);
-
-sb.auth.onAuthStateChange(async (event, session) => {
-  if (session && session.user) {
-    currentUser = session.user;
-    // Hide login, show app
-    document.getElementById('loginScreen').style.display = 'none';
-    const syncBar = document.getElementById('syncBar');
-    syncBar.style.display = 'flex';
-    const emailShort = session.user.email.split('@')[0];
-    document.getElementById('syncUser').textContent = emailShort;
-    // Check tables exist then load data
-    const tablesOk = await ensureTables();
-    if (tablesOk) await loadAllFromSupabase();
-  } else {
-    document.getElementById('loginScreen').style.display = 'flex';
-    const syncBar = document.getElementById('syncBar');
-    if (syncBar) syncBar.style.display = 'none';
-  }
-});
+// Auto-login if sync key saved
+if (syncId) {
+  activateApp();
+} else {
+  document.getElementById('loginScreen').style.display = 'flex';
+}
 
 // ── PWA ───────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
