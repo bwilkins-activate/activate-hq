@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activate HQ — Lexington Command Center</title>
+<title>Activate HQ ‚Äî Lexington Command Center</title>
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -167,7 +167,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 .todo-item.done .todo-text{text-decoration:line-through;color:var(--muted)}
 .todo-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent}
 .todo-check.checked{background:var(--accent3);border-color:var(--accent3)}
-.todo-check.checked::after{content:'✓';font-size:11px;color:#000;font-weight:700}
+.todo-check.checked::after{content:'‚úì';font-size:11px;color:#000;font-weight:700}
 .todo-text{flex:1;font-size:14px}
 .todo-priority{font-size:10px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:1px}
 .prio-high{background:rgba(255,77,109,.15);color:var(--accent2);border:1px solid rgba(255,77,109,.3)}
@@ -216,16 +216,6 @@ input[type="file"]:hover{border-color:var(--accent)}
 /* NOTES */
 .notes-area{width:100%;min-height:130px;resize:vertical}
 
-/* STAFF */
-.staff-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;transition:all .2s;cursor:pointer}
-.staff-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-1px)}
-.staff-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.staff-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#000;flex-shrink:0}
-.staff-name{font-size:14px;font-weight:600}
-.staff-role{font-size:11px;color:var(--muted);margin-top:1px}
-.staff-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.staff-stat{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted)}
-
 /* SHIFT HANDOFF */
 .handoff-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:10px}
 .handoff-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
@@ -243,7 +233,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 .trainee-name{flex:1;font-size:13px}
 .trainee-check{width:16px;height:16px;border-radius:3px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .trainee-check.checked{background:var(--accent3);border-color:var(--accent3)}
-.trainee-check.checked::after{content:'✓';font-size:9px;color:#000;font-weight:700}
+.trainee-check.checked::after{content:'‚úì';font-size:9px;color:#000;font-weight:700}
 
 /* WHO'S WORKING */
 .whos-working{background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:20px;box-shadow:0 0 30px rgba(0,229,255,.07)}
@@ -314,7 +304,7 @@ input[type="file"]:hover{border-color:var(--accent)}
       <input type="password" id="loginPassword" placeholder="Enter your sync key (min 6 chars)" onkeydown="if(event.key==='Enter')handleLogin()">
       <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace">Same key on all your devices = shared data</div>
     </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Connect →</button>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Connect ‚Üí</button>
     <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">First time? Just enter any key you'll remember.<br>Use the same key on your iPhone to sync.</div>
   </div>
 </div>
@@ -342,25 +332,24 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- iOS INSTALL BANNER -->
 <div class="install-banner" id="installBanner">
-  <span style="font-size:24px">📲</span>
+  <span style="font-size:24px">üì≤</span>
   <p><strong>Install Activate HQ on your iPhone!</strong> Tap the Share button in Safari, then tap <strong>"Add to Home Screen"</strong> to use this as a full-screen app.</p>
   <button class="btn btn-ghost btn-sm" onclick="dismissBanner()">Dismiss</button>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('home')">🏠 Home</button>
-  <button class="tab-btn" onclick="switchTab('tasks')">✅ Tasks</button>
-  <button class="tab-btn" onclick="switchTab('convonotes')">💬 Conv. Notes</button>
-  <button class="tab-btn" onclick="switchTab('revenue')">📊 Revenue</button>
-  <button class="tab-btn" onclick="switchTab('staff')">👥 Staff</button>
-  <button class="tab-btn" onclick="switchTab('handoff')">📋 Shift Handoff</button>
-  <button class="tab-btn" onclick="switchTab('trips')">✈️ Training Trips</button>
-  <button class="tab-btn" onclick="switchTab('links')">🔗 Quick Links</button>
-  <button class="tab-btn" onclick="switchTab('docs')">📂 Docs</button>
-  <button class="tab-btn" onclick="switchTab('outreach')">🎮 Outreach</button>
-  <button class="tab-btn" onclick="switchTab('notes')">📝 Notes</button>
-  <button class="tab-btn" onclick="switchTab('export')">💾 Export</button>
+  <button class="tab-btn active" onclick="switchTab('home')">üè† Home</button>
+  <button class="tab-btn" onclick="switchTab('tasks')">‚úÖ Tasks</button>
+  <button class="tab-btn" onclick="switchTab('time')">‚è± Time</button>
+  <button class="tab-btn" onclick="switchTab('convonotes')">üí¨ Conv. Notes</button>
+  <button class="tab-btn" onclick="switchTab('handoff')">üìã Shift Handoff</button>
+  <button class="tab-btn" onclick="switchTab('trips')">‚úàÔ∏è Training Trips</button>
+  <button class="tab-btn" onclick="switchTab('links')">üîó Quick Links</button>
+  <button class="tab-btn" onclick="switchTab('docs')">üìÇ Docs</button>
+  <button class="tab-btn" onclick="switchTab('outreach')">üéÆ Outreach</button>
+  <button class="tab-btn" onclick="switchTab('notes')">üìù Notes</button>
+  <button class="tab-btn" onclick="switchTab('export')">üíæ Export</button>
 </div>
 
 <!-- ===== HOME PANEL ===== -->
@@ -368,13 +357,12 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <!-- WHO'S WORKING TODAY -->
   <div class="whos-working">
-    <h2>👷 Who's Working Today <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
+    <h2>üë∑ Who's Working Today <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
     <div id="whosWorkingDisplay">
-      <div style="color:var(--muted);font-size:13px">No schedule loaded yet — upload your ADP screenshot in the Schedule tab or below.</div>
+      <div style="color:var(--muted);font-size:13px">No schedule loaded yet ‚Äî upload your ADP screenshot in the Schedule tab or below.</div>
     </div>
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-ghost btn-sm" onclick="switchTab('schedule')">📸 Upload Schedule</button>
-      <button class="btn btn-ghost btn-sm" onclick="switchTab('staff')">👥 Manage Staff</button>
+      <button class="btn btn-ghost btn-sm" onclick="switchTab('schedule')">üì∏ Upload Schedule</button>
     </div>
   </div>
 
@@ -384,11 +372,6 @@ input[type="file"]:hover{border-color:var(--accent)}
       <div class="stat-label">Tasks Today</div>
       <div class="stat-value cyan" id="home-tasks">0</div>
       <div class="stat-sub" id="home-tasks-sub">pending</div>
-    </div>
-    <div class="stat-card green">
-      <div class="stat-label">On Shift Today</div>
-      <div class="stat-value green" id="home-staff">0</div>
-      <div class="stat-sub">staff members</div>
     </div>
     <div class="stat-card gold">
       <div class="stat-label">Open Conv. Notes</div>
@@ -404,13 +387,13 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <!-- QUICK TODO -->
   <div class="card">
-    <div class="section-title" style="font-size:15px;margin-bottom:10px">⚡ Quick Add Task</div>
+    <div class="section-title" style="font-size:15px;margin-bottom:10px">‚ö° Quick Add Task</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <input type="text" id="home-todo-input" placeholder="Add a quick task..." style="flex:1;min-width:180px" onkeydown="if(event.key==='Enter')homeAddTodo()">
       <select id="home-todo-prio" style="width:100px">
-        <option value="high">🔴 High</option>
-        <option value="mid" selected>🟡 Mid</option>
-        <option value="low">🟢 Low</option>
+        <option value="high">üî¥ High</option>
+        <option value="mid" selected>üü° Mid</option>
+        <option value="low">üü¢ Low</option>
       </select>
       <button class="btn btn-primary" onclick="homeAddTodo()">+ Add</button>
     </div>
@@ -420,16 +403,16 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== SCHEDULE / AI READER PANEL ===== -->
 <div id="panel-schedule" class="panel">
-  <div class="section-title">Schedule Reader <span>— drop your ADP screenshot, AI extracts the roster</span></div>
+  <div class="section-title">Schedule Reader <span>‚Äî drop your ADP screenshot, AI extracts the roster</span></div>
 
   <div class="card" style="margin-bottom:16px">
     <div class="schedule-drop-zone" id="dropZone" onclick="document.getElementById('schedFileInput').click()"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
       ondrop="handleSchedDrop(event)">
-      <div class="drop-icon">📸</div>
+      <div class="drop-icon">üì∏</div>
       <div style="font-size:15px;font-weight:600;margin-top:8px">Drop ADP Schedule Screenshot Here</div>
-      <p>or click to browse — PNG, JPG supported</p>
+      <p>or click to browse ‚Äî PNG, JPG supported</p>
       <input type="file" id="schedFileInput" accept="image/*" style="display:none" onchange="handleSchedFile(this)">
     </div>
     <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
@@ -464,173 +447,146 @@ input[type="file"]:hover{border-color:var(--accent)}
     <div class="todo-input-row">
       <input type="text" id="todoInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" style="flex:1;min-width:160px">
       <select id="todoCategory" style="width:110px">
-        <option value="ops">🏢 Ops</option>
-        <option value="hr">👤 HR/Staff</option>
-        <option value="hospitality">🎮 Guest Exp</option>
-        <option value="training">📋 Training</option>
-        <option value="admin">⚙️ Admin</option>
+        <option value="ops">üè¢ Ops</option>
+        <option value="hr">üë§ HR/Staff</option>
+        <option value="hospitality">üéÆ Guest Exp</option>
+        <option value="training">üìã Training</option>
+        <option value="admin">‚öôÔ∏è Admin</option>
       </select>
       <select id="todoPriority" style="width:100px">
-        <option value="high">🔴 High</option>
-        <option value="mid">🟡 Mid</option>
-        <option value="low">🟢 Low</option>
+        <option value="high">üî¥ High</option>
+        <option value="mid">üü° Mid</option>
+        <option value="low">üü¢ Low</option>
       </select>
       <button class="btn btn-primary" onclick="addTodo()">+ Add</button>
     </div>
     <div class="filter-row">
       <button class="filter-chip active-chip" onclick="setFilter('all',this)">All</button>
-      <button class="filter-chip" onclick="setFilter('high',this)">🔴 High</button>
-      <button class="filter-chip" onclick="setFilter('mid',this)">🟡 Mid</button>
-      <button class="filter-chip" onclick="setFilter('low',this)">🟢 Low</button>
+      <button class="filter-chip" onclick="setFilter('high',this)">üî¥ High</button>
+      <button class="filter-chip" onclick="setFilter('mid',this)">üü° Mid</button>
+      <button class="filter-chip" onclick="setFilter('low',this)">üü¢ Low</button>
       <button class="filter-chip" onclick="setFilter('active',this)">Active</button>
       <button class="filter-chip" onclick="setFilter('done',this)">Done</button>
-      <button class="filter-chip" onclick="clearDone()" style="margin-left:auto">🗑 Clear Done</button>
+      <button class="filter-chip" onclick="clearDone()" style="margin-left:auto">üóë Clear Done</button>
     </div>
     <div class="todo-list" id="todoList"></div>
   </div>
 </div>
 
+<!-- ===== TIME MANAGEMENT PANEL ===== -->
+<div id="panel-time" class="panel">
+  <div class="section-title">Time Management <span>‚Äî log your time, build your routine</span></div>
+
+  <!-- CURRENT ACTIVITY CARD -->
+  <div class="card" style="margin-bottom:16px;border-color:rgba(0,229,255,.25);background:linear-gradient(135deg,rgba(0,229,255,.04),rgba(168,255,62,.02))">
+    <div id="tm-idle" style="text-align:center;padding:12px 0;color:var(--muted);font-size:14px">
+      No active task ‚Äî tap a task below to start tracking
+    </div>
+    <div id="tm-active" style="display:none">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div id="tm-active-icon" style="font-size:38px"></div>
+        <div style="flex:1;min-width:0">
+          <div id="tm-active-label" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px"></div>
+          <div id="tm-active-started" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px"></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div id="tm-active-timer" style="font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;color:var(--accent3)">0:00</div>
+          <button class="btn btn-danger btn-sm" onclick="stopTimeTask()" style="margin-top:6px;width:100%">‚èπ Stop / Break</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK BUTTONS -->
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-family:'DM Mono',monospace;margin-bottom:12px">Tap to log current task</div>
+    <div id="tm-task-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px"></div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="grid-2" style="margin-bottom:16px">
+    <!-- TODAY -->
+    <div class="card">
+      <div class="section-title" style="font-size:14px;margin-bottom:14px">üìä Today's Breakdown</div>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div id="tm-pie-today"></div>
+        <div id="tm-legend-today" style="flex:1;min-width:130px"></div>
+      </div>
+      <div id="tm-today-total" style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:10px"></div>
+    </div>
+    <!-- WEEKLY -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div class="section-title" style="font-size:14px;margin-bottom:0">üìÖ Weekly Breakdown</div>
+        <div style="display:flex;gap:4px;flex-shrink:0">
+          <button class="filter-chip active-chip" id="tm-btn-this" onclick="setTMWeekView('this',this)">This Week</button>
+          <button class="filter-chip" id="tm-btn-last" onclick="setTMWeekView('last',this)">Last Week</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div id="tm-pie-week"></div>
+        <div id="tm-legend-week" style="flex:1;min-width:130px"></div>
+      </div>
+      <div id="tm-week-total" style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- TODAY'S LOG -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div class="section-title" style="font-size:14px;margin-bottom:0">üïê Today's Log</div>
+      <button class="filter-chip" onclick="clearTodayTMLog()" style="color:var(--accent2);border-color:rgba(255,77,109,.4)">üóë Clear Today</button>
+    </div>
+    <div id="tm-log-list"></div>
+  </div>
+</div>
+
 <!-- ===== CONV NOTES PANEL ===== -->
 <div id="panel-convonotes" class="panel">
-  <div class="section-title">Conversation Notes <span>— meetings, coaching, HR actions</span></div>
-  <div class="card" style="margin-bottom:16px">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
-      <div><div class="input-label">Person / Topic</div><input type="text" id="cn-person" placeholder="Name or subject"></div>
-      <div><div class="input-label">Date</div><input type="date" id="cn-date"></div>
-      <div><div class="input-label">Type</div>
-        <select id="cn-type">
-          <option value="meeting">📅 Meeting Recap</option>
-          <option value="coaching">🎯 Coaching</option>
-          <option value="verbal">🗣 Verbal Warning</option>
-          <option value="written">📄 Written Warning</option>
-          <option value="boss">⬆️ Leadership</option>
-          <option value="followup">🔁 Follow-Up</option>
-          <option value="other">💬 Other</option>
-        </select>
-      </div>
-      <div><div class="input-label">Status</div>
-        <select id="cn-status">
-          <option value="open">🟡 Open</option>
-          <option value="resolved">✅ Resolved</option>
-          <option value="pending">⏳ Pending Action</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-bottom:10px"><div class="input-label" style="margin-bottom:5px">Notes / Summary</div>
-      <textarea id="cn-body" placeholder="Summarize the conversation, decisions made, next steps..." style="min-height:85px;resize:vertical;width:100%"></textarea>
-    </div>
-    <button class="btn btn-primary" onclick="addConvoNote()">+ Add Note</button>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="section-title" style="margin-bottom:0">Employee Documentation <span>‚Äî formal records & HR notes</span></div>
+    <button class="btn btn-primary" onclick="openCNModal()">+ New Documentation</button>
   </div>
   <div class="filter-row" id="cn-filters">
     <button class="filter-chip active-chip" onclick="setCNFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setCNFilter('meeting',this)">📅 Meetings</button>
-    <button class="filter-chip" onclick="setCNFilter('coaching',this)">🎯 Coaching</button>
-    <button class="filter-chip" onclick="setCNFilter('verbal',this)">🗣 Verbal</button>
-    <button class="filter-chip" onclick="setCNFilter('written',this)">📄 Written</button>
-    <button class="filter-chip" onclick="setCNFilter('boss',this)">⬆️ Leadership</button>
-    <button class="filter-chip" onclick="setCNFilter('open',this)">🟡 Open</button>
-    <button class="filter-chip" onclick="setCNFilter('resolved',this)">✅ Resolved</button>
+    <button class="filter-chip" onclick="setCNFilter('verbal',this)">üó£ Verbal</button>
+    <button class="filter-chip" onclick="setCNFilter('first_written',this)">üìÑ 1st Written</button>
+    <button class="filter-chip" onclick="setCNFilter('second_written',this)">üìã 2nd Written</button>
+    <button class="filter-chip" onclick="setCNFilter('final_written',this)">üö® Final</button>
+    <button class="filter-chip" onclick="setCNFilter('pip',this)">üìà PIP</button>
+    <button class="filter-chip" onclick="setCNFilter('general',this)">üìé General</button>
+    <button class="filter-chip" onclick="setCNFilter('praise',this)">‚≠ê Praise</button>
+    <button class="filter-chip" onclick="setCNFilter('open',this)">üü° Open</button>
+    <button class="filter-chip" onclick="setCNFilter('resolved',this)">‚úÖ Resolved</button>
   </div>
-  <div id="convoNotesList"></div>
-</div>
-
-<!-- ===== REVENUE PANEL ===== -->
-<div id="panel-revenue" class="panel">
-  <div class="grid-4">
-    <div class="stat-card cyan"><div class="stat-label">Today Revenue</div><div class="stat-value cyan" id="rev-today-display">$0</div><div class="stat-sub" id="rev-vs-goal">— set a goal</div></div>
-    <div class="stat-card green"><div class="stat-label">Guest Count</div><div class="stat-value green" id="guests-today-display">0</div><div class="stat-sub" id="guests-avg">avg / day</div></div>
-    <div class="stat-card gold"><div class="stat-label">Rev / Guest</div><div class="stat-value gold" id="rev-per-guest">$0</div><div class="stat-sub">spend per head</div></div>
-    <div class="stat-card red"><div class="stat-label">Return Players</div><div class="stat-value red" id="return-count">0</div><div class="stat-sub">this week</div></div>
-  </div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="section-title" style="font-size:15px">Log Today's Numbers</div>
-      <div class="metric-input-grid">
-        <div><div class="input-label">Revenue ($)</div><input type="number" id="inp-rev" placeholder="0.00" oninput="updateRevMetrics()"></div>
-        <div><div class="input-label">Guest Count</div><input type="number" id="inp-guests" placeholder="0" oninput="updateRevMetrics()"></div>
-        <div><div class="input-label">Daily Goal ($)</div><input type="number" id="inp-goal" placeholder="0.00" oninput="updateRevMetrics()"></div>
-        <div><div class="input-label">Return Players</div><input type="number" id="inp-return" placeholder="0" oninput="updateRevMetrics()"></div>
-      </div>
-      <div class="input-label" style="margin-bottom:5px">Date</div>
-      <div style="display:flex;gap:8px">
-        <input type="date" id="inp-date" style="flex:1">
-        <button class="btn btn-primary" onclick="logDay()">Log Day</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="section-title" style="font-size:15px">Weekly Overview</div>
-      <div class="chart-bar-wrap" id="weekChart"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== STAFF PANEL ===== -->
-<div id="panel-staff" class="panel">
-  <div class="section-title">Staff Directory <span>— performance & profile tracker</span></div>
-  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
-    <button class="btn btn-primary" onclick="openStaffModal()">+ Add Staff Member</button>
-    <input type="text" id="staffSearch" placeholder="Search by name or role..." style="flex:1;min-width:180px" oninput="renderStaff()">
-  </div>
-  <div class="grid-3" id="staffGrid"></div>
+  <div id="cn-list"></div>
 </div>
 
 <!-- ===== SHIFT HANDOFF PANEL ===== -->
 <div id="panel-handoff" class="panel">
-  <div class="section-title">Shift Handoff Log <span>— end-of-shift notes for the next manager</span></div>
-  <div class="card" style="margin-bottom:16px">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
-      <div><div class="input-label">Date</div><input type="date" id="ho-date"></div>
-      <div><div class="input-label">Shift</div>
-        <select id="ho-shift">
-          <option value="open">🌅 Opening</option>
-          <option value="mid">☀️ Mid</option>
-          <option value="close">🌙 Closing</option>
-        </select>
-      </div>
-      <div><div class="input-label">Manager on Duty</div><input type="text" id="ho-mod" placeholder="Your name"></div>
-      <div><div class="input-label">Revenue ($)</div><input type="number" id="ho-rev" placeholder="0.00"></div>
-      <div><div class="input-label">Guest Count</div><input type="number" id="ho-guests" placeholder="0"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div class="section-title" style="margin-bottom:0">Shift Handoff <span>‚Äî live from Google Forms ¬∑ last 5 submissions</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="ho-last-update" style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace"></span>
+      <button class="btn btn-ghost btn-sm" onclick="fetchGFormHandoffs(true)">üîÑ Refresh</button>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-      <div>
-        <div class="input-label" style="margin-bottom:5px">Guest Highlights / Issues</div>
-        <textarea id="ho-guests-notes" placeholder="Notable guest experiences, complaints, WOW moments..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-      </div>
-      <div>
-        <div class="input-label" style="margin-bottom:5px">Equipment / Maintenance</div>
-        <textarea id="ho-maint" placeholder="Any equipment issues, MaintainX tickets opened..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-      </div>
-      <div>
-        <div class="input-label" style="margin-bottom:5px">Staff Notes</div>
-        <textarea id="ho-staff-notes" placeholder="Attendance, performance, coaching moments..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-      </div>
-      <div>
-        <div class="input-label" style="margin-bottom:5px">Action Items for Next Shift</div>
-        <textarea id="ho-actions" placeholder="What needs to happen before or during the next shift..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-      </div>
-    </div>
-    <button class="btn btn-primary" onclick="saveHandoff()">📋 Save Handoff</button>
   </div>
-  <div class="filter-row" id="ho-filters">
-    <button class="filter-chip active-chip" onclick="setHOFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setHOFilter('open',this)">🌅 Opening</button>
-    <button class="filter-chip" onclick="setHOFilter('mid',this)">☀️ Mid</button>
-    <button class="filter-chip" onclick="setHOFilter('close',this)">🌙 Closing</button>
+  <div id="gform-handoff-list">
+    <div style="text-align:center;padding:48px;color:var(--muted);font-size:14px">Loading responses...</div>
   </div>
-  <div id="handoffList"></div>
 </div>
 
 <!-- ===== TRAINING TRIPS PANEL ===== -->
 <div id="panel-trips" class="panel">
-  <div class="section-title">Training Trips <span>— location openings & GM training tracker</span></div>
+  <div class="section-title">Training Trips <span>‚Äî location openings & GM training tracker</span></div>
   <div class="card" style="margin-bottom:16px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
       <div><div class="input-label">Location / City</div><input type="text" id="trip-loc" placeholder="e.g. Nashville, TN"></div>
       <div><div class="input-label">Trip Type</div>
         <select id="trip-type">
-          <option value="opening">🏪 New Location Opening</option>
-          <option value="gm">👤 GM Training</option>
-          <option value="support">🤝 Support Visit</option>
+          <option value="opening">üè™ New Location Opening</option>
+          <option value="gm">üë§ GM Training</option>
+          <option value="support">ü§ù Support Visit</option>
         </select>
       </div>
       <div><div class="input-label">Start Date</div><input type="date" id="trip-start"></div>
@@ -645,24 +601,24 @@ input[type="file"]:hover{border-color:var(--accent)}
   </div>
   <div class="filter-row" id="trip-filters">
     <button class="filter-chip active-chip" onclick="setTripFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setTripFilter('upcoming',this)">🗓 Upcoming</button>
-    <button class="filter-chip" onclick="setTripFilter('opening',this)">🏪 Openings</button>
-    <button class="filter-chip" onclick="setTripFilter('gm',this)">👤 GM Training</button>
-    <button class="filter-chip" onclick="setTripFilter('complete',this)">✅ Complete</button>
+    <button class="filter-chip" onclick="setTripFilter('upcoming',this)">üóì Upcoming</button>
+    <button class="filter-chip" onclick="setTripFilter('opening',this)">üè™ Openings</button>
+    <button class="filter-chip" onclick="setTripFilter('gm',this)">üë§ GM Training</button>
+    <button class="filter-chip" onclick="setTripFilter('complete',this)">‚úÖ Complete</button>
   </div>
   <div id="tripsList"></div>
 </div>
 
 <!-- ===== LINKS PANEL ===== -->
 <div id="panel-links" class="panel">
-  <div class="section-title">Quick Links <span>— click to open in new tab</span></div>
+  <div class="section-title">Quick Links <span>‚Äî click to open in new tab</span></div>
   <div class="links-grid" id="linksGrid"></div>
   <hr class="divider">
   <div class="section-title" style="font-size:15px">Add Custom Link</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
     <div style="flex:1;min-width:130px"><div class="input-label">Name</div><input type="text" id="link-name" placeholder="My Tool"></div>
     <div style="flex:2;min-width:190px"><div class="input-label">URL</div><input type="text" id="link-url" placeholder="https://..."></div>
-    <div style="flex:1;min-width:110px"><div class="input-label">Icon (emoji)</div><input type="text" id="link-icon" placeholder="🔧"></div>
+    <div style="flex:1;min-width:110px"><div class="input-label">Icon (emoji)</div><input type="text" id="link-icon" placeholder="üîß"></div>
     <div style="flex:1;min-width:110px"><div class="input-label">Description</div><input type="text" id="link-desc" placeholder="What it does"></div>
     <button class="btn btn-primary" onclick="addCustomLink()">+ Add</button>
   </div>
@@ -670,7 +626,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== DOCS PANEL ===== -->
 <div id="panel-docs" class="panel">
-  <div class="section-title">Docs & References <span>— upload files for quick access</span></div>
+  <div class="section-title">Docs & References <span>‚Äî upload files for quick access</span></div>
   <div class="card" style="margin-bottom:18px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
       <div style="grid-column:1/-1"><div class="input-label" style="margin-bottom:5px">Upload File</div>
@@ -679,25 +635,25 @@ input[type="file"]:hover{border-color:var(--accent)}
       <div><div class="input-label">Label / Title</div><input type="text" id="doc-name" placeholder="e.g. Opening Checklist"></div>
       <div><div class="input-label">Category</div>
         <select id="doc-cat">
-          <option value="ops">🏢 Operations</option>
-          <option value="training">📋 Training</option>
-          <option value="hr">👤 HR / Staff</option>
-          <option value="reference">📌 Quick Reference</option>
-          <option value="travel">✈️ Travel</option>
-          <option value="other">📁 Other</option>
+          <option value="ops">üè¢ Operations</option>
+          <option value="training">üìã Training</option>
+          <option value="hr">üë§ HR / Staff</option>
+          <option value="reference">üìå Quick Reference</option>
+          <option value="travel">‚úàÔ∏è Travel</option>
+          <option value="other">üìÅ Other</option>
         </select>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="uploadDoc()">📎 Save Document</button>
+    <button class="btn btn-primary" onclick="uploadDoc()">üìé Save Document</button>
     <span style="font-size:11px;color:var(--muted);margin-left:10px">Stored locally in your browser</span>
   </div>
   <div class="filter-row" id="doc-filters">
     <button class="filter-chip active-chip" onclick="setDocFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setDocFilter('ops',this)">🏢 Ops</button>
-    <button class="filter-chip" onclick="setDocFilter('training',this)">📋 Training</button>
-    <button class="filter-chip" onclick="setDocFilter('hr',this)">👤 HR</button>
-    <button class="filter-chip" onclick="setDocFilter('reference',this)">📌 Reference</button>
-    <button class="filter-chip" onclick="setDocFilter('travel',this)">✈️ Travel</button>
+    <button class="filter-chip" onclick="setDocFilter('ops',this)">üè¢ Ops</button>
+    <button class="filter-chip" onclick="setDocFilter('training',this)">üìã Training</button>
+    <button class="filter-chip" onclick="setDocFilter('hr',this)">üë§ HR</button>
+    <button class="filter-chip" onclick="setDocFilter('reference',this)">üìå Reference</button>
+    <button class="filter-chip" onclick="setDocFilter('travel',this)">‚úàÔ∏è Travel</button>
   </div>
   <div id="docsList"></div>
 </div>
@@ -712,9 +668,9 @@ input[type="file"]:hover{border-color:var(--accent)}
       <div><div class="input-label">Contact</div><input type="text" id="out-contact" placeholder="email or phone"></div>
       <div><div class="input-label">Status</div>
         <select id="out-status">
-          <option value="due">📬 Due</option>
-          <option value="overdue">🔴 Overdue</option>
-          <option value="done">✅ Contacted</option>
+          <option value="due">üì¨ Due</option>
+          <option value="overdue">üî¥ Overdue</option>
+          <option value="done">‚úÖ Contacted</option>
         </select>
       </div>
     </div>
@@ -725,7 +681,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== NOTES PANEL ===== -->
 <div id="panel-notes" class="panel">
-  <div class="section-title">Quick Notes <span>— auto-saved locally</span></div>
+  <div class="section-title">Quick Notes <span>‚Äî auto-saved locally</span></div>
   <div class="grid-2">
     <div class="card"><div class="input-label" style="margin-bottom:7px">Shift Notes / Daily Log</div>
       <textarea class="notes-area" id="note-shift" placeholder="Shift observations, guest feedback, incidents..."></textarea>
@@ -748,20 +704,20 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== EXPORT PANEL ===== -->
 <div id="panel-export" class="panel">
-  <div class="section-title">Export & Backup <span>— download your data for Google Sheets or safekeeping</span></div>
+  <div class="section-title">Export & Backup <span>‚Äî download your data for Google Sheets or safekeeping</span></div>
 
   <!-- FULL BACKUP -->
   <div class="card" style="margin-bottom:18px;border-color:rgba(0,229,255,.3)">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="font-size:32px">🗄️</div>
+      <div style="font-size:32px">üóÑÔ∏è</div>
       <div style="flex:1">
         <div style="font-size:15px;font-weight:600;margin-bottom:4px">Full Backup (JSON)</div>
-        <div style="font-size:13px;color:var(--muted)">Exports everything — tasks, staff, notes, trips, revenue, outreach, handoffs, conversation notes. Use this to restore your data on a new browser or device.</div>
+        <div style="font-size:13px;color:var(--muted)">Exports everything ‚Äî tasks, notes, trips, outreach, handoffs, conversation notes, time logs. Use this to restore your data on a new browser or device.</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="btn btn-primary" onclick="exportFullBackup()">⬇ Download Backup</button>
+        <button class="btn btn-primary" onclick="exportFullBackup()">‚¨á Download Backup</button>
         <label class="btn btn-ghost" style="cursor:pointer;text-align:center">
-          📂 Restore from Backup
+          üìÇ Restore from Backup
           <input type="file" accept=".json" style="display:none" onchange="restoreBackup(this)">
         </label>
       </div>
@@ -769,139 +725,103 @@ input[type="file"]:hover{border-color:var(--accent)}
   </div>
 
   <!-- CSV EXPORTS -->
-  <div class="section-title" style="font-size:15px">Export to CSV <span>— open directly in Google Sheets</span></div>
-  <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Download any dataset as a .csv file, then drag it into Google Sheets or go to <strong style="color:var(--text)">File → Import</strong> in Sheets to load it.</div>
+  <div class="section-title" style="font-size:15px">Export to CSV <span>‚Äî open directly in Google Sheets</span></div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Download any dataset as a .csv file, then drag it into Google Sheets or go to <strong style="color:var(--text)">File ‚Üí Import</strong> in Sheets to load it.</div>
 
   <div class="grid-2">
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">✅</div>
+      <div style="font-size:28px">‚úÖ</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Tasks</div>
         <div id="export-tasks-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('tasks')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('tasks')">‚¨á CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">💬</div>
+      <div style="font-size:28px">üí¨</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Conversation Notes</div>
         <div id="export-cn-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('convonotes')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('convonotes')">‚¨á CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">👥</div>
-      <div style="flex:1">
-        <div style="font-weight:600;margin-bottom:2px">Staff Directory</div>
-        <div id="export-staff-count" style="font-size:12px;color:var(--muted)"></div>
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('staff')">⬇ CSV</button>
-    </div>
-
-    <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">📊</div>
-      <div style="flex:1">
-        <div style="font-weight:600;margin-bottom:2px">Revenue Log</div>
-        <div id="export-revenue-count" style="font-size:12px;color:var(--muted)"></div>
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('revenue')">⬇ CSV</button>
-    </div>
-
-    <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">📋</div>
+      <div style="font-size:28px">üìã</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Shift Handoffs</div>
         <div id="export-handoff-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('handoffs')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('handoffs')">‚¨á CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">✈️</div>
+      <div style="font-size:28px">‚úàÔ∏è</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Training Trips</div>
         <div id="export-trips-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('trips')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('trips')">‚¨á CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">🎮</div>
+      <div style="font-size:28px">üéÆ</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Return Player Outreach</div>
         <div id="export-outreach-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('outreach')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('outreach')">‚¨á CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">📅</div>
+      <div style="font-size:28px">üìÖ</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Schedules</div>
         <div id="export-sched-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('schedules')">⬇ CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('schedules')">‚¨á CSV</button>
     </div>
   </div>
 
   <!-- HOW TO USE IN SHEETS -->
   <div class="card" style="margin-top:6px;border-color:rgba(168,255,62,.2)">
-    <div style="font-size:13px;font-weight:600;color:var(--accent3);margin-bottom:8px">📋 How to get this into Google Sheets</div>
+    <div style="font-size:13px;font-weight:600;color:var(--accent3);margin-bottom:8px">üìã How to get this into Google Sheets</div>
     <div style="font-size:13px;color:var(--muted);line-height:1.8">
-      1. Click any <strong style="color:var(--text)">⬇ CSV</strong> button to download that dataset<br>
-      2. Open <strong style="color:var(--text)">Google Sheets</strong> → create a new sheet<br>
-      3. Go to <strong style="color:var(--text)">File → Import → Upload</strong> → drag your CSV file in<br>
+      1. Click any <strong style="color:var(--text)">‚¨á CSV</strong> button to download that dataset<br>
+      2. Open <strong style="color:var(--text)">Google Sheets</strong> ‚Üí create a new sheet<br>
+      3. Go to <strong style="color:var(--text)">File ‚Üí Import ‚Üí Upload</strong> ‚Üí drag your CSV file in<br>
       4. Select <strong style="color:var(--text)">"Replace spreadsheet"</strong> or <strong style="color:var(--text)">"Insert new sheet"</strong><br>
-      5. Your data is now live in Sheets — viewable from any device!
+      5. Your data is now live in Sheets ‚Äî viewable from any device!
     </div>
   </div>
 </div>
 
 
-<div class="modal-overlay hidden" id="staffModal">
-  <div class="modal">
-    <h3 id="staffModalTitle">Add Staff Member</h3>
-    <div class="modal-grid">
-      <div><div class="input-label">Full Name</div><input type="text" id="sm-name" placeholder="Jane Smith"></div>
-      <div><div class="input-label">Role</div>
-        <select id="sm-role">
-          <option value="Game Facilitator">Game Facilitator</option>
-          <option value="Lead Facilitator">Lead Facilitator</option>
-          <option value="Shift Supervisor">Shift Supervisor</option>
-          <option value="Assistant GM">Assistant GM</option>
-          <option value="GM in Training">GM in Training</option>
-          <option value="Maintenance">Maintenance</option>
-          <option value="Other">Other</option>
-        </select>
+<!-- CN DOCUMENTATION MODAL -->
+<div class="modal-overlay hidden" id="cnModal">
+  <div class="modal" style="max-width:700px;max-height:92vh;overflow-y:auto">
+    <!-- Step 1: Choose type -->
+    <div id="cn-step1">
+      <h3>New Employee Documentation</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:18px">What type of documentation do you need to create?</p>
+      <div id="cn-type-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:18px"></div>
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="closeCNModal()">Cancel</button>
       </div>
-      <div><div class="input-label">Hire Date</div><input type="date" id="sm-hire"></div>
-      <div><div class="input-label">Status</div>
-        <select id="sm-status">
-          <option value="active">✅ Active</option>
-          <option value="training">📋 In Training</option>
-          <option value="probation">⚠️ Probation</option>
-          <option value="inactive">❌ Inactive</option>
-        </select>
-      </div>
-      <div><div class="input-label">Performance (1-5)</div>
-        <select id="sm-perf">
-          <option value="5">⭐⭐⭐⭐⭐ Exceptional</option>
-          <option value="4">⭐⭐⭐⭐ Strong</option>
-          <option value="3" selected>⭐⭐⭐ Meets Expectations</option>
-          <option value="2">⭐⭐ Needs Improvement</option>
-          <option value="1">⭐ Unsatisfactory</option>
-        </select>
-      </div>
-      <div><div class="input-label">Phone / Contact</div><input type="text" id="sm-phone" placeholder="Optional"></div>
     </div>
-    <div><div class="input-label" style="margin-bottom:5px">Notes</div>
-      <textarea id="sm-notes" placeholder="Certifications, coaching history, strengths, areas to develop..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeStaffModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveStaffMember()">Save</button>
+    <!-- Step 2: Fill form -->
+    <div id="cn-step2" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+        <button onclick="cnGoBack()" class="btn btn-ghost btn-sm">‚Üê Back</button>
+        <h3 id="cn-modal-title" style="margin:0;flex:1;font-size:20px"></h3>
+      </div>
+      <p id="cn-modal-desc" style="color:var(--muted);font-size:12px;margin-bottom:16px;font-family:'DM Mono',monospace"></p>
+      <div id="cn-form-fields"></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeCNModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveCNRecord()">üíæ Save Record</button>
+      </div>
     </div>
   </div>
 </div>
@@ -909,21 +829,22 @@ input[type="file"]:hover{border-color:var(--accent)}
 </div><!-- end .app -->
 
 <script>
-// ─────────────────────────────────────────────────────
-// SYNC — Direct REST API (no auth SDK — avoids LockManager bug)
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// SYNC ‚Äî Direct REST API (no auth SDK ‚Äî avoids LockManager bug)
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
-// Sync uses a fixed row key per "account" — stored as sync_id in localStorage
-// No auth SDK needed — tables use open RLS with sync_id as the key
+// Sync uses a fixed row key per "account" ‚Äî stored as sync_id in localStorage
+// No auth SDK needed ‚Äî tables use open RLS with sync_id as the key
 let syncId = localStorage.getItem('ag_sync_id') || null;
 let syncTimeout = null;
 let currentUser = { id: syncId }; // compatibility shim
 
 const TABLES = {
-  todos:'ag_todos', weekData:'ag_week', customLinks:'ag_links',
-  outreachList:'ag_outreach', convoNotes:'ag_convonotes', staffList:'ag_staff',
-  handoffs:'ag_handoffs', trips:'ag_trips', schedules:'ag_schedules'
+  todos:'ag_todos', customLinks:'ag_links',
+  outreachList:'ag_outreach', convoNotes:'ag_convonotes',
+  handoffs:'ag_handoffs', trips:'ag_trips', schedules:'ag_schedules',
+  timeLog:'ag_timelog'
 };
 
 function sbHeaders() {
@@ -944,41 +865,39 @@ async function syncToCloud(key, data) {
         body: JSON.stringify({ sync_id: syncId, data: data })
       });
       if (!resp.ok) throw new Error(await resp.text());
-      setSyncStatus('synced', 'Synced ✓');
+      setSyncStatus('synced', 'Synced ‚úì');
     } catch(e) {
-      setSyncStatus('error', 'Sync failed — saved locally');
+      setSyncStatus('error', 'Sync failed ‚Äî saved locally');
       console.error('Sync error:', e);
     }
   }, 600);
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // STATE
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 let todos      = JSON.parse(localStorage.getItem('ag_todos')     || '[]');
-let weekData   = JSON.parse(localStorage.getItem('ag_week')      || '[]');
 let customLinks= JSON.parse(localStorage.getItem('ag_links')     || '[]');
 let outreachList=JSON.parse(localStorage.getItem('ag_outreach')  || '[]');
 let convoNotes = JSON.parse(localStorage.getItem('ag_convonotes')|| '[]');
 let docs       = JSON.parse(localStorage.getItem('ag_docs')      || '[]');
-let staffList  = JSON.parse(localStorage.getItem('ag_staff')     || '[]');
 let handoffs   = JSON.parse(localStorage.getItem('ag_handoffs')  || '[]');
 let trips      = JSON.parse(localStorage.getItem('ag_trips')     || '[]');
 let schedules  = JSON.parse(localStorage.getItem('ag_schedules') || '[]');
+let timeLog    = JSON.parse(localStorage.getItem('ag_timelog')   || '[]');
+let activeTimeEntry = JSON.parse(localStorage.getItem('ag_active_time') || 'null');
 let currentFilter = 'all';
 let cnFilter = 'all';
 let docFilter = 'all';
-let hoFilter = 'all';
 let tripFilter = 'all';
-let editingStaffId = null;
 
 const defaultLinks = [
-  { name:'Google Workspace', url:'https://workspace.google.com', icon:'📁', desc:'Drive / Sheets / Docs' }
+  { name:'Google Workspace', url:'https://workspace.google.com', icon:'üìÅ', desc:'Drive / Sheets / Docs' }
 ];
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // CLOCK & TABS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function updateDate() {
   const now = new Date();
   document.getElementById('dateBadge').textContent =
@@ -1007,9 +926,9 @@ function switchTab(name) {
   updateHomeStats();
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // HELPERS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function avatarColor(name){
   const colors=['linear-gradient(135deg,#00e5ff,#a8ff3e)','linear-gradient(135deg,#ff4d6d,#ffd166)','linear-gradient(135deg,#c084fc,#00e5ff)','linear-gradient(135deg,#ffd166,#a8ff3e)','linear-gradient(135deg,#ff4d6d,#c084fc)'];
@@ -1017,11 +936,11 @@ function avatarColor(name){
   return colors[h];
 }
 function initials(name){ return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
-function fmtDate(d){ if(!d)return'—'; try{return new Date(d+'T00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return d} }
+function fmtDate(d){ if(!d)return'‚Äî'; try{return new Date(d+'T00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return d} }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // HOME STATS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function updateHomeStats(){
   const pending = todos.filter(t=>!t.done).length;
   document.getElementById('home-tasks').textContent = pending;
@@ -1037,7 +956,6 @@ function updateHomeStats(){
       });
     }
   });
-  document.getElementById('home-staff').textContent = todayShifts.length;
   const wwd = document.getElementById('whosWorkingDisplay');
   if(todayShifts.length>0){
     wwd.innerHTML = todayShifts.map(sh=>`
@@ -1046,7 +964,7 @@ function updateHomeStats(){
         <span class="sp-time">${escHtml(sh.time||'')}</span>
       </span>`).join('');
   } else {
-    wwd.innerHTML = '<div style="color:var(--muted);font-size:13px">No one scheduled today — or schedule not yet loaded.</div>';
+    wwd.innerHTML = '<div style="color:var(--muted);font-size:13px">No one scheduled today ‚Äî or schedule not yet loaded.</div>';
   }
 
   const openCN = convoNotes.filter(n=>n.status==='open'||n.status==='pending').length;
@@ -1079,9 +997,9 @@ function renderHomeTodos(){
     </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // TASKS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveTodos(){ localStorage.setItem('ag_todos',JSON.stringify(todos)); syncToCloud('todos',todos); }
 function addTodo(){
   const text=document.getElementById('todoInput').value.trim();
@@ -1094,7 +1012,7 @@ function toggleTodo(id){ const t=todos.find(t=>t.id===id); if(t){t.done=!t.done;
 function deleteTodo(id){ todos=todos.filter(t=>t.id!==id); saveTodos();renderTodos();updateHomeStats(); }
 function clearDone(){ todos=todos.filter(t=>!t.done); saveTodos();renderTodos();updateHomeStats(); }
 function setFilter(f,btn){ currentFilter=f; document.querySelectorAll('#panel-tasks .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderTodos(); }
-const catLabels={ops:'🏢 Ops',hr:'👤 HR',hospitality:'🎮 Guest',training:'📋 Train',admin:'⚙️ Admin'};
+const catLabels={ops:'üè¢ Ops',hr:'üë§ HR',hospitality:'üéÆ Guest',training:'üìã Train',admin:'‚öôÔ∏è Admin'};
 const prioClass={high:'prio-high',mid:'prio-mid',low:'prio-low'};
 function renderTodos(){
   let filtered=todos;
@@ -1106,13 +1024,13 @@ function renderTodos(){
   const list=document.getElementById('todoList');
   if(!list)return;
   list.innerHTML=filtered.length===0
-    ?'<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No tasks here ⚡</div>'
+    ?'<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No tasks here ‚ö°</div>'
     :filtered.map(t=>`<div class="todo-item ${t.done?'done':''}">
       <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${t.id})"></div>
       <div class="todo-text">${escHtml(t.text)}</div>
       <span class="todo-priority ${prioClass[t.priority]}">${t.priority}</span>
       <span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${catLabels[t.category]||t.category}</span>
-      <button class="btn-danger btn" onclick="deleteTodo(${t.id})">✕</button>
+      <button class="btn-danger btn" onclick="deleteTodo(${t.id})">‚úï</button>
     </div>`).join('');
   const total=todos.length,done=todos.filter(t=>t.done).length,high=todos.filter(t=>t.priority==='high'&&!t.done).length,pct=total?Math.round(done/total*100):0;
   document.getElementById('stat-total').textContent=total;
@@ -1122,143 +1040,101 @@ function renderTodos(){
   document.getElementById('taskProgress').style.width=pct+'%';
 }
 
-// ─────────────────────────────────────────────────────
-// REVENUE
-// ─────────────────────────────────────────────────────
-function updateRevMetrics(){
-  const rev=parseFloat(document.getElementById('inp-rev').value)||0;
-  const guests=parseInt(document.getElementById('inp-guests').value)||0;
-  const goal=parseFloat(document.getElementById('inp-goal').value)||0;
-  const ret=parseInt(document.getElementById('inp-return').value)||0;
-  document.getElementById('rev-today-display').textContent='$'+rev.toLocaleString('en-US',{maximumFractionDigits:0});
-  document.getElementById('guests-today-display').textContent=guests.toLocaleString();
-  document.getElementById('rev-per-guest').textContent=guests>0?'$'+(rev/guests).toFixed(2):'$0';
-  document.getElementById('return-count').textContent=ret;
-  if(goal>0){const pct=Math.round(rev/goal*100);document.getElementById('rev-vs-goal').className='stat-sub '+(pct>=100?'up':pct>=75?'':'down');document.getElementById('rev-vs-goal').textContent=pct+'% of $'+goal.toLocaleString()+' goal';}
-}
-function saveWeekData(){ localStorage.setItem('ag_week',JSON.stringify(weekData)); syncToCloud('weekData',weekData); }
-function logDay(){
-  const date=document.getElementById('inp-date').value;
-  const rev=parseFloat(document.getElementById('inp-rev').value)||0;
-  const guests=parseInt(document.getElementById('inp-guests').value)||0;
-  if(!date){alert('Please pick a date');return;}
-  const existing=weekData.findIndex(d=>d.date===date);
-  if(existing>=0)weekData[existing]={date,rev,guests};
-  else weekData.push({date,rev,guests});
-  weekData.sort((a,b)=>a.date.localeCompare(b.date));
-  if(weekData.length>14)weekData=weekData.slice(-14);
-  saveWeekData();renderWeekChart();alert('Day logged ✅');
-}
-function renderWeekChart(){
-  const el=document.getElementById('weekChart');
-  if(!el)return;
-  if(weekData.length===0){el.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px">Log days above to see chart</div>';return;}
-  const last7=weekData.slice(-7);
-  const maxRev=Math.max(...last7.map(d=>d.rev),1);
-  el.innerHTML=last7.map(d=>{
-    const pct=Math.round(d.rev/maxRev*100);
-    const label=new Date(d.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric'});
-    return`<div class="chart-row"><div class="chart-label">${label}</div><div class="chart-bar-bg"><div class="chart-bar" style="width:${pct}%;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#000">${pct>20?d.guests+' guests':''}</div></div><div class="chart-val">$${d.rev.toLocaleString()}</div></div>`;
-  }).join('');
-  const avgG=Math.round(last7.reduce((s,d)=>s+d.guests,0)/last7.length);
-  const el2=document.getElementById('guests-avg');if(el2)el2.textContent=avgG+' avg / day';
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// SHIFT HANDOFF ‚Äî Google Forms live feed
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+const GF_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1ys6YnSCOCBv4rvLfrABiPz5ClYrAW9E-sOIQMpjUP58/export?format=csv';
+let gfPollInterval = null;
+
+function parseCSVRobust(text) {
+  const rows = [];
+  let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQ) {
+      if (ch === '"') { if (text[i+1]==='"') { field+='"'; i++; } else inQ=false; }
+      else { field += ch; }
+    } else {
+      if      (ch === '"')  { inQ = true; }
+      else if (ch === ',')  { row.push(field); field = ''; }
+      else if (ch === '\r') { /* skip */ }
+      else if (ch === '\n') { row.push(field); field=''; rows.push(row); row=[]; }
+      else { field += ch; }
+    }
+  }
+  if (field || row.length) { row.push(field); if (row.some(v=>v)) rows.push(row); }
+  return rows;
 }
 
-// ─────────────────────────────────────────────────────
-// STAFF
-// ─────────────────────────────────────────────────────
-function saveStaff(){ localStorage.setItem('ag_staff',JSON.stringify(staffList)); syncToCloud('staffList',staffList); }
-function openStaffModal(id){
-  editingStaffId=id||null;
-  const m=staffList.find(s=>s.id===id);
-  document.getElementById('staffModalTitle').textContent=m?'Edit Staff Member':'Add Staff Member';
-  document.getElementById('sm-name').value=m?m.name:'';
-  document.getElementById('sm-role').value=m?m.role:'Game Facilitator';
-  document.getElementById('sm-hire').value=m?m.hire:'';
-  document.getElementById('sm-status').value=m?m.status:'active';
-  document.getElementById('sm-perf').value=m?m.perf:'3';
-  document.getElementById('sm-phone').value=m?m.phone:'';
-  document.getElementById('sm-notes').value=m?m.notes:'';
-  document.getElementById('staffModal').classList.remove('hidden');
-}
-function closeStaffModal(){ document.getElementById('staffModal').classList.add('hidden'); editingStaffId=null; }
-function saveStaffMember(){
-  const name=document.getElementById('sm-name').value.trim();
-  if(!name){alert('Please enter a name');return;}
-  const data={id:editingStaffId||Date.now(),name,role:document.getElementById('sm-role').value,hire:document.getElementById('sm-hire').value,status:document.getElementById('sm-status').value,perf:document.getElementById('sm-perf').value,phone:document.getElementById('sm-phone').value,notes:document.getElementById('sm-notes').value};
-  if(editingStaffId){const i=staffList.findIndex(s=>s.id===editingStaffId);if(i>=0)staffList[i]=data;}
-  else staffList.push(data);
-  saveStaff();closeStaffModal();renderStaff();
-}
-function deleteStaffMember(id){ if(!confirm('Delete this staff member?'))return; staffList=staffList.filter(s=>s.id!==id); saveStaff();renderStaff(); }
-const statusColors={active:'badge-green',training:'badge-cyan',probation:'badge-gold',inactive:'badge-red'};
-const perfStars={5:'⭐⭐⭐⭐⭐',4:'⭐⭐⭐⭐',3:'⭐⭐⭐',2:'⭐⭐',1:'⭐'};
-function renderStaff(){
-  const el=document.getElementById('staffGrid');if(!el)return;
-  const q=(document.getElementById('staffSearch').value||'').toLowerCase();
-  let list=staffList.filter(s=>!q||(s.name||'').toLowerCase().includes(q)||(s.role||'').toLowerCase().includes(q));
-  if(list.length===0){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:20px;grid-column:1/-1">No staff members yet. Add one above.</div>';return;}
-  el.innerHTML=list.map(s=>`
-    <div class="staff-card" onclick="openStaffModal(${s.id})">
-      <div class="staff-header">
-        <div class="staff-avatar" style="background:${avatarColor(s.name)}">${initials(s.name)}</div>
-        <div><div class="staff-name">${escHtml(s.name)}</div><div class="staff-role">${escHtml(s.role)}</div></div>
-        <span class="badge ${statusColors[s.status]||'badge-cyan'}" style="margin-left:auto">${s.status||'active'}</span>
-      </div>
-      <div style="font-size:13px">${perfStars[s.perf]||'⭐⭐⭐'}</div>
-      <div class="staff-stats">
-        <span class="staff-stat">📅 Hired ${fmtDate(s.hire)}</span>
-        ${s.phone?`<span class="staff-stat">📱 ${escHtml(s.phone)}</span>`:''}
-      </div>
-      ${s.notes?`<div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5">${escHtml(s.notes.slice(0,100))}${s.notes.length>100?'...':''}</div>`:''}
-      <div style="margin-top:10px;display:flex;gap:6px">
-        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openStaffModal(${s.id})">✏️ Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteStaffMember(${s.id})">✕</button>
-      </div>
-    </div>`).join('');
+async function fetchGFormHandoffs(manual=false) {
+  const listEl = document.getElementById('gform-handoff-list');
+  const updEl  = document.getElementById('ho-last-update');
+  if (!listEl) return;
+  if (manual) listEl.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)">Refreshing‚Ä¶</div>';
+  try {
+    const resp = await fetch(GF_SHEET_URL + '&nocache=' + Date.now(), { cache:'no-store' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const rows = parseCSVRobust(await resp.text());
+    const data = rows.slice(1).filter(r => r.length > 2);
+    data.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+    renderGFormHandoffs(data.slice(-5).reverse());
+    if (updEl) updEl.textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  } catch(e) {
+    listEl.innerHTML = `<div style="text-align:center;padding:48px;color:var(--accent2)">
+      Could not load responses ‚Äî check your connection or sheet permissions.<br>
+      <small style="color:var(--muted)">${e.message}</small></div>`;
+    console.error('GForm fetch error:', e);
+  }
 }
 
-// ─────────────────────────────────────────────────────
-// SHIFT HANDOFF
-// ─────────────────────────────────────────────────────
-function saveHandoffs(){ localStorage.setItem('ag_handoffs',JSON.stringify(handoffs)); syncToCloud('handoffs',handoffs); }
-function saveHandoff(){
-  const date=document.getElementById('ho-date').value;
-  const shift=document.getElementById('ho-shift').value;
-  const mod=document.getElementById('ho-mod').value.trim();
-  if(!mod){alert('Please enter manager on duty');return;}
-  handoffs.unshift({id:Date.now(),date,shift,mod,rev:document.getElementById('ho-rev').value,guests:document.getElementById('ho-guests').value,guestNotes:document.getElementById('ho-guests-notes').value,maint:document.getElementById('ho-maint').value,staffNotes:document.getElementById('ho-staff-notes').value,actions:document.getElementById('ho-actions').value});
-  ['ho-guests-notes','ho-maint','ho-staff-notes','ho-actions'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('ho-rev').value='';document.getElementById('ho-guests').value='';
-  saveHandoffs();renderHandoffs();alert('Handoff saved ✅');
+function gfShiftBadge(shift) {
+  const s = (shift||'').toLowerCase();
+  if (s.includes('open'))  return { cls:'badge-cyan', icon:'üåÖ' };
+  if (s.includes('close')) return { cls:'badge-red',  icon:'üåô' };
+  if (s.includes('mid'))   return { cls:'badge-gold', icon:'‚òÄÔ∏è' };
+  return                          { cls:'badge-cyan', icon:'üìã' };
 }
-function deleteHandoff(id){ handoffs=handoffs.filter(h=>h.id!==id); saveHandoffs();renderHandoffs(); }
-function setHOFilter(f,btn){ hoFilter=f; document.querySelectorAll('#ho-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderHandoffs(); }
-const shiftLabels={open:'🌅 Opening',mid:'☀️ Mid',close:'🌙 Closing'};
-function renderHandoffs(){
-  const el=document.getElementById('handoffList');if(!el)return;
-  let list=hoFilter==='all'?handoffs:handoffs.filter(h=>h.shift===hoFilter);
-  if(list.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No handoffs logged yet.</div>';return;}
-  el.innerHTML=list.map(h=>`
-    <div class="handoff-card">
+
+function renderGFormHandoffs(rows) {
+  const el = document.getElementById('gform-handoff-list');
+  if (!el) return;
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)">No responses found.</div>';
+    return;
+  }
+  el.innerHTML = rows.map(r => {
+    const ts       = r[0]  || '';
+    const shift    = r[1]  || '';
+    const name     = r[2]  || '';
+    const notes    = r[7]  || '';
+    const nextNote = r[15] || '';
+    const badge    = gfShiftBadge(shift);
+    const dateStr  = ts ? new Date(ts).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+    return `
+    <div class="handoff-card" style="margin-bottom:12px">
       <div class="handoff-header">
-        <span class="badge badge-cyan">${shiftLabels[h.shift]||h.shift}</span>
-        <span style="font-size:13px;font-weight:600">${fmtDate(h.date)}</span>
-        <span style="font-size:12px;color:var(--muted)">MOD: ${escHtml(h.mod)}</span>
-        ${h.rev?`<span class="badge badge-green">$${parseFloat(h.rev).toLocaleString()}</span>`:''}
-        ${h.guests?`<span class="badge badge-gold">${h.guests} guests</span>`:''}
-        <button class="btn btn-danger btn-sm" onclick="deleteHandoff(${h.id})" style="margin-left:auto">✕</button>
+        <span class="badge ${badge.cls}">${badge.icon} ${escHtml(shift)}</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">${escHtml(name)}</span>
+        <span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-left:auto">${escHtml(dateStr)}</span>
       </div>
-      ${h.guestNotes?`<div class="handoff-section"><div class="handoff-label">👥 Guest Notes</div><div class="handoff-text">${escHtml(h.guestNotes)}</div></div>`:''}
-      ${h.maint?`<div class="handoff-section"><div class="handoff-label">🔧 Maintenance</div><div class="handoff-text">${escHtml(h.maint)}</div></div>`:''}
-      ${h.staffNotes?`<div class="handoff-section"><div class="handoff-label">👤 Staff Notes</div><div class="handoff-text">${escHtml(h.staffNotes)}</div></div>`:''}
-      ${h.actions?`<div class="handoff-section"><div class="handoff-label">⚡ Action Items</div><div class="handoff-text">${escHtml(h.actions)}</div></div>`:''}
-    </div>`).join('');
+      ${notes    ? `<div class="handoff-section"><div class="handoff-label">üìã Shift Notes</div><div class="handoff-text">${escHtml(notes)}</div></div>` : ''}
+      ${nextNote ? `<div class="handoff-section"><div class="handoff-label">‚ö° Notes for Next Shift</div><div class="handoff-text">${escHtml(nextNote)}</div></div>` : ''}
+    </div>`;
+  }).join('');
 }
 
-// ─────────────────────────────────────────────────────
+function startGFPoll() {
+  fetchGFormHandoffs();
+  clearInterval(gfPollInterval);
+  gfPollInterval = setInterval(fetchGFormHandoffs, 60000);
+}
+
+// stub so restore/load code doesn't error
+function renderHandoffs() { /* replaced by Google Forms feed */ }
+
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // TRAINING TRIPS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveTrips(){ localStorage.setItem('ag_trips',JSON.stringify(trips)); syncToCloud('trips',trips); }
 function addTrip(){
   const loc=document.getElementById('trip-loc').value.trim();
@@ -1273,7 +1149,7 @@ function deleteTrip(id){ if(!confirm('Delete this trip?'))return; trips=trips.fi
 function markTripComplete(id){ const t=trips.find(t=>t.id===id); if(t){t.status='complete';saveTrips();renderTrips();} }
 function toggleTrainee(tripId,tIdx){ const trip=trips.find(t=>t.id===tripId); if(trip&&trip.trainees[tIdx]){trip.trainees[tIdx].done=!trip.trainees[tIdx].done;saveTrips();renderTrips();} }
 function setTripFilter(f,btn){ tripFilter=f; document.querySelectorAll('#trip-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderTrips(); }
-const tripTypeLabel={opening:'🏪 Location Opening',gm:'👤 GM Training',support:'🤝 Support Visit'};
+const tripTypeLabel={opening:'üè™ Location Opening',gm:'üë§ GM Training',support:'ü§ù Support Visit'};
 function renderTrips(){
   const el=document.getElementById('tripsList');if(!el)return;
   let list=trips;
@@ -1286,19 +1162,19 @@ function renderTrips(){
     const pct=t.trainees.length?Math.round(done/t.trainees.length*100):0;
     return`<div class="trip-card">
       <div class="trip-header">
-        <div class="trip-title">📍 ${escHtml(t.loc)}</div>
+        <div class="trip-title">üìç ${escHtml(t.loc)}</div>
         <span class="badge badge-cyan">${tripTypeLabel[t.type]||t.type}</span>
-        <span class="badge ${t.status==='complete'?'badge-green':'badge-gold'}">${t.status==='complete'?'✅ Complete':'🗓 Upcoming'}</span>
+        <span class="badge ${t.status==='complete'?'badge-green':'badge-gold'}">${t.status==='complete'?'‚úÖ Complete':'üóì Upcoming'}</span>
         ${t.status!=='complete'?`<button class="btn btn-green btn-sm" onclick="markTripComplete(${t.id})">Mark Complete</button>`:''}
-        <button class="btn btn-danger btn-sm" onclick="deleteTrip(${t.id})">✕</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTrip(${t.id})">‚úï</button>
       </div>
       <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:10px">
-        📅 ${fmtDate(t.start)} → ${fmtDate(t.end)}
-        ${t.notes?` · ${escHtml(t.notes)}`:''}
+        üìÖ ${fmtDate(t.start)} ‚Üí ${fmtDate(t.end)}
+        ${t.notes?` ¬∑ ${escHtml(t.notes)}`:''}
       </div>
       ${t.trainees.length>0?`
         <div style="margin-bottom:6px">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:6px">Trainees — ${done}/${t.trainees.length} trained (${pct}%)</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:6px">Trainees ‚Äî ${done}/${t.trainees.length} trained (${pct}%)</div>
           <div class="progress-bar" style="margin-bottom:10px"><div class="progress-fill" style="width:${pct}%"></div></div>
           ${t.trainees.map((tr,i)=>`<div class="trainee-row">
             <div class="trainee-check ${tr.done?'checked':''}" onclick="toggleTrainee(${t.id},${i})"></div>
@@ -1310,9 +1186,9 @@ function renderTrips(){
   }).join('');
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // AI SCHEDULE READER
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function handleSchedDrop(e){
   e.preventDefault();
   document.getElementById('dropZone').classList.remove('drag-over');
@@ -1326,7 +1202,7 @@ function handleSchedFile(input){
 
 async function processSchedImage(file){
   const area=document.getElementById('schedPreviewArea');
-  area.innerHTML=`<div class="ai-loading"><div class="spinner"></div> Reading schedule with AI — this may take a moment...</div>`;
+  area.innerHTML=`<div class="ai-loading"><div class="spinner"></div> Reading schedule with AI ‚Äî this may take a moment...</div>`;
 
   const b64=await new Promise((res,rej)=>{
     const r=new FileReader();
@@ -1349,7 +1225,7 @@ async function processSchedImage(file){
           content:[
             {type:'image',source:{type:'base64',media_type:file.type,data:b64}},
             {type:'text',text:`This is an ADP employee schedule screenshot. Extract every shift you can see.
-For each shift return a JSON array of objects with: name (employee first+last name), date (YYYY-MM-DD — infer from the week starting ${weekStart||'the week shown'}), time (shift time range e.g. "9:00 AM - 5:00 PM"), role (job title if visible).
+For each shift return a JSON array of objects with: name (employee first+last name), date (YYYY-MM-DD ‚Äî infer from the week starting ${weekStart||'the week shown'}), time (shift time range e.g. "9:00 AM - 5:00 PM"), role (job title if visible).
 If a date can't be determined precisely, use the day of week label and the week start date ${weekStart||''} to calculate it.
 Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks. Example: [{"name":"Jane Smith","date":"2026-02-24","time":"10:00 AM - 6:00 PM","role":"Game Facilitator"}]`}
           ]
@@ -1364,7 +1240,7 @@ Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks.
 
     renderSchedPreview(shifts, weekStart, file.name);
   } catch(err){
-    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">⚠️ ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and well-lit. Try cropping it to just the schedule grid.</div></div>`;
+    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">‚ö†Ô∏è ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and well-lit. Try cropping it to just the schedule grid.</div></div>`;
   }
 }
 
@@ -1385,9 +1261,9 @@ function renderSchedPreview(shifts, weekStart, filename){
   area.innerHTML=`
     <div class="card" style="border-color:rgba(168,255,62,.3)">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-        <span style="font-size:15px;font-weight:600;color:var(--accent3)">✅ ${shifts.length} shifts extracted</span>
+        <span style="font-size:15px;font-weight:600;color:var(--accent3)">‚úÖ ${shifts.length} shifts extracted</span>
         <span style="font-size:12px;color:var(--muted)">Review below, then save</span>
-        <button class="btn btn-primary" style="margin-left:auto" onclick="saveSchedule(${JSON.stringify(shifts).replace(/'/g,"&#39;")}, '${weekStart||''}', '${escHtml(filename)}')">💾 Save Schedule</button>
+        <button class="btn btn-primary" style="margin-left:auto" onclick="saveSchedule(${JSON.stringify(shifts).replace(/'/g,"&#39;")}, '${weekStart||''}', '${escHtml(filename)}')">üíæ Save Schedule</button>
       </div>
       ${dates.map(d=>`
         <div style="margin-bottom:12px">
@@ -1404,7 +1280,7 @@ function saveSchedule(shifts, weekStart, filename){
   if(schedules.length>10)schedules=schedules.slice(0,10);
   localStorage.setItem('ag_schedules',JSON.stringify(schedules));
   syncToCloud('schedules', schedules);
-  document.getElementById('schedPreviewArea').innerHTML='<div class="card" style="border-color:rgba(168,255,62,.3);color:var(--accent3)">✅ Schedule saved! It will now show in "Who\'s Working Today" on the Home tab.</div>';
+  document.getElementById('schedPreviewArea').innerHTML='<div class="card" style="border-color:rgba(168,255,62,.3);color:var(--accent3)">‚úÖ Schedule saved! It will now show in "Who\'s Working Today" on the Home tab.</div>';
   renderSavedSchedules();
   updateHomeStats();
 }
@@ -1420,23 +1296,23 @@ function renderSavedSchedules(){
   if(schedules.length===0){el.innerHTML='<div style="color:var(--muted);font-size:13px">No schedules saved yet.</div>';return;}
   el.innerHTML=schedules.map(s=>`
     <div class="handoff-card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:22px">📅</span>
+      <span style="font-size:22px">üìÖ</span>
       <div style="flex:1">
-        <div style="font-weight:600;font-size:14px">Week of ${fmtDate(s.weekStart)||'—'}</div>
-        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${s.shifts.length} shifts · saved ${s.saved} · ${escHtml(s.filename||'')}</div>
+        <div style="font-weight:600;font-size:14px">Week of ${fmtDate(s.weekStart)||'‚Äî'}</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${s.shifts.length} shifts ¬∑ saved ${s.saved} ¬∑ ${escHtml(s.filename||'')}</div>
       </div>
-      <button class="btn btn-danger btn-sm" onclick="deleteSchedule(${s.id})">✕</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteSchedule(${s.id})">‚úï</button>
     </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // LINKS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveLinks(){ localStorage.setItem('ag_links',JSON.stringify(customLinks)); syncToCloud('customLinks',customLinks); }
 function addCustomLink(){
   const name=document.getElementById('link-name').value.trim();
   const url=document.getElementById('link-url').value.trim();
-  const icon=document.getElementById('link-icon').value.trim()||'🔗';
+  const icon=document.getElementById('link-icon').value.trim()||'üîó';
   const desc=document.getElementById('link-desc').value.trim();
   if(!name||!url)return;
   customLinks.push({name,url,icon,desc});
@@ -1458,12 +1334,12 @@ function renderLinks(){
   }).join('');
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // DOCS
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveDocs(){ localStorage.setItem('ag_docs',JSON.stringify(docs)); }
-const docCatLabel={ops:'🏢 Operations',training:'📋 Training',hr:'👤 HR / Staff',reference:'📌 Reference',travel:'✈️ Travel',other:'📁 Other'};
-function fileIcon(fn){ const ext=(fn||'').split('.').pop().toLowerCase(); return{pdf:'📕',doc:'📘',docx:'📘',xls:'📗',xlsx:'📗',csv:'📗',ppt:'📙',pptx:'📙',png:'🖼',jpg:'🖼',jpeg:'🖼',txt:'📄'}[ext]||'📁'; }
+const docCatLabel={ops:'üè¢ Operations',training:'üìã Training',hr:'üë§ HR / Staff',reference:'üìå Reference',travel:'‚úàÔ∏è Travel',other:'üìÅ Other'};
+function fileIcon(fn){ const ext=(fn||'').split('.').pop().toLowerCase(); return{pdf:'üìï',doc:'üìò',docx:'üìò',xls:'üìó',xlsx:'üìó',csv:'üìó',ppt:'üìô',pptx:'üìô',png:'üñº',jpg:'üñº',jpeg:'üñº',txt:'üìÑ'}[ext]||'üìÅ'; }
 function uploadDoc(){
   const fi=document.getElementById('doc-file');
   const name=document.getElementById('doc-name').value.trim();
@@ -1487,15 +1363,15 @@ function renderDocs(){
   if(list.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No documents uploaded yet.</div>';return;}
   el.innerHTML=list.map(d=>`<div class="doc-card">
     <div class="doc-icon">${fileIcon(d.filename)}</div>
-    <div class="doc-info"><div class="doc-name">${escHtml(d.label)}</div><div class="doc-meta">${d.filename} · ${d.size} · ${docCatLabel[d.cat]||d.cat} · ${d.date}</div></div>
-    <a href="${d.dataUrl}" download="${d.filename}" class="btn btn-ghost btn-sm" style="text-decoration:none">⬇ Download</a>
-    <button class="btn btn-danger btn-sm" onclick="deleteDoc(${d.id})">✕</button>
+    <div class="doc-info"><div class="doc-name">${escHtml(d.label)}</div><div class="doc-meta">${d.filename} ¬∑ ${d.size} ¬∑ ${docCatLabel[d.cat]||d.cat} ¬∑ ${d.date}</div></div>
+    <a href="${d.dataUrl}" download="${d.filename}" class="btn btn-ghost btn-sm" style="text-decoration:none">‚¨á Download</a>
+    <button class="btn btn-danger btn-sm" onclick="deleteDoc(${d.id})">‚úï</button>
   </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // OUTREACH
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveOutreach(){ localStorage.setItem('ag_outreach',JSON.stringify(outreachList)); syncToCloud('outreachList',outreachList); }
 function addOutreach(){
   const name=document.getElementById('out-name').value.trim();
@@ -1512,64 +1388,315 @@ function renderOutreach(){
   if(outreachList.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No players tracked yet.</div>';return;}
   el.innerHTML=outreachList.map(r=>`<div class="outreach-card">
     <div class="avatar">${initials(r.name)}</div>
-    <div class="outreach-info"><div class="outreach-name">${escHtml(r.name)}</div><div class="outreach-meta">Last visit: ${r.date||'—'} · ${escHtml(r.contact||'No contact')}</div></div>
+    <div class="outreach-info"><div class="outreach-name">${escHtml(r.name)}</div><div class="outreach-meta">Last visit: ${r.date||'‚Äî'} ¬∑ ${escHtml(r.contact||'No contact')}</div></div>
     ${statusBadge[r.status]||''}
     <select onchange="updateOutreachStatus(${r.id},this.value)" style="width:130px;font-size:12px;padding:5px 8px">
-      <option value="due" ${r.status==='due'?'selected':''}>📬 Due</option>
-      <option value="overdue" ${r.status==='overdue'?'selected':''}>🔴 Overdue</option>
-      <option value="done" ${r.status==='done'?'selected':''}>✅ Contacted</option>
+      <option value="due" ${r.status==='due'?'selected':''}>üì¨ Due</option>
+      <option value="overdue" ${r.status==='overdue'?'selected':''}>üî¥ Overdue</option>
+      <option value="done" ${r.status==='done'?'selected':''}>‚úÖ Contacted</option>
     </select>
-    <button class="btn btn-danger btn-sm" onclick="deleteOutreach(${r.id})">✕</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteOutreach(${r.id})">‚úï</button>
   </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────
-// CONV NOTES
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// CONV NOTES ‚Äî Employee Documentation System
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+const CN_FORMS = {
+  verbal: {
+    label:'Verbal Warning', icon:'üó£Ô∏è', color:'#ffd166', badgeClass:'badge-gold',
+    desc:'Minor infraction or first-time issue. Internal record only ‚Äî no employee signature required.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'incident_date',label:'Date of Incident',type:'date',required:true},
+      {id:'conversation_date',label:'Date of Conversation',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager on Duty)',type:'text',required:true},
+      {id:'policy_violated',label:'Policy / Rule Violated',type:'text'},
+      {id:'description',label:'Description of Incident / Behavior',type:'textarea',required:true},
+      {id:'expected_behavior',label:'Expected Behavior Going Forward',type:'textarea'},
+      {id:'prior_issues',label:'Prior Issues on Record?',type:'select',options:['No prior issues','Yes ‚Äî see notes below']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  first_written: {
+    label:'First Written Warning', icon:'üìÑ', color:'#ff9a3c', badgeClass:'badge-gold',
+    desc:'Issue persists after verbal warning, or a more serious single incident occurred.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'incident_date',label:'Date of Incident',type:'date',required:true},
+      {id:'warning_date',label:'Date Warning Issued',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'prior_verbal',label:'Prior Verbal Warning on File?',type:'select',options:['No','Yes']},
+      {id:'prior_verbal_date',label:'Verbal Warning Date (if applicable)',type:'date'},
+      {id:'policy_violated',label:'Policy / Rule Violated',type:'text'},
+      {id:'description',label:'Description of Issue / Violation',type:'textarea',required:true},
+      {id:'corrective_action',label:'Required Corrective Action',type:'textarea',required:true},
+      {id:'deadline',label:'Improvement Deadline',type:'date'},
+      {id:'consequences',label:'Consequences if Not Corrected',type:'text'},
+      {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
+      {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  second_written: {
+    label:'Second Written Warning', icon:'üìã', color:'#ff6b35', badgeClass:'badge-red',
+    desc:'Problem continues after first written warning. Requires documented correction deadline.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'incident_date',label:'Date of Current Incident',type:'date',required:true},
+      {id:'warning_date',label:'Date Warning Issued',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'prior_verbal_date',label:'Prior Verbal Warning Date',type:'date'},
+      {id:'prior_first_written_date',label:'Prior First Written Warning Date',type:'date'},
+      {id:'description',label:'Description of Current Issue',type:'textarea',required:true},
+      {id:'pattern',label:'Description of Continued Pattern / History',type:'textarea'},
+      {id:'corrective_action',label:'Required Corrective Action',type:'textarea'},
+      {id:'deadline',label:'Correction Deadline',type:'date'},
+      {id:'next_consequence',label:'Next Stage of Consequences',type:'text'},
+      {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
+      {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
+      {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  final_written: {
+    label:'Final Written Warning', icon:'üö®', color:'#ff4d6d', badgeClass:'badge-red',
+    desc:'Final opportunity for correction. Explicitly states termination risk if issue continues.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'date',label:'Date',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'prior_verbal_date',label:'Prior Verbal Warning Date',type:'date'},
+      {id:'prior_first_written_date',label:'First Written Warning Date',type:'date'},
+      {id:'prior_second_written_date',label:'Second Written Warning Date',type:'date'},
+      {id:'description',label:'Description of Current Violation',type:'textarea',required:true},
+      {id:'corrective_action',label:'Required Corrective Actions',type:'textarea'},
+      {id:'deadline',label:'Final Deadline',type:'date'},
+      {id:'termination_notice',label:'Termination Risk Stated to Employee?',type:'select',options:['Yes ‚Äî verbally communicated','Yes ‚Äî written on form']},
+      {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
+      {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
+      {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  pip: {
+    label:'Performance Improvement Plan', icon:'üìà', color:'#c084fc', badgeClass:'badge-purple',
+    desc:'For performance or productivity issues. Structured plan with measurable goals and scheduled check-ins.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'start_date',label:'PIP Start Date',type:'date',required:true},
+      {id:'review_date',label:'Review / End Date',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'performance_concerns',label:'Performance Concerns',type:'textarea',required:true},
+      {id:'goals',label:'Specific Goals / Measurable Objectives',type:'textarea',required:true},
+      {id:'support',label:'Support / Resources Being Provided',type:'textarea'},
+      {id:'checkin_schedule',label:'Check-in Schedule',type:'select',options:['Weekly','Bi-weekly','Monthly','As needed']},
+      {id:'success_criteria',label:'Success Criteria',type:'textarea'},
+      {id:'consequences',label:'Consequences if Goals Not Met',type:'text'},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  general: {
+    label:'General Disciplinary Action', icon:'üìé', color:'#ff4d6d', badgeClass:'badge-red',
+    desc:'Flexible form for overlapping violations or situations that span multiple discipline stages.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'date',label:'Date',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'action_type',label:'Type of Action',type:'select',options:['Verbal Warning','First Written Warning','Second Written Warning','Final Written Warning','Suspension','Termination Recommendation']},
+      {id:'description',label:'Description of Violations / Issues',type:'textarea',required:true},
+      {id:'prior_history',label:'Prior Disciplinary History',type:'textarea'},
+      {id:'corrective_action',label:'Corrective Action Required',type:'textarea'},
+      {id:'deadline',label:'Deadline',type:'date'},
+      {id:'consequences',label:'Consequences if Not Corrected',type:'text'},
+      {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
+      {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
+      {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+  praise: {
+    label:'Praise / Recognition', icon:'‚≠ê', color:'#a8ff3e', badgeClass:'badge-green',
+    desc:'Document positive performance, teamwork, leadership, or initiative. Build the positive record too.',
+    fields:[
+      {id:'employee',label:'Employee Name',type:'text',required:true},
+      {id:'role',label:'Role / Position',type:'text'},
+      {id:'date',label:'Date',type:'date',required:true},
+      {id:'manager',label:'Your Name (Manager)',type:'text',required:true},
+      {id:'reason',label:'Reason for Recognition',type:'select',options:['Outstanding Performance','Teamwork','Leadership','Initiative','Guest Experience','Going Above & Beyond','Other']},
+      {id:'description',label:'Description of Achievement',type:'textarea',required:true},
+      {id:'impact',label:'Impact on Team / Guests',type:'textarea'},
+      {id:'share_with',label:'Share With',type:'select',options:['Internal record only','Share with employee','Share with department','Company-wide']},
+      {id:'notes',label:'Additional Notes',type:'textarea'},
+    ]
+  },
+};
+
+let cnEditingId = null;
 function saveConvoNotes(){ localStorage.setItem('ag_convonotes',JSON.stringify(convoNotes)); syncToCloud('convoNotes',convoNotes); }
-function addConvoNote(){
-  const person=document.getElementById('cn-person').value.trim();
-  if(!person){alert('Please enter a person or topic');return;}
-  convoNotes.unshift({id:Date.now(),person,date:document.getElementById('cn-date').value,type:document.getElementById('cn-type').value,status:document.getElementById('cn-status').value,body:document.getElementById('cn-body').value.trim()});
-  document.getElementById('cn-person').value='';document.getElementById('cn-body').value='';
-  saveConvoNotes();renderConvoNotes();updateHomeStats();
+
+function openCNModal(editId){
+  cnEditingId = editId || null;
+  document.getElementById('cnModal').classList.remove('hidden');
+  if(editId){
+    const rec = convoNotes.find(n=>n.id===editId);
+    if(rec && rec.formType){ cnSelectType(rec.formType, rec); return; }
+  }
+  document.getElementById('cn-step1').style.display='block';
+  document.getElementById('cn-step2').style.display='none';
+  renderCNTypeCards();
 }
-function deleteConvoNote(id){ convoNotes=convoNotes.filter(n=>n.id!==id); saveConvoNotes();renderConvoNotes();updateHomeStats(); }
-function updateCNStatus(id,val){ const n=convoNotes.find(n=>n.id===id); if(n){n.status=val;saveConvoNotes();renderConvoNotes();updateHomeStats();} }
-function setCNFilter(f,btn){ cnFilter=f; document.querySelectorAll('#cn-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderConvoNotes(); }
-const cnTypeLabel={meeting:'📅 Meeting',coaching:'🎯 Coaching',verbal:'🗣 Verbal',written:'📄 Written',boss:'⬆️ Leadership',followup:'🔁 Follow-Up',other:'💬 Other'};
-const cnStatusBadge={open:'<span class="badge badge-gold">Open</span>',resolved:'<span class="badge badge-green">Resolved</span>',pending:'<span class="badge badge-red">Pending Action</span>'};
-function renderConvoNotes(){
-  let filtered=convoNotes;
-  if(['meeting','coaching','verbal','written','boss','followup','other'].includes(cnFilter))filtered=convoNotes.filter(n=>n.type===cnFilter);
-  else if(cnFilter==='open')filtered=convoNotes.filter(n=>n.status==='open');
-  else if(cnFilter==='resolved')filtered=convoNotes.filter(n=>n.status==='resolved');
-  const el=document.getElementById('convoNotesList');if(!el)return;
-  if(filtered.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No notes yet.</div>';return;}
-  el.innerHTML=filtered.map(n=>`<div class="cn-card">
-    <div class="cn-card-header">
-      <div class="cn-person">${escHtml(n.person)}</div>
-      <span class="badge badge-cyan">${cnTypeLabel[n.type]||n.type}</span>
-      ${cnStatusBadge[n.status]||''}
-      <select onchange="updateCNStatus(${n.id},this.value)" style="width:150px;font-size:12px;padding:4px 8px">
-        <option value="open" ${n.status==='open'?'selected':''}>🟡 Open</option>
-        <option value="resolved" ${n.status==='resolved'?'selected':''}>✅ Resolved</option>
-        <option value="pending" ${n.status==='pending'?'selected':''}>⏳ Pending</option>
-      </select>
-      <button class="btn btn-danger btn-sm" onclick="deleteConvoNote(${n.id})">✕</button>
-    </div>
-    ${n.body?`<div class="cn-body-text">${escHtml(n.body)}</div>`:''}
-    <div class="cn-meta">📅 ${fmtDate(n.date)}</div>
-  </div>`).join('');
+function closeCNModal(){ document.getElementById('cnModal').classList.add('hidden'); cnEditingId=null; }
+
+function renderCNTypeCards(){
+  const grid=document.getElementById('cn-type-grid'); if(!grid) return;
+  grid.innerHTML=Object.entries(CN_FORMS).map(([key,f])=>`
+    <div onclick="cnSelectType('${key}')" style="border:2px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:var(--surface2)"
+      onmouseover="this.style.borderColor='${f.color}';this.style.background='${f.color}18'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'">
+      <div style="font-size:22px;margin-bottom:6px">${f.icon}</div>
+      <div style="font-size:13px;font-weight:700;color:${f.color};margin-bottom:5px">${f.label}</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.5">${f.desc}</div>
+    </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────
+function cnSelectType(type, existingRec){
+  const form=CN_FORMS[type]; if(!form) return;
+  cnFilter_selectedType=type;
+  document.getElementById('cn-step1').style.display='none';
+  document.getElementById('cn-step2').style.display='block';
+  const title=document.getElementById('cn-modal-title');
+  title.textContent=form.icon+' '+form.label; title.style.color=form.color;
+  document.getElementById('cn-modal-desc').textContent=form.desc;
+  const fd=(existingRec && existingRec.formData) ? existingRec.formData : {};
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('cn-form-fields').innerHTML=
+    form.fields.map(f=>{
+      const val=fd[f.id]||''; const fid='cnf-'+f.id;
+      let inp='';
+      if(f.type==='textarea') inp=`<textarea id="${fid}" style="min-height:72px;resize:vertical;width:100%">${escHtml(val)}</textarea>`;
+      else if(f.type==='select') inp=`<select id="${fid}">${f.options.map(o=>`<option value="${escHtml(o)}"${val===o?' selected':''}>${escHtml(o)}</option>`).join('')}</select>`;
+      else if(f.type==='date') inp=`<input type="date" id="${fid}" value="${escHtml(val||today)}">`;
+      else inp=`<input type="text" id="${fid}" value="${escHtml(val)}">`;
+      return `<div style="margin-bottom:10px"><div class="input-label" style="margin-bottom:4px">${f.label}${f.required?'<span style="color:var(--accent2);margin-left:3px">*</span>':''}</div>${inp}</div>`;
+    }).join('')+
+    `<div style="margin-bottom:10px"><div class="input-label" style="margin-bottom:4px">Status</div>
+    <select id="cnf-status">
+      <option value="open"${(existingRec&&existingRec.status==='open')||!existingRec?' selected':''}>üü° Open</option>
+      <option value="pending"${existingRec&&existingRec.status==='pending'?' selected':''}>‚è≥ Pending Action</option>
+      <option value="resolved"${existingRec&&existingRec.status==='resolved'?' selected':''}>‚úÖ Resolved</option>
+    </select></div>`;
+}
+
+let cnFilter_selectedType = null;
+function cnGoBack(){
+  document.getElementById('cn-step1').style.display='block';
+  document.getElementById('cn-step2').style.display='none';
+  cnFilter_selectedType=null;
+}
+
+function saveCNRecord(){
+  const type=cnFilter_selectedType; const form=CN_FORMS[type]; if(!form) return;
+  for(const f of form.fields){
+    if(f.required){
+      const el=document.getElementById('cnf-'+f.id);
+      if(el&&!el.value.trim()){el.style.borderColor='var(--accent2)';el.scrollIntoView({behavior:'smooth',block:'center'});el.focus();return;}
+    }
+  }
+  const fd={};
+  form.fields.forEach(f=>{ const el=document.getElementById('cnf-'+f.id); if(el) fd[f.id]=el.value; });
+  const status=document.getElementById('cnf-status')?.value||'open';
+  const employee=fd.employee||'‚Äî';
+  const date=fd.incident_date||fd.warning_date||fd.date||fd.start_date||new Date().toISOString().split('T')[0];
+  if(cnEditingId){
+    const i=convoNotes.findIndex(n=>n.id===cnEditingId);
+    if(i>=0) convoNotes[i]={...convoNotes[i],employee,formType:type,status,date,formData:fd,updated:new Date().toLocaleDateString()};
+  } else {
+    convoNotes.unshift({id:Date.now(),employee,formType:type,status,date,formData:fd,created:new Date().toLocaleDateString()});
+  }
+  saveConvoNotes(); closeCNModal(); renderCNList(); updateHomeStats();
+}
+
+function deleteCNRecord(id){ if(!confirm('Delete this record? This cannot be undone.')) return; convoNotes=convoNotes.filter(n=>n.id!==id); saveConvoNotes();renderCNList();updateHomeStats(); }
+function updateCNStatus(id,val){ const n=convoNotes.find(n=>n.id===id); if(n){n.status=val;saveConvoNotes();renderCNList();updateHomeStats();} }
+function setCNFilter(f,btn){ cnFilter=f; document.querySelectorAll('#cn-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderCNList(); }
+
+const cnStatusBadge={open:'<span class="badge badge-gold">Open</span>',resolved:'<span class="badge badge-green">Resolved</span>',pending:'<span class="badge badge-red">Pending Action</span>'};
+
+function renderCNKeyFields(type,fd){
+  const keys={verbal:['policy_violated','prior_issues'],first_written:['policy_violated','deadline','employee_acknowledged'],second_written:['deadline','next_consequence','employee_acknowledged'],final_written:['deadline','termination_notice','employee_acknowledged','hr_involved'],pip:['review_date','checkin_schedule','employee_acknowledged'],general:['action_type','deadline','hr_involved','employee_acknowledged'],praise:['reason','share_with']};
+  const form=CN_FORMS[type]; const fieldKeys=keys[type]||[];
+  const chips=fieldKeys.filter(k=>fd[k]&&fd[k]!=='No'&&fd[k]!=='No prior issues').map(k=>{
+    const def=form?.fields.find(f=>f.id===k);
+    return `<span style="font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:'DM Mono',monospace;color:var(--muted)">${def?def.label:k}: <span style="color:var(--text)">${escHtml(fd[k])}</span></span>`;
+  });
+  return chips.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">${chips.join('')}</div>`:'';
+}
+
+function renderCNList(){
+  const el=document.getElementById('cn-list'); if(!el) return;
+  const formTypes=Object.keys(CN_FORMS);
+  let list=convoNotes;
+  if(formTypes.includes(cnFilter)) list=convoNotes.filter(n=>n.formType===cnFilter||n.type===cnFilter);
+  else if(cnFilter==='open') list=convoNotes.filter(n=>n.status==='open');
+  else if(cnFilter==='resolved') list=convoNotes.filter(n=>n.status==='resolved');
+  if(list.length===0){el.innerHTML='<div style="text-align:center;padding:36px;color:var(--muted);font-size:14px">No records yet ‚Äî click <strong style="color:var(--text)">+ New Documentation</strong> to start.</div>';return;}
+  el.innerHTML=list.map(n=>{
+    const isNew=!!n.formType;
+    const form=isNew?CN_FORMS[n.formType]:null;
+    const label=form?form.label:(n.type||'Note');
+    const icon=form?form.icon:'üí¨';
+    const color=form?form.color:'var(--muted)';
+    const badgeClass=form?form.badgeClass:'badge-cyan';
+    const employee=n.employee||n.person||'‚Äî';
+    const description=isNew?(n.formData?.description||n.formData?.performance_concerns||''):(n.body||'');
+    const manager=n.formData?.manager||'';
+    const date=n.date||n.created||'';
+    return `<div style="background:var(--surface2);border:1px solid var(--border);border-left:4px solid ${color};border-radius:10px;padding:16px;margin-bottom:10px;transition:border-color .2s" onmouseover="this.style.borderColor='${color}'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:${description?'8px':'0'}">
+        <div style="font-size:22px;flex-shrink:0">${icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:16px;font-weight:700">${escHtml(employee)}</div>
+          <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px">${manager?'MOD: '+escHtml(manager)+' ¬∑ ':''}${fmtDate(date)}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex-shrink:0">
+          <span class="badge ${badgeClass}">${label}</span>
+          ${cnStatusBadge[n.status]||''}
+          <select onchange="updateCNStatus(${n.id},this.value)" style="font-size:11px;padding:3px 6px">
+            <option value="open" ${n.status==='open'?'selected':''}>üü° Open</option>
+            <option value="pending" ${n.status==='pending'?'selected':''}>‚è≥ Pending</option>
+            <option value="resolved" ${n.status==='resolved'?'selected':''}>‚úÖ Resolved</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="openCNModal(${n.id})">‚úèÔ∏è Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteCNRecord(${n.id})">‚úï</button>
+        </div>
+      </div>
+      ${description?`<div style="font-size:13px;color:var(--muted);line-height:1.55">${escHtml(description.slice(0,220))}${description.length>220?'‚Ä¶':''}</div>`:''}
+      ${isNew&&n.formData?renderCNKeyFields(n.formType,n.formData):''}
+    </div>`;
+  }).join('');
+}
+// Backward-compat shim so existing call-sites still work
+function renderConvoNotes(){ renderCNList(); }
+
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // NOTES
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveNote(key){
   const val=document.getElementById('note-'+key).value;
   localStorage.setItem('ag_note_'+key,val);
-  const btn=event.currentTarget;btn.textContent='Saved ✓';btn.style.background='var(--accent3)';
+  const btn=event.currentTarget;btn.textContent='Saved ‚úì';btn.style.background='var(--accent3)';
   setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);
 }
 function loadNotes(){
@@ -1580,9 +1707,9 @@ function loadNotes(){
   });
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // EXPORT & BACKUP
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function downloadFile(content, filename, mime){
   const blob = new Blob([content], {type: mime});
   const url = URL.createObjectURL(blob);
@@ -1610,14 +1737,8 @@ function exportCSV(type){
   } else if(type==='convonotes'){
     rows = convoNotes.map(n=>({Person:n.person, Date:n.date, Type:n.type, Status:n.status, Notes:n.body}));
     filename=`activate-convonotes-${stamp}.csv`;
-  } else if(type==='staff'){
-    rows = staffList.map(s=>({Name:s.name, Role:s.role, HireDate:s.hire, Status:s.status, Performance:s.perf, Phone:s.phone, Notes:s.notes}));
-    filename=`activate-staff-${stamp}.csv`;
-  } else if(type==='revenue'){
-    rows = weekData.map(d=>({Date:d.date, Revenue:d.rev, Guests:d.guests}));
-    filename=`activate-revenue-${stamp}.csv`;
   } else if(type==='handoffs'){
-    rows = handoffs.map(h=>({Date:h.date, Shift:h.shift, MOD:h.mod, Revenue:h.rev, Guests:h.guests, GuestNotes:h.guestNotes, Maintenance:h.maint, StaffNotes:h.staffNotes, ActionItems:h.actions}));
+    rows = handoffs.map(h=>({Date:h.date, Shift:h.shift, MOD:h.mod, Revenue:h.rev, Guests:h.guests, GuestNotes:h.guestNotes, Maintenance:h.maint, ActionItems:h.actions}));
     filename=`activate-handoffs-${stamp}.csv`;
   } else if(type==='trips'){
     rows = trips.flatMap(t=> t.trainees.length>0
@@ -1639,9 +1760,9 @@ function exportCSV(type){
 function exportFullBackup(){
   const backup = {
     exported: new Date().toISOString(),
-    version: '3.0',
-    todos, weekData, customLinks, outreachList,
-    convoNotes, staffList, handoffs, trips, schedules,
+    version: '3.2',
+    todos, customLinks, outreachList,
+    convoNotes, handoffs, trips, schedules, timeLog,
     notes: {
       shift: localStorage.getItem('ag_note_shift')||'',
       training: localStorage.getItem('ag_note_training')||'',
@@ -1649,7 +1770,7 @@ function exportFullBackup(){
       travel: localStorage.getItem('ag_note_travel')||''
     }
   };
-  // Exclude docs (too large for JSON download — they contain base64 file data)
+  // Exclude docs (too large for JSON download ‚Äî they contain base64 file data)
   const stamp = new Date().toISOString().split('T')[0];
   downloadFile(JSON.stringify(backup, null, 2), `activate-hq-backup-${stamp}.json`, 'application/json');
 }
@@ -1664,27 +1785,26 @@ function restoreBackup(input){
       if(!data.version) throw new Error('Invalid backup file');
       if(!confirm(`Restore backup from ${data.exported}?\n\nThis will REPLACE all current data. Make sure you've downloaded a fresh backup first.`)) return;
       if(data.todos) { todos=data.todos; localStorage.setItem('ag_todos',JSON.stringify(todos)); }
-      if(data.weekData) { weekData=data.weekData; localStorage.setItem('ag_week',JSON.stringify(weekData)); }
       if(data.customLinks) { customLinks=data.customLinks; localStorage.setItem('ag_links',JSON.stringify(customLinks)); }
       if(data.outreachList) { outreachList=data.outreachList; localStorage.setItem('ag_outreach',JSON.stringify(outreachList)); }
       if(data.convoNotes) { convoNotes=data.convoNotes; localStorage.setItem('ag_convonotes',JSON.stringify(convoNotes)); }
-      if(data.staffList) { staffList=data.staffList; localStorage.setItem('ag_staff',JSON.stringify(staffList)); }
       if(data.handoffs) { handoffs=data.handoffs; localStorage.setItem('ag_handoffs',JSON.stringify(handoffs)); }
       if(data.trips) { trips=data.trips; localStorage.setItem('ag_trips',JSON.stringify(trips)); }
       if(data.schedules) { schedules=data.schedules; localStorage.setItem('ag_schedules',JSON.stringify(schedules)); }
+      if(data.timeLog)   { timeLog=data.timeLog;     localStorage.setItem('ag_timelog',JSON.stringify(timeLog)); }
       if(data.notes){
         ['shift','training','opening','travel'].forEach(k=>{
           if(data.notes[k]!=null) localStorage.setItem('ag_note_'+k, data.notes[k]);
         });
       }
       // Re-render everything
-      renderTodos(); renderWeekChart(); renderLinks(); renderOutreach();
-      loadNotes(); renderConvoNotes(); renderDocs(); renderStaff();
-      renderHandoffs(); renderTrips(); renderSavedSchedules();
+      renderTodos(); renderLinks(); renderOutreach();
+      loadNotes(); renderConvoNotes(); renderDocs();
+      renderHandoffs(); renderTrips(); renderSavedSchedules(); renderTMPanel();
       updateHomeStats(); updateExportCounts();
-      alert('✅ Backup restored successfully!');
+      alert('‚úÖ Backup restored successfully!');
     } catch(err) {
-      alert('❌ Could not restore: ' + err.message);
+      alert('‚ùå Could not restore: ' + err.message);
     }
   };
   reader.readAsText(file);
@@ -1694,8 +1814,6 @@ function updateExportCounts(){
   const counts = {
     'export-tasks-count': `${todos.length} tasks`,
     'export-cn-count': `${convoNotes.length} entries`,
-    'export-staff-count': `${staffList.length} members`,
-    'export-revenue-count': `${weekData.length} days logged`,
     'export-handoff-count': `${handoffs.length} handoffs`,
     'export-trips-count': `${trips.length} trips`,
     'export-outreach-count': `${outreachList.length} players`,
@@ -1704,27 +1822,226 @@ function updateExportCounts(){
   Object.entries(counts).forEach(([id,text])=>{ const el=document.getElementById(id); if(el)el.textContent=text; });
 }
 
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// TIME MANAGEMENT
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+const TM_TASKS = [
+  { id:'cleaning',     label:'Cleaning',       icon:'üßπ', color:'#00e5ff' },
+  { id:'maintenance',  label:'Maintenance',    icon:'üîß', color:'#ff4d6d' },
+  { id:'training',     label:'Training',       icon:'üìã', color:'#c084fc' },
+  { id:'marketing',    label:'Marketing',      icon:'üì¢', color:'#ff9a3c' },
+  { id:'outreach',     label:'Outreach',       icon:'üéÆ', color:'#ffd166' },
+  { id:'scheduling',   label:'Scheduling',     icon:'üìÖ', color:'#4fc3f7' },
+  { id:'team_meeting', label:'Team Meeting',   icon:'üë•', color:'#a8ff3e' },
+  { id:'meeting',      label:'Meeting',        icon:'ü§ù', color:'#26c6da' },
+  { id:'floor',        label:'Time on Floor',  icon:'üèÉ', color:'#ff80ab' },
+  { id:'admin',        label:'General Admin',  icon:'‚öôÔ∏è', color:'#8892a4' },
+];
+let tmWeekView = 'this';
+let tmTimerInterval = null;
+
+function saveTimeLog(){ localStorage.setItem('ag_timelog',JSON.stringify(timeLog)); syncToCloud('timeLog',timeLog); }
+function saveActiveTime(){ if(activeTimeEntry) localStorage.setItem('ag_active_time',JSON.stringify(activeTimeEntry)); else localStorage.removeItem('ag_active_time'); }
+
+function tmGetWeekKey(date){
+  const d = new Date(date);
+  const day = d.getDay();
+  d.setDate(d.getDate() - day);
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dy=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dy}`;
+}
+function tmTodayStr(){ return new Date().toISOString().split('T')[0]; }
+function tmThisWeek(){ return tmGetWeekKey(new Date()); }
+function tmLastWeek(){ const d=new Date(); d.setDate(d.getDate()-7); return tmGetWeekKey(d); }
+
+function tmFmtDuration(ms){
+  if(ms<60000) return `${Math.floor(ms/1000)}s`;
+  const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000);
+  return h>0 ? `${h}h ${m}m` : `${m}m`;
+}
+function tmFmtTime(ts){ return new Date(ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true}); }
+
+function startTimeTask(taskId){
+  const task = TM_TASKS.find(t=>t.id===taskId);
+  if(!task) return;
+  const now = Date.now();
+  // End current task if running and long enough to be worth logging
+  if(activeTimeEntry){
+    const dur = now - activeTimeEntry.startTime;
+    if(dur > 10000){
+      timeLog.unshift({ id:activeTimeEntry.startTime, type:activeTimeEntry.type, startTime:activeTimeEntry.startTime, endTime:now, duration:dur, date:activeTimeEntry.date, dayOfWeek:activeTimeEntry.dayOfWeek, hour:activeTimeEntry.hour, week:activeTimeEntry.week });
+    }
+  }
+  const d = new Date();
+  activeTimeEntry = { type:taskId, startTime:now, date:d.toISOString().split('T')[0], dayOfWeek:d.getDay(), hour:d.getHours(), week:tmGetWeekKey(d) };
+  saveTimeLog();
+  saveActiveTime();
+  renderTMPanel();
+  startTMTimer();
+}
+
+function stopTimeTask(){
+  if(!activeTimeEntry) return;
+  const now = Date.now();
+  const dur = now - activeTimeEntry.startTime;
+  if(dur > 10000){
+    timeLog.unshift({ id:activeTimeEntry.startTime, type:activeTimeEntry.type, startTime:activeTimeEntry.startTime, endTime:now, duration:dur, date:activeTimeEntry.date, dayOfWeek:activeTimeEntry.dayOfWeek, hour:activeTimeEntry.hour, week:activeTimeEntry.week });
+  }
+  activeTimeEntry = null;
+  clearInterval(tmTimerInterval);
+  saveTimeLog();
+  saveActiveTime();
+  renderTMPanel();
+}
+
+function startTMTimer(){
+  clearInterval(tmTimerInterval);
+  tmTimerInterval = setInterval(()=>{
+    if(!activeTimeEntry){ clearInterval(tmTimerInterval); return; }
+    const el = document.getElementById('tm-active-timer');
+    if(!el) return;
+    const ms = Date.now() - activeTimeEntry.startTime;
+    const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000), s=Math.floor((ms%60000)/1000);
+    el.textContent = h>0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
+    if(s===0) renderTMCharts(); // refresh charts every minute
+  }, 1000);
+}
+
+function tmBuildPie(slices, size=160){
+  const total = slices.reduce((s,sl)=>s+sl.value,0);
+  if(!total) return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;font-family:'DM Mono',monospace;flex-shrink:0">No data</div>`;
+  const cx=size/2, cy=size/2, r=size/2-2;
+  let angle=-Math.PI/2;
+  const paths=slices.filter(sl=>sl.value>0).map(sl=>{
+    const a=(sl.value/total)*Math.PI*2;
+    const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+    angle+=a;
+    const x2=cx+r*Math.cos(angle), y2=cy+r*Math.sin(angle);
+    return `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${a>Math.PI?1:0},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${sl.color}"/>`;
+  });
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block;flex-shrink:0">${paths.join('')}</svg>`;
+}
+
+function tmBuildLegend(slices, total){
+  if(!total) return `<div style="color:var(--muted);font-size:13px">No data logged yet</div>`;
+  return slices.filter(sl=>sl.value>0).sort((a,b)=>b.value-a.value).map(sl=>{
+    const pct=Math.round(sl.value/total*100);
+    return `<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+      <div style="width:10px;height:10px;border-radius:2px;background:${sl.color};flex-shrink:0"></div>
+      <div style="flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sl.label}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">${tmFmtDuration(sl.value)} ¬∑ ${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+function tmSlicesForDate(dateStr){
+  const entries=[...timeLog.filter(e=>e.date===dateStr)];
+  if(activeTimeEntry&&activeTimeEntry.date===dateStr) entries.push({...activeTimeEntry,duration:Date.now()-activeTimeEntry.startTime});
+  return TM_TASKS.map(t=>({ label:t.label, value:entries.filter(e=>e.type===t.id).reduce((s,e)=>s+e.duration,0), color:t.color }));
+}
+function tmSlicesForWeek(weekKey){
+  const entries=[...timeLog.filter(e=>e.week===weekKey)];
+  if(activeTimeEntry&&activeTimeEntry.week===weekKey) entries.push({...activeTimeEntry,duration:Date.now()-activeTimeEntry.startTime});
+  return TM_TASKS.map(t=>({ label:t.label, value:entries.filter(e=>e.type===t.id).reduce((s,e)=>s+e.duration,0), color:t.color }));
+}
+
+function setTMWeekView(view, btn){
+  tmWeekView=view;
+  document.querySelectorAll('#panel-time .filter-chip').forEach(c=>c.classList.remove('active-chip'));
+  btn.classList.add('active-chip');
+  renderTMCharts();
+}
+
+function renderTMActiveCard(){
+  const idle=document.getElementById('tm-idle'), active=document.getElementById('tm-active');
+  if(!idle||!active) return;
+  if(!activeTimeEntry){ idle.style.display='block'; active.style.display='none'; return; }
+  idle.style.display='none'; active.style.display='block';
+  const task=TM_TASKS.find(t=>t.id===activeTimeEntry.type)||{icon:'‚è±',label:activeTimeEntry.type,color:'var(--accent)'};
+  document.getElementById('tm-active-icon').textContent=task.icon;
+  const lbl=document.getElementById('tm-active-label');
+  lbl.textContent=task.label; lbl.style.color=task.color;
+  document.getElementById('tm-active-started').textContent='Started at '+tmFmtTime(activeTimeEntry.startTime);
+}
+
+function renderTMTaskButtons(){
+  const grid=document.getElementById('tm-task-grid'); if(!grid) return;
+  const activeId=activeTimeEntry?activeTimeEntry.type:null;
+  grid.innerHTML=TM_TASKS.map(t=>`
+    <button onclick="startTimeTask('${t.id}')" style="border:2px solid ${activeId===t.id?t.color:'var(--border)'};background:${activeId===t.id?t.color+'22':'var(--surface2)'};border-radius:10px;padding:12px 8px;cursor:pointer;text-align:center;transition:all .2s;font-family:'DM Sans',sans-serif;${activeId===t.id?`box-shadow:0 0 14px ${t.color}44;`:''}" onmouseover="this.style.borderColor='${t.color}'" onmouseout="this.style.borderColor='${activeId===t.id?t.color:'var(--border)'}'">
+      <div style="font-size:22px;margin-bottom:5px">${t.icon}</div>
+      <div style="font-size:12px;font-weight:600;line-height:1.2;color:${activeId===t.id?t.color:'var(--text)'}">${t.label}</div>
+    </button>`).join('');
+}
+
+function renderTMCharts(){
+  const today=tmTodayStr();
+  const todaySlices=tmSlicesForDate(today);
+  const todayTotal=todaySlices.reduce((s,sl)=>s+sl.value,0);
+  const p1=document.getElementById('tm-pie-today'), l1=document.getElementById('tm-legend-today'), t1=document.getElementById('tm-today-total');
+  if(p1) p1.innerHTML=tmBuildPie(todaySlices);
+  if(l1) l1.innerHTML=tmBuildLegend(todaySlices,todayTotal);
+  if(t1) t1.textContent=todayTotal?`Total tracked today: ${tmFmtDuration(todayTotal)}`:'';
+
+  const weekKey=tmWeekView==='last'?tmLastWeek():tmThisWeek();
+  const weekSlices=tmSlicesForWeek(weekKey);
+  const weekTotal=weekSlices.reduce((s,sl)=>s+sl.value,0);
+  const p2=document.getElementById('tm-pie-week'), l2=document.getElementById('tm-legend-week'), t2=document.getElementById('tm-week-total');
+  if(p2) p2.innerHTML=tmBuildPie(weekSlices);
+  if(l2) l2.innerHTML=tmBuildLegend(weekSlices,weekTotal);
+  if(t2) t2.textContent=weekTotal?`Total tracked ${tmWeekView==='last'?'last':'this'} week: ${tmFmtDuration(weekTotal)}`:`No data for ${tmWeekView==='last'?'last':'this'} week`;
+}
+
+function renderTMLog(){
+  const el=document.getElementById('tm-log-list'); if(!el) return;
+  const today=tmTodayStr();
+  const entries=timeLog.filter(e=>e.date===today);
+  if(entries.length===0){ el.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">No entries logged today ‚Äî tap a task above to start</div>'; return; }
+  el.innerHTML=entries.map(e=>{
+    const task=TM_TASKS.find(t=>t.id===e.type)||{icon:'‚è±',label:e.type,color:'var(--muted)'};
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;border-left:3px solid ${task.color};margin-bottom:4px">
+      <div style="font-size:16px">${task.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;color:${task.color}">${task.label}</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${tmFmtTime(e.startTime)} ‚Üí ${tmFmtTime(e.endTime)}</div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);flex-shrink:0">${tmFmtDuration(e.duration)}</div>
+      <button class="btn btn-danger btn-sm" onclick="deleteTMEntry(${e.id})">‚úï</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteTMEntry(id){ timeLog=timeLog.filter(e=>e.id!==id); saveTimeLog(); renderTMPanel(); }
+function clearTodayTMLog(){ if(!confirm('Clear all time entries for today?')) return; timeLog=timeLog.filter(e=>e.date!==tmTodayStr()); saveTimeLog(); renderTMPanel(); }
+
+function renderTMPanel(){
+  renderTMActiveCard();
+  renderTMTaskButtons();
+  renderTMCharts();
+  renderTMLog();
+}
+
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // INIT
-// ─────────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 updateDate();
 setInterval(updateDate,1000);
 initDateInputs();
 renderTodos();
-renderWeekChart();
 renderLinks();
 renderOutreach();
 loadNotes();
 renderConvoNotes();
 renderDocs();
-renderStaff();
-renderHandoffs();
+startGFPoll();
 renderTrips();
 renderSavedSchedules();
+renderTMPanel();
+if(activeTimeEntry) startTMTimer();
 updateHomeStats();
 updateExportCounts();
 
-// ── AUTH — Simple sync key (no auth SDK) ─────────────
+// ‚îÄ‚îÄ AUTH ‚Äî Simple sync key (no auth SDK) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 async function handleLogin() {
   const password = document.getElementById('loginPassword').value.trim();
   if (password.length < 6) { showLoginError('Sync key must be at least 6 characters.'); return; }
@@ -1753,7 +2070,7 @@ async function handleSignOut() {
 
 function setLoginLoading(loading) {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = loading ? 'Connecting...' : 'Connect →';
+  btn.textContent = loading ? 'Connecting...' : 'Connect ‚Üí';
   btn.disabled = loading;
 }
 
@@ -1785,7 +2102,7 @@ function setSyncStatus(status, msg) {
   msgEl.textContent = msg || 'Synced';
 }
 
-// ── LOAD ALL DATA FROM SUPABASE (direct REST) ────────
+// ‚îÄ‚îÄ LOAD ALL DATA FROM SUPABASE (direct REST) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 async function loadAllFromSupabase() {
   if (!syncId) return;
   setSyncStatus('syncing', 'Loading your data...');
@@ -1801,33 +2118,32 @@ async function loadAllFromSupabase() {
       if (!row || !row.data) return;
       const d = row.data;
       if (key === 'todos')        { todos = d;        localStorage.setItem('ag_todos', JSON.stringify(d)); }
-      if (key === 'weekData')     { weekData = d;     localStorage.setItem('ag_week', JSON.stringify(d)); }
       if (key === 'customLinks')  { customLinks = d;  localStorage.setItem('ag_links', JSON.stringify(d)); }
       if (key === 'outreachList') { outreachList = d; localStorage.setItem('ag_outreach', JSON.stringify(d)); }
       if (key === 'convoNotes')   { convoNotes = d;   localStorage.setItem('ag_convonotes', JSON.stringify(d)); }
-      if (key === 'staffList')    { staffList = d;    localStorage.setItem('ag_staff', JSON.stringify(d)); }
       if (key === 'handoffs')     { handoffs = d;     localStorage.setItem('ag_handoffs', JSON.stringify(d)); }
       if (key === 'trips')        { trips = d;        localStorage.setItem('ag_trips', JSON.stringify(d)); }
       if (key === 'schedules')    { schedules = d;    localStorage.setItem('ag_schedules', JSON.stringify(d)); }
+      if (key === 'timeLog')      { timeLog = d;      localStorage.setItem('ag_timelog',   JSON.stringify(d)); }
     });
-    renderTodos(); renderWeekChart(); renderLinks(); renderOutreach();
-    loadNotes(); renderConvoNotes(); renderDocs(); renderStaff();
-    renderHandoffs(); renderTrips(); renderSavedSchedules();
+    renderTodos(); renderLinks(); renderOutreach();
+    loadNotes(); renderConvoNotes(); renderDocs();
+    renderHandoffs(); renderTrips(); renderSavedSchedules(); renderTMPanel();
     updateHomeStats(); updateExportCounts();
-    setSyncStatus('synced', 'Synced ✓');
+    setSyncStatus('synced', 'Synced ‚úì');
   } catch(e) {
-    setSyncStatus('error', 'Sync error — using local data');
+    setSyncStatus('error', 'Sync error ‚Äî using local data');
     console.error('Load error:', e);
   }
 }
 
-// ── SAVE A SINGLE KEY TO SUPABASE ────────────────────
+// ‚îÄ‚îÄ SAVE A SINGLE KEY TO SUPABASE ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 
 
-// ── PATCH SAVE FUNCTIONS TO ALSO SYNC ────────────────
-// ── SAVE FUNCTIONS now call syncToCloud directly (see definitions above) ──
+// ‚îÄ‚îÄ PATCH SAVE FUNCTIONS TO ALSO SYNC ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ‚îÄ‚îÄ SAVE FUNCTIONS now call syncToCloud directly (see definitions above) ‚îÄ‚îÄ
 
-// ── AUTO-LOGIN + REFRESH ─────────────────────────────
+// ‚îÄ‚îÄ AUTO-LOGIN + REFRESH ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function refreshAllData() {
   if (!syncId) return;
   loadAllFromSupabase();
@@ -1844,7 +2160,7 @@ if (syncId) {
   document.getElementById('loginScreen').style.display = 'flex';
 }
 
-// ── PWA ───────────────────────────────────────────────
+// ‚îÄ‚îÄ PWA ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
