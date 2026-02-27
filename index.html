@@ -357,7 +357,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <!-- WHO'S WORKING TODAY -->
   <div class="whos-working">
-    <h2>&#128119; Who's Working Today <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
+    <h2>&#128119; On Shift Now <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
     <div id="whosWorkingDisplay">
       <div style="color:var(--muted);font-size:13px">No schedule loaded yet &#8212; upload your ADP screenshot in the Schedule tab or below.</div>
     </div>
@@ -406,23 +406,29 @@ input[type="file"]:hover{border-color:var(--accent)}
   <div class="section-title">Schedule Reader <span>&#8212; drop your ADP screenshot, AI extracts the roster</span></div>
 
   <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px">
+      <div style="flex:2;min-width:200px">
+        <div class="input-label">Anthropic API Key</div>
+        <input type="password" id="sched-api-key" placeholder="sk-ant-..." style="font-family:'DM Mono',monospace;font-size:12px"
+          oninput="localStorage.setItem('ag_anthropic_key',this.value)"
+          value="">
+      </div>
+      <div style="flex:1;min-width:140px">
+        <div class="input-label">Schedule Week Start</div>
+        <input type="date" id="sched-week-start">
+      </div>
+    </div>
     <div class="schedule-drop-zone" id="dropZone" onclick="document.getElementById('schedFileInput').click()"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
       ondrop="handleSchedDrop(event)">
       <div class="drop-icon">&#128248;</div>
-      <div style="font-size:15px;font-weight:600;margin-top:8px">Drop ADP Schedule Screenshot Here</div>
+      <div style="font-size:15px;font-weight:600;margin-top:8px">Drop Schedule Screenshot Here</div>
       <p>or click to browse &#8212; PNG, JPG supported</p>
       <input type="file" id="schedFileInput" accept="image/*" style="display:none" onchange="handleSchedFile(this)">
     </div>
-    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
-      <div style="flex:1;min-width:140px">
-        <div class="input-label">Schedule Week Start</div>
-        <input type="date" id="sched-week-start">
-      </div>
-      <div style="font-size:12px;color:var(--muted);padding-bottom:10px;flex:2">
-        After uploading, AI will read the image and extract staff names + shift times. Review and save.
-      </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">
+      AI reads the screenshot and extracts every employee + shift time. Review before saving.
     </div>
   </div>
 
@@ -905,7 +911,8 @@ function updateDate() {
     + '  ' + now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const today = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   const lbl = document.getElementById('todayDateLabel');
-  if(lbl) lbl.textContent = today;
+  if(lbl) lbl.textContent = today + ' \u00B7 ' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  if(now.getSeconds()===0) updateHomeStats();
 }
 
 function initDateInputs() {
@@ -946,23 +953,49 @@ function updateHomeStats(){
   document.getElementById('home-tasks').textContent = pending;
   document.getElementById('home-tasks-sub').textContent = pending===1?'pending task':'pending tasks';
 
-  // Who's working today
-  const todayStr = new Date().toISOString().split('T')[0];
+  // Who's working today / right now
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+
+  function parseShiftMins(timeStr) {
+    if (!timeStr) return null;
+    const m = timeStr.match(/(\d{1,2}:\d{2})\s*(AM|PM)\s*[-\u2013]\s*(\d{1,2}:\d{2})\s*(AM|PM)/i);
+    if (!m) return null;
+    const toMin = (t, p) => {
+      let [h, mn] = t.split(':').map(Number);
+      if (p.toUpperCase() === 'PM' && h !== 12) h += 12;
+      if (p.toUpperCase() === 'AM' && h === 12) h = 0;
+      return h * 60 + mn;
+    };
+    return { start: toMin(m[1], m[2]), end: toMin(m[3], m[4]) };
+  }
+
   let todayShifts = [];
-  schedules.forEach(s=>{
-    if(s.shifts){
-      s.shifts.forEach(sh=>{
-        if(sh.date===todayStr) todayShifts.push(sh);
-      });
-    }
+  schedules.forEach(s => {
+    if (s.shifts) s.shifts.forEach(sh => { if (sh.date === todayStr) todayShifts.push(sh); });
   });
+
+  const onNow    = todayShifts.filter(sh => { const t = parseShiftMins(sh.time); return t ? nowMin >= t.start && nowMin < t.end : true; });
+  const upcoming = todayShifts.filter(sh => { const t = parseShiftMins(sh.time); return t && nowMin < t.start; });
+  const done     = todayShifts.filter(sh => { const t = parseShiftMins(sh.time); return t && nowMin >= t.end; });
+
   const wwd = document.getElementById('whosWorkingDisplay');
-  if(todayShifts.length>0){
-    wwd.innerHTML = todayShifts.map(sh=>`
-      <span class="shift-pill">
-        <span class="sp-name">${escHtml(sh.name)}</span>
-        <span class="sp-time">${escHtml(sh.time||'')}</span>
-      </span>`).join('');
+  if (todayShifts.length > 0) {
+    let html = '';
+    if (onNow.length > 0) {
+      html += `<div style="font-size:11px;color:var(--accent3);font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">\u{1F7E2} On Shift Now</div>`;
+      html += onNow.map(sh => `<span class="shift-pill" style="border-color:var(--accent3)"><span class="sp-name">${escHtml(sh.name)}</span><span class="sp-time">${escHtml(sh.time||'')}</span></span>`).join('');
+    }
+    if (upcoming.length > 0) {
+      html += `<div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin:${onNow.length?'10px':0} 0 6px">\u{23F0} Coming In</div>`;
+      html += upcoming.map(sh => `<span class="shift-pill"><span class="sp-name">${escHtml(sh.name)}</span><span class="sp-time">${escHtml(sh.time||'')}</span></span>`).join('');
+    }
+    if (done.length > 0) {
+      html += `<div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin:${(onNow.length||upcoming.length)?'10px':0} 0 6px;opacity:.6">\u{2713} Done Today</div>`;
+      html += done.map(sh => `<span class="shift-pill" style="opacity:.5"><span class="sp-name">${escHtml(sh.name)}</span><span class="sp-time">${escHtml(sh.time||'')}</span></span>`).join('');
+    }
+    wwd.innerHTML = html;
   } else {
     wwd.innerHTML = '<div style="color:var(--muted);font-size:13px">No one scheduled today \u{2014} or schedule not yet loaded.</div>';
   }
@@ -1204,6 +1237,12 @@ async function processSchedImage(file){
   const area=document.getElementById('schedPreviewArea');
   area.innerHTML=`<div class="ai-loading"><div class="spinner"></div> Reading schedule with AI \u{2014} this may take a moment...</div>`;
 
+  const apiKey = (document.getElementById('sched-api-key').value || localStorage.getItem('ag_anthropic_key') || '').trim();
+  if (!apiKey) {
+    area.innerHTML=`<div class="card" style="border-color:var(--gold)"><div style="color:var(--gold);font-weight:600">\u{1F511} API Key Required</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Enter your Anthropic API key above to use the AI schedule reader. Get one at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent)">console.anthropic.com</a>.</div></div>`;
+    return;
+  }
+
   const b64=await new Promise((res,rej)=>{
     const r=new FileReader();
     r.onload=()=>res(r.result.split(',')[1]);
@@ -1216,15 +1255,20 @@ async function processSchedImage(file){
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1500,
+        model:'claude-opus-4-6',
+        max_tokens:2000,
         messages:[{
           role:'user',
           content:[
             {type:'image',source:{type:'base64',media_type:file.type,data:b64}},
-            {type:'text',text:`This is an ADP employee schedule screenshot. Extract every shift you can see.
+            {type:'text',text:`This is an employee schedule screenshot. Extract every shift you can see.
 For each shift return a JSON array of objects with: name (employee first+last name), date (YYYY-MM-DD \u{2014} infer from the week starting ${weekStart||'the week shown'}), time (shift time range e.g. "9:00 AM - 5:00 PM"), role (job title if visible).
 If a date can't be determined precisely, use the day of week label and the week start date ${weekStart||''} to calculate it.
 Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks. Example: [{"name":"Jane Smith","date":"2026-02-24","time":"10:00 AM - 6:00 PM","role":"Game Facilitator"}]`}
@@ -1232,6 +1276,10 @@ Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks.
         }]
       })
     });
+    if (!resp.ok) {
+      const errData = await resp.json().catch(()=>({}));
+      throw new Error(errData.error?.message || `API error ${resp.status}`);
+    }
     const data=await resp.json();
     const raw=data.content.map(i=>i.text||'').join('');
     let shifts;
@@ -1240,7 +1288,7 @@ Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks.
 
     renderSchedPreview(shifts, weekStart, file.name);
   } catch(err){
-    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">\u{26A0}\u{FE0F} ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and well-lit. Try cropping it to just the schedule grid.</div></div>`;
+    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">\u{26A0}\u{FE0F} ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and the API key is correct.</div></div>`;
   }
 }
 
@@ -2036,6 +2084,8 @@ renderDocs();
 startGFPoll();
 renderTrips();
 renderSavedSchedules();
+// Restore saved API key into field
+(()=>{ const k=localStorage.getItem('ag_anthropic_key'); if(k){ const el=document.getElementById('sched-api-key'); if(el) el.value=k; } })();
 renderTMPanel();
 if(activeTimeEntry) startTMTimer();
 updateHomeStats();
