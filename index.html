@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activate HQ ‚Äî Lexington Command Center</title>
+<title>Activate HQ &#8212; Lexington Command Center</title>
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -167,7 +167,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 .todo-item.done .todo-text{text-decoration:line-through;color:var(--muted)}
 .todo-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent}
 .todo-check.checked{background:var(--accent3);border-color:var(--accent3)}
-.todo-check.checked::after{content:'‚úì';font-size:11px;color:#000;font-weight:700}
+.todo-check.checked::after{content:'&#10003;';font-size:11px;color:#000;font-weight:700}
 .todo-text{flex:1;font-size:14px}
 .todo-priority{font-size:10px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:1px}
 .prio-high{background:rgba(255,77,109,.15);color:var(--accent2);border:1px solid rgba(255,77,109,.3)}
@@ -233,7 +233,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 .trainee-name{flex:1;font-size:13px}
 .trainee-check{width:16px;height:16px;border-radius:3px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .trainee-check.checked{background:var(--accent3);border-color:var(--accent3)}
-.trainee-check.checked::after{content:'‚úì';font-size:9px;color:#000;font-weight:700}
+.trainee-check.checked::after{content:'&#10003;';font-size:9px;color:#000;font-weight:700}
 
 /* WHO'S WORKING */
 .whos-working{background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:20px;box-shadow:0 0 30px rgba(0,229,255,.07)}
@@ -304,7 +304,7 @@ input[type="file"]:hover{border-color:var(--accent)}
       <input type="password" id="loginPassword" placeholder="Enter your sync key (min 6 chars)" onkeydown="if(event.key==='Enter')handleLogin()">
       <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace">Same key on all your devices = shared data</div>
     </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Connect ‚Üí</button>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="handleLogin()" id="loginBtn">Connect &#8594;</button>
     <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">First time? Just enter any key you'll remember.<br>Use the same key on your iPhone to sync.</div>
   </div>
 </div>
@@ -332,24 +332,24 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- iOS INSTALL BANNER -->
 <div class="install-banner" id="installBanner">
-  <span style="font-size:24px">üì≤</span>
+  <span style="font-size:24px">&#128242;</span>
   <p><strong>Install Activate HQ on your iPhone!</strong> Tap the Share button in Safari, then tap <strong>"Add to Home Screen"</strong> to use this as a full-screen app.</p>
   <button class="btn btn-ghost btn-sm" onclick="dismissBanner()">Dismiss</button>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('home')">üè† Home</button>
-  <button class="tab-btn" onclick="switchTab('tasks')">‚úÖ Tasks</button>
-  <button class="tab-btn" onclick="switchTab('time')">‚è± Time</button>
-  <button class="tab-btn" onclick="switchTab('convonotes')">üí¨ Conv. Notes</button>
-  <button class="tab-btn" onclick="switchTab('handoff')">üìã Shift Handoff</button>
-  <button class="tab-btn" onclick="switchTab('trips')">‚úàÔ∏è Training Trips</button>
-  <button class="tab-btn" onclick="switchTab('links')">üîó Quick Links</button>
-  <button class="tab-btn" onclick="switchTab('docs')">üìÇ Docs</button>
-  <button class="tab-btn" onclick="switchTab('outreach')">üéÆ Outreach</button>
-  <button class="tab-btn" onclick="switchTab('notes')">üìù Notes</button>
-  <button class="tab-btn" onclick="switchTab('export')">üíæ Export</button>
+  <button class="tab-btn active" onclick="switchTab('home')">&#127968; Home</button>
+  <button class="tab-btn" onclick="switchTab('tasks')">&#9989; Tasks</button>
+  <button class="tab-btn" onclick="switchTab('time')">&#9201; Time</button>
+  <button class="tab-btn" onclick="switchTab('convonotes')">&#128172; Conv. Notes</button>
+  <button class="tab-btn" onclick="switchTab('handoff')">&#128203; Shift Handoff</button>
+  <button class="tab-btn" onclick="switchTab('trips')">&#9992;&#65039; Training Trips</button>
+  <button class="tab-btn" onclick="switchTab('links')">&#128279; Quick Links</button>
+  <button class="tab-btn" onclick="switchTab('docs')">&#128194; Docs</button>
+  <button class="tab-btn" onclick="switchTab('outreach')">&#127918; Outreach</button>
+  <button class="tab-btn" onclick="switchTab('notes')">&#128221; Notes</button>
+  <button class="tab-btn" onclick="switchTab('export')">&#128190; Export</button>
 </div>
 
 <!-- ===== HOME PANEL ===== -->
@@ -357,12 +357,12 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <!-- WHO'S WORKING TODAY -->
   <div class="whos-working">
-    <h2>üë∑ Who's Working Today <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
+    <h2>&#128119; Who's Working Today <span id="todayDateLabel" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;letter-spacing:1px"></span></h2>
     <div id="whosWorkingDisplay">
-      <div style="color:var(--muted);font-size:13px">No schedule loaded yet ‚Äî upload your ADP screenshot in the Schedule tab or below.</div>
+      <div style="color:var(--muted);font-size:13px">No schedule loaded yet &#8212; upload your ADP screenshot in the Schedule tab or below.</div>
     </div>
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-ghost btn-sm" onclick="switchTab('schedule')">üì∏ Upload Schedule</button>
+      <button class="btn btn-ghost btn-sm" onclick="switchTab('schedule')">&#128248; Upload Schedule</button>
     </div>
   </div>
 
@@ -387,13 +387,13 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <!-- QUICK TODO -->
   <div class="card">
-    <div class="section-title" style="font-size:15px;margin-bottom:10px">‚ö° Quick Add Task</div>
+    <div class="section-title" style="font-size:15px;margin-bottom:10px">&#9889; Quick Add Task</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <input type="text" id="home-todo-input" placeholder="Add a quick task..." style="flex:1;min-width:180px" onkeydown="if(event.key==='Enter')homeAddTodo()">
       <select id="home-todo-prio" style="width:100px">
-        <option value="high">üî¥ High</option>
-        <option value="mid" selected>üü° Mid</option>
-        <option value="low">üü¢ Low</option>
+        <option value="high">&#128308; High</option>
+        <option value="mid" selected>&#128993; Mid</option>
+        <option value="low">&#128994; Low</option>
       </select>
       <button class="btn btn-primary" onclick="homeAddTodo()">+ Add</button>
     </div>
@@ -403,16 +403,16 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== SCHEDULE / AI READER PANEL ===== -->
 <div id="panel-schedule" class="panel">
-  <div class="section-title">Schedule Reader <span>‚Äî drop your ADP screenshot, AI extracts the roster</span></div>
+  <div class="section-title">Schedule Reader <span>&#8212; drop your ADP screenshot, AI extracts the roster</span></div>
 
   <div class="card" style="margin-bottom:16px">
     <div class="schedule-drop-zone" id="dropZone" onclick="document.getElementById('schedFileInput').click()"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
       ondrop="handleSchedDrop(event)">
-      <div class="drop-icon">üì∏</div>
+      <div class="drop-icon">&#128248;</div>
       <div style="font-size:15px;font-weight:600;margin-top:8px">Drop ADP Schedule Screenshot Here</div>
-      <p>or click to browse ‚Äî PNG, JPG supported</p>
+      <p>or click to browse &#8212; PNG, JPG supported</p>
       <input type="file" id="schedFileInput" accept="image/*" style="display:none" onchange="handleSchedFile(this)">
     </div>
     <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
@@ -447,27 +447,27 @@ input[type="file"]:hover{border-color:var(--accent)}
     <div class="todo-input-row">
       <input type="text" id="todoInput" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTodo()" style="flex:1;min-width:160px">
       <select id="todoCategory" style="width:110px">
-        <option value="ops">üè¢ Ops</option>
-        <option value="hr">üë§ HR/Staff</option>
-        <option value="hospitality">üéÆ Guest Exp</option>
-        <option value="training">üìã Training</option>
-        <option value="admin">‚öôÔ∏è Admin</option>
+        <option value="ops">&#127970; Ops</option>
+        <option value="hr">&#128100; HR/Staff</option>
+        <option value="hospitality">&#127918; Guest Exp</option>
+        <option value="training">&#128203; Training</option>
+        <option value="admin">&#9881;&#65039; Admin</option>
       </select>
       <select id="todoPriority" style="width:100px">
-        <option value="high">üî¥ High</option>
-        <option value="mid">üü° Mid</option>
-        <option value="low">üü¢ Low</option>
+        <option value="high">&#128308; High</option>
+        <option value="mid">&#128993; Mid</option>
+        <option value="low">&#128994; Low</option>
       </select>
       <button class="btn btn-primary" onclick="addTodo()">+ Add</button>
     </div>
     <div class="filter-row">
       <button class="filter-chip active-chip" onclick="setFilter('all',this)">All</button>
-      <button class="filter-chip" onclick="setFilter('high',this)">üî¥ High</button>
-      <button class="filter-chip" onclick="setFilter('mid',this)">üü° Mid</button>
-      <button class="filter-chip" onclick="setFilter('low',this)">üü¢ Low</button>
+      <button class="filter-chip" onclick="setFilter('high',this)">&#128308; High</button>
+      <button class="filter-chip" onclick="setFilter('mid',this)">&#128993; Mid</button>
+      <button class="filter-chip" onclick="setFilter('low',this)">&#128994; Low</button>
       <button class="filter-chip" onclick="setFilter('active',this)">Active</button>
       <button class="filter-chip" onclick="setFilter('done',this)">Done</button>
-      <button class="filter-chip" onclick="clearDone()" style="margin-left:auto">üóë Clear Done</button>
+      <button class="filter-chip" onclick="clearDone()" style="margin-left:auto">&#128465; Clear Done</button>
     </div>
     <div class="todo-list" id="todoList"></div>
   </div>
@@ -475,12 +475,12 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== TIME MANAGEMENT PANEL ===== -->
 <div id="panel-time" class="panel">
-  <div class="section-title">Time Management <span>‚Äî log your time, build your routine</span></div>
+  <div class="section-title">Time Management <span>&#8212; log your time, build your routine</span></div>
 
   <!-- CURRENT ACTIVITY CARD -->
   <div class="card" style="margin-bottom:16px;border-color:rgba(0,229,255,.25);background:linear-gradient(135deg,rgba(0,229,255,.04),rgba(168,255,62,.02))">
     <div id="tm-idle" style="text-align:center;padding:12px 0;color:var(--muted);font-size:14px">
-      No active task ‚Äî tap a task below to start tracking
+      No active task &#8212; tap a task below to start tracking
     </div>
     <div id="tm-active" style="display:none">
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -491,7 +491,7 @@ input[type="file"]:hover{border-color:var(--accent)}
         </div>
         <div style="text-align:right;flex-shrink:0">
           <div id="tm-active-timer" style="font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;color:var(--accent3)">0:00</div>
-          <button class="btn btn-danger btn-sm" onclick="stopTimeTask()" style="margin-top:6px;width:100%">‚èπ Stop / Break</button>
+          <button class="btn btn-danger btn-sm" onclick="stopTimeTask()" style="margin-top:6px;width:100%">&#9209; Stop / Break</button>
         </div>
       </div>
     </div>
@@ -507,7 +507,7 @@ input[type="file"]:hover{border-color:var(--accent)}
   <div class="grid-2" style="margin-bottom:16px">
     <!-- TODAY -->
     <div class="card">
-      <div class="section-title" style="font-size:14px;margin-bottom:14px">üìä Today's Breakdown</div>
+      <div class="section-title" style="font-size:14px;margin-bottom:14px">&#128202; Today's Breakdown</div>
       <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
         <div id="tm-pie-today"></div>
         <div id="tm-legend-today" style="flex:1;min-width:130px"></div>
@@ -517,7 +517,7 @@ input[type="file"]:hover{border-color:var(--accent)}
     <!-- WEEKLY -->
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-        <div class="section-title" style="font-size:14px;margin-bottom:0">üìÖ Weekly Breakdown</div>
+        <div class="section-title" style="font-size:14px;margin-bottom:0">&#128197; Weekly Breakdown</div>
         <div style="display:flex;gap:4px;flex-shrink:0">
           <button class="filter-chip active-chip" id="tm-btn-this" onclick="setTMWeekView('this',this)">This Week</button>
           <button class="filter-chip" id="tm-btn-last" onclick="setTMWeekView('last',this)">Last Week</button>
@@ -534,8 +534,8 @@ input[type="file"]:hover{border-color:var(--accent)}
   <!-- TODAY'S LOG -->
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-      <div class="section-title" style="font-size:14px;margin-bottom:0">üïê Today's Log</div>
-      <button class="filter-chip" onclick="clearTodayTMLog()" style="color:var(--accent2);border-color:rgba(255,77,109,.4)">üóë Clear Today</button>
+      <div class="section-title" style="font-size:14px;margin-bottom:0">&#128336; Today's Log</div>
+      <button class="filter-chip" onclick="clearTodayTMLog()" style="color:var(--accent2);border-color:rgba(255,77,109,.4)">&#128465; Clear Today</button>
     </div>
     <div id="tm-log-list"></div>
   </div>
@@ -544,20 +544,20 @@ input[type="file"]:hover{border-color:var(--accent)}
 <!-- ===== CONV NOTES PANEL ===== -->
 <div id="panel-convonotes" class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-    <div class="section-title" style="margin-bottom:0">Employee Documentation <span>‚Äî formal records & HR notes</span></div>
+    <div class="section-title" style="margin-bottom:0">Employee Documentation <span>&#8212; formal records & HR notes</span></div>
     <button class="btn btn-primary" onclick="openCNModal()">+ New Documentation</button>
   </div>
   <div class="filter-row" id="cn-filters">
     <button class="filter-chip active-chip" onclick="setCNFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setCNFilter('verbal',this)">üó£ Verbal</button>
-    <button class="filter-chip" onclick="setCNFilter('first_written',this)">üìÑ 1st Written</button>
-    <button class="filter-chip" onclick="setCNFilter('second_written',this)">üìã 2nd Written</button>
-    <button class="filter-chip" onclick="setCNFilter('final_written',this)">üö® Final</button>
-    <button class="filter-chip" onclick="setCNFilter('pip',this)">üìà PIP</button>
-    <button class="filter-chip" onclick="setCNFilter('general',this)">üìé General</button>
-    <button class="filter-chip" onclick="setCNFilter('praise',this)">‚≠ê Praise</button>
-    <button class="filter-chip" onclick="setCNFilter('open',this)">üü° Open</button>
-    <button class="filter-chip" onclick="setCNFilter('resolved',this)">‚úÖ Resolved</button>
+    <button class="filter-chip" onclick="setCNFilter('verbal',this)">&#128483; Verbal</button>
+    <button class="filter-chip" onclick="setCNFilter('first_written',this)">&#128196; 1st Written</button>
+    <button class="filter-chip" onclick="setCNFilter('second_written',this)">&#128203; 2nd Written</button>
+    <button class="filter-chip" onclick="setCNFilter('final_written',this)">&#128680; Final</button>
+    <button class="filter-chip" onclick="setCNFilter('pip',this)">&#128200; PIP</button>
+    <button class="filter-chip" onclick="setCNFilter('general',this)">&#128206; General</button>
+    <button class="filter-chip" onclick="setCNFilter('praise',this)">&#11088; Praise</button>
+    <button class="filter-chip" onclick="setCNFilter('open',this)">&#128993; Open</button>
+    <button class="filter-chip" onclick="setCNFilter('resolved',this)">&#9989; Resolved</button>
   </div>
   <div id="cn-list"></div>
 </div>
@@ -565,10 +565,10 @@ input[type="file"]:hover{border-color:var(--accent)}
 <!-- ===== SHIFT HANDOFF PANEL ===== -->
 <div id="panel-handoff" class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-    <div class="section-title" style="margin-bottom:0">Shift Handoff <span>‚Äî live from Google Forms ¬∑ last 5 submissions</span></div>
+    <div class="section-title" style="margin-bottom:0">Shift Handoff <span>&#8212; live from Google Forms &#183; last 5 submissions</span></div>
     <div style="display:flex;align-items:center;gap:10px">
       <span id="ho-last-update" style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace"></span>
-      <button class="btn btn-ghost btn-sm" onclick="fetchGFormHandoffs(true)">üîÑ Refresh</button>
+      <button class="btn btn-ghost btn-sm" onclick="fetchGFormHandoffs(true)">&#128260; Refresh</button>
     </div>
   </div>
   <div id="gform-handoff-list">
@@ -578,15 +578,15 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== TRAINING TRIPS PANEL ===== -->
 <div id="panel-trips" class="panel">
-  <div class="section-title">Training Trips <span>‚Äî location openings & GM training tracker</span></div>
+  <div class="section-title">Training Trips <span>&#8212; location openings & GM training tracker</span></div>
   <div class="card" style="margin-bottom:16px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
       <div><div class="input-label">Location / City</div><input type="text" id="trip-loc" placeholder="e.g. Nashville, TN"></div>
       <div><div class="input-label">Trip Type</div>
         <select id="trip-type">
-          <option value="opening">üè™ New Location Opening</option>
-          <option value="gm">üë§ GM Training</option>
-          <option value="support">ü§ù Support Visit</option>
+          <option value="opening">&#127978; New Location Opening</option>
+          <option value="gm">&#128100; GM Training</option>
+          <option value="support">&#129309; Support Visit</option>
         </select>
       </div>
       <div><div class="input-label">Start Date</div><input type="date" id="trip-start"></div>
@@ -601,24 +601,24 @@ input[type="file"]:hover{border-color:var(--accent)}
   </div>
   <div class="filter-row" id="trip-filters">
     <button class="filter-chip active-chip" onclick="setTripFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setTripFilter('upcoming',this)">üóì Upcoming</button>
-    <button class="filter-chip" onclick="setTripFilter('opening',this)">üè™ Openings</button>
-    <button class="filter-chip" onclick="setTripFilter('gm',this)">üë§ GM Training</button>
-    <button class="filter-chip" onclick="setTripFilter('complete',this)">‚úÖ Complete</button>
+    <button class="filter-chip" onclick="setTripFilter('upcoming',this)">&#128467; Upcoming</button>
+    <button class="filter-chip" onclick="setTripFilter('opening',this)">&#127978; Openings</button>
+    <button class="filter-chip" onclick="setTripFilter('gm',this)">&#128100; GM Training</button>
+    <button class="filter-chip" onclick="setTripFilter('complete',this)">&#9989; Complete</button>
   </div>
   <div id="tripsList"></div>
 </div>
 
 <!-- ===== LINKS PANEL ===== -->
 <div id="panel-links" class="panel">
-  <div class="section-title">Quick Links <span>‚Äî click to open in new tab</span></div>
+  <div class="section-title">Quick Links <span>&#8212; click to open in new tab</span></div>
   <div class="links-grid" id="linksGrid"></div>
   <hr class="divider">
   <div class="section-title" style="font-size:15px">Add Custom Link</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
     <div style="flex:1;min-width:130px"><div class="input-label">Name</div><input type="text" id="link-name" placeholder="My Tool"></div>
     <div style="flex:2;min-width:190px"><div class="input-label">URL</div><input type="text" id="link-url" placeholder="https://..."></div>
-    <div style="flex:1;min-width:110px"><div class="input-label">Icon (emoji)</div><input type="text" id="link-icon" placeholder="üîß"></div>
+    <div style="flex:1;min-width:110px"><div class="input-label">Icon (emoji)</div><input type="text" id="link-icon" placeholder="&#128295;"></div>
     <div style="flex:1;min-width:110px"><div class="input-label">Description</div><input type="text" id="link-desc" placeholder="What it does"></div>
     <button class="btn btn-primary" onclick="addCustomLink()">+ Add</button>
   </div>
@@ -626,7 +626,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== DOCS PANEL ===== -->
 <div id="panel-docs" class="panel">
-  <div class="section-title">Docs & References <span>‚Äî upload files for quick access</span></div>
+  <div class="section-title">Docs & References <span>&#8212; upload files for quick access</span></div>
   <div class="card" style="margin-bottom:18px">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
       <div style="grid-column:1/-1"><div class="input-label" style="margin-bottom:5px">Upload File</div>
@@ -635,25 +635,25 @@ input[type="file"]:hover{border-color:var(--accent)}
       <div><div class="input-label">Label / Title</div><input type="text" id="doc-name" placeholder="e.g. Opening Checklist"></div>
       <div><div class="input-label">Category</div>
         <select id="doc-cat">
-          <option value="ops">üè¢ Operations</option>
-          <option value="training">üìã Training</option>
-          <option value="hr">üë§ HR / Staff</option>
-          <option value="reference">üìå Quick Reference</option>
-          <option value="travel">‚úàÔ∏è Travel</option>
-          <option value="other">üìÅ Other</option>
+          <option value="ops">&#127970; Operations</option>
+          <option value="training">&#128203; Training</option>
+          <option value="hr">&#128100; HR / Staff</option>
+          <option value="reference">&#128204; Quick Reference</option>
+          <option value="travel">&#9992;&#65039; Travel</option>
+          <option value="other">&#128193; Other</option>
         </select>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="uploadDoc()">üìé Save Document</button>
+    <button class="btn btn-primary" onclick="uploadDoc()">&#128206; Save Document</button>
     <span style="font-size:11px;color:var(--muted);margin-left:10px">Stored locally in your browser</span>
   </div>
   <div class="filter-row" id="doc-filters">
     <button class="filter-chip active-chip" onclick="setDocFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setDocFilter('ops',this)">üè¢ Ops</button>
-    <button class="filter-chip" onclick="setDocFilter('training',this)">üìã Training</button>
-    <button class="filter-chip" onclick="setDocFilter('hr',this)">üë§ HR</button>
-    <button class="filter-chip" onclick="setDocFilter('reference',this)">üìå Reference</button>
-    <button class="filter-chip" onclick="setDocFilter('travel',this)">‚úàÔ∏è Travel</button>
+    <button class="filter-chip" onclick="setDocFilter('ops',this)">&#127970; Ops</button>
+    <button class="filter-chip" onclick="setDocFilter('training',this)">&#128203; Training</button>
+    <button class="filter-chip" onclick="setDocFilter('hr',this)">&#128100; HR</button>
+    <button class="filter-chip" onclick="setDocFilter('reference',this)">&#128204; Reference</button>
+    <button class="filter-chip" onclick="setDocFilter('travel',this)">&#9992;&#65039; Travel</button>
   </div>
   <div id="docsList"></div>
 </div>
@@ -668,9 +668,9 @@ input[type="file"]:hover{border-color:var(--accent)}
       <div><div class="input-label">Contact</div><input type="text" id="out-contact" placeholder="email or phone"></div>
       <div><div class="input-label">Status</div>
         <select id="out-status">
-          <option value="due">üì¨ Due</option>
-          <option value="overdue">üî¥ Overdue</option>
-          <option value="done">‚úÖ Contacted</option>
+          <option value="due">&#128236; Due</option>
+          <option value="overdue">&#128308; Overdue</option>
+          <option value="done">&#9989; Contacted</option>
         </select>
       </div>
     </div>
@@ -681,7 +681,7 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== NOTES PANEL ===== -->
 <div id="panel-notes" class="panel">
-  <div class="section-title">Quick Notes <span>‚Äî auto-saved locally</span></div>
+  <div class="section-title">Quick Notes <span>&#8212; auto-saved locally</span></div>
   <div class="grid-2">
     <div class="card"><div class="input-label" style="margin-bottom:7px">Shift Notes / Daily Log</div>
       <textarea class="notes-area" id="note-shift" placeholder="Shift observations, guest feedback, incidents..."></textarea>
@@ -704,20 +704,20 @@ input[type="file"]:hover{border-color:var(--accent)}
 
 <!-- ===== EXPORT PANEL ===== -->
 <div id="panel-export" class="panel">
-  <div class="section-title">Export & Backup <span>‚Äî download your data for Google Sheets or safekeeping</span></div>
+  <div class="section-title">Export & Backup <span>&#8212; download your data for Google Sheets or safekeeping</span></div>
 
   <!-- FULL BACKUP -->
   <div class="card" style="margin-bottom:18px;border-color:rgba(0,229,255,.3)">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="font-size:32px">üóÑÔ∏è</div>
+      <div style="font-size:32px">&#128452;&#65039;</div>
       <div style="flex:1">
         <div style="font-size:15px;font-weight:600;margin-bottom:4px">Full Backup (JSON)</div>
-        <div style="font-size:13px;color:var(--muted)">Exports everything ‚Äî tasks, notes, trips, outreach, handoffs, conversation notes, time logs. Use this to restore your data on a new browser or device.</div>
+        <div style="font-size:13px;color:var(--muted)">Exports everything &#8212; tasks, notes, trips, outreach, handoffs, conversation notes, time logs. Use this to restore your data on a new browser or device.</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="btn btn-primary" onclick="exportFullBackup()">‚¨á Download Backup</button>
+        <button class="btn btn-primary" onclick="exportFullBackup()">&#11015; Download Backup</button>
         <label class="btn btn-ghost" style="cursor:pointer;text-align:center">
-          üìÇ Restore from Backup
+          &#128194; Restore from Backup
           <input type="file" accept=".json" style="display:none" onchange="restoreBackup(this)">
         </label>
       </div>
@@ -725,74 +725,74 @@ input[type="file"]:hover{border-color:var(--accent)}
   </div>
 
   <!-- CSV EXPORTS -->
-  <div class="section-title" style="font-size:15px">Export to CSV <span>‚Äî open directly in Google Sheets</span></div>
-  <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Download any dataset as a .csv file, then drag it into Google Sheets or go to <strong style="color:var(--text)">File ‚Üí Import</strong> in Sheets to load it.</div>
+  <div class="section-title" style="font-size:15px">Export to CSV <span>&#8212; open directly in Google Sheets</span></div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Download any dataset as a .csv file, then drag it into Google Sheets or go to <strong style="color:var(--text)">File &#8594; Import</strong> in Sheets to load it.</div>
 
   <div class="grid-2">
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">‚úÖ</div>
+      <div style="font-size:28px">&#9989;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Tasks</div>
         <div id="export-tasks-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('tasks')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('tasks')">&#11015; CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">üí¨</div>
+      <div style="font-size:28px">&#128172;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Conversation Notes</div>
         <div id="export-cn-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('convonotes')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('convonotes')">&#11015; CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">üìã</div>
+      <div style="font-size:28px">&#128203;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Shift Handoffs</div>
         <div id="export-handoff-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('handoffs')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('handoffs')">&#11015; CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">‚úàÔ∏è</div>
+      <div style="font-size:28px">&#9992;&#65039;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Training Trips</div>
         <div id="export-trips-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('trips')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('trips')">&#11015; CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">üéÆ</div>
+      <div style="font-size:28px">&#127918;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Return Player Outreach</div>
         <div id="export-outreach-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('outreach')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('outreach')">&#11015; CSV</button>
     </div>
 
     <div class="card" style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">üìÖ</div>
+      <div style="font-size:28px">&#128197;</div>
       <div style="flex:1">
         <div style="font-weight:600;margin-bottom:2px">Schedules</div>
         <div id="export-sched-count" style="font-size:12px;color:var(--muted)"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV('schedules')">‚¨á CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV('schedules')">&#11015; CSV</button>
     </div>
   </div>
 
   <!-- HOW TO USE IN SHEETS -->
   <div class="card" style="margin-top:6px;border-color:rgba(168,255,62,.2)">
-    <div style="font-size:13px;font-weight:600;color:var(--accent3);margin-bottom:8px">üìã How to get this into Google Sheets</div>
+    <div style="font-size:13px;font-weight:600;color:var(--accent3);margin-bottom:8px">&#128203; How to get this into Google Sheets</div>
     <div style="font-size:13px;color:var(--muted);line-height:1.8">
-      1. Click any <strong style="color:var(--text)">‚¨á CSV</strong> button to download that dataset<br>
-      2. Open <strong style="color:var(--text)">Google Sheets</strong> ‚Üí create a new sheet<br>
-      3. Go to <strong style="color:var(--text)">File ‚Üí Import ‚Üí Upload</strong> ‚Üí drag your CSV file in<br>
+      1. Click any <strong style="color:var(--text)">&#11015; CSV</strong> button to download that dataset<br>
+      2. Open <strong style="color:var(--text)">Google Sheets</strong> &#8594; create a new sheet<br>
+      3. Go to <strong style="color:var(--text)">File &#8594; Import &#8594; Upload</strong> &#8594; drag your CSV file in<br>
       4. Select <strong style="color:var(--text)">"Replace spreadsheet"</strong> or <strong style="color:var(--text)">"Insert new sheet"</strong><br>
-      5. Your data is now live in Sheets ‚Äî viewable from any device!
+      5. Your data is now live in Sheets &#8212; viewable from any device!
     </div>
   </div>
 </div>
@@ -813,14 +813,14 @@ input[type="file"]:hover{border-color:var(--accent)}
     <!-- Step 2: Fill form -->
     <div id="cn-step2" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-        <button onclick="cnGoBack()" class="btn btn-ghost btn-sm">‚Üê Back</button>
+        <button onclick="cnGoBack()" class="btn btn-ghost btn-sm">&#8592; Back</button>
         <h3 id="cn-modal-title" style="margin:0;flex:1;font-size:20px"></h3>
       </div>
       <p id="cn-modal-desc" style="color:var(--muted);font-size:12px;margin-bottom:16px;font-family:'DM Mono',monospace"></p>
       <div id="cn-form-fields"></div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeCNModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveCNRecord()">üíæ Save Record</button>
+        <button class="btn btn-primary" onclick="saveCNRecord()">&#128190; Save Record</button>
       </div>
     </div>
   </div>
@@ -829,13 +829,13 @@ input[type="file"]:hover{border-color:var(--accent)}
 </div><!-- end .app -->
 
 <script>
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
-// SYNC ‚Äî Direct REST API (no auth SDK ‚Äî avoids LockManager bug)
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
+// SYNC \u{2014} Direct REST API (no auth SDK \u{2014} avoids LockManager bug)
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
-// Sync uses a fixed row key per "account" ‚Äî stored as sync_id in localStorage
-// No auth SDK needed ‚Äî tables use open RLS with sync_id as the key
+// Sync uses a fixed row key per "account" \u{2014} stored as sync_id in localStorage
+// No auth SDK needed \u{2014} tables use open RLS with sync_id as the key
 let syncId = localStorage.getItem('ag_sync_id') || null;
 let syncTimeout = null;
 let currentUser = { id: syncId }; // compatibility shim
@@ -865,17 +865,17 @@ async function syncToCloud(key, data) {
         body: JSON.stringify({ sync_id: syncId, data: data })
       });
       if (!resp.ok) throw new Error(await resp.text());
-      setSyncStatus('synced', 'Synced ‚úì');
+      setSyncStatus('synced', 'Synced \u{2713}');
     } catch(e) {
-      setSyncStatus('error', 'Sync failed ‚Äî saved locally');
+      setSyncStatus('error', 'Sync failed \u{2014} saved locally');
       console.error('Sync error:', e);
     }
   }, 600);
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // STATE
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 let todos      = JSON.parse(localStorage.getItem('ag_todos')     || '[]');
 let customLinks= JSON.parse(localStorage.getItem('ag_links')     || '[]');
 let outreachList=JSON.parse(localStorage.getItem('ag_outreach')  || '[]');
@@ -892,12 +892,12 @@ let docFilter = 'all';
 let tripFilter = 'all';
 
 const defaultLinks = [
-  { name:'Google Workspace', url:'https://workspace.google.com', icon:'üìÅ', desc:'Drive / Sheets / Docs' }
+  { name:'Google Workspace', url:'https://workspace.google.com', icon:'\u{1F4C1}', desc:'Drive / Sheets / Docs' }
 ];
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // CLOCK & TABS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function updateDate() {
   const now = new Date();
   document.getElementById('dateBadge').textContent =
@@ -926,9 +926,9 @@ function switchTab(name) {
   updateHomeStats();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // HELPERS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function avatarColor(name){
   const colors=['linear-gradient(135deg,#00e5ff,#a8ff3e)','linear-gradient(135deg,#ff4d6d,#ffd166)','linear-gradient(135deg,#c084fc,#00e5ff)','linear-gradient(135deg,#ffd166,#a8ff3e)','linear-gradient(135deg,#ff4d6d,#c084fc)'];
@@ -936,11 +936,11 @@ function avatarColor(name){
   return colors[h];
 }
 function initials(name){ return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
-function fmtDate(d){ if(!d)return'‚Äî'; try{return new Date(d+'T00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return d} }
+function fmtDate(d){ if(!d)return'\u{2014}'; try{return new Date(d+'T00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch(e){return d} }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // HOME STATS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function updateHomeStats(){
   const pending = todos.filter(t=>!t.done).length;
   document.getElementById('home-tasks').textContent = pending;
@@ -964,7 +964,7 @@ function updateHomeStats(){
         <span class="sp-time">${escHtml(sh.time||'')}</span>
       </span>`).join('');
   } else {
-    wwd.innerHTML = '<div style="color:var(--muted);font-size:13px">No one scheduled today ‚Äî or schedule not yet loaded.</div>';
+    wwd.innerHTML = '<div style="color:var(--muted);font-size:13px">No one scheduled today \u{2014} or schedule not yet loaded.</div>';
   }
 
   const openCN = convoNotes.filter(n=>n.status==='open'||n.status==='pending').length;
@@ -997,9 +997,9 @@ function renderHomeTodos(){
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // TASKS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveTodos(){ localStorage.setItem('ag_todos',JSON.stringify(todos)); syncToCloud('todos',todos); }
 function addTodo(){
   const text=document.getElementById('todoInput').value.trim();
@@ -1012,7 +1012,7 @@ function toggleTodo(id){ const t=todos.find(t=>t.id===id); if(t){t.done=!t.done;
 function deleteTodo(id){ todos=todos.filter(t=>t.id!==id); saveTodos();renderTodos();updateHomeStats(); }
 function clearDone(){ todos=todos.filter(t=>!t.done); saveTodos();renderTodos();updateHomeStats(); }
 function setFilter(f,btn){ currentFilter=f; document.querySelectorAll('#panel-tasks .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderTodos(); }
-const catLabels={ops:'üè¢ Ops',hr:'üë§ HR',hospitality:'üéÆ Guest',training:'üìã Train',admin:'‚öôÔ∏è Admin'};
+const catLabels={ops:'\u{1F3E2} Ops',hr:'\u{1F464} HR',hospitality:'\u{1F3AE} Guest',training:'\u{1F4CB} Train',admin:'\u{2699}\u{FE0F} Admin'};
 const prioClass={high:'prio-high',mid:'prio-mid',low:'prio-low'};
 function renderTodos(){
   let filtered=todos;
@@ -1024,13 +1024,13 @@ function renderTodos(){
   const list=document.getElementById('todoList');
   if(!list)return;
   list.innerHTML=filtered.length===0
-    ?'<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No tasks here ‚ö°</div>'
+    ?'<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No tasks here \u{26A1}</div>'
     :filtered.map(t=>`<div class="todo-item ${t.done?'done':''}">
       <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${t.id})"></div>
       <div class="todo-text">${escHtml(t.text)}</div>
       <span class="todo-priority ${prioClass[t.priority]}">${t.priority}</span>
       <span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${catLabels[t.category]||t.category}</span>
-      <button class="btn-danger btn" onclick="deleteTodo(${t.id})">‚úï</button>
+      <button class="btn-danger btn" onclick="deleteTodo(${t.id})">\u{2715}</button>
     </div>`).join('');
   const total=todos.length,done=todos.filter(t=>t.done).length,high=todos.filter(t=>t.priority==='high'&&!t.done).length,pct=total?Math.round(done/total*100):0;
   document.getElementById('stat-total').textContent=total;
@@ -1040,9 +1040,9 @@ function renderTodos(){
   document.getElementById('taskProgress').style.width=pct+'%';
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
-// SHIFT HANDOFF ‚Äî Google Forms live feed
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
+// SHIFT HANDOFF \u{2014} Google Forms live feed
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 const GF_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1ys6YnSCOCBv4rvLfrABiPz5ClYrAW9E-sOIQMpjUP58/export?format=csv';
 let gfPollInterval = null;
 
@@ -1070,7 +1070,7 @@ async function fetchGFormHandoffs(manual=false) {
   const listEl = document.getElementById('gform-handoff-list');
   const updEl  = document.getElementById('ho-last-update');
   if (!listEl) return;
-  if (manual) listEl.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)">Refreshing‚Ä¶</div>';
+  if (manual) listEl.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)">Refreshing\u{2026}</div>';
   try {
     const resp = await fetch(GF_SHEET_URL + '&nocache=' + Date.now(), { cache:'no-store' });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
@@ -1081,7 +1081,7 @@ async function fetchGFormHandoffs(manual=false) {
     if (updEl) updEl.textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
   } catch(e) {
     listEl.innerHTML = `<div style="text-align:center;padding:48px;color:var(--accent2)">
-      Could not load responses ‚Äî check your connection or sheet permissions.<br>
+      Could not load responses \u{2014} check your connection or sheet permissions.<br>
       <small style="color:var(--muted)">${e.message}</small></div>`;
     console.error('GForm fetch error:', e);
   }
@@ -1089,10 +1089,10 @@ async function fetchGFormHandoffs(manual=false) {
 
 function gfShiftBadge(shift) {
   const s = (shift||'').toLowerCase();
-  if (s.includes('open'))  return { cls:'badge-cyan', icon:'üåÖ' };
-  if (s.includes('close')) return { cls:'badge-red',  icon:'üåô' };
-  if (s.includes('mid'))   return { cls:'badge-gold', icon:'‚òÄÔ∏è' };
-  return                          { cls:'badge-cyan', icon:'üìã' };
+  if (s.includes('open'))  return { cls:'badge-cyan', icon:'\u{1F305}' };
+  if (s.includes('close')) return { cls:'badge-red',  icon:'\u{1F319}' };
+  if (s.includes('mid'))   return { cls:'badge-gold', icon:'\u{2600}\u{FE0F}' };
+  return                          { cls:'badge-cyan', icon:'\u{1F4CB}' };
 }
 
 function renderGFormHandoffs(rows) {
@@ -1117,8 +1117,8 @@ function renderGFormHandoffs(rows) {
         <span style="font-size:14px;font-weight:600;color:var(--text)">${escHtml(name)}</span>
         <span style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-left:auto">${escHtml(dateStr)}</span>
       </div>
-      ${notes    ? `<div class="handoff-section"><div class="handoff-label">üìã Shift Notes</div><div class="handoff-text">${escHtml(notes)}</div></div>` : ''}
-      ${nextNote ? `<div class="handoff-section"><div class="handoff-label">‚ö° Notes for Next Shift</div><div class="handoff-text">${escHtml(nextNote)}</div></div>` : ''}
+      ${notes    ? `<div class="handoff-section"><div class="handoff-label">\u{1F4CB} Shift Notes</div><div class="handoff-text">${escHtml(notes)}</div></div>` : ''}
+      ${nextNote ? `<div class="handoff-section"><div class="handoff-label">\u{26A1} Notes for Next Shift</div><div class="handoff-text">${escHtml(nextNote)}</div></div>` : ''}
     </div>`;
   }).join('');
 }
@@ -1132,9 +1132,9 @@ function startGFPoll() {
 // stub so restore/load code doesn't error
 function renderHandoffs() { /* replaced by Google Forms feed */ }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // TRAINING TRIPS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveTrips(){ localStorage.setItem('ag_trips',JSON.stringify(trips)); syncToCloud('trips',trips); }
 function addTrip(){
   const loc=document.getElementById('trip-loc').value.trim();
@@ -1149,7 +1149,7 @@ function deleteTrip(id){ if(!confirm('Delete this trip?'))return; trips=trips.fi
 function markTripComplete(id){ const t=trips.find(t=>t.id===id); if(t){t.status='complete';saveTrips();renderTrips();} }
 function toggleTrainee(tripId,tIdx){ const trip=trips.find(t=>t.id===tripId); if(trip&&trip.trainees[tIdx]){trip.trainees[tIdx].done=!trip.trainees[tIdx].done;saveTrips();renderTrips();} }
 function setTripFilter(f,btn){ tripFilter=f; document.querySelectorAll('#trip-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderTrips(); }
-const tripTypeLabel={opening:'üè™ Location Opening',gm:'üë§ GM Training',support:'ü§ù Support Visit'};
+const tripTypeLabel={opening:'\u{1F3EA} Location Opening',gm:'\u{1F464} GM Training',support:'\u{1F91D} Support Visit'};
 function renderTrips(){
   const el=document.getElementById('tripsList');if(!el)return;
   let list=trips;
@@ -1162,19 +1162,19 @@ function renderTrips(){
     const pct=t.trainees.length?Math.round(done/t.trainees.length*100):0;
     return`<div class="trip-card">
       <div class="trip-header">
-        <div class="trip-title">üìç ${escHtml(t.loc)}</div>
+        <div class="trip-title">\u{1F4CD} ${escHtml(t.loc)}</div>
         <span class="badge badge-cyan">${tripTypeLabel[t.type]||t.type}</span>
-        <span class="badge ${t.status==='complete'?'badge-green':'badge-gold'}">${t.status==='complete'?'‚úÖ Complete':'üóì Upcoming'}</span>
+        <span class="badge ${t.status==='complete'?'badge-green':'badge-gold'}">${t.status==='complete'?'\u{2705} Complete':'\u{1F5D3} Upcoming'}</span>
         ${t.status!=='complete'?`<button class="btn btn-green btn-sm" onclick="markTripComplete(${t.id})">Mark Complete</button>`:''}
-        <button class="btn btn-danger btn-sm" onclick="deleteTrip(${t.id})">‚úï</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTrip(${t.id})">\u{2715}</button>
       </div>
       <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:10px">
-        üìÖ ${fmtDate(t.start)} ‚Üí ${fmtDate(t.end)}
-        ${t.notes?` ¬∑ ${escHtml(t.notes)}`:''}
+        \u{1F4C5} ${fmtDate(t.start)} \u{2192} ${fmtDate(t.end)}
+        ${t.notes?` \u{B7} ${escHtml(t.notes)}`:''}
       </div>
       ${t.trainees.length>0?`
         <div style="margin-bottom:6px">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:6px">Trainees ‚Äî ${done}/${t.trainees.length} trained (${pct}%)</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:6px">Trainees \u{2014} ${done}/${t.trainees.length} trained (${pct}%)</div>
           <div class="progress-bar" style="margin-bottom:10px"><div class="progress-fill" style="width:${pct}%"></div></div>
           ${t.trainees.map((tr,i)=>`<div class="trainee-row">
             <div class="trainee-check ${tr.done?'checked':''}" onclick="toggleTrainee(${t.id},${i})"></div>
@@ -1186,9 +1186,9 @@ function renderTrips(){
   }).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // AI SCHEDULE READER
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function handleSchedDrop(e){
   e.preventDefault();
   document.getElementById('dropZone').classList.remove('drag-over');
@@ -1202,7 +1202,7 @@ function handleSchedFile(input){
 
 async function processSchedImage(file){
   const area=document.getElementById('schedPreviewArea');
-  area.innerHTML=`<div class="ai-loading"><div class="spinner"></div> Reading schedule with AI ‚Äî this may take a moment...</div>`;
+  area.innerHTML=`<div class="ai-loading"><div class="spinner"></div> Reading schedule with AI \u{2014} this may take a moment...</div>`;
 
   const b64=await new Promise((res,rej)=>{
     const r=new FileReader();
@@ -1225,7 +1225,7 @@ async function processSchedImage(file){
           content:[
             {type:'image',source:{type:'base64',media_type:file.type,data:b64}},
             {type:'text',text:`This is an ADP employee schedule screenshot. Extract every shift you can see.
-For each shift return a JSON array of objects with: name (employee first+last name), date (YYYY-MM-DD ‚Äî infer from the week starting ${weekStart||'the week shown'}), time (shift time range e.g. "9:00 AM - 5:00 PM"), role (job title if visible).
+For each shift return a JSON array of objects with: name (employee first+last name), date (YYYY-MM-DD \u{2014} infer from the week starting ${weekStart||'the week shown'}), time (shift time range e.g. "9:00 AM - 5:00 PM"), role (job title if visible).
 If a date can't be determined precisely, use the day of week label and the week start date ${weekStart||''} to calculate it.
 Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks. Example: [{"name":"Jane Smith","date":"2026-02-24","time":"10:00 AM - 6:00 PM","role":"Game Facilitator"}]`}
           ]
@@ -1240,7 +1240,7 @@ Respond ONLY with a valid JSON array. No explanation, no markdown, no backticks.
 
     renderSchedPreview(shifts, weekStart, file.name);
   } catch(err){
-    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">‚ö†Ô∏è ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and well-lit. Try cropping it to just the schedule grid.</div></div>`;
+    area.innerHTML=`<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">\u{26A0}\u{FE0F} ${escHtml(err.message||'Error reading schedule')}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Make sure your screenshot is clear and well-lit. Try cropping it to just the schedule grid.</div></div>`;
   }
 }
 
@@ -1261,9 +1261,9 @@ function renderSchedPreview(shifts, weekStart, filename){
   area.innerHTML=`
     <div class="card" style="border-color:rgba(168,255,62,.3)">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-        <span style="font-size:15px;font-weight:600;color:var(--accent3)">‚úÖ ${shifts.length} shifts extracted</span>
+        <span style="font-size:15px;font-weight:600;color:var(--accent3)">\u{2705} ${shifts.length} shifts extracted</span>
         <span style="font-size:12px;color:var(--muted)">Review below, then save</span>
-        <button class="btn btn-primary" style="margin-left:auto" onclick="saveSchedule(${JSON.stringify(shifts).replace(/'/g,"&#39;")}, '${weekStart||''}', '${escHtml(filename)}')">üíæ Save Schedule</button>
+        <button class="btn btn-primary" style="margin-left:auto" onclick="saveSchedule(${JSON.stringify(shifts).replace(/'/g,"&#39;")}, '${weekStart||''}', '${escHtml(filename)}')">\u{1F4BE} Save Schedule</button>
       </div>
       ${dates.map(d=>`
         <div style="margin-bottom:12px">
@@ -1280,7 +1280,7 @@ function saveSchedule(shifts, weekStart, filename){
   if(schedules.length>10)schedules=schedules.slice(0,10);
   localStorage.setItem('ag_schedules',JSON.stringify(schedules));
   syncToCloud('schedules', schedules);
-  document.getElementById('schedPreviewArea').innerHTML='<div class="card" style="border-color:rgba(168,255,62,.3);color:var(--accent3)">‚úÖ Schedule saved! It will now show in "Who\'s Working Today" on the Home tab.</div>';
+  document.getElementById('schedPreviewArea').innerHTML='<div class="card" style="border-color:rgba(168,255,62,.3);color:var(--accent3)">\u{2705} Schedule saved! It will now show in "Who\'s Working Today" on the Home tab.</div>';
   renderSavedSchedules();
   updateHomeStats();
 }
@@ -1296,23 +1296,23 @@ function renderSavedSchedules(){
   if(schedules.length===0){el.innerHTML='<div style="color:var(--muted);font-size:13px">No schedules saved yet.</div>';return;}
   el.innerHTML=schedules.map(s=>`
     <div class="handoff-card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:22px">üìÖ</span>
+      <span style="font-size:22px">\u{1F4C5}</span>
       <div style="flex:1">
-        <div style="font-weight:600;font-size:14px">Week of ${fmtDate(s.weekStart)||'‚Äî'}</div>
-        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${s.shifts.length} shifts ¬∑ saved ${s.saved} ¬∑ ${escHtml(s.filename||'')}</div>
+        <div style="font-weight:600;font-size:14px">Week of ${fmtDate(s.weekStart)||'\u{2014}'}</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${s.shifts.length} shifts \u{B7} saved ${s.saved} \u{B7} ${escHtml(s.filename||'')}</div>
       </div>
-      <button class="btn btn-danger btn-sm" onclick="deleteSchedule(${s.id})">‚úï</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteSchedule(${s.id})">\u{2715}</button>
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // LINKS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveLinks(){ localStorage.setItem('ag_links',JSON.stringify(customLinks)); syncToCloud('customLinks',customLinks); }
 function addCustomLink(){
   const name=document.getElementById('link-name').value.trim();
   const url=document.getElementById('link-url').value.trim();
-  const icon=document.getElementById('link-icon').value.trim()||'üîó';
+  const icon=document.getElementById('link-icon').value.trim()||'\u{1F517}';
   const desc=document.getElementById('link-desc').value.trim();
   if(!name||!url)return;
   customLinks.push({name,url,icon,desc});
@@ -1334,12 +1334,12 @@ function renderLinks(){
   }).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // DOCS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveDocs(){ localStorage.setItem('ag_docs',JSON.stringify(docs)); }
-const docCatLabel={ops:'üè¢ Operations',training:'üìã Training',hr:'üë§ HR / Staff',reference:'üìå Reference',travel:'‚úàÔ∏è Travel',other:'üìÅ Other'};
-function fileIcon(fn){ const ext=(fn||'').split('.').pop().toLowerCase(); return{pdf:'üìï',doc:'üìò',docx:'üìò',xls:'üìó',xlsx:'üìó',csv:'üìó',ppt:'üìô',pptx:'üìô',png:'üñº',jpg:'üñº',jpeg:'üñº',txt:'üìÑ'}[ext]||'üìÅ'; }
+const docCatLabel={ops:'\u{1F3E2} Operations',training:'\u{1F4CB} Training',hr:'\u{1F464} HR / Staff',reference:'\u{1F4CC} Reference',travel:'\u{2708}\u{FE0F} Travel',other:'\u{1F4C1} Other'};
+function fileIcon(fn){ const ext=(fn||'').split('.').pop().toLowerCase(); return{pdf:'\u{1F4D5}',doc:'\u{1F4D8}',docx:'\u{1F4D8}',xls:'\u{1F4D7}',xlsx:'\u{1F4D7}',csv:'\u{1F4D7}',ppt:'\u{1F4D9}',pptx:'\u{1F4D9}',png:'\u{1F5BC}',jpg:'\u{1F5BC}',jpeg:'\u{1F5BC}',txt:'\u{1F4C4}'}[ext]||'\u{1F4C1}'; }
 function uploadDoc(){
   const fi=document.getElementById('doc-file');
   const name=document.getElementById('doc-name').value.trim();
@@ -1363,15 +1363,15 @@ function renderDocs(){
   if(list.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No documents uploaded yet.</div>';return;}
   el.innerHTML=list.map(d=>`<div class="doc-card">
     <div class="doc-icon">${fileIcon(d.filename)}</div>
-    <div class="doc-info"><div class="doc-name">${escHtml(d.label)}</div><div class="doc-meta">${d.filename} ¬∑ ${d.size} ¬∑ ${docCatLabel[d.cat]||d.cat} ¬∑ ${d.date}</div></div>
-    <a href="${d.dataUrl}" download="${d.filename}" class="btn btn-ghost btn-sm" style="text-decoration:none">‚¨á Download</a>
-    <button class="btn btn-danger btn-sm" onclick="deleteDoc(${d.id})">‚úï</button>
+    <div class="doc-info"><div class="doc-name">${escHtml(d.label)}</div><div class="doc-meta">${d.filename} \u{B7} ${d.size} \u{B7} ${docCatLabel[d.cat]||d.cat} \u{B7} ${d.date}</div></div>
+    <a href="${d.dataUrl}" download="${d.filename}" class="btn btn-ghost btn-sm" style="text-decoration:none">\u{2B07} Download</a>
+    <button class="btn btn-danger btn-sm" onclick="deleteDoc(${d.id})">\u{2715}</button>
   </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // OUTREACH
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveOutreach(){ localStorage.setItem('ag_outreach',JSON.stringify(outreachList)); syncToCloud('outreachList',outreachList); }
 function addOutreach(){
   const name=document.getElementById('out-name').value.trim();
@@ -1388,24 +1388,24 @@ function renderOutreach(){
   if(outreachList.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No players tracked yet.</div>';return;}
   el.innerHTML=outreachList.map(r=>`<div class="outreach-card">
     <div class="avatar">${initials(r.name)}</div>
-    <div class="outreach-info"><div class="outreach-name">${escHtml(r.name)}</div><div class="outreach-meta">Last visit: ${r.date||'‚Äî'} ¬∑ ${escHtml(r.contact||'No contact')}</div></div>
+    <div class="outreach-info"><div class="outreach-name">${escHtml(r.name)}</div><div class="outreach-meta">Last visit: ${r.date||'\u{2014}'} \u{B7} ${escHtml(r.contact||'No contact')}</div></div>
     ${statusBadge[r.status]||''}
     <select onchange="updateOutreachStatus(${r.id},this.value)" style="width:130px;font-size:12px;padding:5px 8px">
-      <option value="due" ${r.status==='due'?'selected':''}>üì¨ Due</option>
-      <option value="overdue" ${r.status==='overdue'?'selected':''}>üî¥ Overdue</option>
-      <option value="done" ${r.status==='done'?'selected':''}>‚úÖ Contacted</option>
+      <option value="due" ${r.status==='due'?'selected':''}>\u{1F4EC} Due</option>
+      <option value="overdue" ${r.status==='overdue'?'selected':''}>\u{1F534} Overdue</option>
+      <option value="done" ${r.status==='done'?'selected':''}>\u{2705} Contacted</option>
     </select>
-    <button class="btn btn-danger btn-sm" onclick="deleteOutreach(${r.id})">‚úï</button>
+    <button class="btn btn-danger btn-sm" onclick="deleteOutreach(${r.id})">\u{2715}</button>
   </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
-// CONV NOTES ‚Äî Employee Documentation System
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
+// CONV NOTES \u{2014} Employee Documentation System
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 const CN_FORMS = {
   verbal: {
-    label:'Verbal Warning', icon:'üó£Ô∏è', color:'#ffd166', badgeClass:'badge-gold',
-    desc:'Minor infraction or first-time issue. Internal record only ‚Äî no employee signature required.',
+    label:'Verbal Warning', icon:'\u{1F5E3}\u{FE0F}', color:'#ffd166', badgeClass:'badge-gold',
+    desc:'Minor infraction or first-time issue. Internal record only \u{2014} no employee signature required.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
       {id:'role',label:'Role / Position',type:'text'},
@@ -1415,12 +1415,12 @@ const CN_FORMS = {
       {id:'policy_violated',label:'Policy / Rule Violated',type:'text'},
       {id:'description',label:'Description of Incident / Behavior',type:'textarea',required:true},
       {id:'expected_behavior',label:'Expected Behavior Going Forward',type:'textarea'},
-      {id:'prior_issues',label:'Prior Issues on Record?',type:'select',options:['No prior issues','Yes ‚Äî see notes below']},
+      {id:'prior_issues',label:'Prior Issues on Record?',type:'select',options:['No prior issues','Yes \u{2014} see notes below']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   first_written: {
-    label:'First Written Warning', icon:'üìÑ', color:'#ff9a3c', badgeClass:'badge-gold',
+    label:'First Written Warning', icon:'\u{1F4C4}', color:'#ff9a3c', badgeClass:'badge-gold',
     desc:'Issue persists after verbal warning, or a more serious single incident occurred.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1437,12 +1437,12 @@ const CN_FORMS = {
       {id:'consequences',label:'Consequences if Not Corrected',type:'text'},
       {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
       {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
-      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No \u{2014} refused to sign']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   second_written: {
-    label:'Second Written Warning', icon:'üìã', color:'#ff6b35', badgeClass:'badge-red',
+    label:'Second Written Warning', icon:'\u{1F4CB}', color:'#ff6b35', badgeClass:'badge-red',
     desc:'Problem continues after first written warning. Requires documented correction deadline.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1460,12 +1460,12 @@ const CN_FORMS = {
       {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
       {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
       {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
-      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No \u{2014} refused to sign']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   final_written: {
-    label:'Final Written Warning', icon:'üö®', color:'#ff4d6d', badgeClass:'badge-red',
+    label:'Final Written Warning', icon:'\u{1F6A8}', color:'#ff4d6d', badgeClass:'badge-red',
     desc:'Final opportunity for correction. Explicitly states termination risk if issue continues.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1478,16 +1478,16 @@ const CN_FORMS = {
       {id:'description',label:'Description of Current Violation',type:'textarea',required:true},
       {id:'corrective_action',label:'Required Corrective Actions',type:'textarea'},
       {id:'deadline',label:'Final Deadline',type:'date'},
-      {id:'termination_notice',label:'Termination Risk Stated to Employee?',type:'select',options:['Yes ‚Äî verbally communicated','Yes ‚Äî written on form']},
+      {id:'termination_notice',label:'Termination Risk Stated to Employee?',type:'select',options:['Yes \u{2014} verbally communicated','Yes \u{2014} written on form']},
       {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
       {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
       {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
-      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No \u{2014} refused to sign']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   pip: {
-    label:'Performance Improvement Plan', icon:'üìà', color:'#c084fc', badgeClass:'badge-purple',
+    label:'Performance Improvement Plan', icon:'\u{1F4C8}', color:'#c084fc', badgeClass:'badge-purple',
     desc:'For performance or productivity issues. Structured plan with measurable goals and scheduled check-ins.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1501,12 +1501,12 @@ const CN_FORMS = {
       {id:'checkin_schedule',label:'Check-in Schedule',type:'select',options:['Weekly','Bi-weekly','Monthly','As needed']},
       {id:'success_criteria',label:'Success Criteria',type:'textarea'},
       {id:'consequences',label:'Consequences if Goals Not Met',type:'text'},
-      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No \u{2014} refused to sign']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   general: {
-    label:'General Disciplinary Action', icon:'üìé', color:'#ff4d6d', badgeClass:'badge-red',
+    label:'General Disciplinary Action', icon:'\u{1F4CE}', color:'#ff4d6d', badgeClass:'badge-red',
     desc:'Flexible form for overlapping violations or situations that span multiple discipline stages.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1522,12 +1522,12 @@ const CN_FORMS = {
       {id:'witness',label:'Witness Present?',type:'select',options:['No','Yes']},
       {id:'witness_name',label:'Witness Name (if applicable)',type:'text'},
       {id:'hr_involved',label:'HR Notified?',type:'select',options:['No','Yes']},
-      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No ‚Äî refused to sign']},
+      {id:'employee_acknowledged',label:'Employee Signed / Acknowledged?',type:'select',options:['Yes','No \u{2014} refused to sign']},
       {id:'notes',label:'Additional Notes',type:'textarea'},
     ]
   },
   praise: {
-    label:'Praise / Recognition', icon:'‚≠ê', color:'#a8ff3e', badgeClass:'badge-green',
+    label:'Praise / Recognition', icon:'\u{2B50}', color:'#a8ff3e', badgeClass:'badge-green',
     desc:'Document positive performance, teamwork, leadership, or initiative. Build the positive record too.',
     fields:[
       {id:'employee',label:'Employee Name',type:'text',required:true},
@@ -1593,9 +1593,9 @@ function cnSelectType(type, existingRec){
     }).join('')+
     `<div style="margin-bottom:10px"><div class="input-label" style="margin-bottom:4px">Status</div>
     <select id="cnf-status">
-      <option value="open"${(existingRec&&existingRec.status==='open')||!existingRec?' selected':''}>üü° Open</option>
-      <option value="pending"${existingRec&&existingRec.status==='pending'?' selected':''}>‚è≥ Pending Action</option>
-      <option value="resolved"${existingRec&&existingRec.status==='resolved'?' selected':''}>‚úÖ Resolved</option>
+      <option value="open"${(existingRec&&existingRec.status==='open')||!existingRec?' selected':''}>\u{1F7E1} Open</option>
+      <option value="pending"${existingRec&&existingRec.status==='pending'?' selected':''}>\u{23F3} Pending Action</option>
+      <option value="resolved"${existingRec&&existingRec.status==='resolved'?' selected':''}>\u{2705} Resolved</option>
     </select></div>`;
 }
 
@@ -1617,7 +1617,7 @@ function saveCNRecord(){
   const fd={};
   form.fields.forEach(f=>{ const el=document.getElementById('cnf-'+f.id); if(el) fd[f.id]=el.value; });
   const status=document.getElementById('cnf-status')?.value||'open';
-  const employee=fd.employee||'‚Äî';
+  const employee=fd.employee||'\u{2014}';
   const date=fd.incident_date||fd.warning_date||fd.date||fd.start_date||new Date().toISOString().split('T')[0];
   if(cnEditingId){
     const i=convoNotes.findIndex(n=>n.id===cnEditingId);
@@ -1651,15 +1651,15 @@ function renderCNList(){
   if(formTypes.includes(cnFilter)) list=convoNotes.filter(n=>n.formType===cnFilter||n.type===cnFilter);
   else if(cnFilter==='open') list=convoNotes.filter(n=>n.status==='open');
   else if(cnFilter==='resolved') list=convoNotes.filter(n=>n.status==='resolved');
-  if(list.length===0){el.innerHTML='<div style="text-align:center;padding:36px;color:var(--muted);font-size:14px">No records yet ‚Äî click <strong style="color:var(--text)">+ New Documentation</strong> to start.</div>';return;}
+  if(list.length===0){el.innerHTML='<div style="text-align:center;padding:36px;color:var(--muted);font-size:14px">No records yet \u{2014} click <strong style="color:var(--text)">+ New Documentation</strong> to start.</div>';return;}
   el.innerHTML=list.map(n=>{
     const isNew=!!n.formType;
     const form=isNew?CN_FORMS[n.formType]:null;
     const label=form?form.label:(n.type||'Note');
-    const icon=form?form.icon:'üí¨';
+    const icon=form?form.icon:'\u{1F4AC}';
     const color=form?form.color:'var(--muted)';
     const badgeClass=form?form.badgeClass:'badge-cyan';
-    const employee=n.employee||n.person||'‚Äî';
+    const employee=n.employee||n.person||'\u{2014}';
     const description=isNew?(n.formData?.description||n.formData?.performance_concerns||''):(n.body||'');
     const manager=n.formData?.manager||'';
     const date=n.date||n.created||'';
@@ -1668,21 +1668,21 @@ function renderCNList(){
         <div style="font-size:22px;flex-shrink:0">${icon}</div>
         <div style="flex:1;min-width:0">
           <div style="font-size:16px;font-weight:700">${escHtml(employee)}</div>
-          <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px">${manager?'MOD: '+escHtml(manager)+' ¬∑ ':''}${fmtDate(date)}</div>
+          <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px">${manager?'MOD: '+escHtml(manager)+' \u{B7} ':''}${fmtDate(date)}</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex-shrink:0">
           <span class="badge ${badgeClass}">${label}</span>
           ${cnStatusBadge[n.status]||''}
           <select onchange="updateCNStatus(${n.id},this.value)" style="font-size:11px;padding:3px 6px">
-            <option value="open" ${n.status==='open'?'selected':''}>üü° Open</option>
-            <option value="pending" ${n.status==='pending'?'selected':''}>‚è≥ Pending</option>
-            <option value="resolved" ${n.status==='resolved'?'selected':''}>‚úÖ Resolved</option>
+            <option value="open" ${n.status==='open'?'selected':''}>\u{1F7E1} Open</option>
+            <option value="pending" ${n.status==='pending'?'selected':''}>\u{23F3} Pending</option>
+            <option value="resolved" ${n.status==='resolved'?'selected':''}>\u{2705} Resolved</option>
           </select>
-          <button class="btn btn-ghost btn-sm" onclick="openCNModal(${n.id})">‚úèÔ∏è Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteCNRecord(${n.id})">‚úï</button>
+          <button class="btn btn-ghost btn-sm" onclick="openCNModal(${n.id})">\u{270F}\u{FE0F} Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteCNRecord(${n.id})">\u{2715}</button>
         </div>
       </div>
-      ${description?`<div style="font-size:13px;color:var(--muted);line-height:1.55">${escHtml(description.slice(0,220))}${description.length>220?'‚Ä¶':''}</div>`:''}
+      ${description?`<div style="font-size:13px;color:var(--muted);line-height:1.55">${escHtml(description.slice(0,220))}${description.length>220?'\u{2026}':''}</div>`:''}
       ${isNew&&n.formData?renderCNKeyFields(n.formType,n.formData):''}
     </div>`;
   }).join('');
@@ -1690,13 +1690,13 @@ function renderCNList(){
 // Backward-compat shim so existing call-sites still work
 function renderConvoNotes(){ renderCNList(); }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // NOTES
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function saveNote(key){
   const val=document.getElementById('note-'+key).value;
   localStorage.setItem('ag_note_'+key,val);
-  const btn=event.currentTarget;btn.textContent='Saved ‚úì';btn.style.background='var(--accent3)';
+  const btn=event.currentTarget;btn.textContent='Saved \u{2713}';btn.style.background='var(--accent3)';
   setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);
 }
 function loadNotes(){
@@ -1707,9 +1707,9 @@ function loadNotes(){
   });
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // EXPORT & BACKUP
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function downloadFile(content, filename, mime){
   const blob = new Blob([content], {type: mime});
   const url = URL.createObjectURL(blob);
@@ -1770,7 +1770,7 @@ function exportFullBackup(){
       travel: localStorage.getItem('ag_note_travel')||''
     }
   };
-  // Exclude docs (too large for JSON download ‚Äî they contain base64 file data)
+  // Exclude docs (too large for JSON download \u{2014} they contain base64 file data)
   const stamp = new Date().toISOString().split('T')[0];
   downloadFile(JSON.stringify(backup, null, 2), `activate-hq-backup-${stamp}.json`, 'application/json');
 }
@@ -1802,9 +1802,9 @@ function restoreBackup(input){
       loadNotes(); renderConvoNotes(); renderDocs();
       renderHandoffs(); renderTrips(); renderSavedSchedules(); renderTMPanel();
       updateHomeStats(); updateExportCounts();
-      alert('‚úÖ Backup restored successfully!');
+      alert('\u{2705} Backup restored successfully!');
     } catch(err) {
-      alert('‚ùå Could not restore: ' + err.message);
+      alert('\u{274C} Could not restore: ' + err.message);
     }
   };
   reader.readAsText(file);
@@ -1822,20 +1822,20 @@ function updateExportCounts(){
   Object.entries(counts).forEach(([id,text])=>{ const el=document.getElementById(id); if(el)el.textContent=text; });
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // TIME MANAGEMENT
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 const TM_TASKS = [
-  { id:'cleaning',     label:'Cleaning',       icon:'üßπ', color:'#00e5ff' },
-  { id:'maintenance',  label:'Maintenance',    icon:'üîß', color:'#ff4d6d' },
-  { id:'training',     label:'Training',       icon:'üìã', color:'#c084fc' },
-  { id:'marketing',    label:'Marketing',      icon:'üì¢', color:'#ff9a3c' },
-  { id:'outreach',     label:'Outreach',       icon:'üéÆ', color:'#ffd166' },
-  { id:'scheduling',   label:'Scheduling',     icon:'üìÖ', color:'#4fc3f7' },
-  { id:'team_meeting', label:'Team Meeting',   icon:'üë•', color:'#a8ff3e' },
-  { id:'meeting',      label:'Meeting',        icon:'ü§ù', color:'#26c6da' },
-  { id:'floor',        label:'Time on Floor',  icon:'üèÉ', color:'#ff80ab' },
-  { id:'admin',        label:'General Admin',  icon:'‚öôÔ∏è', color:'#8892a4' },
+  { id:'cleaning',     label:'Cleaning',       icon:'\u{1F9F9}', color:'#00e5ff' },
+  { id:'maintenance',  label:'Maintenance',    icon:'\u{1F527}', color:'#ff4d6d' },
+  { id:'training',     label:'Training',       icon:'\u{1F4CB}', color:'#c084fc' },
+  { id:'marketing',    label:'Marketing',      icon:'\u{1F4E2}', color:'#ff9a3c' },
+  { id:'outreach',     label:'Outreach',       icon:'\u{1F3AE}', color:'#ffd166' },
+  { id:'scheduling',   label:'Scheduling',     icon:'\u{1F4C5}', color:'#4fc3f7' },
+  { id:'team_meeting', label:'Team Meeting',   icon:'\u{1F465}', color:'#a8ff3e' },
+  { id:'meeting',      label:'Meeting',        icon:'\u{1F91D}', color:'#26c6da' },
+  { id:'floor',        label:'Time on Floor',  icon:'\u{1F3C3}', color:'#ff80ab' },
+  { id:'admin',        label:'General Admin',  icon:'\u{2699}\u{FE0F}', color:'#8892a4' },
 ];
 let tmWeekView = 'this';
 let tmTimerInterval = null;
@@ -1929,7 +1929,7 @@ function tmBuildLegend(slices, total){
     return `<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
       <div style="width:10px;height:10px;border-radius:2px;background:${sl.color};flex-shrink:0"></div>
       <div style="flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sl.label}</div>
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">${tmFmtDuration(sl.value)} ¬∑ ${pct}%</div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap">${tmFmtDuration(sl.value)} \u{B7} ${pct}%</div>
     </div>`;
   }).join('');
 }
@@ -1957,7 +1957,7 @@ function renderTMActiveCard(){
   if(!idle||!active) return;
   if(!activeTimeEntry){ idle.style.display='block'; active.style.display='none'; return; }
   idle.style.display='none'; active.style.display='block';
-  const task=TM_TASKS.find(t=>t.id===activeTimeEntry.type)||{icon:'‚è±',label:activeTimeEntry.type,color:'var(--accent)'};
+  const task=TM_TASKS.find(t=>t.id===activeTimeEntry.type)||{icon:'\u{23F1}',label:activeTimeEntry.type,color:'var(--accent)'};
   document.getElementById('tm-active-icon').textContent=task.icon;
   const lbl=document.getElementById('tm-active-label');
   lbl.textContent=task.label; lbl.style.color=task.color;
@@ -1996,17 +1996,17 @@ function renderTMLog(){
   const el=document.getElementById('tm-log-list'); if(!el) return;
   const today=tmTodayStr();
   const entries=timeLog.filter(e=>e.date===today);
-  if(entries.length===0){ el.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">No entries logged today ‚Äî tap a task above to start</div>'; return; }
+  if(entries.length===0){ el.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">No entries logged today \u{2014} tap a task above to start</div>'; return; }
   el.innerHTML=entries.map(e=>{
-    const task=TM_TASKS.find(t=>t.id===e.type)||{icon:'‚è±',label:e.type,color:'var(--muted)'};
+    const task=TM_TASKS.find(t=>t.id===e.type)||{icon:'\u{23F1}',label:e.type,color:'var(--muted)'};
     return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;border-left:3px solid ${task.color};margin-bottom:4px">
       <div style="font-size:16px">${task.icon}</div>
       <div style="flex:1;min-width:0">
         <div style="font-size:13px;font-weight:600;color:${task.color}">${task.label}</div>
-        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${tmFmtTime(e.startTime)} ‚Üí ${tmFmtTime(e.endTime)}</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace">${tmFmtTime(e.startTime)} \u{2192} ${tmFmtTime(e.endTime)}</div>
       </div>
       <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);flex-shrink:0">${tmFmtDuration(e.duration)}</div>
-      <button class="btn btn-danger btn-sm" onclick="deleteTMEntry(${e.id})">‚úï</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteTMEntry(${e.id})">\u{2715}</button>
     </div>`;
   }).join('');
 }
@@ -2021,9 +2021,9 @@ function renderTMPanel(){
   renderTMLog();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // INIT
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 updateDate();
 setInterval(updateDate,1000);
 initDateInputs();
@@ -2041,7 +2041,7 @@ if(activeTimeEntry) startTMTimer();
 updateHomeStats();
 updateExportCounts();
 
-// ‚îÄ‚îÄ AUTH ‚Äî Simple sync key (no auth SDK) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500} AUTH \u{2014} Simple sync key (no auth SDK) \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 async function handleLogin() {
   const password = document.getElementById('loginPassword').value.trim();
   if (password.length < 6) { showLoginError('Sync key must be at least 6 characters.'); return; }
@@ -2070,7 +2070,7 @@ async function handleSignOut() {
 
 function setLoginLoading(loading) {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = loading ? 'Connecting...' : 'Connect ‚Üí';
+  btn.textContent = loading ? 'Connecting...' : 'Connect \u{2192}';
   btn.disabled = loading;
 }
 
@@ -2102,7 +2102,7 @@ function setSyncStatus(status, msg) {
   msgEl.textContent = msg || 'Synced';
 }
 
-// ‚îÄ‚îÄ LOAD ALL DATA FROM SUPABASE (direct REST) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500} LOAD ALL DATA FROM SUPABASE (direct REST) \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 async function loadAllFromSupabase() {
   if (!syncId) return;
   setSyncStatus('syncing', 'Loading your data...');
@@ -2130,20 +2130,20 @@ async function loadAllFromSupabase() {
     loadNotes(); renderConvoNotes(); renderDocs();
     renderHandoffs(); renderTrips(); renderSavedSchedules(); renderTMPanel();
     updateHomeStats(); updateExportCounts();
-    setSyncStatus('synced', 'Synced ‚úì');
+    setSyncStatus('synced', 'Synced \u{2713}');
   } catch(e) {
-    setSyncStatus('error', 'Sync error ‚Äî using local data');
+    setSyncStatus('error', 'Sync error \u{2014} using local data');
     console.error('Load error:', e);
   }
 }
 
-// ‚îÄ‚îÄ SAVE A SINGLE KEY TO SUPABASE ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500} SAVE A SINGLE KEY TO SUPABASE \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 
 
-// ‚îÄ‚îÄ PATCH SAVE FUNCTIONS TO ALSO SYNC ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
-// ‚îÄ‚îÄ SAVE FUNCTIONS now call syncToCloud directly (see definitions above) ‚îÄ‚îÄ
+// \u{2500}\u{2500} PATCH SAVE FUNCTIONS TO ALSO SYNC \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
+// \u{2500}\u{2500} SAVE FUNCTIONS now call syncToCloud directly (see definitions above) \u{2500}\u{2500}
 
-// ‚îÄ‚îÄ AUTO-LOGIN + REFRESH ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500} AUTO-LOGIN + REFRESH \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 function refreshAllData() {
   if (!syncId) return;
   loadAllFromSupabase();
@@ -2160,7 +2160,7 @@ if (syncId) {
   document.getElementById('loginScreen').style.display = 'flex';
 }
 
-// ‚îÄ‚îÄ PWA ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u{2500}\u{2500} PWA \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
