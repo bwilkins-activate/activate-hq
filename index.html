@@ -407,28 +407,36 @@ input[type="file"]:hover{border-color:var(--accent)}
 
   <div class="card" style="margin-bottom:16px">
     <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px">
-      <div style="flex:2;min-width:200px">
-        <div class="input-label">Anthropic API Key</div>
-        <input type="password" id="sched-api-key" placeholder="sk-ant-..." style="font-family:'DM Mono',monospace;font-size:12px"
-          oninput="localStorage.setItem('ag_anthropic_key',this.value)"
-          value="">
-      </div>
       <div style="flex:1;min-width:140px">
         <div class="input-label">Schedule Week Start</div>
         <input type="date" id="sched-week-start">
       </div>
+      <div style="flex:2;min-width:200px">
+        <div class="input-label">Anthropic API Key <span style="color:var(--muted);font-weight:400">(only needed for screenshot uploads)</span></div>
+        <input type="password" id="sched-api-key" placeholder="sk-ant-... (not needed for CSV)" style="font-family:'DM Mono',monospace;font-size:12px"
+          oninput="localStorage.setItem('ag_anthropic_key',this.value)"
+          value="">
+      </div>
     </div>
-    <div class="schedule-drop-zone" id="dropZone" onclick="document.getElementById('schedFileInput').click()"
-      ondragover="event.preventDefault();this.classList.add('drag-over')"
-      ondragleave="this.classList.remove('drag-over')"
-      ondrop="handleSchedDrop(event)">
-      <div class="drop-icon">&#128248;</div>
-      <div style="font-size:15px;font-weight:600;margin-top:8px">Drop Schedule Screenshot Here</div>
-      <p>or click to browse &#8212; PNG, JPG supported</p>
-      <input type="file" id="schedFileInput" accept="image/*" style="display:none" onchange="handleSchedFile(this)">
-    </div>
-    <div style="font-size:12px;color:var(--muted);margin-top:8px">
-      AI reads the screenshot and extracts every employee + shift time. Review before saving.
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px">
+      <div class="schedule-drop-zone" id="dropZoneCSV" onclick="document.getElementById('schedCSVInput').click()"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleSchedDrop(event)" style="padding:18px">
+        <div class="drop-icon" style="font-size:24px">&#128196;</div>
+        <div style="font-size:14px;font-weight:600;margin-top:6px">Upload CSV Export</div>
+        <p style="font-size:11px">No API key needed &#8212; export from your scheduling tool</p>
+        <input type="file" id="schedCSVInput" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleSchedFile(this)">
+      </div>
+      <div class="schedule-drop-zone" id="dropZone" onclick="document.getElementById('schedFileInput').click()"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleSchedDrop(event)" style="padding:18px">
+        <div class="drop-icon" style="font-size:24px">&#128248;</div>
+        <div style="font-size:14px;font-weight:600;margin-top:6px">Upload Screenshot</div>
+        <p style="font-size:11px">AI reads image &#8212; requires API key above</p>
+        <input type="file" id="schedFileInput" accept="image/*" style="display:none" onchange="handleSchedFile(this)">
+      </div>
     </div>
   </div>
 
@@ -1225,12 +1233,89 @@ function renderTrips(){
 function handleSchedDrop(e){
   e.preventDefault();
   document.getElementById('dropZone').classList.remove('drag-over');
+  document.getElementById('dropZoneCSV').classList.remove('drag-over');
   const file=e.dataTransfer.files[0];
-  if(file&&file.type.startsWith('image/')) processSchedImage(file);
+  if(!file) return;
+  if(file.name.match(/\.(csv)$/i)) processSchedCSV(file);
+  else if(file.type.startsWith('image/')) processSchedImage(file);
 }
 function handleSchedFile(input){
   const file=input.files[0];
-  if(file) processSchedImage(file);
+  if(!file) return;
+  if(file.name.match(/\.(csv)$/i)) processSchedCSV(file);
+  else processSchedImage(file);
+}
+
+// Parse the structured weekly schedule CSV:
+// Row 0 = headers: "Employee", "Mon 02/23", "Tue 02/24", ...
+// Row 1+ = employee rows: name, shift times or blank per day
+async function processSchedCSV(file){
+  const area = document.getElementById('schedPreviewArea');
+  area.innerHTML = `<div class="ai-loading"><div class="spinner"></div> Parsing CSV schedule\u{2026}</div>`;
+  try {
+    const text = await file.text();
+    const rows = parseCSVRobust(text);
+    if(rows.length < 2) throw new Error('CSV appears empty or unreadable.');
+
+    // Header row \u{2014} extract dates from column names like "Mon 02/23" or "Mon 2/23/2026"
+    const headers = rows[0];
+    const weekStartInput = document.getElementById('sched-week-start').value;
+
+    // Try to parse dates from header cells
+    const colDates = headers.map((h, i) => {
+      if(i === 0) return null; // employee column
+      // Match patterns like "02/23", "2/23", "02/23/2026", "2/23/2026"
+      const m = h.match(/(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?/);
+      if(m) {
+        const yr = m[3] ? (m[3].length===2?'20'+m[3]:m[3]) : new Date().getFullYear();
+        const mo = m[1].padStart(2,'0');
+        const dy = m[2].padStart(2,'0');
+        return `${yr}-${mo}-${dy}`;
+      }
+      // If no date in header, try to infer from weekStart + day-of-week name
+      if(weekStartInput) {
+        const dayNames = ['sun','mon','tue','wed','thu','fri','sat'];
+        const lh = h.toLowerCase().trim();
+        const idx = dayNames.findIndex(d => lh.startsWith(d));
+        if(idx >= 0) {
+          const base = new Date(weekStartInput + 'T12:00:00');
+          const baseDow = base.getDay();
+          let diff = idx - baseDow;
+          if(diff < 0) diff += 7;
+          const d = new Date(base); d.setDate(d.getDate() + diff);
+          return d.toISOString().split('T')[0];
+        }
+      }
+      return null;
+    });
+
+    const shifts = [];
+    for(let r = 1; r < rows.length; r++){
+      const row = rows[r];
+      const rawName = (row[0]||'').trim();
+      if(!rawName) continue;
+      // Normalize "Last, First M" \u{2192} "First Last"
+      let name = rawName;
+      if(name.includes(',')) {
+        const parts = name.split(',');
+        name = (parts[1]||'').trim().split(' ')[0] + ' ' + (parts[0]||'').trim();
+      }
+      for(let c = 1; c < headers.length; c++){
+        const cell = (row[c]||'').trim();
+        if(!cell || cell.toLowerCase().includes('unpaid') || cell === '\u2014' || cell === '-') continue;
+        // Accept cells that look like shift times: contain AM or PM
+        if(!cell.match(/[AP]M/i)) continue;
+        // Strip "Unpaid Time" suffix if on same line
+        const timeStr = cell.replace(/\n?unpaid\s*time/gi,'').trim();
+        shifts.push({ name, date: colDates[c] || '', time: timeStr, role: '' });
+      }
+    }
+
+    if(shifts.length === 0) throw new Error('No shifts found. Make sure the CSV has time values like "9:00 AM - 5:00 PM" and column headers with dates.');
+    renderSchedPreview(shifts, weekStartInput, file.name);
+  } catch(err) {
+    area.innerHTML = `<div class="card" style="border-color:var(--accent2)"><div style="color:var(--accent2);font-weight:600">\u{26A0}\u{FE0F} ${escHtml(err.message)}</div><div style="color:var(--muted);font-size:13px;margin-top:6px">Export as CSV from your scheduling tool (e.g. ADP, When I Work, Deputy). Make sure column headers include dates like "Mon 02/23".</div></div>`;
+  }
 }
 
 async function processSchedImage(file){
