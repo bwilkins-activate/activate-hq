@@ -1303,6 +1303,8 @@ function parseScheduleCSVText(text, weekStartHint='') {
     const row = rows[r];
     const rawName = (row[0]||'').trim();
     if(!rawName) continue;
+    // Stop at a second header row (sheet has multiple tables)
+    if(rawName.toLowerCase() === 'employee') break;
     let name = rawName;
     if(name.includes(',')){ const p=name.split(','); name=(p[1]||'').trim().split(' ')[0]+' '+(p[0]||'').trim(); }
     for(let c = 1; c < headers.length; c++){
