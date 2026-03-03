@@ -606,37 +606,25 @@ input[type="file"]:hover{border-color:var(--accent)}
   </div>
 </div>
 
-<!-- ===== TRAINING TRIPS PANEL ===== -->
+<!-- ===== TRAINING PLANS PANEL ===== -->
 <div id="panel-trips" class="panel">
-  <div class="section-title">Training Trips <span>&#8212; location openings & GM training tracker</span></div>
-  <div class="card" style="margin-bottom:16px">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-bottom:12px">
-      <div><div class="input-label">Location / City</div><input type="text" id="trip-loc" placeholder="e.g. Nashville, TN"></div>
-      <div><div class="input-label">Trip Type</div>
-        <select id="trip-type">
-          <option value="opening">&#127978; New Location Opening</option>
-          <option value="gm">&#128100; GM Training</option>
-          <option value="support">&#129309; Support Visit</option>
-        </select>
+  <div class="section-title">Training Plans <span>&#8212; live from Google Sheets</span></div>
+  <div class="card" style="border-color:rgba(0,229,255,.25);margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="font-size:22px">&#128203;</div>
+      <div style="flex:1">
+        <div style="font-weight:600;font-size:14px">Connected to Google Sheets</div>
+        <div id="training-sheet-status" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">Connecting&#8230;</div>
       </div>
-      <div><div class="input-label">Start Date</div><input type="date" id="trip-start"></div>
-      <div><div class="input-label">End Date</div><input type="date" id="trip-end"></div>
-      <div style="grid-column:1/-1"><div class="input-label">Notes</div><input type="text" id="trip-notes" placeholder="Hotel, contact person, special focus areas..."></div>
+      <button class="btn btn-ghost btn-sm" onclick="fetchTrainingPlans(true)">&#128260; Sync Now</button>
     </div>
-    <div style="margin-bottom:12px">
-      <div class="input-label" style="margin-bottom:5px">Trainees (one per line)</div>
-      <textarea id="trip-trainees" placeholder="John Smith&#10;Jane Doe&#10;..." style="min-height:80px;resize:vertical;width:100%"></textarea>
-    </div>
-    <button class="btn btn-primary" onclick="addTrip()">+ Add Trip</button>
   </div>
-  <div class="filter-row" id="trip-filters">
-    <button class="filter-chip active-chip" onclick="setTripFilter('all',this)">All</button>
-    <button class="filter-chip" onclick="setTripFilter('upcoming',this)">&#128467; Upcoming</button>
-    <button class="filter-chip" onclick="setTripFilter('opening',this)">&#127978; Openings</button>
-    <button class="filter-chip" onclick="setTripFilter('gm',this)">&#128100; GM Training</button>
-    <button class="filter-chip" onclick="setTripFilter('complete',this)">&#9989; Complete</button>
+  <div style="display:flex;gap:10px;margin-bottom:16px">
+    <button id="ttog-gm" class="btn btn-primary" style="flex:1;justify-content:center" onclick="setTrainingProgram('GM Training')">&#128100; GM Training <span style="font-size:11px;opacity:.65">10 days</span></button>
+    <button id="ttog-ow" class="btn btn-ghost" style="flex:1;justify-content:center" onclick="setTrainingProgram('Opening Week')">&#127978; Opening Week <span style="font-size:11px;opacity:.65">7 days</span></button>
   </div>
-  <div id="tripsList"></div>
+  <div id="training-days" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;scrollbar-width:thin"></div>
+  <div id="training-content"></div>
 </div>
 
 <!-- ===== LINKS PANEL ===== -->
@@ -913,6 +901,12 @@ let convoNotes = JSON.parse(localStorage.getItem('ag_convonotes')|| '[]');
 let docs       = JSON.parse(localStorage.getItem('ag_docs')      || '[]');
 let handoffs   = JSON.parse(localStorage.getItem('ag_handoffs')  || '[]');
 let trips      = JSON.parse(localStorage.getItem('ag_trips')     || '[]');
+let trainingPlans    = JSON.parse(localStorage.getItem('ag_training_plans')    || '[]');
+let trainingProgress = JSON.parse(localStorage.getItem('ag_training_progress') || '{}');
+let trainingProgram  = 'GM Training';
+let trainingDay      = 1;
+let trainingSheetInterval = null;
+const TRAINING_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1fCVJXlgBt1LnqjB2pKB0sMUHX7h1302TtfctwdJdo3E/export?format=csv&gid=850525470';
 let schedules  = JSON.parse(localStorage.getItem('ag_schedules') || '[]');
 let timeLog    = JSON.parse(localStorage.getItem('ag_timelog')   || '[]');
 let activeTimeEntry = JSON.parse(localStorage.getItem('ag_active_time') || 'null');
@@ -1201,55 +1195,119 @@ function renderHandoffs() { /* replaced by Google Forms feed */ }
 // \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
 // TRAINING TRIPS
 // \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
-function saveTrips(){ localStorage.setItem('ag_trips',JSON.stringify(trips)); syncToCloud('trips',trips); }
-function addTrip(){
-  const loc=document.getElementById('trip-loc').value.trim();
-  if(!loc){alert('Please enter a location');return;}
-  const traineesRaw=document.getElementById('trip-trainees').value.trim();
-  const trainees=traineesRaw?traineesRaw.split('\n').map(t=>t.trim()).filter(t=>t).map(t=>({name:t,done:false})):[];
-  trips.unshift({id:Date.now(),loc,type:document.getElementById('trip-type').value,start:document.getElementById('trip-start').value,end:document.getElementById('trip-end').value,notes:document.getElementById('trip-notes').value,trainees,status:'upcoming'});
-  document.getElementById('trip-loc').value='';document.getElementById('trip-notes').value='';document.getElementById('trip-trainees').value='';
-  saveTrips();renderTrips();
+// \u{2500}\u{2500} TRAINING PLANS \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
+async function fetchTrainingPlans(manual=false) {
+  const statusEl = document.getElementById('training-sheet-status');
+  if(statusEl) statusEl.textContent = 'Syncing\u2026';
+  try {
+    const resp = await fetch(TRAINING_SHEET_URL + '&nocache=' + Date.now(), {cache:'no-store'});
+    if(!resp.ok) throw new Error('HTTP ' + resp.status);
+    trainingPlans = parseTrainingCSV(await resp.text());
+    localStorage.setItem('ag_training_plans', JSON.stringify(trainingPlans));
+    const timeStr = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    if(statusEl) statusEl.innerHTML = '\u{1F7E2} Synced ' + timeStr + ' \u00B7 ' + trainingPlans.length + ' tasks';
+    renderTrainingTab();
+  } catch(e) {
+    if(statusEl) statusEl.innerHTML = '\u{1F534} Sync failed: ' + escHtml(e.message);
+  }
 }
-function deleteTrip(id){ if(!confirm('Delete this trip?'))return; trips=trips.filter(t=>t.id!==id); saveTrips();renderTrips(); }
-function markTripComplete(id){ const t=trips.find(t=>t.id===id); if(t){t.status='complete';saveTrips();renderTrips();} }
-function toggleTrainee(tripId,tIdx){ const trip=trips.find(t=>t.id===tripId); if(trip&&trip.trainees[tIdx]){trip.trainees[tIdx].done=!trip.trainees[tIdx].done;saveTrips();renderTrips();} }
-function setTripFilter(f,btn){ tripFilter=f; document.querySelectorAll('#trip-filters .filter-chip').forEach(c=>c.classList.remove('active-chip')); btn.classList.add('active-chip'); renderTrips(); }
-const tripTypeLabel={opening:'\u{1F3EA} Location Opening',gm:'\u{1F464} GM Training',support:'\u{1F91D} Support Visit'};
-function renderTrips(){
-  const el=document.getElementById('tripsList');if(!el)return;
-  let list=trips;
-  if(tripFilter==='upcoming')list=trips.filter(t=>t.status!=='complete');
-  else if(tripFilter==='complete')list=trips.filter(t=>t.status==='complete');
-  else if(['opening','gm','support'].includes(tripFilter))list=trips.filter(t=>t.type===tripFilter);
-  if(list.length===0){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No trips logged yet.</div>';return;}
-  el.innerHTML=list.map(t=>{
-    const done=t.trainees.filter(tr=>tr.done).length;
-    const pct=t.trainees.length?Math.round(done/t.trainees.length*100):0;
-    return`<div class="trip-card">
-      <div class="trip-header">
-        <div class="trip-title">\u{1F4CD} ${escHtml(t.loc)}</div>
-        <span class="badge badge-cyan">${tripTypeLabel[t.type]||t.type}</span>
-        <span class="badge ${t.status==='complete'?'badge-green':'badge-gold'}">${t.status==='complete'?'\u{2705} Complete':'\u{1F5D3} Upcoming'}</span>
-        ${t.status!=='complete'?`<button class="btn btn-green btn-sm" onclick="markTripComplete(${t.id})">Mark Complete</button>`:''}
-        <button class="btn btn-danger btn-sm" onclick="deleteTrip(${t.id})">\u{2715}</button>
-      </div>
-      <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:10px">
-        \u{1F4C5} ${fmtDate(t.start)} \u{2192} ${fmtDate(t.end)}
-        ${t.notes?` \u{B7} ${escHtml(t.notes)}`:''}
-      </div>
-      ${t.trainees.length>0?`
-        <div style="margin-bottom:6px">
-          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:6px">Trainees \u{2014} ${done}/${t.trainees.length} trained (${pct}%)</div>
-          <div class="progress-bar" style="margin-bottom:10px"><div class="progress-fill" style="width:${pct}%"></div></div>
-          ${t.trainees.map((tr,i)=>`<div class="trainee-row">
-            <div class="trainee-check ${tr.done?'checked':''}" onclick="toggleTrainee(${t.id},${i})"></div>
-            <div class="trainee-name">${escHtml(tr.name)}</div>
-            <span class="badge ${tr.done?'badge-green':'badge-gold'}">${tr.done?'Trained':'Pending'}</span>
-          </div>`).join('')}
-        </div>`:''}
-    </div>`;
-  }).join('');
+function parseTrainingCSV(text) {
+  const rows = parseCSVRobust(text);
+  if(rows.length < 2) return [];
+  const items = [];
+  for(let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    const type = (row[0]||'').trim();
+    const day  = parseInt(row[1]||'0');
+    const time = (row[2]||'').trim();
+    const task = (row[3]||'').trim();
+    const notes= (row[4]||'').trim();
+    if(!type || !day || !task) continue;
+    items.push({type, day, time, task, notes});
+  }
+  return items;
+}
+function startTrainingPoll() {
+  fetchTrainingPlans();
+  clearInterval(trainingSheetInterval);
+  trainingSheetInterval = setInterval(fetchTrainingPlans, 30*60*1000);
+}
+function setTrainingProgram(p) {
+  trainingProgram = p; trainingDay = 1;
+  const gm = document.getElementById('ttog-gm');
+  const ow = document.getElementById('ttog-ow');
+  if(gm && ow) {
+    if(p === 'GM Training') { gm.className='btn btn-primary'; ow.className='btn btn-ghost'; }
+    else { ow.className='btn btn-primary'; gm.className='btn btn-ghost'; }
+    gm.style.flex='1'; ow.style.flex='1';
+    gm.style.justifyContent='center'; ow.style.justifyContent='center';
+  }
+  renderTrainingTab();
+}
+function setTrainingDay(d) { trainingDay = d; renderTrainingTab(); }
+function trainingKey(item) { return item.type+'|'+item.day+'|'+item.time+'|'+item.task; }
+function toggleTrainingTask(key) {
+  trainingProgress[key] = !trainingProgress[key];
+  localStorage.setItem('ag_training_progress', JSON.stringify(trainingProgress));
+  syncToCloud('training_progress', trainingProgress);
+  renderTrainingTab();
+}
+function resetTrainingDay() {
+  if(!confirm('Reset all checkboxes for Day ' + trainingDay + '?')) return;
+  trainingPlans.filter(i=>i.type===trainingProgram&&i.day===trainingDay).forEach(i=>{ delete trainingProgress[trainingKey(i)]; });
+  localStorage.setItem('ag_training_progress', JSON.stringify(trainingProgress));
+  syncToCloud('training_progress', trainingProgress);
+  renderTrainingTab();
+}
+function renderTrainingTab() {
+  const daysEl = document.getElementById('training-days');
+  const contentEl = document.getElementById('training-content');
+  if(!daysEl || !contentEl) return;
+  const progItems = trainingPlans.filter(i=>i.type===trainingProgram);
+  const maxDay = progItems.length ? Math.max(...progItems.map(i=>i.day)) : (trainingProgram==='GM Training'?10:7);
+  // Day selector
+  let daysHtml = '';
+  for(let d = 1; d <= maxDay; d++) {
+    const dayItems = progItems.filter(i=>i.day===d);
+    const done = dayItems.filter(i=>trainingProgress[trainingKey(i)]).length;
+    const total = dayItems.length;
+    const allDone = total > 0 && done === total;
+    const active = d === trainingDay;
+    daysHtml += `<button onclick="setTrainingDay(${d})" style="flex-shrink:0;padding:8px 14px;border-radius:20px;border:2px solid ${active?'var(--accent)':allDone?'var(--accent3)':'var(--border)'};background:${active?'var(--accent)':'transparent'};color:${active?'#000':allDone?'var(--accent3)':'var(--text)'};font-size:12px;font-family:'DM Mono',monospace;cursor:pointer;white-space:nowrap">Day&nbsp;${d}${total?` <span style="opacity:.65">${done}/${total}</span>`:''}</button>`;
+  }
+  daysEl.innerHTML = daysHtml;
+  // Task list
+  const dayItems = progItems.filter(i=>i.day===trainingDay).sort((a,b)=>{
+    const toMin = t => { if(!t) return 0; const m=t.match(/(\d+):(\d+)\s*(AM|PM)/i); if(!m) return 0; let h=parseInt(m[1]),mn=parseInt(m[2]); if(m[3].toUpperCase()==='PM'&&h!==12)h+=12; if(m[3].toUpperCase()==='AM'&&h===12)h=0; return h*60+mn; };
+    return toMin(a.time)-toMin(b.time);
+  });
+  if(progItems.length === 0) { contentEl.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)">Syncing training plan from Google Sheets\u2026</div>'; return; }
+  const done = dayItems.filter(i=>trainingProgress[trainingKey(i)]).length;
+  const total = dayItems.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  let html = `<div class="card" style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-weight:600;font-size:15px">${escHtml(trainingProgram)} &#8212; Day ${trainingDay}</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:13px;color:var(--muted)">${done}/${total} complete</span><button class="btn btn-ghost btn-sm" onclick="resetTrainingDay()">Reset</button></div></div><div class="progress-bar" style="margin-bottom:0"><div class="progress-fill" style="width:${pct}%;${pct===100?'background:var(--accent3)':''}"></div></div></div>`;
+  if(dayItems.length === 0) {
+    html += '<div style="text-align:center;padding:28px;color:var(--muted);font-size:14px">No tasks for Day '+trainingDay+'. Add them in the Google Sheet.</div>';
+  } else {
+    html += '<div style="display:flex;flex-direction:column;gap:8px">';
+    dayItems.forEach(item => {
+      const key = trainingKey(item);
+      const checked = !!trainingProgress[key];
+      const safeKey = key.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      html += `<div onclick="toggleTrainingTask('${safeKey}')" style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:opacity .15s;${checked?'opacity:.45':''}">
+        <div style="width:20px;height:20px;border-radius:5px;border:2px solid ${checked?'var(--accent3)':'var(--border)'};background:${checked?'var(--accent3)':'transparent'};flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center">${checked?'<svg width="11" height="9" viewBox="0 0 11 9"><polyline points="1,4 4.5,7.5 10,1" stroke="#0a0c10" stroke-width="2.2" fill="none"/></svg>':''}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap">
+            ${item.time?`<span style="font-size:11px;color:var(--accent);font-family:'DM Mono',monospace;white-space:nowrap">${escHtml(item.time)}</span>`:''}
+            <span style="font-size:14px;${checked?'text-decoration:line-through':''}">${escHtml(item.task)}</span>
+          </div>
+          ${item.notes?`<div style="font-size:12px;color:var(--muted);margin-top:3px">${escHtml(item.notes)}</div>`:''}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  contentEl.innerHTML = html;
 }
 
 // \u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}\u{2500}
@@ -2219,7 +2277,7 @@ renderConvoNotes();
 renderDocs();
 startGFPoll();
 startSchedSheetPoll();
-renderTrips();
+startTrainingPoll();
 renderSavedSchedules();
 // Restore saved API key into field
 (()=>{ const k=localStorage.getItem('ag_anthropic_key'); if(k){ const el=document.getElementById('sched-api-key'); if(el) el.value=k; } })();
@@ -2310,6 +2368,7 @@ async function loadAllFromSupabase() {
       if (key === 'convoNotes')   { convoNotes = d;   localStorage.setItem('ag_convonotes', JSON.stringify(d)); }
       if (key === 'handoffs')     { handoffs = d;     localStorage.setItem('ag_handoffs', JSON.stringify(d)); }
       if (key === 'trips')        { trips = d;        localStorage.setItem('ag_trips', JSON.stringify(d)); }
+      if (key === 'training_progress') { trainingProgress = d; localStorage.setItem('ag_training_progress', JSON.stringify(d)); renderTrainingTab(); }
       if (key === 'schedules')    { schedules = d;    localStorage.setItem('ag_schedules', JSON.stringify(d)); }
       if (key === 'timeLog')      { timeLog = d;      localStorage.setItem('ag_timelog',   JSON.stringify(d)); }
     });
