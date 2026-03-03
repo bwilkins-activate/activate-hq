@@ -995,9 +995,18 @@ function updateHomeStats(){
     return { start: toMin(m[1], m[2]), end: toMin(m[3], m[4]) };
   }
 
+  // Prefer gsheet source; fall back to manual. Deduplicate by name+time.
+  const gsheetSched = schedules.find(s => s.source === 'gsheet');
+  const activeSched = gsheetSched ? [gsheetSched] : schedules.slice(0, 1);
+  const seen = new Set();
   let todayShifts = [];
-  schedules.forEach(s => {
-    if (s.shifts) s.shifts.forEach(sh => { if (sh.date === todayStr) todayShifts.push(sh); });
+  activeSched.forEach(s => {
+    if (s.shifts) s.shifts.forEach(sh => {
+      if (sh.date === todayStr) {
+        const key = sh.name + '|' + sh.time;
+        if (!seen.has(key)) { seen.add(key); todayShifts.push(sh); }
+      }
+    });
   });
 
   const onNow    = todayShifts.filter(sh => { const t = parseShiftMins(sh.time); return t ? nowMin >= t.start && nowMin < t.end : true; });
@@ -1335,11 +1344,11 @@ async function fetchGSheetSchedule(manual=false) {
     const weekStart = dates[0] || '';
     const weekEnd   = dates[dates.length-1] || '';
     const label = weekStart ? `Week of ${fmtDate(weekStart)}` : 'Google Sheets';
-    // Replace existing entry for this week or prepend
-    const existIdx = schedules.findIndex(s => s.weekStart === weekStart && s.source === 'gsheet');
-    const entry = { id: existIdx>=0 ? schedules[existIdx].id : Date.now(), weekStart, weekEnd, filename: label, shifts, saved: new Date().toLocaleDateString(), source:'gsheet' };
-    if(existIdx >= 0) schedules[existIdx] = entry;
-    else { schedules.unshift(entry); if(schedules.length>10) schedules=schedules.slice(0,10); }
+    // Replace ALL previous Google Sheets entries with the fresh fetch
+    schedules = schedules.filter(s => s.source !== 'gsheet');
+    const entry = { id: Date.now(), weekStart, weekEnd, filename: label, shifts, saved: new Date().toLocaleDateString(), source:'gsheet' };
+    schedules.unshift(entry);
+    if(schedules.length > 10) schedules = schedules.slice(0, 10);
     localStorage.setItem('ag_schedules', JSON.stringify(schedules));
     syncToCloud('schedules', schedules);
     updateHomeStats();
