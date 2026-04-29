@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate Lex — Deployment</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c10;--surface:#12151c;--surface2:#1a1f2b;--border:#252b3a;--accent:#00e5ff;--accent2:#ff4d6d;--accent3:#a8ff3e;--text:#e8eaf0;--muted:#6b7394;--gold:#ffd166;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 20px 60px;}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.logo-area h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,3.5vw,34px);letter-spacing:3px;color:var(--accent);line-height:1;}
+.logo-area p{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-family:'DM Mono',monospace;}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.date-badge{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:6px 14px;border-radius:6px;}
+.edit-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:7px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s;display:flex;align-items:center;gap:6px;}
+.edit-btn:hover{border-color:var(--accent);color:var(--accent);}
+.edit-btn.active{background:var(--accent);color:#000;border-color:var(--accent);box-shadow:0 0 16px rgba(0,229,255,.3);}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 8px var(--accent3);animation:pulse 2s infinite;display:inline-block;margin-right:6px;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TABS */
+.tabs{display:flex;gap:3px;margin-bottom:18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;overflow-x:auto;flex-wrap:nowrap;}
+.tab-btn{flex-shrink:0;padding:9px 20px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border-radius:7px;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--text);background:var(--surface2);}
+.tab-btn.active{background:var(--accent);color:#000;font-weight:700;box-shadow:0 0 16px rgba(0,229,255,.3);}
+
+/* PANELS */
+.panel{display:none;animation:fadeIn .25s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start;}
+.two-col-equal{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+.two-col-wide{display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start;}
+@media(max-width:900px){.two-col,.two-col-equal,.two-col-wide{grid-template-columns:1fr;}}
+
+/* SECTION TITLE */
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title span{color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;letter-spacing:0;font-weight:400;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px;transition:border-color .2s;}
+.card:hover{border-color:rgba(0,229,255,.15);}
+
+/* ANNOUNCEMENT */
+.announcement-card{background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(0,229,255,.03));border:1px solid rgba(0,229,255,.25);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+.announcement-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.announcement-text{font-size:14px;color:var(--text);line-height:1.6;white-space:pre-wrap;}
+.announcement-text.empty{color:var(--muted);font-style:italic;}
+.announcement-edit textarea{width:100%;min-height:70px;resize:vertical;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;transition:border-color .2s;}
+.announcement-edit textarea:focus{border-color:var(--accent);}
+
+/* INPUTS */
+input[type="text"],input[type="number"],select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:8px 12px;outline:none;transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+select{cursor:pointer;}
+.input-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;margin-bottom:5px;}
+
+/* BUTTONS */
+.btn{border:none;border-radius:8px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{box-shadow:0 0 18px rgba(0,229,255,.4);transform:translateY(-1px);}
+.btn-danger{background:transparent;border:1px solid var(--accent2);color:var(--accent2);padding:5px 10px;font-size:12px;border-radius:6px;}
+.btn-danger:hover{background:var(--accent2);color:#fff;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.btn-sm{padding:5px 11px;font-size:12px;}
+
+/* BADGES */
+.badge{padding:3px 8px;border-radius:4px;font-size:10px;font-family:'DM Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+.badge-cyan{background:rgba(0,229,255,.1);color:var(--accent);border:1px solid rgba(0,229,255,.25);}
+.badge-red{background:rgba(255,77,109,.15);color:var(--accent2);border:1px solid rgba(255,77,109,.3);}
+.badge-green{background:rgba(168,255,62,.1);color:var(--accent3);border:1px solid rgba(168,255,62,.25);}
+.badge-gold{background:rgba(255,209,102,.15);color:var(--gold);border:1px solid rgba(255,209,102,.3);}
+.badge-purple{background:rgba(192,132,252,.15);color:#c084fc;border:1px solid rgba(192,132,252,.3);}
+
+/* ROSTER */
+.roster-table{width:100%;border-collapse:collapse;}
+.roster-table th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:9px 12px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.roster-table td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px;}
+.roster-row{transition:background .15s;border-left:3px solid transparent;}
+.roster-row:hover{background:var(--surface2);}
+.roster-row:nth-child(odd){background:rgba(255,255,255,.018);}
+.roster-row:last-child td{border-bottom:none;}
+.roster-row.just-added{animation:rowPop .5s ease;}
+@keyframes rowPop{0%{background:rgba(0,229,255,.18);}100%{background:transparent;}}
+.roster-row.dragging{opacity:.35;}
+.roster-row.drag-over td:first-child{border-left:2px solid var(--accent);}
+.drag-handle{cursor:grab;color:var(--muted);font-size:14px;padding:0 4px;transition:color .15s;display:none;}
+.drag-handle:active{cursor:grabbing;}
+.edit-mode .drag-handle{display:inline;}
+.employee-name{font-weight:600;font-size:14px;}
+.roster-actions{display:none;gap:6px;}
+.edit-mode .roster-actions{display:flex;}
+
+/* DEPLOYMENT TIMELINE (table display) */
+.deploy-timeline{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.deploy-stop{display:inline-flex;align-items:center;gap:4px;}
+.deploy-arrow{color:var(--muted);font-size:11px;margin:0 2px;}
+.deploy-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:1px 5px;background:var(--surface2);border-radius:3px;border:1px solid var(--border);}
+
+/* DEPLOYMENT BUILDER (in modal) */
+.deploy-builder{display:flex;flex-direction:column;gap:8px;}
+.deploy-stop-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.deploy-stop-row select{flex:1;min-width:100px;}
+.deploy-stop-row .at-input{width:110px;font-family:'DM Mono',monospace;font-size:12px;}
+.deploy-add-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;border:1px dashed var(--border);background:transparent;color:var(--muted);border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;transition:all .2s;width:100%;}
+.deploy-add-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* QUICK ADD BAR */
+.quick-add-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:12px 14px;background:var(--surface2);border:1px dashed var(--border);border-radius:10px;margin-top:12px;transition:border-color .2s;}
+.quick-add-bar:focus-within{border-color:rgba(0,229,255,.3);}
+.qa-name{flex:1;min-width:100px;}
+.qa-area{min-width:100px;}
+.qa-at{width:95px;font-family:'DM Mono',monospace;font-size:12px;}
+.qa-area2{min-width:90px;}
+.qa-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;white-space:nowrap;}
+.qa-shift-group{display:flex;gap:0;}
+.qa-shift-btn{padding:7px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+.qa-shift-btn:first-child{border-radius:7px 0 0 7px;}
+.qa-shift-btn:last-child{border-radius:0 7px 7px 0;border-left:none;}
+.qa-shift-btn.qa-open{background:rgba(168,255,62,.12);color:var(--accent3);border-color:rgba(168,255,62,.35);}
+.qa-shift-btn.qa-close{background:rgba(255,77,109,.12);color:var(--accent2);border-color:rgba(255,77,109,.35);}
+
+/* TO-DO */
+.todo-input-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.todo-input-row input{flex:1;min-width:140px;}
+.todo-list{display:flex;flex-direction:column;gap:6px;}
+.todo-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;transition:all .2s;}
+.todo-item:hover{border-color:rgba(0,229,255,.2);}
+.todo-item.done{opacity:.45;}
+.todo-item.done .todo-text{text-decoration:line-through;color:var(--muted);}
+.todo-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;}
+.todo-check.checked{background:var(--accent3);border-color:var(--accent3);}
+.todo-check.checked::after{content:'✓';font-size:11px;color:#000;font-weight:700;}
+.todo-text{flex:1;font-size:13px;}
+
+/* CHECKS */
+.check-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;transition:all .2s;}
+.check-item.done{border-color:rgba(168,255,62,.25);background:rgba(168,255,62,.04);}
+.check-item input[type="checkbox"]{width:17px;height:17px;accent-color:var(--accent3);cursor:pointer;flex-shrink:0;}
+.check-label{flex:1;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);}
+.check-item.done .check-label{color:var(--muted);}
+.initials-input{width:72px;text-align:center;text-transform:uppercase;font-weight:600;letter-spacing:2px;font-family:'DM Mono',monospace;font-size:12px;padding:6px 8px!important;}
+
+/* PRICING */
+.price-display{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0;}
+.price-stat{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;}
+.price-stat.highlight{border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.05);}
+.price-value{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:1px;line-height:1;margin-bottom:4px;}
+.price-value.cyan{color:var(--accent);}
+.price-value.green{color:var(--accent3);}
+.price-value.gold{color:var(--gold);}
+.price-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;}
+.player-stepper{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;width:fit-content;}
+.stepper-btn{width:44px;height:44px;background:var(--surface2);border:none;color:var(--text);font-size:20px;cursor:pointer;transition:background .15s;}
+.stepper-btn:hover{background:var(--border);}
+.stepper-val{width:64px;height:44px;background:transparent;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:24px;text-align:center;outline:none;}
+.toggle-row{display:flex;align-items:center;gap:12px;margin:12px 0;}
+.toggle-switch{position:relative;width:48px;height:26px;cursor:pointer;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;background:var(--surface2);border:1px solid var(--border);border-radius:13px;transition:.2s;}
+.toggle-switch input:checked+.toggle-track{background:var(--accent);border-color:var(--accent);}
+.toggle-thumb{position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s;}
+.toggle-switch input:checked~.toggle-thumb{transform:translateX(22px);}
+.toggle-label{font-size:13px;color:var(--text);}
+.hv-indicator{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+.hv-indicator.lv{background:rgba(168,255,62,.1);color:var(--accent3);border:1px solid rgba(168,255,62,.25);}
+.hv-indicator.hv{background:rgba(255,77,109,.1);color:var(--accent2);border:1px solid rgba(255,77,109,.3);}
+.pricing-grid{width:100%;border-collapse:collapse;margin-top:12px;}
+.pricing-grid th{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;}
+.pricing-grid td{padding:8px 10px;border-bottom:1px solid rgba(37,43,58,.5);font-family:'DM Mono',monospace;font-size:12px;text-align:center;}
+.pricing-grid tr.active-day td{color:var(--accent);font-weight:600;}
+.pricing-grid td:first-child{text-align:left;color:var(--muted);}
+
+/* HANDOFF FORM */
+.hf-group{margin-bottom:16px;}
+.hf-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.hf-label .hf-num{background:var(--surface2);border:1px solid var(--border);border-radius:4px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent);font-weight:700;flex-shrink:0;}
+.hf-textarea{width:100%;resize:vertical;min-height:70px;}
+.hf-input{width:100%;}
+.task-row{display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:center;margin-bottom:8px;}
+.task-num{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);text-align:center;}
+.pace-group{display:flex;gap:6px;flex-wrap:wrap;}
+.pace-btn{padding:8px 18px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+.pace-btn.sel-slammed{background:rgba(255,77,109,.15);color:var(--accent2);border-color:rgba(255,77,109,.4);}
+.pace-btn.sel-steady{background:rgba(255,209,102,.12);color:var(--gold);border-color:rgba(255,209,102,.35);}
+.pace-btn.sel-slow{background:rgba(168,255,62,.1);color:var(--accent3);border-color:rgba(168,255,62,.3);}
+.guest-count-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.critical-field{border:1px solid rgba(255,77,109,.4)!important;background:rgba(255,77,109,.05)!important;}
+.critical-field:focus{border-color:var(--accent2)!important;}
+.critical-label{color:var(--accent2)!important;}
+
+/* STAR RATING */
+.star-row{display:flex;gap:6px;margin-top:4px;}
+.star{font-size:26px;cursor:pointer;color:var(--border);transition:color .1s;user-select:none;}
+.star.lit{color:var(--gold);}
+
+/* PAST HANDOFFS */
+.handoff-entry{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;cursor:pointer;transition:border-color .2s;}
+.handoff-entry:hover{border-color:rgba(0,229,255,.25);}
+.handoff-entry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;}
+.handoff-body{display:none;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;}
+.handoff-entry.expanded .handoff-body{display:block;}
+.hf-field{margin-bottom:10px;}
+.hf-field-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.hf-field-val{font-size:13px;color:var(--text);line-height:1.5;white-space:pre-wrap;}
+.hf-field.critical-entry .hf-field-label{color:var(--accent2);}
+.hf-field.critical-entry .hf-field-val{color:var(--text);font-weight:600;}
+
+/* SERVICE STANDARDS */
+.standard-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.standard-item:last-child{border-bottom:none;}
+.std-num{background:var(--accent);color:#000;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:13px;flex-shrink:0;margin-top:1px;}
+.question-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.q-chip{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.modal-overlay.hidden{display:none;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);margin-bottom:18px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+.shift-toggle{display:flex;gap:0;}
+.shift-option{flex:1;padding:9px;border:1px solid var(--border);border-radius:0;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;}
+.shift-option:first-child{border-radius:7px 0 0 7px;}
+.shift-option:last-child{border-radius:0 7px 7px 0;border-left:none;}
+.shift-option.sel-open{background:rgba(168,255,62,.12);color:var(--accent3);border-color:rgba(168,255,62,.35);}
+.shift-option.sel-close{background:rgba(255,77,109,.12);color:var(--accent2);border-color:rgba(255,77,109,.35);}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+@media(max-width:600px){.modal-grid{grid-template-columns:1fr;}.price-display{grid-template-columns:1fr 1fr;}.qa-at,.qa-area2,.qa-label{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" style="position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="width:100%;max-width:400px">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:4px;color:var(--accent)">ACTIVATE / LEX</div>
+      <div style="font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:4px">Deployment Hub</div>
+    </div>
+    <div id="loginError" style="display:none;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;"></div>
+    <div style="margin-bottom:20px">
+      <div class="input-label" style="margin-bottom:5px">Sync Key</div>
+      <input type="password" id="loginPassword" placeholder="Enter your sync key (min 6 chars)" onkeydown="if(event.key==='Enter')handleLogin()" style="width:100%;font-size:15px;padding:12px 14px;">
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">Same key on both front desk computers = shared live data</div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;font-size:14px;" onclick="handleLogin()" id="loginBtn">Connect &#8594;</button>
+    <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;">First time? Pick any key you'll remember.<br>Use the same key on both desktops to sync.</div>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- SYNC BAR -->
+<div id="syncBar" style="display:none;align-items:center;gap:8px;padding:6px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;font-size:12px;font-family:'DM Mono',monospace;">
+  <div id="syncDot" style="width:8px;height:8px;border-radius:50%;background:var(--accent3);flex-shrink:0;"></div>
+  <span id="syncMsg" style="color:var(--muted);flex:1;">Synced</span>
+  <button onclick="handleSignOut()" style="background:none;border:none;color:var(--accent2);font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;">Sign Out</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <h1>ACTIVATE<span style="color:var(--muted);font-size:.6em;letter-spacing:2px;margin-left:10px">/ LEX</span></h1>
+    <p><span class="pulse-dot"></span>Deployment Hub</p>
+  </div>
+  <div class="header-right">
+    <div class="date-badge" id="dateBadge"></div>
+    <button class="edit-btn" id="editToggle" onclick="toggleEditMode()">&#9998; Edit Mode</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('today',this)">&#128197; Today</button>
+  <button class="tab-btn" onclick="switchTab('checks',this)">&#9745; Checks</button>
+  <button class="tab-btn" onclick="switchTab('pricing',this)">&#36; Pricing</button>
+  <button class="tab-btn" onclick="switchTab('handoff',this)">&#128203; End of Shift Handoff</button>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL: TODAY                              -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-today" class="panel active">
+  <div class="two-col">
+
+    <!-- LEFT -->
+    <div>
+      <!-- Announcement -->
+      <div class="announcement-card">
+        <div class="announcement-label">&#128276; Announcement / Notes</div>
+        <div id="announcementDisplay"></div>
+        <div id="announcementEdit" class="announcement-edit" style="display:none;">
+          <textarea id="announcementInput" placeholder="Write today's announcement, important notes, or reminders for the team…" rows="3" oninput="saveAnnouncement()"></textarea>
+        </div>
+      </div>
+
+      <!-- Roster -->
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <div class="section-title" style="margin-bottom:0;">&#128100; Today's Roster <span id="rosterCount"></span></div>
+          <button class="btn btn-ghost btn-sm edit-mode-show" style="display:none;" onclick="openAddModal()">+ Add Employee</button>
+        </div>
+
+        <table class="roster-table" id="rosterTable">
+          <thead>
+            <tr>
+              <th style="width:20px;"></th>
+              <th>Name</th>
+              <th>Shift</th>
+              <th>Deployment</th>
+              <th>Break</th>
+              <th>High Touch</th>
+              <th class="edit-mode-show" style="display:none;"></th>
+            </tr>
+          </thead>
+          <tbody id="rosterBody"></tbody>
+        </table>
+
+        <!-- Quick Add Bar -->
+        <div class="quick-add-bar" id="quickAddBar">
+          <span class="qa-label">Quick Add →</span>
+          <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
+          <div class="qa-shift-group">
+            <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')">O</button>
+            <button class="qa-shift-btn" id="qaShiftClose" onclick="qaSelectShift('Close')">C</button>
+          </div>
+          <select class="qa-area" id="qaArea1">
+            <option value="Hub">Hub</option>
+            <option value="Lobby">Lobby</option>
+            <option value="Float">Float</option>
+          </select>
+          <span class="qa-label">→ at</span>
+          <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM (opt)">
+          <select class="qa-area2" id="qaArea2">
+            <option value="">— no switch —</option>
+            <option value="Hub">Hub</option>
+            <option value="Lobby">Lobby</option>
+            <option value="Float">Float</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add</button>
+          <button class="btn btn-ghost btn-sm" onclick="openAddModal()" title="Full form">&#9881;</button>
+        </div>
+
+        <div id="rosterEmpty" style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px;display:none;">
+          No roster set yet. Use Quick Add above or &#9998; Edit Mode to get started.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div>
+      <!-- To-Dos -->
+      <div class="card">
+        <div class="section-title">&#9989; To-Do</div>
+        <div class="todo-input-row">
+          <input type="text" id="todoInput" placeholder="Add a task…" style="flex:1;" onkeydown="if(event.key==='Enter')addTodo()">
+          <button class="btn btn-primary btn-sm" onclick="addTodo()">Add</button>
+        </div>
+        <div class="todo-list" id="todoList"></div>
+        <div id="todoEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0;display:none;">No tasks — enjoy the calm.</div>
+      </div>
+
+      <!-- Service Standards -->
+      <div class="card" style="background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(0,229,255,.02));border-color:rgba(0,229,255,.2);">
+        <div class="section-title">&#127775; People Matter</div>
+        <div class="standard-item"><div class="std-num">1</div><div>Greet everyone within <strong>10 seconds</strong> of arrival</div></div>
+        <div class="standard-item"><div class="std-num">2</div><div>Introduce yourself <strong>by name</strong> to every guest</div></div>
+        <div class="standard-item"><div class="std-num">3</div><div>Speak with <strong>every group</strong> in the building</div></div>
+        <div class="standard-item"><div class="std-num">4</div><div>Before guests leave, ask every group if they <strong>had fun</strong></div></div>
+        <hr>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">3 Questions for any group</div>
+        <div class="question-row">
+          <div class="q-chip">Are you all doing okay?</div>
+          <div class="q-chip">Do you have any questions?</div>
+          <div class="q-chip">Are you all having fun?</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL: CHECKS                             -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-checks" class="panel">
+  <div class="two-col-equal">
+    <div>
+      <div class="card">
+        <div class="section-title">&#128700; Bathroom Checks</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
+          <span style="margin-left:auto;" id="bathroomProgress"></span>
+        </div>
+        <div id="bathroomList"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="section-title">&#127918; Room Spot Checks <span>trash · reset balls · play a level</span></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
+          <span style="margin-left:auto;" id="roomProgress"></span>
+        </div>
+        <div id="roomList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL: PRICING                            -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-pricing" class="panel">
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="section-title">&#127918; Pricing Calculator</div>
+        <div style="margin-bottom:16px;">
+          <div class="input-label" style="margin-bottom:8px;">Number of Players</div>
+          <div class="player-stepper">
+            <button class="stepper-btn" onclick="adjustPlayers(-1)">&#8722;</button>
+            <input type="number" class="stepper-val" id="playerCount" value="6" min="1" max="20" oninput="calcPrice()">
+            <button class="stepper-btn" onclick="adjustPlayers(1)">+</button>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="is90min" onchange="calcPrice()">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">Playing for <strong>90 minutes</strong>?</span>
+        </div>
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div class="hv-indicator" id="hvIndicator">LV</div>
+          <div style="font-size:12px;color:var(--muted);" id="hvReason"></div>
+        </div>
+        <div class="price-display">
+          <div class="price-stat highlight">
+            <div class="price-value cyan" id="pricePerPlayer">—</div>
+            <div class="price-label">Per Player</div>
+          </div>
+          <div class="price-stat">
+            <div class="price-value green" id="priceSubtotal">—</div>
+            <div class="price-label">Subtotal</div>
+          </div>
+          <div class="price-stat">
+            <div class="price-value gold" id="priceTotal">—</div>
+            <div class="price-label">After Tax (6%)</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">Auto-detects current day &amp; time · adjust players or 90-min toggle to recalculate</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="section-title">&#128203; Pricing Reference</div>
+        <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-green">LV = Low Volume</span>
+          <span class="badge badge-red">HV = High Volume</span>
+        </div>
+        <table class="pricing-grid" id="pricingGridTable">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Day</th>
+              <th>LV 60</th><th>LV 90</th><th>HV 60</th><th>HV 90</th>
+              <th>HV Hours</th>
+            </tr>
+          </thead>
+          <tbody id="pricingGridBody"></tbody>
+        </table>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">All prices per player · Tax not included in grid</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL: HANDOFF                            -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-handoff" class="panel">
+  <div class="two-col-wide">
+
+    <!-- FORM -->
+    <div>
+      <div class="card">
+        <div class="section-title">&#128203; End of Shift Handoff</div>
+        <div id="handoffSubmittedBanner" style="display:none;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:var(--accent3);">
+          &#10003; Handoff submitted. The next team can see it.
+        </div>
+
+        <!-- 1. Name + end time -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">1</span> Your name &amp; shift end time</div>
+          <input type="text" class="hf-input" id="hf1" placeholder='e.g. "AJ — closing out at 4pm"'>
+        </div>
+
+        <!-- 2. Pace / feel -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">2</span> How did the day feel?</div>
+          <div class="pace-group" id="paceGroup">
+            <button class="pace-btn" id="pace-Slammed" onclick="selectPace('Slammed')">&#128293; Slammed</button>
+            <button class="pace-btn" id="pace-Steady" onclick="selectPace('Steady')">&#128200; Steady</button>
+            <button class="pace-btn" id="pace-Slow" onclick="selectPace('Slow')">&#128564; Slow</button>
+          </div>
+          <div class="guest-count-row">
+            <span style="font-size:13px;color:var(--muted);">Guest count (if known):</span>
+            <input type="number" id="hfGuestCount" placeholder="—" min="0" style="width:90px;">
+          </div>
+        </div>
+
+        <!-- 3. Rooms down -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">3</span> Rooms down or acting up?</div>
+          <textarea class="hf-textarea" id="hf3" placeholder="Which rooms, what's wrong, MaintainX ticket # if created…"></textarea>
+        </div>
+
+        <!-- 4. Open guest issues -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">4</span> Open guest issues</div>
+          <textarea class="hf-textarea" id="hf4" placeholder="Anyone you BLASTed but resolution carries over? Refunds promised, comps owed, follow-up calls needed…"></textarea>
+        </div>
+
+        <!-- 5. Outstanding tasks (top 3) -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">5</span> Outstanding tasks for incoming shift <span style="font-size:10px;">(top 3 only)</span></div>
+          <div class="task-row"><div class="task-num">1</div><input type="text" id="hf5a" placeholder="Most important task…" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">2</div><input type="text" id="hf5b" placeholder="Second task…" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">3</div><input type="text" id="hf5c" placeholder="Third task…" style="width:100%;"></div>
+        </div>
+
+        <!-- 6. Inventory -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">6</span> Inventory running low</div>
+          <textarea class="hf-textarea" id="hf6" placeholder="Wristbands, cleaning supplies, snacks, anything…" style="min-height:60px;"></textarea>
+        </div>
+
+        <!-- 7. Incoming bookings -->
+        <div class="hf-group">
+          <div class="hf-label"><span class="hf-num">7</span> Incoming bookings / groups to flag</div>
+          <textarea class="hf-textarea" id="hf7" placeholder="Birthdays, large parties, repeat guests, anything needing prep…"></textarea>
+        </div>
+
+        <!-- 8. One thing — CRITICAL -->
+        <div class="hf-group">
+          <div class="hf-label critical-label"><span class="hf-num" style="background:var(--accent2);color:#fff;">8</span> &#9888; One thing the next shift <em>must</em> know</div>
+          <textarea class="hf-textarea critical-field" id="hf8" placeholder="The one item that, if missed, becomes a problem…" style="min-height:80px;font-weight:500;"></textarea>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+          <button class="btn btn-ghost" onclick="clearHandoffForm()">Clear</button>
+          <button class="btn btn-primary" onclick="submitHandoff()">&#10003; Submit Handoff</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAST HANDOFFS -->
+    <div>
+      <div class="card">
+        <div class="section-title">&#128196; Past Handoffs <span id="handoffDateLabel"></span></div>
+        <div id="pastHandoffsList"></div>
+        <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No handoffs submitted yet today.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- EMPLOYEE MODAL -->
+<div class="modal-overlay hidden" id="employeeModal">
+  <div class="modal">
+    <h3 id="modalTitle">Add Employee</h3>
+    <input type="hidden" id="editingId">
+
+    <div style="margin-bottom:12px;">
+      <div class="input-label">Name</div>
+      <input type="text" id="empName" placeholder="First name or nickname" style="width:100%;" onkeydown="if(event.key==='Enter')saveEmployee()">
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <div class="input-label" style="margin-bottom:8px;">Shift</div>
+      <div class="shift-toggle">
+        <button class="shift-option" id="shiftOpen" onclick="selectShift('Open')">Open</button>
+        <button class="shift-option" id="shiftClose" onclick="selectShift('Close')">Close</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <div class="input-label" style="margin-bottom:8px;">Deployment</div>
+      <div class="deploy-builder" id="deployBuilder"></div>
+      <button class="deploy-add-btn" id="addDeployStopBtn" onclick="addDeployStop()">
+        &#43; Add transition (e.g. Hub &#8594; Lobby at 2pm)
+      </button>
+    </div>
+
+    <div class="modal-grid">
+      <div>
+        <div class="input-label">Break Time</div>
+        <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;">
+      </div>
+      <div>
+        <div class="input-label">High Touch Duties</div>
+        <input type="text" id="empHighTouch" placeholder="e.g. Windows / Screens" style="width:100%;">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEmployee()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────
+// SUPABASE SYNC
+// ─────────────────────────────────────────────────
+const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+let syncId = localStorage.getItem('dep_sync_id') || null;
+let syncTimeout = null;
+
+const DEP_TABLES = { roster:'dep_roster', daily:'dep_daily', handoffs:'dep_handoffs' };
+
+function sbHeaders() {
+  return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+           'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' };
+}
+
+async function syncToCloud(key, data) {
+  if (!syncId) return;
+  const table = DEP_TABLES[key];
+  if (!table) return;
+  setSyncStatus('syncing','Saving...');
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(async () => {
+    try {
+      const resp = await fetch(`${SB_URL}/rest/v1/${table}`, {
+        method: 'POST', headers: sbHeaders(),
+        body: JSON.stringify({ sync_id: syncId, data: data })
+      });
+      if (!resp.ok) throw new Error(await resp.text());
+      setSyncStatus('synced','Synced ✓');
+    } catch(e) {
+      setSyncStatus('error','Sync failed — saved locally');
+      console.error('Sync error:', e);
+    }
+  }, 600);
+}
+
+async function loadAllFromSupabase() {
+  if (!syncId) return;
+  setSyncStatus('syncing','Loading...');
+  try {
+    const fetches = await Promise.all(
+      Object.entries(DEP_TABLES).map(([key, table]) =>
+        fetch(`${SB_URL}/rest/v1/${table}?sync_id=eq.${syncId}&select=data`, { headers: sbHeaders() })
+          .then(r => r.json()).then(rows => ({ key, row: rows[0] || null }))
+      )
+    );
+    fetches.forEach(({ key, row }) => {
+      if (!row || row.data == null) return;
+      const d = row.data;
+      if (key === 'roster') {
+        roster = d;
+        localStorage.setItem('activate_deploy_roster', JSON.stringify(d));
+      }
+      if (key === 'daily') {
+        // data = { date, state } — only apply if it's today's data
+        if (d.date === TODAY_STR) {
+          state = d.state;
+          TIME_SLOTS.forEach(t => { if (!state.bathroomChecks[t]) state.bathroomChecks[t] = {done:false,initials:''}; });
+          ROOMS.forEach(r => { if (!state.roomChecks[r]) state.roomChecks[r] = {done:false,initials:''}; });
+          localStorage.setItem('activate_deploy_daily_' + TODAY_STR, JSON.stringify(state));
+        }
+      }
+      if (key === 'handoffs') {
+        pastHandoffs = d;
+        localStorage.setItem('activate_deploy_handoffs', JSON.stringify(d));
+      }
+    });
+    renderAnnouncement(); renderTodos(); renderRoster();
+    renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
+    renderPastHandoffs();
+    setSyncStatus('synced','Synced ✓');
+  } catch(e) {
+    setSyncStatus('error','Sync error — using local data');
+    console.error('Load error:', e);
+  }
+}
+
+function setSyncStatus(status, msg) {
+  const dot = document.getElementById('syncDot');
+  const msgEl = document.getElementById('syncMsg');
+  if (!dot || !msgEl) return;
+  const colors = { synced:'var(--accent3)', syncing:'var(--gold)', error:'var(--accent2)' };
+  dot.style.background = colors[status] || 'var(--muted)';
+  dot.style.animation = status === 'syncing' ? 'pulse 1s infinite' : '';
+  msgEl.textContent = msg || 'Synced';
+}
+
+async function handleLogin() {
+  const password = document.getElementById('loginPassword').value.trim();
+  if (password.length < 6) { showLoginError('Sync key must be at least 6 characters.'); return; }
+  setLoginLoading(true);
+  const encoder = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode('activate-lex-dep:' + password));
+  const hex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+  const id = `${hex.slice(0,8)}-${hex.slice(8,12)}-4${hex.slice(13,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`;
+  syncId = id;
+  localStorage.setItem('dep_sync_id', id);
+  setLoginLoading(false);
+  await activateApp();
+}
+
+function handleSignOut() {
+  syncId = null;
+  localStorage.removeItem('dep_sync_id');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('syncBar').style.display = 'none';
+}
+
+function setLoginLoading(loading) {
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = loading ? 'Connecting...' : 'Connect →';
+  btn.disabled = loading;
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.background = 'rgba(255,77,109,.15)';
+  el.style.borderColor = 'rgba(255,77,109,.3)';
+  el.style.color = 'var(--accent2)';
+}
+
+async function activateApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('syncBar').style.display = 'flex';
+  loadAll();
+  updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
+  renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
+  renderPricingGrid(); calcPrice(); renderPastHandoffs();
+  setInterval(calcPrice, 60000);
+  await loadAllFromSupabase();
+}
+
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') loadAllFromSupabase(); });
+window.addEventListener('focus', loadAllFromSupabase);
+setInterval(() => { if (document.visibilityState === 'visible') loadAllFromSupabase(); }, 30000);
+
+// ─────────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────────
+const ROOMS = ['Push','Mega Grid','Climb','Laser','Hoops','Arena','Trench','Hide'];
+const TIME_SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM',
+  '4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM'];
+const AREAS = ['Hub','Lobby','Float'];
+
+// Pricing: 0=Mon … 6=Sun
+const P = {
+  lv60:[18.99,18.99,18.99,18.99,33.99,33.99,33.99],
+  lv90:[24.99,24.99,24.99,24.99,22.99,22.99,22.99],
+  hv60:[20.99,20.99,20.99,20.99,26.99,26.99,26.99],
+  hv90:[26.99,26.99,26.99,26.99,37.99,37.99,37.99],
+  hvStart:[17,17,17,17,17,13,12],
+  hvEnd:[20,20,20,20,21,21,17],
+};
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const TAX=0.06;
+
+// ─────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────
+const TODAY_STR = new Date().toLocaleDateString('en-CA');
+let editMode=false, dragSrcIdx=null;
+let empModalShift='', empDeployment=[{area:'Hub'}];
+let qaShift='';
+let handoffPace='';
+let roster=[], pastHandoffs=[];
+let state={announcement:'',todos:[],bathroomChecks:{},roomChecks:{}};
+
+function initBathroomChecks(){const o={};TIME_SLOTS.forEach(t=>{o[t]={done:false,initials:''};});return o;}
+function initRoomChecks(){const o={};ROOMS.forEach(r=>{o[r]={done:false,initials:''};});return o;}
+
+function loadAll(){
+  const sr=localStorage.getItem('activate_deploy_roster');
+  if(sr)roster=JSON.parse(sr);
+  const sd=localStorage.getItem('activate_deploy_daily_'+TODAY_STR);
+  if(sd){
+    state=JSON.parse(sd);
+    TIME_SLOTS.forEach(t=>{if(!state.bathroomChecks[t])state.bathroomChecks[t]={done:false,initials:''};});
+    ROOMS.forEach(r=>{if(!state.roomChecks[r])state.roomChecks[r]={done:false,initials:''};});
+  } else {
+    state={announcement:'',todos:[],bathroomChecks:initBathroomChecks(),roomChecks:initRoomChecks()};
+  }
+  const sp=localStorage.getItem('activate_deploy_handoffs');
+  if(sp)pastHandoffs=JSON.parse(sp);
+}
+
+function saveAll(){
+  localStorage.setItem('activate_deploy_roster',JSON.stringify(roster));
+  localStorage.setItem('activate_deploy_daily_'+TODAY_STR,JSON.stringify(state));
+  localStorage.setItem('activate_deploy_handoffs',JSON.stringify(pastHandoffs));
+  syncToCloud('roster', roster);
+  syncToCloud('daily', { date: TODAY_STR, state: state });
+  syncToCloud('handoffs', pastHandoffs);
+}
+
+// ─────────────────────────────────────────────────
+// HEADER / TABS
+// ─────────────────────────────────────────────────
+function updateHeader(){
+  const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+  document.getElementById('dateBadge').textContent=new Date().toLocaleDateString('en-US',opts);
+  document.getElementById('handoffDateLabel').textContent='— today';
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  btn.classList.add('active');
+  if(name==='pricing')calcPrice();
+  if(name==='checks')updateCheckProgress();
+}
+
+// ─────────────────────────────────────────────────
+// EDIT MODE
+// ─────────────────────────────────────────────────
+function toggleEditMode(){
+  editMode=!editMode;
+  document.body.classList.toggle('edit-mode',editMode);
+  const btn=document.getElementById('editToggle');
+  btn.classList.toggle('active',editMode);
+  btn.textContent=editMode?'✓ Exit Edit':'✏ Edit Mode';
+  document.getElementById('announcementDisplay').style.display=editMode?'none':'block';
+  document.getElementById('announcementEdit').style.display=editMode?'block':'none';
+  document.querySelectorAll('.edit-mode-show').forEach(el=>el.style.display=editMode?'':'none');
+  renderRoster();
+}
+
+// ─────────────────────────────────────────────────
+// ANNOUNCEMENT
+// ─────────────────────────────────────────────────
+function saveAnnouncement(){
+  state.announcement=document.getElementById('announcementInput').value;
+  saveAll(); renderAnnouncement();
+}
+function renderAnnouncement(){
+  const disp=document.getElementById('announcementDisplay');
+  const inp=document.getElementById('announcementInput');
+  disp.innerHTML=state.announcement.trim()
+    ?'<div class="announcement-text">'+escHtml(state.announcement)+'</div>'
+    :'<div class="announcement-text empty">No announcement for today. Enable edit mode to add one.</div>';
+  inp.value=state.announcement;
+}
+
+// ─────────────────────────────────────────────────
+// TO-DOS
+// ─────────────────────────────────────────────────
+function addTodo(){
+  const inp=document.getElementById('todoInput');
+  const text=inp.value.trim();if(!text)return;
+  state.todos.push({id:Date.now(),text,done:false});
+  inp.value='';saveAll();renderTodos();
+}
+function toggleTodo(id){const t=state.todos.find(x=>x.id===id);if(t)t.done=!t.done;saveAll();renderTodos();}
+function deleteTodo(id){state.todos=state.todos.filter(x=>x.id!==id);saveAll();renderTodos();}
+function renderTodos(){
+  const list=document.getElementById('todoList');
+  const empty=document.getElementById('todoEmpty');
+  if(!state.todos.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=state.todos.map(t=>`
+    <div class="todo-item ${t.done?'done':''}">
+      <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${t.id})"></div>
+      <span class="todo-text">${escHtml(t.text)}</span>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteTodo(${t.id})">✕</button>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────────
+// ROSTER
+// ─────────────────────────────────────────────────
+function renderDeploymentCell(emp){
+  const dep=emp.deployment||[{area:emp.area||'?'}];
+  return '<div class="deploy-timeline">'+dep.map((s,i)=>{
+    const arrow=i>0?'<span class="deploy-arrow">→</span>':'';
+    const badge='<span class="badge badge-cyan">'+escHtml(s.area)+'</span>';
+    const time=(i>0&&s.at)?'<span class="deploy-time">'+escHtml(s.at)+'</span>':'';
+    return arrow+badge+time;
+  }).join('')+'</div>';
+}
+
+function shiftBadge(shift){
+  if(!shift)return '';
+  return shift==='Open'
+    ?'<span class="badge badge-green">Open</span>'
+    :'<span class="badge badge-red">Close</span>';
+}
+
+function renderRoster(highlightIdx=-1){
+  const tbody=document.getElementById('rosterBody');
+  const empty=document.getElementById('rosterEmpty');
+  const count=document.getElementById('rosterCount');
+  if(!roster.length){tbody.innerHTML='';empty.style.display='block';count.textContent='';return;}
+  empty.style.display='none';
+  count.textContent=roster.length+' on shift';
+  tbody.innerHTML=roster.map((e,i)=>`
+    <tr class="roster-row${i===highlightIdx?' just-added':''}" draggable="${editMode}"
+        ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})"
+        ondrop="drop(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
+      <td><span class="drag-handle">⠿</span></td>
+      <td class="employee-name">${escHtml(e.name)}</td>
+      <td>${shiftBadge(e.shift)}</td>
+      <td>${renderDeploymentCell(e)}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'—')}</td>
+      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'—')}</td>
+      <td><div class="roster-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
+        <button class="btn btn-danger" onclick="removeEmployee(${i})">✕</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function removeEmployee(idx){
+  if(!confirm('Remove '+roster[idx].name+' from today\'s roster?'))return;
+  roster.splice(idx,1);saveAll();renderRoster();
+}
+
+// ─────────────────────────────────────────────────
+// QUICK ADD
+// ─────────────────────────────────────────────────
+function qaSelectShift(val){
+  qaShift=val;
+  document.getElementById('qaShiftOpen').className='qa-shift-btn'+(val==='Open'?' qa-open':'');
+  document.getElementById('qaShiftClose').className='qa-shift-btn'+(val==='Close'?' qa-close':'');
+}
+
+function quickAdd(){
+  const name=document.getElementById('qaName').value.trim();
+  if(!name)return;
+  const area1=document.getElementById('qaArea1').value;
+  const at=document.getElementById('qaAt').value.trim();
+  const area2=document.getElementById('qaArea2').value;
+  const deployment=[{area:area1}];
+  if(area2&&at)deployment.push({area:area2,at});
+  else if(area2&&!at)deployment.push({area:area2,at:''});
+  roster.push({name,shift:qaShift,deployment,breakTime:'',highTouch:''});
+  document.getElementById('qaName').value='';
+  document.getElementById('qaAt').value='';
+  document.getElementById('qaArea2').value='';
+  saveAll();renderRoster(roster.length-1);
+  document.getElementById('qaName').focus();
+}
+
+// ─────────────────────────────────────────────────
+// DRAG & DROP
+// ─────────────────────────────────────────────────
+function dragStart(e,idx){dragSrcIdx=idx;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function dragOver(e,idx){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('drag-over'));if(idx!==dragSrcIdx)e.currentTarget.classList.add('drag-over');}
+function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function drop(e,idx){e.preventDefault();if(dragSrcIdx===null||dragSrcIdx===idx)return;const m=roster.splice(dragSrcIdx,1)[0];roster.splice(idx,0,m);saveAll();renderRoster();}
+function dragEnd(){document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('dragging','drag-over'));dragSrcIdx=null;}
+
+// ─────────────────────────────────────────────────
+// EMPLOYEE MODAL — DEPLOYMENT BUILDER
+// ─────────────────────────────────────────────────
+function renderDeployBuilder(){
+  const container=document.getElementById('deployBuilder');
+  const addBtn=document.getElementById('addDeployStopBtn');
+  container.innerHTML=empDeployment.map((stop,i)=>`
+    <div class="deploy-stop-row">
+      ${i>0?'<span class="deploy-arrow" style="font-size:16px;color:var(--muted);">→</span>':''}
+      <select style="flex:1;min-width:90px;" onchange="updateDeployArea(${i},this.value)">
+        ${AREAS.map(a=>`<option value="${a}"${stop.area===a?' selected':''}>${a}</option>`).join('')}
+      </select>
+      ${i>0?`<input type="text" class="at-input" placeholder="at (e.g. 2:00 PM)" value="${escHtml(stop.at||'')}" oninput="updateDeployAt(${i},this.value)" style="width:120px;">
+        <button onclick="removeDeployStop(${i})" class="btn btn-danger" style="padding:4px 8px;font-size:12px;flex-shrink:0;">✕</button>`:''}
+    </div>`).join('');
+  addBtn.style.display=empDeployment.length>=3?'none':'flex';
+}
+
+function addDeployStop(){empDeployment.push({area:'Lobby',at:''});renderDeployBuilder();}
+function removeDeployStop(idx){empDeployment.splice(idx,1);renderDeployBuilder();}
+function updateDeployArea(idx,val){empDeployment[idx].area=val;}
+function updateDeployAt(idx,val){empDeployment[idx].at=val;}
+
+function openAddModal(){
+  document.getElementById('modalTitle').textContent='Add Employee';
+  document.getElementById('editingId').value='';
+  document.getElementById('empName').value='';
+  empModalShift='';selectShift('');
+  empDeployment=[{area:'Hub'}];renderDeployBuilder();
+  document.getElementById('empBreak').value='';
+  document.getElementById('empHighTouch').value='';
+  document.getElementById('employeeModal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('empName').focus(),100);
+}
+
+function openEditModal(idx){
+  const e=roster[idx];
+  document.getElementById('modalTitle').textContent='Edit — '+e.name;
+  document.getElementById('editingId').value=idx;
+  document.getElementById('empName').value=e.name;
+  empModalShift=e.shift;selectShift(e.shift,true);
+  empDeployment=JSON.parse(JSON.stringify(e.deployment||[{area:e.area||'Hub'}]));
+  renderDeployBuilder();
+  document.getElementById('empBreak').value=e.breakTime||'';
+  document.getElementById('empHighTouch').value=e.highTouch||'';
+  document.getElementById('employeeModal').classList.remove('hidden');
+}
+
+function closeModal(){document.getElementById('employeeModal').classList.add('hidden');}
+
+function selectShift(val){
+  empModalShift=val;
+  document.getElementById('shiftOpen').className='shift-option'+(val==='Open'?' sel-open':'');
+  document.getElementById('shiftClose').className='shift-option'+(val==='Close'?' sel-close':'');
+}
+
+function saveEmployee(){
+  const name=document.getElementById('empName').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),breakTime:document.getElementById('empBreak').value.trim(),highTouch:document.getElementById('empHighTouch').value.trim()};
+  const editIdx=document.getElementById('editingId').value;
+  let newIdx=-1;
+  if(editIdx!=='')roster[parseInt(editIdx)]=emp;else{roster.push(emp);newIdx=roster.length-1;}
+  saveAll();closeModal();renderRoster(newIdx);
+}
+
+document.getElementById('employeeModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// ─────────────────────────────────────────────────
+// CHECKS
+// ─────────────────────────────────────────────────
+function renderBathroomChecks(){
+  document.getElementById('bathroomList').innerHTML=TIME_SLOTS.map(t=>{
+    const c=state.bathroomChecks[t];
+    return `<div class="check-item ${c.done?'done':''}" id="bc-${t.replace(/[: ]/g,'_')}">
+      <input type="checkbox" ${c.done?'checked':''} onchange="toggleBathroom('${t}',this)">
+      <span class="check-label">${t}</span>
+      <input type="text" class="initials-input" maxlength="4" placeholder="Init" value="${escHtml(c.initials)}" oninput="setBathroomInitials('${t}',this.value)">
+    </div>`;
+  }).join('');
+}
+
+function toggleBathroom(slot,el){
+  state.bathroomChecks[slot].done=el.checked;
+  document.getElementById('bc-'+slot.replace(/[: ]/g,'_')).classList.toggle('done',el.checked);
+  saveAll();updateCheckProgress();
+}
+function setBathroomInitials(slot,val){state.bathroomChecks[slot].initials=val.toUpperCase();saveAll();}
+
+function renderRoomChecks(){
+  document.getElementById('roomList').innerHTML=ROOMS.map(r=>{
+    const c=state.roomChecks[r];
+    return `<div class="check-item ${c.done?'done':''}" id="rc-${r.replace(/ /g,'_')}">
+      <input type="checkbox" ${c.done?'checked':''} onchange="toggleRoom('${r}',this)">
+      <span class="check-label">${r}</span>
+      <input type="text" class="initials-input" maxlength="4" placeholder="Init" value="${escHtml(c.initials)}" oninput="setRoomInitials('${r}',this.value)">
+    </div>`;
+  }).join('');
+}
+
+function toggleRoom(room,el){
+  state.roomChecks[room].done=el.checked;
+  document.getElementById('rc-'+room.replace(/ /g,'_')).classList.toggle('done',el.checked);
+  saveAll();updateCheckProgress();
+}
+function setRoomInitials(room,val){state.roomChecks[room].initials=val.toUpperCase();saveAll();}
+
+function updateCheckProgress(){
+  const bDone=Object.values(state.bathroomChecks).filter(c=>c.done).length;
+  const rDone=Object.values(state.roomChecks).filter(c=>c.done).length;
+  const bp=document.getElementById('bathroomProgress');
+  const rp=document.getElementById('roomProgress');
+  if(bp)bp.textContent=bDone+' / '+TIME_SLOTS.length+' complete';
+  if(rp)rp.textContent=rDone+' / '+ROOMS.length+' complete';
+}
+
+// ─────────────────────────────────────────────────
+// PRICING
+// ─────────────────────────────────────────────────
+function getDayIdx(){const js=new Date().getDay();return js===0?6:js-1;}
+
+function calcPrice(){
+  const players=parseInt(document.getElementById('playerCount').value)||1;
+  const is90=document.getElementById('is90min').checked;
+  const dayIdx=getDayIdx();
+  const hour=new Date().getHours();
+  const isHV=hour>=P.hvStart[dayIdx]&&hour<P.hvEnd[dayIdx];
+  const pp=isHV?(is90?P.hv90[dayIdx]:P.hv60[dayIdx]):(is90?P.lv90[dayIdx]:P.lv60[dayIdx]);
+  const sub=pp*players;const tot=sub*(1+TAX);
+  document.getElementById('pricePerPlayer').textContent='$'+pp.toFixed(2);
+  document.getElementById('priceSubtotal').textContent='$'+sub.toFixed(2);
+  document.getElementById('priceTotal').textContent='$'+tot.toFixed(2);
+  const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+' '+ap;};
+  const ind=document.getElementById('hvIndicator');
+  const reason=document.getElementById('hvReason');
+  if(isHV){ind.className='hv-indicator hv';ind.textContent='HIGH VOLUME';reason.textContent='HV hours: '+fmtH(P.hvStart[dayIdx])+'–'+fmtH(P.hvEnd[dayIdx]);}
+  else{ind.className='hv-indicator lv';ind.textContent='LOW VOLUME';reason.textContent='HV hours today: '+fmtH(P.hvStart[dayIdx])+'–'+fmtH(P.hvEnd[dayIdx]);}
+}
+
+function adjustPlayers(delta){
+  const inp=document.getElementById('playerCount');
+  inp.value=Math.max(1,Math.min(20,(parseInt(inp.value)||1)+delta));
+  calcPrice();
+}
+
+function renderPricingGrid(){
+  const today=getDayIdx();
+  const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+ap;};
+  document.getElementById('pricingGridBody').innerHTML=DAYS.map((d,i)=>`
+    <tr class="${i===today?'active-day':''}">
+      <td>${d}${i===today?' ◀':''}</td>
+      <td>$${P.lv60[i]}</td><td>$${P.lv90[i]}</td>
+      <td>$${P.hv60[i]}</td><td>$${P.hv90[i]}</td>
+      <td style="font-size:11px;">${fmtH(P.hvStart[i])}–${fmtH(P.hvEnd[i])}</td>
+    </tr>`).join('');
+}
+
+// ─────────────────────────────────────────────────
+// HANDOFF
+// ─────────────────────────────────────────────────
+function selectPace(val){
+  handoffPace=val;
+  ['Slammed','Steady','Slow'].forEach(p=>{
+    const btn=document.getElementById('pace-'+p);
+    if(p===val){
+      const cls=p==='Slammed'?'sel-slammed':p==='Steady'?'sel-steady':'sel-slow';
+      btn.className='pace-btn '+cls;
+    } else {btn.className='pace-btn';}
+  });
+}
+
+function submitHandoff(){
+  const by=document.getElementById('hf1').value.trim();
+  if(!by){alert('Please fill in your name and shift end time (field 1).');document.getElementById('hf1').focus();return;}
+  const critical=document.getElementById('hf8').value.trim();
+  if(!critical){if(!confirm('Field 8 (one thing next shift must know) is empty. Submit anyway?'))return;}
+
+  const h={
+    id:Date.now(),date:TODAY_STR,
+    submittedAt:new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),
+    by,
+    pace:handoffPace,
+    guestCount:document.getElementById('hfGuestCount').value||'',
+    roomsDown:document.getElementById('hf3').value.trim(),
+    guestIssues:document.getElementById('hf4').value.trim(),
+    tasks:[document.getElementById('hf5a').value.trim(),document.getElementById('hf5b').value.trim(),document.getElementById('hf5c').value.trim()].filter(Boolean),
+    inventory:document.getElementById('hf6').value.trim(),
+    bookings:document.getElementById('hf7').value.trim(),
+    critical,
+  };
+  pastHandoffs.unshift(h);
+  saveAll();
+  renderPastHandoffs();
+  document.getElementById('handoffSubmittedBanner').style.display='block';
+  clearHandoffForm();
+}
+
+function clearHandoffForm(){
+  ['hf1','hf3','hf4','hf5a','hf5b','hf5c','hf6','hf7','hf8'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('hfGuestCount').value='';
+  handoffPace='';
+  ['Slammed','Steady','Slow'].forEach(p=>document.getElementById('pace-'+p).className='pace-btn');
+}
+
+const PACE_ICONS={'Slammed':'🔥','Steady':'📈','Slow':'😴',''  :'—'};
+
+function renderPastHandoffs(){
+  const list=document.getElementById('pastHandoffsList');
+  const empty=document.getElementById('noHandoffs');
+  const todayList=pastHandoffs.filter(h=>h.date===TODAY_STR);
+  if(!todayList.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=todayList.map(h=>`
+    <div class="handoff-entry" onclick="this.classList.toggle('expanded')">
+      <div class="handoff-entry-header">
+        <div>
+          <strong style="font-size:14px;">${escHtml(h.by)}</strong>
+          ${h.pace?`<span class="badge badge-gold" style="margin-left:8px;">${PACE_ICONS[h.pace]||''} ${h.pace}</span>`:''}
+          ${h.guestCount?`<span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-left:8px;">${escHtml(h.guestCount)} guests</span>`:''}
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.submittedAt}</span>
+      </div>
+      ${h.critical?`<div style="font-size:12px;padding:6px 10px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:6px;color:var(--text);"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">⚠ Must know: </span>${escHtml(h.critical)}</div>`:''}
+      <div class="handoff-body">
+        ${h.roomsDown?`<div class="hf-field"><div class="hf-field-label">Rooms down</div><div class="hf-field-val">${escHtml(h.roomsDown)}</div></div>`:''}
+        ${h.guestIssues?`<div class="hf-field"><div class="hf-field-label">Open guest issues</div><div class="hf-field-val">${escHtml(h.guestIssues)}</div></div>`:''}
+        ${h.tasks&&h.tasks.length?`<div class="hf-field"><div class="hf-field-label">Outstanding tasks</div><div class="hf-field-val">${h.tasks.map((t,i)=>`${i+1}. ${escHtml(t)}`).join('\n')}</div></div>`:''}
+        ${h.inventory?`<div class="hf-field"><div class="hf-field-label">Inventory low</div><div class="hf-field-val">${escHtml(h.inventory)}</div></div>`:''}
+        ${h.bookings?`<div class="hf-field"><div class="hf-field-label">Incoming bookings</div><div class="hf-field-val">${escHtml(h.bookings)}</div></div>`:''}
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">▼ click to expand</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────────
+// UTILITY
+// ─────────────────────────────────────────────────
+function escHtml(str){
+  if(!str)return'';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─────────────────────────────────────────────────
+// BOOT
+// ─────────────────────────────────────────────────
+if (syncId) {
+  activateApp();
+} else {
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+</script>
+</body>
+</html>
