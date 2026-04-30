@@ -287,8 +287,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- HEADER -->
 <header>
   <div class="logo-area">
-    <h1>ACTIVATE<span style="color:var(--muted);font-size:.6em;letter-spacing:2px;margin-left:10px">/ LEX</span></h1>
-    <p><span class="pulse-dot"></span>Deployment Hub</p>
+    <img src="activate-logo.png" alt="Activate" style="height:38px;display:block;margin-bottom:5px;">
+    <p><span class="pulse-dot"></span>Deployment Hub &mdash; Lexington</p>
   </div>
   <div class="header-right">
     <div class="date-badge" id="dateBadge"></div>
@@ -373,6 +373,28 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           No roster set yet. Use Quick Add above or &#9998; Edit Mode to get started.
         </div>
       </div>
+
+      <!-- CHECKS — under roster, same column width -->
+      <div class="two-col-equal">
+        <div>
+          <div class="card">
+            <div class="section-title">&#128700; Bathroom Checks</div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
+              <span style="margin-left:auto;" id="bathroomProgress"></span>
+            </div>
+            <div id="bathroomList"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="section-title">&#127918; Room Spot Checks <span>trash · reset balls · play a level</span></div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
+              <span style="margin-left:auto;" id="roomProgress"></span>
+            </div>
+            <div id="roomList"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- RIGHT -->
@@ -405,28 +427,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       </div>
     </div>
 
-  </div>
-
-  <!-- CHECKS — inline on Today tab -->
-  <div class="two-col-equal" style="margin-top:4px;">
-    <div>
-      <div class="card">
-        <div class="section-title">&#128700; Bathroom Checks</div>
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
-          <span style="margin-left:auto;" id="bathroomProgress"></span>
-        </div>
-        <div id="bathroomList"></div>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="section-title">&#127918; Room Spot Checks <span>trash · reset balls · play a level</span></div>
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
-          <span style="margin-left:auto;" id="roomProgress"></span>
-        </div>
-        <div id="roomList"></div>
-      </div>
-    </div>
   </div>
 </div>
 
