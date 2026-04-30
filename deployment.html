@@ -127,8 +127,15 @@ select{cursor:pointer;}
 .qa-shift-btn{padding:7px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .qa-shift-btn:first-child{border-radius:7px 0 0 7px;}
 .qa-shift-btn:last-child{border-radius:0 7px 7px 0;border-left:none;}
+.qa-shift-btn:not(:first-child){border-left:none;}
 .qa-shift-btn.qa-open{background:rgba(168,255,62,.12);color:var(--accent3);border-color:rgba(168,255,62,.35);}
 .qa-shift-btn.qa-close{background:rgba(255,77,109,.12);color:var(--accent2);border-color:rgba(255,77,109,.35);}
+.qa-shift-btn.qa-mid{background:rgba(192,132,252,.12);color:#c084fc;border-color:rgba(192,132,252,.35);}
+.badge-purple-mid{background:rgba(192,132,252,.15);color:#c084fc;border:1px solid rgba(192,132,252,.3);}
+
+/* SUGGEST EDITS */
+.suggest-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;}
+.suggest-item-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px;}
 
 /* TO-DO */
 .todo-input-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
@@ -292,9 +299,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- TABS -->
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('today',this)">&#128197; Today</button>
-  <button class="tab-btn" onclick="switchTab('checks',this)">&#9745; Checks</button>
   <button class="tab-btn" onclick="switchTab('pricing',this)">&#36; Pricing</button>
   <button class="tab-btn" onclick="switchTab('handoff',this)">&#128203; End of Shift Handoff</button>
+  <button class="tab-btn" onclick="switchTab('suggest',this)">&#128172; Suggest Edits</button>
 </div>
 
 <!-- ══════════════════════════════════════════ -->
@@ -341,21 +348,22 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <span class="qa-label">Quick Add →</span>
           <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
           <div class="qa-shift-group">
-            <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')">O</button>
-            <button class="qa-shift-btn" id="qaShiftClose" onclick="qaSelectShift('Close')">C</button>
+            <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
+            <button class="qa-shift-btn" id="qaShiftMid" onclick="qaSelectShift('Mid')" title="Mid shift">M</button>
+            <button class="qa-shift-btn" id="qaShiftClose" onclick="qaSelectShift('Close')" title="Close shift">C</button>
           </div>
           <select class="qa-area" id="qaArea1">
             <option value="Hub">Hub</option>
             <option value="Lobby">Lobby</option>
             <option value="Float">Float</option>
           </select>
-          <span class="qa-label">→ at</span>
-          <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM (opt)">
+          <span class="qa-label">→ switches at</span>
+          <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM">
           <select class="qa-area2" id="qaArea2">
-            <option value="">— no switch —</option>
-            <option value="Hub">Hub</option>
-            <option value="Lobby">Lobby</option>
-            <option value="Float">Float</option>
+            <option value="">— stays put —</option>
+            <option value="Hub">→ Hub</option>
+            <option value="Lobby">→ Lobby</option>
+            <option value="Float">→ Float</option>
           </select>
           <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add</button>
           <button class="btn btn-ghost btn-sm" onclick="openAddModal()" title="Full form">&#9881;</button>
@@ -398,13 +406,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     </div>
 
   </div>
-</div>
 
-<!-- ══════════════════════════════════════════ -->
-<!-- PANEL: CHECKS                             -->
-<!-- ══════════════════════════════════════════ -->
-<div id="panel-checks" class="panel">
-  <div class="two-col-equal">
+  <!-- CHECKS — inline on Today tab -->
+  <div class="two-col-equal" style="margin-top:4px;">
     <div>
       <div class="card">
         <div class="section-title">&#128700; Bathroom Checks</div>
@@ -585,6 +589,39 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════ -->
+<!-- PANEL: SUGGEST EDITS                     -->
+<!-- ══════════════════════════════════════════ -->
+<div id="panel-suggest" class="panel">
+  <div class="two-col-wide">
+    <div>
+      <div class="card">
+        <div class="section-title">&#128172; Suggest an Edit</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got an idea to make this tool better? Drop it here — Brett will see it.</p>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Your Name</div>
+          <input type="text" id="suggestName" placeholder="First name" style="width:100%;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Your Suggestion</div>
+          <textarea id="suggestText" placeholder="What would you change or add?" style="width:100%;min-height:120px;resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="submitSuggestion()">&#10003; Submit</button>
+        </div>
+        <div id="suggestBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Thanks — suggestion submitted!</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="section-title">&#128196; Submitted Ideas</div>
+        <div id="suggestionsList"></div>
+        <div id="suggestEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No suggestions yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /app -->
 
 <!-- EMPLOYEE MODAL -->
@@ -621,7 +658,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       </div>
       <div>
         <div class="input-label">High Touch Duties</div>
-        <input type="text" id="empHighTouch" placeholder="e.g. Windows / Screens" style="width:100%;">
+        <select id="empHighTouch" style="width:100%;">
+          <option value="">— None assigned —</option>
+          <option value="Screens">Screens — wipe down all throughout the building</option>
+          <option value="Doors">Doors — wipe down all throughout the building</option>
+          <option value="Windows">Windows — clean all throughout the building</option>
+          <option value="Room Components">Room Components — clean &amp; reset throughout</option>
+          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room — full clean</option>
+        </select>
       </div>
     </div>
 
@@ -762,7 +806,7 @@ async function activateApp() {
   loadAll();
   updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
   renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-  renderPricingGrid(); calcPrice(); renderPastHandoffs();
+  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderSuggestions();
   setInterval(calcPrice, 60000);
   await loadAllFromSupabase();
 }
@@ -844,7 +888,6 @@ function switchTab(name,btn){
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
   if(name==='pricing')calcPrice();
-  if(name==='checks')updateCheckProgress();
 }
 
 // ─────────────────────────────────────────────────
@@ -917,9 +960,9 @@ function renderDeploymentCell(emp){
 
 function shiftBadge(shift){
   if(!shift)return '';
-  return shift==='Open'
-    ?'<span class="badge badge-green">Open</span>'
-    :'<span class="badge badge-red">Close</span>';
+  if(shift==='Open')return '<span class="badge badge-green">Open</span>';
+  if(shift==='Mid')return '<span class="badge badge-purple">Mid</span>';
+  return '<span class="badge badge-red">Close</span>';
 }
 
 function renderRoster(highlightIdx=-1){
@@ -957,6 +1000,7 @@ function removeEmployee(idx){
 function qaSelectShift(val){
   qaShift=val;
   document.getElementById('qaShiftOpen').className='qa-shift-btn'+(val==='Open'?' qa-open':'');
+  document.getElementById('qaShiftMid').className='qa-shift-btn'+(val==='Mid'?' qa-mid':'');
   document.getElementById('qaShiftClose').className='qa-shift-btn'+(val==='Close'?' qa-close':'');
 }
 
@@ -1217,6 +1261,37 @@ function renderPastHandoffs(){
         ${h.bookings?`<div class="hf-field"><div class="hf-field-label">Incoming bookings</div><div class="hf-field-val">${escHtml(h.bookings)}</div></div>`:''}
       </div>
       <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">▼ click to expand</div>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────────
+// SUGGESTIONS
+// ─────────────────────────────────────────────────
+let suggestions = JSON.parse(localStorage.getItem('activate_deploy_suggestions') || '[]');
+
+function submitSuggestion(){
+  const name = document.getElementById('suggestName').value.trim();
+  const text = document.getElementById('suggestText').value.trim();
+  if(!text){ document.getElementById('suggestText').focus(); return; }
+  suggestions.unshift({ id:Date.now(), name:name||'Anonymous', text,
+    submittedAt: new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) });
+  localStorage.setItem('activate_deploy_suggestions', JSON.stringify(suggestions));
+  document.getElementById('suggestName').value='';
+  document.getElementById('suggestText').value='';
+  document.getElementById('suggestBanner').style.display='block';
+  setTimeout(()=>document.getElementById('suggestBanner').style.display='none', 3000);
+  renderSuggestions();
+}
+
+function renderSuggestions(){
+  const list = document.getElementById('suggestionsList');
+  const empty = document.getElementById('suggestEmpty');
+  if(!suggestions.length){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = suggestions.map(s=>`
+    <div class="suggest-item">
+      <div class="suggest-item-meta">${escHtml(s.name)} &middot; ${escHtml(s.submittedAt)}</div>
+      <div style="font-size:13px;line-height:1.6;">${escHtml(s.text)}</div>
     </div>`).join('');
 }
 
