@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activate Lex — Deployment</title>
+<title>Activate Lex ‚Äî Deployment</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0c10;--surface:#12151c;--surface2:#1a1f2b;--border:#252b3a;--accent:#00e5ff;--accent2:#ff4d6d;--accent3:#a8ff3e;--text:#e8eaf0;--muted:#6b7394;--gold:#ffd166;}
@@ -147,7 +147,7 @@ select{cursor:pointer;}
 .todo-item.done .todo-text{text-decoration:line-through;color:var(--muted);}
 .todo-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;}
 .todo-check.checked{background:var(--accent3);border-color:var(--accent3);}
-.todo-check.checked::after{content:'✓';font-size:11px;color:#000;font-weight:700;}
+.todo-check.checked::after{content:'‚úì';font-size:11px;color:#000;font-weight:700;}
 .todo-text{flex:1;font-size:13px;}
 
 /* CHECKS */
@@ -301,12 +301,13 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <button class="tab-btn active" onclick="switchTab('today',this)">&#128197; Today</button>
   <button class="tab-btn" onclick="switchTab('pricing',this)">&#36; Pricing</button>
   <button class="tab-btn" onclick="switchTab('handoff',this)">&#128203; End of Shift Handoff</button>
+  <button class="tab-btn" onclick="switchTab('order',this)">&#128230; Need to Order</button>
   <button class="tab-btn" onclick="switchTab('suggest',this)">&#128172; Suggest Edits</button>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <!-- PANEL: TODAY                              -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <div id="panel-today" class="panel active">
   <div class="two-col">
 
@@ -317,7 +318,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <div class="announcement-label">&#128276; Announcement / Notes</div>
         <div id="announcementDisplay"></div>
         <div id="announcementEdit" class="announcement-edit" style="display:none;">
-          <textarea id="announcementInput" placeholder="Write today's announcement, important notes, or reminders for the team…" rows="3" oninput="saveAnnouncement()"></textarea>
+          <textarea id="announcementInput" placeholder="Write today's announcement, important notes, or reminders for the team‚Ä¶" rows="3" oninput="saveAnnouncement()"></textarea>
         </div>
       </div>
 
@@ -345,7 +346,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
         <!-- Quick Add Bar -->
         <div class="quick-add-bar" id="quickAddBar">
-          <span class="qa-label">Quick Add →</span>
+          <span class="qa-label">Quick Add ‚Üí</span>
           <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
           <div class="qa-shift-group">
             <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
@@ -357,13 +358,13 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="Lobby">Lobby</option>
             <option value="Float">Float</option>
           </select>
-          <span class="qa-label">→ switches at</span>
+          <span class="qa-label">‚Üí switches at</span>
           <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM">
           <select class="qa-area2" id="qaArea2">
-            <option value="">— stays put —</option>
-            <option value="Hub">→ Hub</option>
-            <option value="Lobby">→ Lobby</option>
-            <option value="Float">→ Float</option>
+            <option value="">‚Äî stays put ‚Äî</option>
+            <option value="Hub">‚Üí Hub</option>
+            <option value="Lobby">‚Üí Lobby</option>
+            <option value="Float">‚Üí Float</option>
           </select>
           <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add</button>
           <button class="btn btn-ghost btn-sm" onclick="openAddModal()" title="Full form">&#9881;</button>
@@ -374,7 +375,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
       </div>
 
-      <!-- CHECKS — under roster, same column width -->
+      <!-- CHECKS ‚Äî under roster, same column width -->
       <div class="two-col-equal">
         <div>
           <div class="card">
@@ -387,7 +388,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
         <div>
           <div class="card">
-            <div class="section-title">&#127918; Room Spot Checks <span>trash · reset balls · play a level</span></div>
+            <div class="section-title">&#127918; Room Spot Checks <span>trash ¬∑ reset balls ¬∑ play a level</span></div>
             <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
               <span style="margin-left:auto;" id="roomProgress"></span>
             </div>
@@ -403,11 +404,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="card">
         <div class="section-title">&#9989; To-Do</div>
         <div class="todo-input-row">
-          <input type="text" id="todoInput" placeholder="Add a task…" style="flex:1;" onkeydown="if(event.key==='Enter')addTodo()">
+          <input type="text" id="todoInput" placeholder="Add a task‚Ä¶" style="flex:1;" onkeydown="if(event.key==='Enter')addTodo()">
           <button class="btn btn-primary btn-sm" onclick="addTodo()">Add</button>
         </div>
         <div class="todo-list" id="todoList"></div>
-        <div id="todoEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0;display:none;">No tasks — enjoy the calm.</div>
+        <div id="todoEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0;display:none;">No tasks ‚Äî enjoy the calm.</div>
       </div>
 
       <!-- Service Standards -->
@@ -430,9 +431,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <!-- PANEL: PRICING                            -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <div id="panel-pricing" class="panel">
   <div class="two-col">
     <div>
@@ -460,19 +461,19 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
         <div class="price-display">
           <div class="price-stat highlight">
-            <div class="price-value cyan" id="pricePerPlayer">—</div>
+            <div class="price-value cyan" id="pricePerPlayer">‚Äî</div>
             <div class="price-label">Per Player</div>
           </div>
           <div class="price-stat">
-            <div class="price-value green" id="priceSubtotal">—</div>
+            <div class="price-value green" id="priceSubtotal">‚Äî</div>
             <div class="price-label">Subtotal</div>
           </div>
           <div class="price-stat">
-            <div class="price-value gold" id="priceTotal">—</div>
+            <div class="price-value gold" id="priceTotal">‚Äî</div>
             <div class="price-label">After Tax (6%)</div>
           </div>
         </div>
-        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">Auto-detects current day &amp; time · adjust players or 90-min toggle to recalculate</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">Auto-detects current day &amp; time ¬∑ adjust players or 90-min toggle to recalculate</div>
       </div>
     </div>
     <div>
@@ -492,15 +493,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           </thead>
           <tbody id="pricingGridBody"></tbody>
         </table>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">All prices per player · Tax not included in grid</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">All prices per player ¬∑ Tax not included in grid</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <!-- PANEL: HANDOFF                            -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <div id="panel-handoff" class="panel">
   <div class="two-col-wide">
 
@@ -515,7 +516,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <!-- 1. Name + end time -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">1</span> Your name &amp; shift end time</div>
-          <input type="text" class="hf-input" id="hf1" placeholder='e.g. "AJ — closing out at 4pm"'>
+          <input type="text" class="hf-input" id="hf1" placeholder='e.g. "AJ ‚Äî closing out at 4pm"'>
         </div>
 
         <!-- 2. Pace / feel -->
@@ -528,46 +529,46 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           </div>
           <div class="guest-count-row">
             <span style="font-size:13px;color:var(--muted);">Guest count (if known):</span>
-            <input type="number" id="hfGuestCount" placeholder="—" min="0" style="width:90px;">
+            <input type="number" id="hfGuestCount" placeholder="‚Äî" min="0" style="width:90px;">
           </div>
         </div>
 
         <!-- 3. Rooms down -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">3</span> Rooms down or acting up?</div>
-          <textarea class="hf-textarea" id="hf3" placeholder="Which rooms, what's wrong, MaintainX ticket # if created…"></textarea>
+          <textarea class="hf-textarea" id="hf3" placeholder="Which rooms, what's wrong, MaintainX ticket # if created‚Ä¶"></textarea>
         </div>
 
         <!-- 4. Open guest issues -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">4</span> Open guest issues</div>
-          <textarea class="hf-textarea" id="hf4" placeholder="Anyone you BLASTed but resolution carries over? Refunds promised, comps owed, follow-up calls needed…"></textarea>
+          <textarea class="hf-textarea" id="hf4" placeholder="Anyone you BLASTed but resolution carries over? Refunds promised, comps owed, follow-up calls needed‚Ä¶"></textarea>
         </div>
 
         <!-- 5. Outstanding tasks (top 3) -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">5</span> Outstanding tasks for incoming shift <span style="font-size:10px;">(top 3 only)</span></div>
-          <div class="task-row"><div class="task-num">1</div><input type="text" id="hf5a" placeholder="Most important task…" style="width:100%;"></div>
-          <div class="task-row"><div class="task-num">2</div><input type="text" id="hf5b" placeholder="Second task…" style="width:100%;"></div>
-          <div class="task-row"><div class="task-num">3</div><input type="text" id="hf5c" placeholder="Third task…" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">1</div><input type="text" id="hf5a" placeholder="Most important task‚Ä¶" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">2</div><input type="text" id="hf5b" placeholder="Second task‚Ä¶" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">3</div><input type="text" id="hf5c" placeholder="Third task‚Ä¶" style="width:100%;"></div>
         </div>
 
         <!-- 6. Inventory -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">6</span> Inventory running low</div>
-          <textarea class="hf-textarea" id="hf6" placeholder="Wristbands, cleaning supplies, snacks, anything…" style="min-height:60px;"></textarea>
+          <textarea class="hf-textarea" id="hf6" placeholder="Wristbands, cleaning supplies, snacks, anything‚Ä¶" style="min-height:60px;"></textarea>
         </div>
 
         <!-- 7. Incoming bookings -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">7</span> Incoming bookings / groups to flag</div>
-          <textarea class="hf-textarea" id="hf7" placeholder="Birthdays, large parties, repeat guests, anything needing prep…"></textarea>
+          <textarea class="hf-textarea" id="hf7" placeholder="Birthdays, large parties, repeat guests, anything needing prep‚Ä¶"></textarea>
         </div>
 
-        <!-- 8. One thing — CRITICAL -->
+        <!-- 8. One thing ‚Äî CRITICAL -->
         <div class="hf-group">
           <div class="hf-label critical-label"><span class="hf-num" style="background:var(--accent2);color:#fff;">8</span> &#9888; One thing the next shift <em>must</em> know</div>
-          <textarea class="hf-textarea critical-field" id="hf8" placeholder="The one item that, if missed, becomes a problem…" style="min-height:80px;font-weight:500;"></textarea>
+          <textarea class="hf-textarea critical-field" id="hf8" placeholder="The one item that, if missed, becomes a problem‚Ä¶" style="min-height:80px;font-weight:500;"></textarea>
         </div>
 
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
@@ -589,15 +590,62 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- PANEL: NEED TO ORDER                     -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<div id="panel-order" class="panel">
+  <div class="two-col-wide">
+    <div>
+      <div class="card">
+        <div class="section-title">&#128230; Request an Item</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Need something restocked or ordered? Submit it here ‚Äî Brett reviews this list every Monday.</p>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Your Name</div>
+          <input type="text" id="orderName" placeholder="First name" style="width:100%;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Item / Description</div>
+          <input type="text" id="orderItem" placeholder="e.g. Wristbands, Paper towels, Cleaning spray‚Ä¶" style="width:100%;" onkeydown="if(event.key==='Enter')submitOrderRequest()">
+        </div>
+        <div class="modal-grid" style="margin-bottom:12px;">
+          <div>
+            <div class="input-label" style="margin-bottom:5px;">Quantity / Amount</div>
+            <input type="text" id="orderQty" placeholder="e.g. 2 boxes, 1 case" style="width:100%;">
+          </div>
+          <div>
+            <div class="input-label" style="margin-bottom:5px;">Urgency</div>
+            <select id="orderUrgency" style="width:100%;">
+              <option value="Normal">Normal</option>
+              <option value="Urgent">üî¥ Urgent ‚Äî running out now</option>
+              <option value="Low">Low ‚Äî good for a while</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="submitOrderRequest()">&#10003; Submit Request</button>
+        </div>
+        <div id="orderBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Request submitted!</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="section-title">&#128203; Order List <span>resets after Monday</span></div>
+        <div id="orderList"></div>
+        <div id="orderEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No requests yet ‚Äî add something on the left.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <!-- PANEL: SUGGEST EDITS                     -->
-<!-- ══════════════════════════════════════════ -->
+<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
 <div id="panel-suggest" class="panel">
   <div class="two-col-wide">
     <div>
       <div class="card">
         <div class="section-title">&#128172; Suggest an Edit</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got an idea to make this tool better? Drop it here — Brett will see it.</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got an idea to make this tool better? Drop it here ‚Äî Brett will see it.</p>
         <div style="margin-bottom:12px;">
           <div class="input-label" style="margin-bottom:5px;">Your Name</div>
           <input type="text" id="suggestName" placeholder="First name" style="width:100%;">
@@ -609,7 +657,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <div style="display:flex;justify-content:flex-end;">
           <button class="btn btn-primary" onclick="submitSuggestion()">&#10003; Submit</button>
         </div>
-        <div id="suggestBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Thanks — suggestion submitted!</div>
+        <div id="suggestBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Thanks ‚Äî suggestion submitted!</div>
       </div>
     </div>
     <div>
@@ -659,12 +707,12 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div>
         <div class="input-label">High Touch Duties</div>
         <select id="empHighTouch" style="width:100%;">
-          <option value="">— None assigned —</option>
-          <option value="Screens">Screens — wipe down all throughout the building</option>
-          <option value="Doors">Doors — wipe down all throughout the building</option>
-          <option value="Windows">Windows — clean all throughout the building</option>
-          <option value="Room Components">Room Components — clean &amp; reset throughout</option>
-          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room — full clean</option>
+          <option value="">‚Äî None assigned ‚Äî</option>
+          <option value="Screens">Screens ‚Äî wipe down all throughout the building</option>
+          <option value="Doors">Doors ‚Äî wipe down all throughout the building</option>
+          <option value="Windows">Windows ‚Äî clean all throughout the building</option>
+          <option value="Room Components">Room Components ‚Äî clean &amp; reset throughout</option>
+          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room ‚Äî full clean</option>
         </select>
       </div>
     </div>
@@ -677,37 +725,43 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 </div>
 
 <script>
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // SUPABASE SYNC
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
 let syncId = localStorage.getItem('dep_sync_id') || null;
 let syncTimeout = null;
 
-const DEP_TABLES = { roster:'dep_roster', daily:'dep_daily', handoffs:'dep_handoffs' };
+// Uses ag_trips table (already exists). Deployment sync_id uses a different
+// hash salt so rows are 100% isolated from the HQ app ‚Äî no collision.
+const DEP_TABLE = 'ag_trips';
 
 function sbHeaders() {
   return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
            'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' };
 }
 
-async function syncToCloud(key, data) {
+async function syncAllToCloud() {
   if (!syncId) return;
-  const table = DEP_TABLES[key];
-  if (!table) return;
   setSyncStatus('syncing','Saving...');
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(async () => {
     try {
-      const resp = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      const payload = {
+        roster,
+        daily: { date: TODAY_STR, state },
+        handoffs: pastHandoffs,
+        orders: orderRequests
+      };
+      const resp = await fetch(`${SB_URL}/rest/v1/${DEP_TABLE}`, {
         method: 'POST', headers: sbHeaders(),
-        body: JSON.stringify({ sync_id: syncId, data: data })
+        body: JSON.stringify({ sync_id: syncId, data: payload })
       });
       if (!resp.ok) throw new Error(await resp.text());
-      setSyncStatus('synced','Synced ✓');
+      setSyncStatus('synced','Synced ‚úì');
     } catch(e) {
-      setSyncStatus('error','Sync failed — saved locally');
+      setSyncStatus('error','Sync failed ‚Äî saved locally');
       console.error('Sync error:', e);
     }
   }, 600);
@@ -717,39 +771,39 @@ async function loadAllFromSupabase() {
   if (!syncId) return;
   setSyncStatus('syncing','Loading...');
   try {
-    const fetches = await Promise.all(
-      Object.entries(DEP_TABLES).map(([key, table]) =>
-        fetch(`${SB_URL}/rest/v1/${table}?sync_id=eq.${syncId}&select=data`, { headers: sbHeaders() })
-          .then(r => r.json()).then(rows => ({ key, row: rows[0] || null }))
-      )
+    const resp = await fetch(
+      `${SB_URL}/rest/v1/${DEP_TABLE}?sync_id=eq.${syncId}&select=data`,
+      { headers: sbHeaders() }
     );
-    fetches.forEach(({ key, row }) => {
-      if (!row || row.data == null) return;
-      const d = row.data;
-      if (key === 'roster') {
-        roster = d;
-        localStorage.setItem('activate_deploy_roster', JSON.stringify(d));
-      }
-      if (key === 'daily') {
-        // data = { date, state } — only apply if it's today's data
-        if (d.date === TODAY_STR) {
-          state = d.state;
-          TIME_SLOTS.forEach(t => { if (!state.bathroomChecks[t]) state.bathroomChecks[t] = {done:false,initials:''}; });
-          ROOMS.forEach(r => { if (!state.roomChecks[r]) state.roomChecks[r] = {done:false,initials:''}; });
-          localStorage.setItem('activate_deploy_daily_' + TODAY_STR, JSON.stringify(state));
-        }
-      }
-      if (key === 'handoffs') {
-        pastHandoffs = d;
-        localStorage.setItem('activate_deploy_handoffs', JSON.stringify(d));
-      }
-    });
+    const rows = await resp.json();
+    if (!Array.isArray(rows) || !rows[0] || !rows[0].data) {
+      setSyncStatus('synced','Synced ‚úì'); return;
+    }
+    const d = rows[0].data;
+    if (Array.isArray(d.roster)) {
+      roster = d.roster;
+      localStorage.setItem('activate_deploy_roster', JSON.stringify(d.roster));
+    }
+    if (d.daily && d.daily.date === TODAY_STR && d.daily.state) {
+      state = d.daily.state;
+      TIME_SLOTS.forEach(t => { if (!state.bathroomChecks[t]) state.bathroomChecks[t] = {done:false,initials:''}; });
+      ROOMS.forEach(r => { if (!state.roomChecks[r]) state.roomChecks[r] = {done:false,initials:''}; });
+      localStorage.setItem('activate_deploy_daily_' + TODAY_STR, JSON.stringify(state));
+    }
+    if (Array.isArray(d.handoffs)) {
+      pastHandoffs = d.handoffs;
+      localStorage.setItem('activate_deploy_handoffs', JSON.stringify(d.handoffs));
+    }
+    if (Array.isArray(d.orders)) {
+      orderRequests = d.orders;
+      localStorage.setItem('activate_deploy_orders', JSON.stringify(d.orders));
+    }
     renderAnnouncement(); renderTodos(); renderRoster();
     renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-    renderPastHandoffs();
-    setSyncStatus('synced','Synced ✓');
+    renderPastHandoffs(); renderOrderList();
+    setSyncStatus('synced','Synced ‚úì');
   } catch(e) {
-    setSyncStatus('error','Sync error — using local data');
+    setSyncStatus('error','Sync error ‚Äî using local data');
     console.error('Load error:', e);
   }
 }
@@ -787,7 +841,7 @@ function handleSignOut() {
 
 function setLoginLoading(loading) {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = loading ? 'Connecting...' : 'Connect →';
+  btn.textContent = loading ? 'Connecting...' : 'Connect ‚Üí';
   btn.disabled = loading;
 }
 
@@ -806,7 +860,7 @@ async function activateApp() {
   loadAll();
   updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
   renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderSuggestions();
+  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderOrderList(); renderSuggestions();
   setInterval(calcPrice, 60000);
   await loadAllFromSupabase();
 }
@@ -815,18 +869,18 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 window.addEventListener('focus', loadAllFromSupabase);
 setInterval(() => { if (document.visibilityState === 'visible') loadAllFromSupabase(); }, 30000);
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // CONSTANTS
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const ROOMS = ['Push','Mega Grid','Climb','Laser','Hoops','Arena','Trench','Hide'];
 const TIME_SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM',
   '4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM'];
 const AREAS = ['Hub','Lobby','Float'];
 
-// Pricing: 0=Mon … 6=Sun
+// Pricing: 0=Mon ‚Ä¶ 6=Sun
 const P = {
-  lv60:[18.99,18.99,18.99,18.99,33.99,33.99,33.99],
-  lv90:[24.99,24.99,24.99,24.99,22.99,22.99,22.99],
+  lv60:[18.99,18.99,18.99,18.99,22.99,22.99,22.99],
+  lv90:[24.99,24.99,24.99,24.99,33.99,33.99,33.99],
   hv60:[20.99,20.99,20.99,20.99,26.99,26.99,26.99],
   hv90:[26.99,26.99,26.99,26.99,37.99,37.99,37.99],
   hvStart:[17,17,17,17,17,13,12],
@@ -835,9 +889,9 @@ const P = {
 const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const TAX=0.06;
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // STATE
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const TODAY_STR = new Date().toLocaleDateString('en-CA');
 let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
@@ -862,24 +916,24 @@ function loadAll(){
   }
   const sp=localStorage.getItem('activate_deploy_handoffs');
   if(sp)pastHandoffs=JSON.parse(sp);
+  const so=localStorage.getItem('activate_deploy_orders');
+  if(so)orderRequests=JSON.parse(so);
 }
 
 function saveAll(){
   localStorage.setItem('activate_deploy_roster',JSON.stringify(roster));
   localStorage.setItem('activate_deploy_daily_'+TODAY_STR,JSON.stringify(state));
   localStorage.setItem('activate_deploy_handoffs',JSON.stringify(pastHandoffs));
-  syncToCloud('roster', roster);
-  syncToCloud('daily', { date: TODAY_STR, state: state });
-  syncToCloud('handoffs', pastHandoffs);
+  syncAllToCloud();
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // HEADER / TABS
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function updateHeader(){
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
   document.getElementById('dateBadge').textContent=new Date().toLocaleDateString('en-US',opts);
-  document.getElementById('handoffDateLabel').textContent='— today';
+  document.getElementById('handoffDateLabel').textContent='‚Äî today';
 }
 
 function switchTab(name,btn){
@@ -890,24 +944,24 @@ function switchTab(name,btn){
   if(name==='pricing')calcPrice();
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // EDIT MODE
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function toggleEditMode(){
   editMode=!editMode;
   document.body.classList.toggle('edit-mode',editMode);
   const btn=document.getElementById('editToggle');
   btn.classList.toggle('active',editMode);
-  btn.textContent=editMode?'✓ Exit Edit':'✏ Edit Mode';
+  btn.textContent=editMode?'‚úì Exit Edit':'‚úè Edit Mode';
   document.getElementById('announcementDisplay').style.display=editMode?'none':'block';
   document.getElementById('announcementEdit').style.display=editMode?'block':'none';
   document.querySelectorAll('.edit-mode-show').forEach(el=>el.style.display=editMode?'':'none');
   renderRoster();
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // ANNOUNCEMENT
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function saveAnnouncement(){
   state.announcement=document.getElementById('announcementInput').value;
   saveAll(); renderAnnouncement();
@@ -921,9 +975,9 @@ function renderAnnouncement(){
   inp.value=state.announcement;
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // TO-DOS
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function addTodo(){
   const inp=document.getElementById('todoInput');
   const text=inp.value.trim();if(!text)return;
@@ -941,17 +995,17 @@ function renderTodos(){
     <div class="todo-item ${t.done?'done':''}">
       <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${t.id})"></div>
       <span class="todo-text">${escHtml(t.text)}</span>
-      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteTodo(${t.id})">✕</button>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteTodo(${t.id})">‚úï</button>
     </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // ROSTER
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function renderDeploymentCell(emp){
   const dep=emp.deployment||[{area:emp.area||'?'}];
   return '<div class="deploy-timeline">'+dep.map((s,i)=>{
-    const arrow=i>0?'<span class="deploy-arrow">→</span>':'';
+    const arrow=i>0?'<span class="deploy-arrow">‚Üí</span>':'';
     const badge='<span class="badge badge-cyan">'+escHtml(s.area)+'</span>';
     const time=(i>0&&s.at)?'<span class="deploy-time">'+escHtml(s.at)+'</span>':'';
     return arrow+badge+time;
@@ -976,15 +1030,15 @@ function renderRoster(highlightIdx=-1){
     <tr class="roster-row${i===highlightIdx?' just-added':''}" draggable="${editMode}"
         ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})"
         ondrop="drop(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
-      <td><span class="drag-handle">⠿</span></td>
+      <td><span class="drag-handle">‚†ø</span></td>
       <td class="employee-name">${escHtml(e.name)}</td>
       <td>${shiftBadge(e.shift)}</td>
       <td>${renderDeploymentCell(e)}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'—')}</td>
-      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'—')}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'‚Äî')}</td>
+      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'‚Äî')}</td>
       <td><div class="roster-actions">
         <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
-        <button class="btn btn-danger" onclick="removeEmployee(${i})">✕</button>
+        <button class="btn btn-danger" onclick="removeEmployee(${i})">‚úï</button>
       </div></td>
     </tr>`).join('');
 }
@@ -994,9 +1048,9 @@ function removeEmployee(idx){
   roster.splice(idx,1);saveAll();renderRoster();
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // QUICK ADD
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function qaSelectShift(val){
   qaShift=val;
   document.getElementById('qaShiftOpen').className='qa-shift-btn'+(val==='Open'?' qa-open':'');
@@ -1021,29 +1075,29 @@ function quickAdd(){
   document.getElementById('qaName').focus();
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // DRAG & DROP
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function dragStart(e,idx){dragSrcIdx=idx;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
 function dragOver(e,idx){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('drag-over'));if(idx!==dragSrcIdx)e.currentTarget.classList.add('drag-over');}
 function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
 function drop(e,idx){e.preventDefault();if(dragSrcIdx===null||dragSrcIdx===idx)return;const m=roster.splice(dragSrcIdx,1)[0];roster.splice(idx,0,m);saveAll();renderRoster();}
 function dragEnd(){document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('dragging','drag-over'));dragSrcIdx=null;}
 
-// ─────────────────────────────────────────────────
-// EMPLOYEE MODAL — DEPLOYMENT BUILDER
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// EMPLOYEE MODAL ‚Äî DEPLOYMENT BUILDER
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function renderDeployBuilder(){
   const container=document.getElementById('deployBuilder');
   const addBtn=document.getElementById('addDeployStopBtn');
   container.innerHTML=empDeployment.map((stop,i)=>`
     <div class="deploy-stop-row">
-      ${i>0?'<span class="deploy-arrow" style="font-size:16px;color:var(--muted);">→</span>':''}
+      ${i>0?'<span class="deploy-arrow" style="font-size:16px;color:var(--muted);">‚Üí</span>':''}
       <select style="flex:1;min-width:90px;" onchange="updateDeployArea(${i},this.value)">
         ${AREAS.map(a=>`<option value="${a}"${stop.area===a?' selected':''}>${a}</option>`).join('')}
       </select>
       ${i>0?`<input type="text" class="at-input" placeholder="at (e.g. 2:00 PM)" value="${escHtml(stop.at||'')}" oninput="updateDeployAt(${i},this.value)" style="width:120px;">
-        <button onclick="removeDeployStop(${i})" class="btn btn-danger" style="padding:4px 8px;font-size:12px;flex-shrink:0;">✕</button>`:''}
+        <button onclick="removeDeployStop(${i})" class="btn btn-danger" style="padding:4px 8px;font-size:12px;flex-shrink:0;">‚úï</button>`:''}
     </div>`).join('');
   addBtn.style.display=empDeployment.length>=3?'none':'flex';
 }
@@ -1067,7 +1121,7 @@ function openAddModal(){
 
 function openEditModal(idx){
   const e=roster[idx];
-  document.getElementById('modalTitle').textContent='Edit — '+e.name;
+  document.getElementById('modalTitle').textContent='Edit ‚Äî '+e.name;
   document.getElementById('editingId').value=idx;
   document.getElementById('empName').value=e.name;
   empModalShift=e.shift;selectShift(e.shift,true);
@@ -1098,9 +1152,9 @@ function saveEmployee(){
 
 document.getElementById('employeeModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // CHECKS
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function renderBathroomChecks(){
   document.getElementById('bathroomList').innerHTML=TIME_SLOTS.map(t=>{
     const c=state.bathroomChecks[t];
@@ -1146,9 +1200,9 @@ function updateCheckProgress(){
   if(rp)rp.textContent=rDone+' / '+ROOMS.length+' complete';
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // PRICING
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function getDayIdx(){const js=new Date().getDay();return js===0?6:js-1;}
 
 function calcPrice(){
@@ -1165,8 +1219,8 @@ function calcPrice(){
   const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+' '+ap;};
   const ind=document.getElementById('hvIndicator');
   const reason=document.getElementById('hvReason');
-  if(isHV){ind.className='hv-indicator hv';ind.textContent='HIGH VOLUME';reason.textContent='HV hours: '+fmtH(P.hvStart[dayIdx])+'–'+fmtH(P.hvEnd[dayIdx]);}
-  else{ind.className='hv-indicator lv';ind.textContent='LOW VOLUME';reason.textContent='HV hours today: '+fmtH(P.hvStart[dayIdx])+'–'+fmtH(P.hvEnd[dayIdx]);}
+  if(isHV){ind.className='hv-indicator hv';ind.textContent='HIGH VOLUME';reason.textContent='HV hours: '+fmtH(P.hvStart[dayIdx])+'‚Äì'+fmtH(P.hvEnd[dayIdx]);}
+  else{ind.className='hv-indicator lv';ind.textContent='LOW VOLUME';reason.textContent='HV hours today: '+fmtH(P.hvStart[dayIdx])+'‚Äì'+fmtH(P.hvEnd[dayIdx]);}
 }
 
 function adjustPlayers(delta){
@@ -1180,16 +1234,16 @@ function renderPricingGrid(){
   const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+ap;};
   document.getElementById('pricingGridBody').innerHTML=DAYS.map((d,i)=>`
     <tr class="${i===today?'active-day':''}">
-      <td>${d}${i===today?' ◀':''}</td>
+      <td>${d}${i===today?' ‚óÄ':''}</td>
       <td>$${P.lv60[i]}</td><td>$${P.lv90[i]}</td>
       <td>$${P.hv60[i]}</td><td>$${P.hv90[i]}</td>
-      <td style="font-size:11px;">${fmtH(P.hvStart[i])}–${fmtH(P.hvEnd[i])}</td>
+      <td style="font-size:11px;">${fmtH(P.hvStart[i])}‚Äì${fmtH(P.hvEnd[i])}</td>
     </tr>`).join('');
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // HANDOFF
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function selectPace(val){
   handoffPace=val;
   ['Slammed','Steady','Slow'].forEach(p=>{
@@ -1234,7 +1288,7 @@ function clearHandoffForm(){
   ['Slammed','Steady','Slow'].forEach(p=>document.getElementById('pace-'+p).className='pace-btn');
 }
 
-const PACE_ICONS={'Slammed':'🔥','Steady':'📈','Slow':'😴',''  :'—'};
+const PACE_ICONS={'Slammed':'üî•','Steady':'üìà','Slow':'üò¥',''  :'‚Äî'};
 
 function renderPastHandoffs(){
   const list=document.getElementById('pastHandoffsList');
@@ -1252,7 +1306,7 @@ function renderPastHandoffs(){
         </div>
         <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.submittedAt}</span>
       </div>
-      ${h.critical?`<div style="font-size:12px;padding:6px 10px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:6px;color:var(--text);"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">⚠ Must know: </span>${escHtml(h.critical)}</div>`:''}
+      ${h.critical?`<div style="font-size:12px;padding:6px 10px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:6px;color:var(--text);"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">‚ö† Must know: </span>${escHtml(h.critical)}</div>`:''}
       <div class="handoff-body">
         ${h.roomsDown?`<div class="hf-field"><div class="hf-field-label">Rooms down</div><div class="hf-field-val">${escHtml(h.roomsDown)}</div></div>`:''}
         ${h.guestIssues?`<div class="hf-field"><div class="hf-field-label">Open guest issues</div><div class="hf-field-val">${escHtml(h.guestIssues)}</div></div>`:''}
@@ -1260,13 +1314,80 @@ function renderPastHandoffs(){
         ${h.inventory?`<div class="hf-field"><div class="hf-field-label">Inventory low</div><div class="hf-field-val">${escHtml(h.inventory)}</div></div>`:''}
         ${h.bookings?`<div class="hf-field"><div class="hf-field-label">Incoming bookings</div><div class="hf-field-val">${escHtml(h.bookings)}</div></div>`:''}
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">▼ click to expand</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">‚ñº click to expand</div>
     </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// ORDER REQUESTS
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+let orderRequests = JSON.parse(localStorage.getItem('activate_deploy_orders') || '[]');
+
+function submitOrderRequest(){
+  const name = document.getElementById('orderName').value.trim();
+  const item = document.getElementById('orderItem').value.trim();
+  if(!item){ document.getElementById('orderItem').focus(); return; }
+  const qty  = document.getElementById('orderQty').value.trim();
+  const urg  = document.getElementById('orderUrgency').value;
+  orderRequests.unshift({
+    id: Date.now(), name: name||'Anonymous', item, qty, urgency: urg,
+    done: false,
+    submittedAt: new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})
+  });
+  document.getElementById('orderName').value='';
+  document.getElementById('orderItem').value='';
+  document.getElementById('orderQty').value='';
+  document.getElementById('orderUrgency').value='Normal';
+  document.getElementById('orderBanner').style.display='block';
+  setTimeout(()=>document.getElementById('orderBanner').style.display='none', 3000);
+  saveOrders(); renderOrderList();
+}
+
+function toggleOrderDone(id){
+  const req=orderRequests.find(r=>r.id===id);
+  if(req)req.done=!req.done;
+  saveOrders(); renderOrderList();
+}
+
+function deleteOrder(id){
+  orderRequests=orderRequests.filter(r=>r.id!==id);
+  saveOrders(); renderOrderList();
+}
+
+function saveOrders(){
+  localStorage.setItem('activate_deploy_orders',JSON.stringify(orderRequests));
+  syncAllToCloud();
+}
+
+const URG_STYLE={
+  'Urgent':'background:rgba(255,77,109,.12);color:var(--accent2);border:1px solid rgba(255,77,109,.3);',
+  'Normal':'background:rgba(0,229,255,.08);color:var(--accent);border:1px solid rgba(0,229,255,.2);',
+  'Low':'background:rgba(107,115,148,.12);color:var(--muted);border:1px solid var(--border);'
+};
+
+function renderOrderList(){
+  const list=document.getElementById('orderList');
+  const empty=document.getElementById('orderEmpty');
+  if(!list)return;
+  if(!orderRequests.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=orderRequests.map(r=>`
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:7px;${r.done?'opacity:.45;':''}" >
+      <div class="todo-check ${r.done?'checked':''}" onclick="toggleOrderDone(${r.id})" style="flex-shrink:0;margin-top:2px;"></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:600;${r.done?'text-decoration:line-through;color:var(--muted);':''}">${escHtml(r.item)}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace;">
+          ${r.qty?escHtml(r.qty)+' &middot; ':''}<span style="padding:1px 6px;border-radius:4px;font-size:10px;${URG_STYLE[r.urgency]||URG_STYLE['Normal']}">${escHtml(r.urgency)}</span>
+          &nbsp;¬∑ ${escHtml(r.name)} ¬∑ ${escHtml(r.submittedAt)}
+        </div>
+      </div>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;flex-shrink:0;" onclick="deleteOrder(${r.id})">‚úï</button>
+    </div>`).join('');
+}
+
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // SUGGESTIONS
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 let suggestions = JSON.parse(localStorage.getItem('activate_deploy_suggestions') || '[]');
 
 function submitSuggestion(){
@@ -1295,17 +1416,17 @@ function renderSuggestions(){
     </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // UTILITY
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function escHtml(str){
   if(!str)return'';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 // BOOT
-// ─────────────────────────────────────────────────
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 if (syncId) {
   activateApp();
 } else {
