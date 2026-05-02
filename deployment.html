@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activate Lex ‚Äî Deployment</title>
+<title>Activate Lex &mdash; Deployment</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0c10;--surface:#12151c;--surface2:#1a1f2b;--border:#252b3a;--accent:#00e5ff;--accent2:#ff4d6d;--accent3:#a8ff3e;--text:#e8eaf0;--muted:#6b7394;--gold:#ffd166;}
@@ -147,7 +147,7 @@ select{cursor:pointer;}
 .todo-item.done .todo-text{text-decoration:line-through;color:var(--muted);}
 .todo-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;}
 .todo-check.checked{background:var(--accent3);border-color:var(--accent3);}
-.todo-check.checked::after{content:'‚úì';font-size:11px;color:#000;font-weight:700;}
+.todo-check.checked::after{content:'\2713 ';font-size:11px;color:#000;font-weight:700;}
 .todo-text{flex:1;font-size:13px;}
 
 /* CHECKS */
@@ -302,12 +302,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <button class="tab-btn" onclick="switchTab('pricing',this)">&#36; Pricing</button>
   <button class="tab-btn" onclick="switchTab('handoff',this)">&#128203; End of Shift Handoff</button>
   <button class="tab-btn" onclick="switchTab('order',this)">&#128230; Need to Order</button>
+  <button class="tab-btn" onclick="switchTab('lightup',this)">&#9993; Light Up Our Inbox</button>
+  <button class="tab-btn" onclick="switchTab('ideas',this)">&#128161; Ideas Board</button>
   <button class="tab-btn" onclick="switchTab('suggest',this)">&#128172; Suggest Edits</button>
 </div>
 
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: TODAY                              -->
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-today" class="panel active">
   <div class="two-col">
 
@@ -318,7 +320,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <div class="announcement-label">&#128276; Announcement / Notes</div>
         <div id="announcementDisplay"></div>
         <div id="announcementEdit" class="announcement-edit" style="display:none;">
-          <textarea id="announcementInput" placeholder="Write today's announcement, important notes, or reminders for the team‚Ä¶" rows="3" oninput="saveAnnouncement()"></textarea>
+          <textarea id="announcementInput" placeholder="Write today's announcement, important notes, or reminders for the team&hellip;" rows="3" oninput="saveAnnouncement()"></textarea>
         </div>
       </div>
 
@@ -346,7 +348,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
         <!-- Quick Add Bar -->
         <div class="quick-add-bar" id="quickAddBar">
-          <span class="qa-label">Quick Add ‚Üí</span>
+          <span class="qa-label">Quick Add &rarr;</span>
           <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
           <div class="qa-shift-group">
             <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
@@ -358,13 +360,13 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="Lobby">Lobby</option>
             <option value="Float">Float</option>
           </select>
-          <span class="qa-label">‚Üí switches at</span>
+          <span class="qa-label">&rarr; switches at</span>
           <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM">
           <select class="qa-area2" id="qaArea2">
-            <option value="">‚Äî stays put ‚Äî</option>
-            <option value="Hub">‚Üí Hub</option>
-            <option value="Lobby">‚Üí Lobby</option>
-            <option value="Float">‚Üí Float</option>
+            <option value="">&mdash; stays put &mdash;</option>
+            <option value="Hub">&rarr; Hub</option>
+            <option value="Lobby">&rarr; Lobby</option>
+            <option value="Float">&rarr; Float</option>
           </select>
           <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add</button>
           <button class="btn btn-ghost btn-sm" onclick="openAddModal()" title="Full form">&#9881;</button>
@@ -375,7 +377,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
       </div>
 
-      <!-- CHECKS ‚Äî under roster, same column width -->
+      <!-- CHECKS &mdash; under roster, same column width -->
       <div class="two-col-equal">
         <div>
           <div class="card">
@@ -388,7 +390,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
         <div>
           <div class="card">
-            <div class="section-title">&#127918; Room Spot Checks <span>trash ¬∑ reset balls ¬∑ play a level</span></div>
+            <div class="section-title">&#127918; Room Spot Checks <span>trash &middot; reset balls &middot; play a level</span></div>
             <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;">
               <span style="margin-left:auto;" id="roomProgress"></span>
             </div>
@@ -404,11 +406,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="card">
         <div class="section-title">&#9989; To-Do</div>
         <div class="todo-input-row">
-          <input type="text" id="todoInput" placeholder="Add a task‚Ä¶" style="flex:1;" onkeydown="if(event.key==='Enter')addTodo()">
+          <input type="text" id="todoInput" placeholder="Add a task&hellip;" style="flex:1;" onkeydown="if(event.key==='Enter')addTodo()">
           <button class="btn btn-primary btn-sm" onclick="addTodo()">Add</button>
         </div>
         <div class="todo-list" id="todoList"></div>
-        <div id="todoEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0;display:none;">No tasks ‚Äî enjoy the calm.</div>
+        <div id="todoEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:10px 0;display:none;">No tasks &mdash; enjoy the calm.</div>
       </div>
 
       <!-- Service Standards -->
@@ -431,9 +433,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: PRICING                            -->
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-pricing" class="panel">
   <div class="two-col">
     <div>
@@ -461,19 +463,19 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
         <div class="price-display">
           <div class="price-stat highlight">
-            <div class="price-value cyan" id="pricePerPlayer">‚Äî</div>
+            <div class="price-value cyan" id="pricePerPlayer">&mdash;</div>
             <div class="price-label">Per Player</div>
           </div>
           <div class="price-stat">
-            <div class="price-value green" id="priceSubtotal">‚Äî</div>
+            <div class="price-value green" id="priceSubtotal">&mdash;</div>
             <div class="price-label">Subtotal</div>
           </div>
           <div class="price-stat">
-            <div class="price-value gold" id="priceTotal">‚Äî</div>
+            <div class="price-value gold" id="priceTotal">&mdash;</div>
             <div class="price-label">After Tax (6%)</div>
           </div>
         </div>
-        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">Auto-detects current day &amp; time ¬∑ adjust players or 90-min toggle to recalculate</div>
+        <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">Auto-detects current day &amp; time &middot; adjust players or 90-min toggle to recalculate</div>
       </div>
     </div>
     <div>
@@ -493,15 +495,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           </thead>
           <tbody id="pricingGridBody"></tbody>
         </table>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">All prices per player ¬∑ Tax not included in grid</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;">All prices per player &middot; Tax not included in grid</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: HANDOFF                            -->
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-handoff" class="panel">
   <div class="two-col-wide">
 
@@ -516,7 +518,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <!-- 1. Name + end time -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">1</span> Your name &amp; shift end time</div>
-          <input type="text" class="hf-input" id="hf1" placeholder='e.g. "AJ ‚Äî closing out at 4pm"'>
+          <input type="text" class="hf-input" id="hf1" placeholder='e.g. "AJ &mdash; closing out at 4pm"'>
         </div>
 
         <!-- 2. Pace / feel -->
@@ -529,46 +531,46 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           </div>
           <div class="guest-count-row">
             <span style="font-size:13px;color:var(--muted);">Guest count (if known):</span>
-            <input type="number" id="hfGuestCount" placeholder="‚Äî" min="0" style="width:90px;">
+            <input type="number" id="hfGuestCount" placeholder="&mdash;" min="0" style="width:90px;">
           </div>
         </div>
 
         <!-- 3. Rooms down -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">3</span> Rooms down or acting up?</div>
-          <textarea class="hf-textarea" id="hf3" placeholder="Which rooms, what's wrong, MaintainX ticket # if created‚Ä¶"></textarea>
+          <textarea class="hf-textarea" id="hf3" placeholder="Which rooms, what's wrong, MaintainX ticket # if created&hellip;"></textarea>
         </div>
 
         <!-- 4. Open guest issues -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">4</span> Open guest issues</div>
-          <textarea class="hf-textarea" id="hf4" placeholder="Anyone you BLASTed but resolution carries over? Refunds promised, comps owed, follow-up calls needed‚Ä¶"></textarea>
+          <textarea class="hf-textarea" id="hf4" placeholder="Anyone you BLASTed but resolution carries over? Refunds promised, comps owed, follow-up calls needed&hellip;"></textarea>
         </div>
 
         <!-- 5. Outstanding tasks (top 3) -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">5</span> Outstanding tasks for incoming shift <span style="font-size:10px;">(top 3 only)</span></div>
-          <div class="task-row"><div class="task-num">1</div><input type="text" id="hf5a" placeholder="Most important task‚Ä¶" style="width:100%;"></div>
-          <div class="task-row"><div class="task-num">2</div><input type="text" id="hf5b" placeholder="Second task‚Ä¶" style="width:100%;"></div>
-          <div class="task-row"><div class="task-num">3</div><input type="text" id="hf5c" placeholder="Third task‚Ä¶" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">1</div><input type="text" id="hf5a" placeholder="Most important task&hellip;" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">2</div><input type="text" id="hf5b" placeholder="Second task&hellip;" style="width:100%;"></div>
+          <div class="task-row"><div class="task-num">3</div><input type="text" id="hf5c" placeholder="Third task&hellip;" style="width:100%;"></div>
         </div>
 
         <!-- 6. Inventory -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">6</span> Inventory running low</div>
-          <textarea class="hf-textarea" id="hf6" placeholder="Wristbands, cleaning supplies, snacks, anything‚Ä¶" style="min-height:60px;"></textarea>
+          <textarea class="hf-textarea" id="hf6" placeholder="Wristbands, cleaning supplies, snacks, anything&hellip;" style="min-height:60px;"></textarea>
         </div>
 
         <!-- 7. Incoming bookings -->
         <div class="hf-group">
           <div class="hf-label"><span class="hf-num">7</span> Incoming bookings / groups to flag</div>
-          <textarea class="hf-textarea" id="hf7" placeholder="Birthdays, large parties, repeat guests, anything needing prep‚Ä¶"></textarea>
+          <textarea class="hf-textarea" id="hf7" placeholder="Birthdays, large parties, repeat guests, anything needing prep&hellip;"></textarea>
         </div>
 
-        <!-- 8. One thing ‚Äî CRITICAL -->
+        <!-- 8. One thing &mdash; CRITICAL -->
         <div class="hf-group">
           <div class="hf-label critical-label"><span class="hf-num" style="background:var(--accent2);color:#fff;">8</span> &#9888; One thing the next shift <em>must</em> know</div>
-          <textarea class="hf-textarea critical-field" id="hf8" placeholder="The one item that, if missed, becomes a problem‚Ä¶" style="min-height:80px;font-weight:500;"></textarea>
+          <textarea class="hf-textarea critical-field" id="hf8" placeholder="The one item that, if missed, becomes a problem&hellip;" style="min-height:80px;font-weight:500;"></textarea>
         </div>
 
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
@@ -590,22 +592,22 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: NEED TO ORDER                     -->
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-order" class="panel">
   <div class="two-col-wide">
     <div>
       <div class="card">
         <div class="section-title">&#128230; Request an Item</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Need something restocked or ordered? Submit it here ‚Äî Brett reviews this list every Monday.</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Need something restocked or ordered? Submit it here &mdash; Brett reviews this list every Monday.</p>
         <div style="margin-bottom:12px;">
           <div class="input-label" style="margin-bottom:5px;">Your Name</div>
           <input type="text" id="orderName" placeholder="First name" style="width:100%;">
         </div>
         <div style="margin-bottom:12px;">
           <div class="input-label" style="margin-bottom:5px;">Item / Description</div>
-          <input type="text" id="orderItem" placeholder="e.g. Wristbands, Paper towels, Cleaning spray‚Ä¶" style="width:100%;" onkeydown="if(event.key==='Enter')submitOrderRequest()">
+          <input type="text" id="orderItem" placeholder="e.g. Wristbands, Paper towels, Cleaning spray&hellip;" style="width:100%;" onkeydown="if(event.key==='Enter')submitOrderRequest()">
         </div>
         <div class="modal-grid" style="margin-bottom:12px;">
           <div>
@@ -616,8 +618,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <div class="input-label" style="margin-bottom:5px;">Urgency</div>
             <select id="orderUrgency" style="width:100%;">
               <option value="Normal">Normal</option>
-              <option value="Urgent">üî¥ Urgent ‚Äî running out now</option>
-              <option value="Low">Low ‚Äî good for a while</option>
+              <option value="Urgent">&#128308; Urgent &mdash; running out now</option>
+              <option value="Low">Low &mdash; good for a while</option>
             </select>
           </div>
         </div>
@@ -631,21 +633,21 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="card">
         <div class="section-title">&#128203; Order List <span>resets after Monday</span></div>
         <div id="orderList"></div>
-        <div id="orderEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No requests yet ‚Äî add something on the left.</div>
+        <div id="orderEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No requests yet &mdash; add something on the left.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: SUGGEST EDITS                     -->
-<!-- ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-suggest" class="panel">
   <div class="two-col-wide">
     <div>
       <div class="card">
         <div class="section-title">&#128172; Suggest an Edit</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got an idea to make this tool better? Drop it here ‚Äî Brett will see it.</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got an idea to make this tool better? Drop it here &mdash; Brett will see it.</p>
         <div style="margin-bottom:12px;">
           <div class="input-label" style="margin-bottom:5px;">Your Name</div>
           <input type="text" id="suggestName" placeholder="First name" style="width:100%;">
@@ -657,7 +659,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <div style="display:flex;justify-content:flex-end;">
           <button class="btn btn-primary" onclick="submitSuggestion()">&#10003; Submit</button>
         </div>
-        <div id="suggestBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Thanks ‚Äî suggestion submitted!</div>
+        <div id="suggestBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">Thanks &mdash; suggestion submitted!</div>
       </div>
     </div>
     <div>
@@ -665,6 +667,123 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <div class="section-title">&#128196; Submitted Ideas</div>
         <div id="suggestionsList"></div>
         <div id="suggestEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No suggestions yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
+<!-- PANEL: LIGHT UP OUR INBOX                -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
+<div id="panel-lightup" class="panel">
+  <div style="max-width:860px;margin:0 auto;">
+    <div class="card" style="background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(0,229,255,.02));border:1px solid rgba(0,229,255,.2);">
+      <div style="text-align:center;margin-bottom:24px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;color:var(--accent);margin-bottom:4px;">Light up our inbox</div>
+        <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:2px;text-transform:uppercase;">Who to contact &amp; how</div>
+      </div>
+
+      <!-- Escalation chain -->
+      <div style="margin-bottom:28px;">
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;">Have a question or concern? Start here &mdash; escalate as needed.</div>
+
+        <!-- Store Manager -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+          <div style="min-width:160px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px;">Store Manager</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text);">Brett Wilkins</div>
+          </div>
+          <div style="flex:1;display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
+            <a href="mailto:bwilkins@activate.games" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">bwilkins@activate.games</a>
+            <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">859-489-0245</span>
+          </div>
+        </div>
+
+        <!-- Regional Director -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+          <div style="min-width:160px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px;">Regional Director</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text);">David Smith</div>
+          </div>
+          <div style="flex:1;display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
+            <a href="mailto:david.smith@activate.games" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">david.smith@activate.games</a>
+            <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">704-953-0525</span>
+          </div>
+        </div>
+
+        <!-- SVP Operations -->
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+          <div style="min-width:160px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px;">S.V.P. of Operations</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text);">Dallas Warble</div>
+          </div>
+          <div style="flex:1;display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
+            <a href="mailto:dallas.warble@activate.games" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">dallas.warble@activate.games</a>
+            <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">215-605-7827</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other resources -->
+      <div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;">Other Resources</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
+
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">&#128176; Payroll</div>
+            <a href="mailto:payroll@activategames.com" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">payroll@activategames.com</a>
+          </div>
+
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">&#127981; Activate I.T.</div>
+            <div style="margin-bottom:5px;"><a href="mailto:itservices@activate.games" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">itservices@activate.games</a></div>
+            <div style="font-size:12px;color:var(--muted);">Discord: <span style="color:var(--text);font-family:'DM Mono',monospace;">#activate-it-support</span></div>
+          </div>
+
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+            <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">&#127464;&#127462; Canada Tech Support</div>
+            <div style="margin-bottom:5px;"><a href="mailto:support@playactivate.ca" style="color:var(--accent);font-size:13px;text-decoration:none;font-family:'DM Mono',monospace;">support@playactivate.ca</a></div>
+            <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;">+1 855-327-5986</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
+<!-- PANEL: IDEAS BOARD                        -->
+<!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
+<div id="panel-ideas" class="panel">
+  <div class="two-col-wide">
+    <div>
+      <div class="card">
+        <div class="section-title">&#128161; Share an Idea</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Got a great idea? Submit it here &mdash; all ideas are saved and visible to the team.</p>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Your Name</div>
+          <input type="text" id="ideaName" placeholder="First name" style="width:100%;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="input-label" style="margin-bottom:5px;">Idea Title</div>
+          <input type="text" id="ideaTitle" placeholder="Give your idea a short title" style="width:100%;" onkeydown="if(event.key==='Enter')document.getElementById('ideaDesc').focus()">
+        </div>
+        <div style="margin-bottom:16px;">
+          <div class="input-label" style="margin-bottom:5px;">Description</div>
+          <textarea id="ideaDesc" placeholder="Describe your idea in detail &mdash; what is it, how would it work, why would it help?" style="width:100%;min-height:120px;resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button class="btn btn-primary" onclick="submitIdea()">&#128161; Submit Idea</button>
+        </div>
+        <div id="ideaBanner" style="display:none;margin-top:12px;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--accent3);">&#10003; Idea submitted &mdash; thanks!</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="section-title">&#128204; Ideas Board</div>
+        <div id="ideasList"></div>
+        <div id="ideasEmpty" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No ideas yet &mdash; be the first to share one!</div>
       </div>
     </div>
   </div>
@@ -707,12 +826,12 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div>
         <div class="input-label">High Touch Duties</div>
         <select id="empHighTouch" style="width:100%;">
-          <option value="">‚Äî None assigned ‚Äî</option>
-          <option value="Screens">Screens ‚Äî wipe down all throughout the building</option>
-          <option value="Doors">Doors ‚Äî wipe down all throughout the building</option>
-          <option value="Windows">Windows ‚Äî clean all throughout the building</option>
-          <option value="Room Components">Room Components ‚Äî clean &amp; reset throughout</option>
-          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room ‚Äî full clean</option>
+          <option value="">&mdash; None assigned &mdash;</option>
+          <option value="Screens">Screens &mdash; wipe down all throughout the building</option>
+          <option value="Doors">Doors &mdash; wipe down all throughout the building</option>
+          <option value="Windows">Windows &mdash; clean all throughout the building</option>
+          <option value="Room Components">Room Components &mdash; clean &amp; reset throughout</option>
+          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room &mdash; full clean</option>
         </select>
       </div>
     </div>
@@ -725,16 +844,16 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 </div>
 
 <script>
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // SUPABASE SYNC
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
 let syncId = localStorage.getItem('dep_sync_id') || null;
 let syncTimeout = null;
 
 // Uses ag_trips table (already exists). Deployment sync_id uses a different
-// hash salt so rows are 100% isolated from the HQ app ‚Äî no collision.
+// hash salt so rows are 100% isolated from the HQ app \u2014 no collision.
 const DEP_TABLE = 'ag_trips';
 
 function sbHeaders() {
@@ -752,16 +871,17 @@ async function syncAllToCloud() {
         roster,
         daily: { date: TODAY_STR, state },
         handoffs: pastHandoffs,
-        orders: orderRequests
+        orders: orderRequests,
+        ideas: staffIdeas
       };
       const resp = await fetch(`${SB_URL}/rest/v1/${DEP_TABLE}`, {
         method: 'POST', headers: sbHeaders(),
         body: JSON.stringify({ sync_id: syncId, data: payload })
       });
       if (!resp.ok) throw new Error(await resp.text());
-      setSyncStatus('synced','Synced ‚úì');
+      setSyncStatus('synced','Synced \u2713');
     } catch(e) {
-      setSyncStatus('error','Sync failed ‚Äî saved locally');
+      setSyncStatus('error','Sync failed \u2014 saved locally');
       console.error('Sync error:', e);
     }
   }, 600);
@@ -777,7 +897,7 @@ async function loadAllFromSupabase() {
     );
     const rows = await resp.json();
     if (!Array.isArray(rows) || !rows[0] || !rows[0].data) {
-      setSyncStatus('synced','Synced ‚úì'); return;
+      setSyncStatus('synced','Synced \u2713'); return;
     }
     const d = rows[0].data;
     if (Array.isArray(d.roster)) {
@@ -798,12 +918,16 @@ async function loadAllFromSupabase() {
       orderRequests = d.orders;
       localStorage.setItem('activate_deploy_orders', JSON.stringify(d.orders));
     }
+    if (Array.isArray(d.ideas)) {
+      staffIdeas = d.ideas;
+      localStorage.setItem('activate_deploy_ideas', JSON.stringify(d.ideas));
+    }
     renderAnnouncement(); renderTodos(); renderRoster();
     renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-    renderPastHandoffs(); renderOrderList();
-    setSyncStatus('synced','Synced ‚úì');
+    renderPastHandoffs(); renderOrderList(); renderIdeasList();
+    setSyncStatus('synced','Synced \u2713');
   } catch(e) {
-    setSyncStatus('error','Sync error ‚Äî using local data');
+    setSyncStatus('error','Sync error \u2014 using local data');
     console.error('Load error:', e);
   }
 }
@@ -841,7 +965,7 @@ function handleSignOut() {
 
 function setLoginLoading(loading) {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = loading ? 'Connecting...' : 'Connect ‚Üí';
+  btn.textContent = loading ? 'Connecting...' : 'Connect \u2192';
   btn.disabled = loading;
 }
 
@@ -860,7 +984,7 @@ async function activateApp() {
   loadAll();
   updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
   renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderOrderList(); renderSuggestions();
+  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderOrderList(); renderSuggestions(); renderIdeasList();
   setInterval(calcPrice, 60000);
   await loadAllFromSupabase();
 }
@@ -869,15 +993,15 @@ document.addEventListener('visibilitychange', () => { if (document.visibilitySta
 window.addEventListener('focus', loadAllFromSupabase);
 setInterval(() => { if (document.visibilityState === 'visible') loadAllFromSupabase(); }, 30000);
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // CONSTANTS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const ROOMS = ['Push','Mega Grid','Climb','Laser','Hoops','Arena','Trench','Hide'];
 const TIME_SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM',
   '4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM'];
 const AREAS = ['Hub','Lobby','Float'];
 
-// Pricing: 0=Mon ‚Ä¶ 6=Sun
+// Pricing: 0=Mon \u2026 6=Sun
 const P = {
   lv60:[18.99,18.99,18.99,18.99,22.99,22.99,22.99],
   lv90:[24.99,24.99,24.99,24.99,33.99,33.99,33.99],
@@ -889,9 +1013,9 @@ const P = {
 const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const TAX=0.06;
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // STATE
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const TODAY_STR = new Date().toLocaleDateString('en-CA');
 let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
@@ -899,6 +1023,7 @@ let qaShift='';
 let handoffPace='';
 let roster=[], pastHandoffs=[];
 let state={announcement:'',todos:[],bathroomChecks:{},roomChecks:{}};
+let staffIdeas=JSON.parse(localStorage.getItem('activate_deploy_ideas')||'[]');
 
 function initBathroomChecks(){const o={};TIME_SLOTS.forEach(t=>{o[t]={done:false,initials:''};});return o;}
 function initRoomChecks(){const o={};ROOMS.forEach(r=>{o[r]={done:false,initials:''};});return o;}
@@ -918,6 +1043,8 @@ function loadAll(){
   if(sp)pastHandoffs=JSON.parse(sp);
   const so=localStorage.getItem('activate_deploy_orders');
   if(so)orderRequests=JSON.parse(so);
+  const si=localStorage.getItem('activate_deploy_ideas');
+  if(si)staffIdeas=JSON.parse(si);
 }
 
 function saveAll(){
@@ -927,13 +1054,13 @@ function saveAll(){
   syncAllToCloud();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // HEADER / TABS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function updateHeader(){
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
   document.getElementById('dateBadge').textContent=new Date().toLocaleDateString('en-US',opts);
-  document.getElementById('handoffDateLabel').textContent='‚Äî today';
+  document.getElementById('handoffDateLabel').textContent='\u2014 today';
 }
 
 function switchTab(name,btn){
@@ -944,24 +1071,24 @@ function switchTab(name,btn){
   if(name==='pricing')calcPrice();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // EDIT MODE
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function toggleEditMode(){
   editMode=!editMode;
   document.body.classList.toggle('edit-mode',editMode);
   const btn=document.getElementById('editToggle');
   btn.classList.toggle('active',editMode);
-  btn.textContent=editMode?'‚úì Exit Edit':'‚úè Edit Mode';
+  btn.textContent=editMode?'\u2713 Exit Edit':'\u270f Edit Mode';
   document.getElementById('announcementDisplay').style.display=editMode?'none':'block';
   document.getElementById('announcementEdit').style.display=editMode?'block':'none';
   document.querySelectorAll('.edit-mode-show').forEach(el=>el.style.display=editMode?'':'none');
   renderRoster();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // ANNOUNCEMENT
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function saveAnnouncement(){
   state.announcement=document.getElementById('announcementInput').value;
   saveAll(); renderAnnouncement();
@@ -975,9 +1102,9 @@ function renderAnnouncement(){
   inp.value=state.announcement;
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // TO-DOS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function addTodo(){
   const inp=document.getElementById('todoInput');
   const text=inp.value.trim();if(!text)return;
@@ -995,17 +1122,17 @@ function renderTodos(){
     <div class="todo-item ${t.done?'done':''}">
       <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo(${t.id})"></div>
       <span class="todo-text">${escHtml(t.text)}</span>
-      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteTodo(${t.id})">‚úï</button>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;" onclick="deleteTodo(${t.id})">\u2715</button>
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // ROSTER
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderDeploymentCell(emp){
   const dep=emp.deployment||[{area:emp.area||'?'}];
   return '<div class="deploy-timeline">'+dep.map((s,i)=>{
-    const arrow=i>0?'<span class="deploy-arrow">‚Üí</span>':'';
+    const arrow=i>0?'<span class="deploy-arrow">\u2192</span>':'';
     const badge='<span class="badge badge-cyan">'+escHtml(s.area)+'</span>';
     const time=(i>0&&s.at)?'<span class="deploy-time">'+escHtml(s.at)+'</span>':'';
     return arrow+badge+time;
@@ -1030,15 +1157,15 @@ function renderRoster(highlightIdx=-1){
     <tr class="roster-row${i===highlightIdx?' just-added':''}" draggable="${editMode}"
         ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})"
         ondrop="drop(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
-      <td><span class="drag-handle">‚†ø</span></td>
+      <td><span class="drag-handle">\u283f</span></td>
       <td class="employee-name">${escHtml(e.name)}</td>
       <td>${shiftBadge(e.shift)}</td>
       <td>${renderDeploymentCell(e)}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'‚Äî')}</td>
-      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'‚Äî')}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'\u2014')}</td>
+      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'\u2014')}</td>
       <td><div class="roster-actions">
         <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
-        <button class="btn btn-danger" onclick="removeEmployee(${i})">‚úï</button>
+        <button class="btn btn-danger" onclick="removeEmployee(${i})">\u2715</button>
       </div></td>
     </tr>`).join('');
 }
@@ -1048,9 +1175,9 @@ function removeEmployee(idx){
   roster.splice(idx,1);saveAll();renderRoster();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // QUICK ADD
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function qaSelectShift(val){
   qaShift=val;
   document.getElementById('qaShiftOpen').className='qa-shift-btn'+(val==='Open'?' qa-open':'');
@@ -1075,29 +1202,29 @@ function quickAdd(){
   document.getElementById('qaName').focus();
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // DRAG & DROP
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function dragStart(e,idx){dragSrcIdx=idx;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
 function dragOver(e,idx){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('drag-over'));if(idx!==dragSrcIdx)e.currentTarget.classList.add('drag-over');}
 function dragLeave(e){e.currentTarget.classList.remove('drag-over');}
 function drop(e,idx){e.preventDefault();if(dragSrcIdx===null||dragSrcIdx===idx)return;const m=roster.splice(dragSrcIdx,1)[0];roster.splice(idx,0,m);saveAll();renderRoster();}
 function dragEnd(){document.querySelectorAll('.roster-row').forEach(r=>r.classList.remove('dragging','drag-over'));dragSrcIdx=null;}
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
-// EMPLOYEE MODAL ‚Äî DEPLOYMENT BUILDER
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// EMPLOYEE MODAL \u2014 DEPLOYMENT BUILDER
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderDeployBuilder(){
   const container=document.getElementById('deployBuilder');
   const addBtn=document.getElementById('addDeployStopBtn');
   container.innerHTML=empDeployment.map((stop,i)=>`
     <div class="deploy-stop-row">
-      ${i>0?'<span class="deploy-arrow" style="font-size:16px;color:var(--muted);">‚Üí</span>':''}
+      ${i>0?'<span class="deploy-arrow" style="font-size:16px;color:var(--muted);">\u2192</span>':''}
       <select style="flex:1;min-width:90px;" onchange="updateDeployArea(${i},this.value)">
         ${AREAS.map(a=>`<option value="${a}"${stop.area===a?' selected':''}>${a}</option>`).join('')}
       </select>
       ${i>0?`<input type="text" class="at-input" placeholder="at (e.g. 2:00 PM)" value="${escHtml(stop.at||'')}" oninput="updateDeployAt(${i},this.value)" style="width:120px;">
-        <button onclick="removeDeployStop(${i})" class="btn btn-danger" style="padding:4px 8px;font-size:12px;flex-shrink:0;">‚úï</button>`:''}
+        <button onclick="removeDeployStop(${i})" class="btn btn-danger" style="padding:4px 8px;font-size:12px;flex-shrink:0;">\u2715</button>`:''}
     </div>`).join('');
   addBtn.style.display=empDeployment.length>=3?'none':'flex';
 }
@@ -1121,7 +1248,7 @@ function openAddModal(){
 
 function openEditModal(idx){
   const e=roster[idx];
-  document.getElementById('modalTitle').textContent='Edit ‚Äî '+e.name;
+  document.getElementById('modalTitle').textContent='Edit \u2014 '+e.name;
   document.getElementById('editingId').value=idx;
   document.getElementById('empName').value=e.name;
   empModalShift=e.shift;selectShift(e.shift,true);
@@ -1152,9 +1279,9 @@ function saveEmployee(){
 
 document.getElementById('employeeModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // CHECKS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function renderBathroomChecks(){
   document.getElementById('bathroomList').innerHTML=TIME_SLOTS.map(t=>{
     const c=state.bathroomChecks[t];
@@ -1200,9 +1327,9 @@ function updateCheckProgress(){
   if(rp)rp.textContent=rDone+' / '+ROOMS.length+' complete';
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // PRICING
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function getDayIdx(){const js=new Date().getDay();return js===0?6:js-1;}
 
 function calcPrice(){
@@ -1219,8 +1346,8 @@ function calcPrice(){
   const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+' '+ap;};
   const ind=document.getElementById('hvIndicator');
   const reason=document.getElementById('hvReason');
-  if(isHV){ind.className='hv-indicator hv';ind.textContent='HIGH VOLUME';reason.textContent='HV hours: '+fmtH(P.hvStart[dayIdx])+'‚Äì'+fmtH(P.hvEnd[dayIdx]);}
-  else{ind.className='hv-indicator lv';ind.textContent='LOW VOLUME';reason.textContent='HV hours today: '+fmtH(P.hvStart[dayIdx])+'‚Äì'+fmtH(P.hvEnd[dayIdx]);}
+  if(isHV){ind.className='hv-indicator hv';ind.textContent='HIGH VOLUME';reason.textContent='HV hours: '+fmtH(P.hvStart[dayIdx])+'\u2013'+fmtH(P.hvEnd[dayIdx]);}
+  else{ind.className='hv-indicator lv';ind.textContent='LOW VOLUME';reason.textContent='HV hours today: '+fmtH(P.hvStart[dayIdx])+'\u2013'+fmtH(P.hvEnd[dayIdx]);}
 }
 
 function adjustPlayers(delta){
@@ -1234,16 +1361,16 @@ function renderPricingGrid(){
   const fmtH=h=>{const ap=h>=12?'PM':'AM';const h12=h%12||12;return h12+ap;};
   document.getElementById('pricingGridBody').innerHTML=DAYS.map((d,i)=>`
     <tr class="${i===today?'active-day':''}">
-      <td>${d}${i===today?' ‚óÄ':''}</td>
+      <td>${d}${i===today?' \u25c0':''}</td>
       <td>$${P.lv60[i]}</td><td>$${P.lv90[i]}</td>
       <td>$${P.hv60[i]}</td><td>$${P.hv90[i]}</td>
-      <td style="font-size:11px;">${fmtH(P.hvStart[i])}‚Äì${fmtH(P.hvEnd[i])}</td>
+      <td style="font-size:11px;">${fmtH(P.hvStart[i])}\u2013${fmtH(P.hvEnd[i])}</td>
     </tr>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // HANDOFF
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function selectPace(val){
   handoffPace=val;
   ['Slammed','Steady','Slow'].forEach(p=>{
@@ -1288,7 +1415,7 @@ function clearHandoffForm(){
   ['Slammed','Steady','Slow'].forEach(p=>document.getElementById('pace-'+p).className='pace-btn');
 }
 
-const PACE_ICONS={'Slammed':'üî•','Steady':'üìà','Slow':'üò¥',''  :'‚Äî'};
+const PACE_ICONS={'Slammed':'&#128293;','Steady':'&#128200;','Slow':'&#128564;',''  :'\u2014'};
 
 function renderPastHandoffs(){
   const list=document.getElementById('pastHandoffsList');
@@ -1306,7 +1433,7 @@ function renderPastHandoffs(){
         </div>
         <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.submittedAt}</span>
       </div>
-      ${h.critical?`<div style="font-size:12px;padding:6px 10px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:6px;color:var(--text);"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">‚ö† Must know: </span>${escHtml(h.critical)}</div>`:''}
+      ${h.critical?`<div style="font-size:12px;padding:6px 10px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:6px;color:var(--text);"><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;">\u26a0 Must know: </span>${escHtml(h.critical)}</div>`:''}
       <div class="handoff-body">
         ${h.roomsDown?`<div class="hf-field"><div class="hf-field-label">Rooms down</div><div class="hf-field-val">${escHtml(h.roomsDown)}</div></div>`:''}
         ${h.guestIssues?`<div class="hf-field"><div class="hf-field-label">Open guest issues</div><div class="hf-field-val">${escHtml(h.guestIssues)}</div></div>`:''}
@@ -1314,13 +1441,13 @@ function renderPastHandoffs(){
         ${h.inventory?`<div class="hf-field"><div class="hf-field-label">Inventory low</div><div class="hf-field-val">${escHtml(h.inventory)}</div></div>`:''}
         ${h.bookings?`<div class="hf-field"><div class="hf-field-label">Incoming bookings</div><div class="hf-field-val">${escHtml(h.bookings)}</div></div>`:''}
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">‚ñº click to expand</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">\u25bc click to expand</div>
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // ORDER REQUESTS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 let orderRequests = JSON.parse(localStorage.getItem('activate_deploy_orders') || '[]');
 
 function submitOrderRequest(){
@@ -1378,16 +1505,16 @@ function renderOrderList(){
         <div style="font-size:13px;font-weight:600;${r.done?'text-decoration:line-through;color:var(--muted);':''}">${escHtml(r.item)}</div>
         <div style="font-size:11px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace;">
           ${r.qty?escHtml(r.qty)+' &middot; ':''}<span style="padding:1px 6px;border-radius:4px;font-size:10px;${URG_STYLE[r.urgency]||URG_STYLE['Normal']}">${escHtml(r.urgency)}</span>
-          &nbsp;¬∑ ${escHtml(r.name)} ¬∑ ${escHtml(r.submittedAt)}
+          &nbsp;\u00b7 ${escHtml(r.name)} \u00b7 ${escHtml(r.submittedAt)}
         </div>
       </div>
-      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;flex-shrink:0;" onclick="deleteOrder(${r.id})">‚úï</button>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;flex-shrink:0;" onclick="deleteOrder(${r.id})">\u2715</button>
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // SUGGESTIONS
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 let suggestions = JSON.parse(localStorage.getItem('activate_deploy_suggestions') || '[]');
 
 function submitSuggestion(){
@@ -1416,17 +1543,65 @@ function renderSuggestions(){
     </div>`).join('');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// IDEAS BOARD
+function submitIdea(){
+  const name  = document.getElementById('ideaName').value.trim();
+  const title = document.getElementById('ideaTitle').value.trim();
+  const desc  = document.getElementById('ideaDesc').value.trim();
+  if(!title){ document.getElementById('ideaTitle').focus(); return; }
+  if(!desc){  document.getElementById('ideaDesc').focus(); return; }
+  const now = new Date();
+  const ts = now.toLocaleDateString('en-US',{month:'short',day:'numeric'})
+           + ' ' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  staffIdeas.unshift({ id: Date.now(), name: name||'Anonymous', title, desc, submittedAt: ts });
+  document.getElementById('ideaName').value  = '';
+  document.getElementById('ideaTitle').value = '';
+  document.getElementById('ideaDesc').value  = '';
+  const banner = document.getElementById('ideaBanner');
+  banner.style.display = 'block';
+  setTimeout(()=>{ banner.style.display='none'; }, 3000);
+  localStorage.setItem('activate_deploy_ideas', JSON.stringify(staffIdeas));
+  syncAllToCloud();
+  renderIdeasList();
+}
+
+function deleteIdea(id){
+  staffIdeas = staffIdeas.filter(x=>x.id!==id);
+  localStorage.setItem('activate_deploy_ideas', JSON.stringify(staffIdeas));
+  syncAllToCloud();
+  renderIdeasList();
+}
+
+function renderIdeasList(){
+  const list  = document.getElementById('ideasList');
+  const empty = document.getElementById('ideasEmpty');
+  if(!list) return;
+  if(!staffIdeas.length){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = staffIdeas.map(idea=>`
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">${escHtml(idea.title)}</div>
+          <div style="font-size:11px;color:var(--accent);font-family:'DM Mono',monospace;">${escHtml(idea.name)} &middot; ${escHtml(idea.submittedAt)}</div>
+        </div>
+        ${editMode?`<button class="btn btn-danger" style="padding:3px 8px;font-size:11px;flex-shrink:0;" onclick="deleteIdea(${idea.id})">&#10005;</button>`:''}
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">${escHtml(idea.desc)}</div>
+    </div>`).join('');
+}
+
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // UTILITY
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 function escHtml(str){
   if(!str)return'';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // BOOT
-// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 if (syncId) {
   activateApp();
 } else {
