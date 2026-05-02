@@ -293,8 +293,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   <div class="header-right">
     <div class="date-badge" id="dateBadge"></div>
     <button class="edit-btn" id="editToggle" onclick="toggleEditMode()">&#9998; Edit Mode</button>
+    <button class="edit-btn" id="settingsBtn" onclick="toggleSettings()" title="Color Schemes">&#9881;</button>
   </div>
 </header>
+
+<!-- SETTINGS PANEL -->
+<div id="settingsPanel" style="display:none;position:fixed;top:70px;right:24px;z-index:200;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
+  <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;">&#9881; Color Scheme</div>
+  <div id="schemeGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+</div>
 
 <!-- TABS -->
 <div class="tabs">
@@ -1171,7 +1178,6 @@ function renderRoster(highlightIdx=-1){
 }
 
 function removeEmployee(idx){
-  if(!confirm('Remove '+roster[idx].name+' from today\'s roster?'))return;
   roster.splice(idx,1);saveAll();renderRoster();
 }
 
@@ -1598,6 +1604,77 @@ function escHtml(str){
   if(!str)return'';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
+// COLOR SCHEMES
+const COLOR_SCHEMES = [
+  { id:'default',  name:'Cyber Blue',   bg:'#0a0c10', surface:'#12151c', surface2:'#1a1f2b', border:'#252b3a', accent:'#00e5ff', accent2:'#ff4d6d', accent3:'#a8ff3e', text:'#e8eaf0', muted:'#6b7394' },
+  { id:'neon',     name:'Neon Green',   bg:'#050f05', surface:'#0a1a0a', surface2:'#0f250f', border:'#1a3a1a', accent:'#39ff14', accent2:'#ff3939', accent3:'#ffee39', text:'#e8f0e8', muted:'#5a805a' },
+  { id:'sunset',   name:'Sunset',       bg:'#0f0a06', surface:'#1c120a', surface2:'#281a0e', border:'#3a2510', accent:'#ff8c42', accent2:'#ff4466', accent3:'#ffd166', text:'#f0e8d8', muted:'#80613a' },
+  { id:'crimson',  name:'Crimson',      bg:'#0f0608', surface:'#1c0a0e', surface2:'#280d12', border:'#3a1018', accent:'#ff2d55', accent2:'#ff6b35', accent3:'#ff9f1c', text:'#f0d8dc', muted:'#80404a' },
+  { id:'purple',   name:'Deep Purple',  bg:'#08060f', surface:'#110a1c', surface2:'#190f28', border:'#27163a', accent:'#bf5fff', accent2:'#ff4daa', accent3:'#a8ff3e', text:'#ece8f0', muted:'#6b5a94' },
+  { id:'ocean',    name:'Ocean',        bg:'#050e12', surface:'#091820', surface2:'#0d232e', border:'#12323f', accent:'#00cfbd', accent2:'#ff6b6b', accent3:'#7efff5', text:'#d8f0ee', muted:'#3a7080' },
+  { id:'gold',     name:'Gold Rush',    bg:'#0c0a04', surface:'#1a1508', surface2:'#251e0a', border:'#38300f', accent:'#ffc300', accent2:'#ff6b35', accent3:'#e8ff59', text:'#f0edd8', muted:'#7a6a28' },
+  { id:'midnight', name:'Midnight',     bg:'#06060f', surface:'#0d0d20', surface2:'#12122e', border:'#1e1e42', accent:'#7b8cff', accent2:'#ff6b9d', accent3:'#6bffb8', text:'#dde0f8', muted:'#5a5a8a' },
+  { id:'forest',   name:'Forest',       bg:'#050c07', surface:'#0a1810', surface2:'#0f2318', border:'#183528', accent:'#4dff91', accent2:'#ff6b4d', accent3:'#f0ff4d', text:'#d8f0e0', muted:'#3a6a4a' },
+  { id:'light',    name:'Clean Light',  bg:'#f0f2f5', surface:'#ffffff',  surface2:'#e8ebf0', border:'#d0d5e0', accent:'#0066cc', accent2:'#cc2244', accent3:'#22aa44', text:'#1a1e2e', muted:'#6070a0' },
+];
+
+let activeScheme = localStorage.getItem('dep_color_scheme') || 'default';
+
+function applyScheme(id) {
+  const s = COLOR_SCHEMES.find(c=>c.id===id) || COLOR_SCHEMES[0];
+  const root = document.documentElement;
+  root.style.setProperty('--bg',       s.bg);
+  root.style.setProperty('--surface',  s.surface);
+  root.style.setProperty('--surface2', s.surface2);
+  root.style.setProperty('--border',   s.border);
+  root.style.setProperty('--accent',   s.accent);
+  root.style.setProperty('--accent2',  s.accent2);
+  root.style.setProperty('--accent3',  s.accent3);
+  root.style.setProperty('--text',     s.text);
+  root.style.setProperty('--muted',    s.muted);
+  activeScheme = id;
+  localStorage.setItem('dep_color_scheme', id);
+  renderSchemeGrid();
+}
+
+function renderSchemeGrid() {
+  const grid = document.getElementById('schemeGrid');
+  if (!grid) return;
+  grid.innerHTML = COLOR_SCHEMES.map(s => `
+    <button onclick="applyScheme('${s.id}')" style="
+      padding:10px 8px;border-radius:8px;border:2px solid ${s.id===activeScheme?s.accent:'transparent'};
+      background:${s.bg};cursor:pointer;text-align:left;transition:all .15s;outline:none;
+      box-shadow:${s.id===activeScheme?'0 0 10px '+s.accent+'55':'none'};">
+      <div style="display:flex;gap:5px;margin-bottom:6px;">
+        <div style="width:14px;height:14px;border-radius:50%;background:${s.accent};flex-shrink:0;"></div>
+        <div style="width:14px;height:14px;border-radius:50%;background:${s.accent2};flex-shrink:0;"></div>
+        <div style="width:14px;height:14px;border-radius:50%;background:${s.accent3};flex-shrink:0;"></div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:${s.text};font-family:'DM Sans',sans-serif;white-space:nowrap;">${s.name}</div>
+    </button>`).join('');
+}
+
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) renderSchemeGrid();
+}
+
+// Close settings if clicking outside
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('settingsPanel');
+  const btn   = document.getElementById('settingsBtn');
+  if (panel && !panel.contains(e.target) && btn && !btn.contains(e.target)) {
+    panel.style.display = 'none';
+  }
+});
+
+// Apply saved scheme on load
+applyScheme(activeScheme);
+
+// COLOR SCHEMES END
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // BOOT
