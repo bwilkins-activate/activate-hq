@@ -133,6 +133,11 @@ select{cursor:pointer;}
 .qa-shift-btn.qa-mid{background:rgba(192,132,252,.12);color:#c084fc;border-color:rgba(192,132,252,.35);}
 .badge-purple-mid{background:rgba(192,132,252,.15);color:#c084fc;border:1px solid rgba(192,132,252,.3);}
 
+/* HIGH TOUCH PILLS */
+.ht-pill{padding:5px 11px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ht-pill:hover{border-color:rgba(255,209,102,.4);color:var(--gold);}
+.ht-pill.sel{background:rgba(255,209,102,.12);color:var(--gold);border-color:rgba(255,209,102,.4);font-weight:600;}
+
 /* SUGGEST EDITS */
 .suggest-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;}
 .suggest-item-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px;}
@@ -335,7 +340,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
           <div class="section-title" style="margin-bottom:0;">&#128100; Today's Roster <span id="rosterCount"></span></div>
-          <button class="btn btn-ghost btn-sm edit-mode-show" style="display:none;" onclick="openAddModal()">+ Add Employee</button>
         </div>
 
         <table class="roster-table" id="rosterTable">
@@ -353,9 +357,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <tbody id="rosterBody"></tbody>
         </table>
 
-        <!-- Quick Add Bar -->
+        <!-- Add Staff Bar (unified) -->
         <div class="quick-add-bar" id="quickAddBar">
-          <span class="qa-label">Quick Add &rarr;</span>
+          <span class="qa-label">Add Staff &rarr;</span>
           <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
           <div class="qa-shift-group">
             <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
@@ -375,8 +379,17 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="Lobby">&rarr; Lobby</option>
             <option value="Float">&rarr; Float</option>
           </select>
-          <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add</button>
-          <button class="btn btn-ghost btn-sm" onclick="openAddModal()" title="Full form">&#9881;</button>
+          <span class="qa-label">Break:</span>
+          <input type="text" class="qa-at" id="qaBreak" placeholder="e.g. 1:30 PM">
+          <div style="width:100%;display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding-top:2px;">
+            <span class="qa-label">High Touch:</span>
+            <button type="button" class="ht-pill" data-ht="Screens" onclick="this.classList.toggle('sel')">Screens</button>
+            <button type="button" class="ht-pill" data-ht="Doors" onclick="this.classList.toggle('sel')">Doors</button>
+            <button type="button" class="ht-pill" data-ht="Windows" onclick="this.classList.toggle('sel')">Windows</button>
+            <button type="button" class="ht-pill" data-ht="Room Components" onclick="this.classList.toggle('sel')">Room Components</button>
+            <button type="button" class="ht-pill" data-ht="Bathrooms" onclick="this.classList.toggle('sel')">Bathrooms</button>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add Staff</button>
         </div>
 
         <div id="rosterEmpty" style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px;display:none;">
@@ -701,9 +714,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
       <!-- PAST HUDDLES -->
       <div class="card">
-        <div class="section-title">&#128196; Saved Huddles <span id="handoffDateLabel" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);font-weight:400;"></span></div>
+        <div class="section-title">&#128196; Shift Huddle History</div>
         <div id="pastHandoffsList"></div>
-        <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No huddles saved yet today.</div>
+        <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No huddles saved yet.</div>
       </div>
 
     </div>
@@ -943,15 +956,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;">
       </div>
       <div>
-        <div class="input-label">High Touch Duties</div>
-        <select id="empHighTouch" style="width:100%;">
-          <option value="">&mdash; None assigned &mdash;</option>
-          <option value="Screens">Screens &mdash; wipe down all throughout the building</option>
-          <option value="Doors">Doors &mdash; wipe down all throughout the building</option>
-          <option value="Windows">Windows &mdash; clean all throughout the building</option>
-          <option value="Room Components">Room Components &mdash; clean &amp; reset throughout</option>
-          <option value="Bathrooms / Water Fountain / Lounge &amp; Break Room">Bathrooms, Water Fountain, Lounge &amp; Break Room &mdash; full clean</option>
-        </select>
+        <div class="input-label">High Touch Duties <span style="font-weight:400;color:var(--muted);font-size:10px;">(select all that apply)</span></div>
+        <div id="empHighTouchPills" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+          <button type="button" class="ht-pill" data-ht="Screens" onclick="this.classList.toggle('sel')">Screens</button>
+          <button type="button" class="ht-pill" data-ht="Doors" onclick="this.classList.toggle('sel')">Doors</button>
+          <button type="button" class="ht-pill" data-ht="Windows" onclick="this.classList.toggle('sel')">Windows</button>
+          <button type="button" class="ht-pill" data-ht="Room Components" onclick="this.classList.toggle('sel')">Room Components</button>
+          <button type="button" class="ht-pill" data-ht="Bathrooms" onclick="this.classList.toggle('sel')">Bathrooms</button>
+        </div>
       </div>
     </div>
 
@@ -1179,7 +1191,6 @@ function saveAll(){
 function updateHeader(){
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
   document.getElementById('dateBadge').textContent=new Date().toLocaleDateString('en-US',opts);
-  document.getElementById('handoffDateLabel').textContent='\u2014 today';
 }
 
 function switchTab(name,btn){
@@ -1282,7 +1293,7 @@ function renderRoster(highlightIdx=-1){
       <td>${shiftBadge(e.shift)}</td>
       <td>${renderDeploymentCell(e)}</td>
       <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'\u2014')}</td>
-      <td style="font-size:12px;color:var(--muted);max-width:160px;">${escHtml(e.highTouch||'\u2014')}</td>
+      <td style="font-size:12px;max-width:180px;">${renderHighTouch(e.highTouch)}</td>
       <td><div class="roster-actions">
         <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
         <button class="btn btn-danger" onclick="removeEmployee(${i})">\u2715</button>
@@ -1292,6 +1303,27 @@ function renderRoster(highlightIdx=-1){
 
 function removeEmployee(idx){
   roster.splice(idx,1);saveAll();renderRoster();
+}
+
+function renderHighTouch(ht){
+  if(!ht||(Array.isArray(ht)&&!ht.length))return'‚Äî';
+  const arr=Array.isArray(ht)?ht:[ht];
+  return arr.map(h=>`<span style="display:inline-block;padding:2px 7px;border-radius:10px;background:rgba(255,209,102,.1);color:var(--gold);border:1px solid rgba(255,209,102,.25);font-size:10px;font-family:'DM Mono',monospace;margin:1px;">${escHtml(h)}</span>`).join('');
+}
+
+function getModalHighTouch(){
+  return Array.from(document.querySelectorAll('#empHighTouchPills .ht-pill.sel')).map(b=>b.dataset.ht);
+}
+function clearModalHighTouch(){
+  document.querySelectorAll('#empHighTouchPills .ht-pill').forEach(b=>b.classList.remove('sel'));
+}
+function setModalHighTouch(vals){
+  clearModalHighTouch();
+  const arr=Array.isArray(vals)?vals:(vals?[vals]:[]);
+  document.querySelectorAll('#empHighTouchPills .ht-pill').forEach(b=>{if(arr.includes(b.dataset.ht))b.classList.add('sel');});
+}
+function clearQaHighTouch(){
+  document.querySelectorAll('#quickAddBar .ht-pill').forEach(b=>b.classList.remove('sel'));
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1313,10 +1345,14 @@ function quickAdd(){
   const deployment=[{area:area1}];
   if(area2&&at)deployment.push({area:area2,at});
   else if(area2&&!at)deployment.push({area:area2,at:''});
-  roster.push({name,shift:qaShift,deployment,breakTime:'',highTouch:''});
+  const breakTime=document.getElementById('qaBreak').value.trim();
+  const highTouch=Array.from(document.querySelectorAll('#quickAddBar .ht-pill.sel')).map(b=>b.dataset.ht);
+  roster.push({name,shift:qaShift,deployment,breakTime,highTouch});
   document.getElementById('qaName').value='';
   document.getElementById('qaAt').value='';
   document.getElementById('qaArea2').value='';
+  document.getElementById('qaBreak').value='';
+  clearQaHighTouch();
   saveAll();renderRoster(roster.length-1);
   document.getElementById('qaName').focus();
 }
@@ -1360,7 +1396,7 @@ function openAddModal(){
   empModalShift='';selectShift('');
   empDeployment=[{area:'Hub'}];renderDeployBuilder();
   document.getElementById('empBreak').value='';
-  document.getElementById('empHighTouch').value='';
+  clearModalHighTouch();
   document.getElementById('employeeModal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('empName').focus(),100);
 }
@@ -1374,7 +1410,7 @@ function openEditModal(idx){
   empDeployment=JSON.parse(JSON.stringify(e.deployment||[{area:e.area||'Hub'}]));
   renderDeployBuilder();
   document.getElementById('empBreak').value=e.breakTime||'';
-  document.getElementById('empHighTouch').value=e.highTouch||'';
+  setModalHighTouch(e.highTouch);
   document.getElementById('employeeModal').classList.remove('hidden');
 }
 
@@ -1389,7 +1425,7 @@ function selectShift(val){
 function saveEmployee(){
   const name=document.getElementById('empName').value.trim();
   if(!name){alert('Please enter a name.');return;}
-  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),breakTime:document.getElementById('empBreak').value.trim(),highTouch:document.getElementById('empHighTouch').value.trim()};
+  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),breakTime:document.getElementById('empBreak').value.trim(),highTouch:getModalHighTouch()};
   const editIdx=document.getElementById('editingId').value;
   let newIdx=-1;
   if(editIdx!=='')roster[parseInt(editIdx)]=emp;else{roster.push(emp);newIdx=roster.length-1;}
@@ -1542,30 +1578,41 @@ function clearHuddleForm(){
 function renderPastHandoffs(){
   const list=document.getElementById('pastHandoffsList');
   const empty=document.getElementById('noHandoffs');
-  const todayList=pastHandoffs.filter(h=>h.date===TODAY_STR);
-  if(!todayList.length){list.innerHTML='';empty.style.display='block';return;}
+  if(!pastHandoffs.length){list.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  list.innerHTML=todayList.map(h=>`
-    <div class="handoff-entry" onclick="this.classList.toggle('expanded')">
-      <div class="handoff-entry-header">
-        <div>
-          <strong style="font-size:13px;font-family:'DM Mono',monospace;">Huddle</strong>
-          ${h.guestTarget?`<span class="badge badge-cyan" style="margin-left:8px;">&#127919; ${escHtml(h.guestTarget)} guests</span>`:''}
-          ${h.shoutout?`<span class="badge badge-gold" style="margin-left:8px;">&#9733; ${escHtml(h.shoutout.split(' ').slice(0,2).join(' '))}</span>`:''}
+  // Group by date, newest first
+  const byDate={};
+  pastHandoffs.forEach(h=>{const d=h.date||'Unknown';if(!byDate[d])byDate[d]=[];byDate[d].push(h);});
+  const sortedDates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
+  list.innerHTML=sortedDates.map(date=>{
+    const isToday=date===TODAY_STR;
+    const dateLabel=isToday?'&#9679; Today &mdash; '+date:date;
+    const entries=byDate[date].map(h=>`
+      <div class="handoff-entry">
+        <div class="handoff-entry-header">
+          <div>
+            <strong style="font-size:13px;font-family:'DM Mono',monospace;">Huddle</strong>
+            ${h.guestTarget?`<span class="badge badge-cyan" style="margin-left:8px;">&#127919; ${escHtml(h.guestTarget)} guests</span>`:''}
+            ${h.shoutout?`<span class="badge badge-gold" style="margin-left:8px;">&#9733; ${escHtml(h.shoutout.split(' ').slice(0,2).join(' '))}</span>`:''}
+          </div>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.savedAt||''}</span>
         </div>
-        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.savedAt||''}</span>
-      </div>
-      <div class="handoff-body" style="display:none;">
-        ${h.pacing?`<div class="hf-field"><div class="hf-field-label">Pacing / Notes</div><div class="hf-field-val">${escHtml(h.pacing)}</div></div>`:''}
-        ${(h.lobby||h.hubmaster||h.hub||h.flex)?`<div class="hf-field"><div class="hf-field-label">Deployment</div><div class="hf-field-val">${[h.lobby&&'Lobby: '+h.lobby,h.hubmaster&&'Hub-Master: '+h.hubmaster,h.hub&&'Hub: '+h.hub,h.flex&&'Flex: '+h.flex].filter(Boolean).map(escHtml).join(' &nbsp;&bull;&nbsp; ')}</div></div>`:''}
-        ${(h.groupTime||h.groupSize)?`<div class="hf-field"><div class="hf-field-label">Parties / Groups</div><div class="hf-field-val">${[h.groupTime&&escHtml(h.groupTime),h.groupSize&&escHtml(h.groupSize),h.groupNotes&&escHtml(h.groupNotes)].filter(Boolean).join(' &mdash; ')}</div></div>`:''}
-        ${h.promos&&h.promos.length?`<div class="hf-field"><div class="hf-field-label">Promos</div><div class="hf-field-val">${h.promos.map(p=>'&bull; '+escHtml(p)).join('<br>')}</div></div>`:''}
-        ${h.shoutout?`<div class="hf-field"><div class="hf-field-label">&#9733; Shoutout</div><div class="hf-field-val">${escHtml(h.shoutout)}</div></div>`:''}
-        ${h.focus?`<div class="hf-field"><div class="hf-field-label">Today's Focus</div><div class="hf-field-val">${escHtml(h.focus)}</div></div>`:''}
-        ${h.notes?`<div class="hf-field"><div class="hf-field-label">Other Notes</div><div class="hf-field-val">${escHtml(h.notes)}</div></div>`:''}
-      </div>
-      <div style="font-size:10px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">&#9660; click to expand</div>
-    </div>`).join('');
+        <div class="handoff-body" style="display:none;">
+          ${h.pacing?`<div class="hf-field"><div class="hf-field-label">Pacing / Notes</div><div class="hf-field-val">${escHtml(h.pacing)}</div></div>`:''}
+          ${(h.lobby||h.hubmaster||h.hub||h.flex)?`<div class="hf-field"><div class="hf-field-label">Deployment</div><div class="hf-field-val">${[h.lobby&&'Lobby: '+h.lobby,h.hubmaster&&'Hub-Master: '+h.hubmaster,h.hub&&'Hub: '+h.hub,h.flex&&'Flex: '+h.flex].filter(Boolean).map(escHtml).join(' &nbsp;&bull;&nbsp; ')}</div></div>`:''}
+          ${(h.groupTime||h.groupSize)?`<div class="hf-field"><div class="hf-field-label">Parties / Groups</div><div class="hf-field-val">${[h.groupTime&&escHtml(h.groupTime),h.groupSize&&escHtml(h.groupSize),h.groupNotes&&escHtml(h.groupNotes)].filter(Boolean).join(' &mdash; ')}</div></div>`:''}
+          ${h.promos&&h.promos.length?`<div class="hf-field"><div class="hf-field-label">Promos</div><div class="hf-field-val">${h.promos.map(p=>'&bull; '+escHtml(p)).join('<br>')}</div></div>`:''}
+          ${h.shoutout?`<div class="hf-field"><div class="hf-field-label">&#9733; Shoutout</div><div class="hf-field-val">${escHtml(h.shoutout)}</div></div>`:''}
+          ${h.focus?`<div class="hf-field"><div class="hf-field-label">Today's Focus</div><div class="hf-field-val">${escHtml(h.focus)}</div></div>`:''}
+          ${h.notes?`<div class="hf-field"><div class="hf-field-label">Other Notes</div><div class="hf-field-val">${escHtml(h.notes)}</div></div>`:''}
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">&#9660; click to expand</div>
+      </div>`).join('');
+    return `<div style="margin-bottom:16px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:${isToday?'var(--accent)':'var(--muted)'};text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">${dateLabel}</div>
+      ${entries}
+    </div>`;
+  }).join('');
   // Re-apply expanded toggle
   list.querySelectorAll('.handoff-entry').forEach(el=>{
     el.addEventListener('click',function(){
