@@ -540,7 +540,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     </div>
   </div>
 
-  <div id="huddleSavedBanner" style="display:none;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:var(--accent3);">&#10003; Huddle saved and synced to both desks.</div>
+  <div id="huddleSavedBanner" style="display:none;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:var(--accent3);">&#10003; Huddle saved to Google Sheets ‚Äî refreshing history...</div>
 
   <!-- MAIN TWO-COL GRID -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -1001,7 +1001,6 @@ async function syncAllToCloud() {
       const payload = {
         roster,
         daily: { date: TODAY_STR, state },
-        handoffs: pastHandoffs,
         orders: orderRequests,
         ideas: staffIdeas
       };
@@ -1040,10 +1039,6 @@ async function loadAllFromSupabase() {
       TIME_SLOTS.forEach(t => { if (!state.bathroomChecks[t]) state.bathroomChecks[t] = {done:false,initials:''}; });
       ROOMS.forEach(r => { if (!state.roomChecks[r]) state.roomChecks[r] = {done:false,initials:''}; });
       localStorage.setItem('activate_deploy_daily_' + TODAY_STR, JSON.stringify(state));
-    }
-    if (Array.isArray(d.handoffs)) {
-      pastHandoffs = d.handoffs;
-      localStorage.setItem('activate_deploy_handoffs', JSON.stringify(d.handoffs));
     }
     if (Array.isArray(d.orders)) {
       orderRequests = d.orders;
@@ -1115,7 +1110,7 @@ async function activateApp() {
   loadAll();
   updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
   renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-  renderPricingGrid(); calcPrice(); renderPastHandoffs(); renderOrderList(); renderSuggestions(); renderIdeasList();
+  renderPricingGrid(); calcPrice(); loadAndRenderHuddles(); renderOrderList(); renderSuggestions(); renderIdeasList();
   setInterval(calcPrice, 60000);
   await loadAllFromSupabase();
 }
@@ -1148,6 +1143,7 @@ const TAX=0.06;
 // STATE
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const TODAY_STR = new Date().toLocaleDateString('en-CA');
+const HUDDLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdzSU3atSvXBMhujB54cOYdRldyFN8SjiTNYUq9I74hOgsJS3IvE00Lb6VpUriPhfc/exec';
 let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
 let qaShift='';
@@ -1170,8 +1166,6 @@ function loadAll(){
   } else {
     state={announcement:'',todos:[],bathroomChecks:initBathroomChecks(),roomChecks:initRoomChecks()};
   }
-  const sp=localStorage.getItem('activate_deploy_handoffs');
-  if(sp)pastHandoffs=JSON.parse(sp);
   const so=localStorage.getItem('activate_deploy_orders');
   if(so)orderRequests=JSON.parse(so);
   const si=localStorage.getItem('activate_deploy_ideas');
@@ -1181,7 +1175,6 @@ function loadAll(){
 function saveAll(){
   localStorage.setItem('activate_deploy_roster',JSON.stringify(roster));
   localStorage.setItem('activate_deploy_daily_'+TODAY_STR,JSON.stringify(state));
-  localStorage.setItem('activate_deploy_handoffs',JSON.stringify(pastHandoffs));
   syncAllToCloud();
 }
 
@@ -1199,7 +1192,7 @@ function switchTab(name,btn){
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
   if(name==='pricing')calcPrice();
-  if(name==='handoff')renderHuddleRoomChecks();
+  if(name==='handoff'){renderHuddleRoomChecks();loadAndRenderHuddles();}
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1539,7 +1532,6 @@ function renderHuddleRoomChecks(){
 
 function submitHuddle(){
   const h={
-    id:Date.now(),
     date:TODAY_STR,
     savedAt:new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),
     guestTarget:document.getElementById('hud-guestTarget').value||'',
@@ -1557,11 +1549,20 @@ function submitHuddle(){
     focus:document.getElementById('hud-focus').value.trim(),
     notes:document.getElementById('hud-notes').value.trim(),
   };
-  pastHandoffs.unshift(h);
-  saveAll();
-  renderPastHandoffs();
+  fetch(HUDDLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(h)});
   document.getElementById('huddleSavedBanner').style.display='block';
-  setTimeout(()=>document.getElementById('huddleSavedBanner').style.display='none',4000);
+  setTimeout(()=>{
+    document.getElementById('huddleSavedBanner').style.display='none';
+    loadAndRenderHuddles();
+  },3000);
+}
+
+async function loadAndRenderHuddles(){
+  try{
+    const r=await fetch(HUDDLE_SCRIPT_URL);
+    const data=await r.json();
+    if(data.success){pastHandoffs=data.huddles||[];renderPastHandoffs();}
+  }catch(e){console.warn('Huddle fetch error',e);}
 }
 
 function clearHuddleForm(){
