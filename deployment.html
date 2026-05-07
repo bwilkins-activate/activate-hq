@@ -1561,7 +1561,16 @@ async function loadAndRenderHuddles(){
   try{
     const r=await fetch(HUDDLE_SCRIPT_URL);
     const data=await r.json();
-    if(data.success){pastHandoffs=data.huddles||[];renderPastHandoffs();}
+    if(data.success){
+      pastHandoffs=(data.huddles||[]).map(h=>{
+        // Google Sheets auto-parses "2026-05-07" ‚Üí Date and "3:40 PM" ‚Üí 1899 epoch time
+        // Normalize both back to clean strings
+        if(h.date){try{const d=new Date(h.date);if(!isNaN(d))h.date=d.toLocaleDateString('en-CA');}catch(e){}}
+        if(h.savedAt){try{const d=new Date(h.savedAt);if(!isNaN(d))h.savedAt=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}catch(e){}}
+        return h;
+      });
+      renderPastHandoffs();
+    }
   }catch(e){console.warn('Huddle fetch error',e);}
 }
 
