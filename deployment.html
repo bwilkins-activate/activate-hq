@@ -545,97 +545,6 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:30px 0;">No huddles yet. Fill out the form above to get started.</div>
   </div>
 
-
-
-  <!-- ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ -->
-  <!-- SHIFT RECAP SECTION                            -->
-  <!-- ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ -->
-  <div style="margin-top:28px;">
-
-    <!-- Header -->
-    <div style="background:linear-gradient(135deg,rgba(255,200,0,.1),rgba(255,200,0,.03));border:1px solid rgba(255,200,0,.25);border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--gold);">END OF SHIFT &mdash; RECAP</div>
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:2px;">Quick summary before you hand off &nbsp;&bull;&nbsp; Most recent 5 shown below</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScF_Q0fHAyhTT80KVUJ3qiqlko4oPQow-kRaPl3ut9ETtlxYQ/viewform" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;background:rgba(255,200,0,.12);border:1px solid rgba(255,200,0,.35);color:var(--gold);font-size:12px;font-weight:600;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(255,200,0,.2)'" onmouseout="this.style.background='rgba(255,200,0,.12)'">&#128196; Open Google Form</a>
-        <button class="btn btn-ghost" onclick="clearRecapForm()">Clear</button>
-        <button class="btn btn-primary" onclick="submitRecap()" style="background:var(--gold);color:#000;border-color:var(--gold);">&#9646;&#9646; Save Recap</button>
-      </div>
-    </div>
-
-    <div id="recapSavedBanner" style="display:none;background:rgba(168,255,62,.08);border:1px solid rgba(168,255,62,.25);border-radius:8px;padding:12px;margin-bottom:14px;font-size:13px;color:var(--accent3);">&#10003; Recap saved to Google Sheets &mdash; refreshing history...</div>
-
-    <!-- Inline Form -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-
-      <!-- Left col -->
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Shift Info</div>
-          <div style="display:flex;flex-direction:column;gap:9px;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <label style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;width:100px;">SHIFT:</label>
-              <select id="recap-shift" style="flex:1;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:13px;">
-                <option value="">Select...</option>
-                <option>Open</option>
-                <option>Mid</option>
-                <option>Close</option>
-              </select>
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <label style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;width:100px;">MANAGER:</label>
-              <input type="text" id="recap-manager" placeholder="Name..." style="flex:1;">
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <label style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;width:100px;">TOTAL GUESTS:</label>
-              <input type="number" id="recap-guests" placeholder="#" min="0" style="width:80px;">
-            </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <label style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;width:100px;">REVENUE:</label>
-              <input type="text" id="recap-revenue" placeholder="e.g. $1,240" style="flex:1;">
-            </div>
-          </div>
-        </div>
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#9733; Staff Shoutout</div>
-          <input type="text" id="recap-shoutout" placeholder="Name + what they did great..." style="width:100%;">
-        </div>
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:rgba(168,255,62,1);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#127942; Biggest Win</div>
-          <textarea id="recap-wins" class="hf-textarea" placeholder="What went great this shift?" style="min-height:72px;"></textarea>
-        </div>
-      </div>
-
-      <!-- Right col -->
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:rgba(255,100,100,1);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#9888; Issues / Watch-Outs</div>
-          <textarea id="recap-issues" class="hf-textarea" placeholder="Any incidents, complaints, or things to flag..." style="min-height:80px;"></textarea>
-        </div>
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#128226; Pass-Along to Next Shift</div>
-          <div style="font-size:11px;font-style:italic;color:var(--muted);margin-bottom:8px;">What does the next shift NEED to know?</div>
-          <textarea id="recap-passalong" class="hf-textarea" placeholder="Equipment issues, bookings to watch, restocking needed..." style="min-height:100px;"></textarea>
-        </div>
-        <div class="card" style="padding:14px 16px;">
-          <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Other Notes</div>
-          <textarea id="recap-notes" class="hf-textarea" placeholder="Anything else..." style="min-height:60px;"></textarea>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Recap History (most recent 5) -->
-    <div class="card">
-      <div class="section-title">&#128203; Recent Shift Recaps <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);font-weight:400;letter-spacing:1px;">(last 5)</span></div>
-      <div id="pastRecapsList"></div>
-      <div id="noRecaps" style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">No recaps saved yet.</div>
-    </div>
-
-  </div><!-- /shift recap section -->
-
 </div>
 
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
@@ -964,7 +873,7 @@ async function loadAllFromSupabase() {
     }
     renderAnnouncement(); renderTodos(); renderRoster();
     renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-    renderPastHandoffs(); renderOrderList(); renderIdeasList(); loadAndRenderRecaps();
+    renderPastHandoffs(); renderOrderList(); renderIdeasList();
     setSyncStatus('synced','Synced \u2713');
   } catch(e) {
     setSyncStatus('error','Sync error \u2014 using local data');
@@ -1062,7 +971,7 @@ let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
 let qaShift='';
 let huddleRoomChecks={};
-let roster=[], pastHandoffs=[], pastRecaps=[];
+let roster=[], pastHandoffs=[];
 let state={announcement:'',todos:[],bathroomChecks:{},roomChecks:{}};
 let staffIdeas=JSON.parse(localStorage.getItem('activate_deploy_ideas')||'[]');
 
@@ -1106,7 +1015,7 @@ function switchTab(name,btn){
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
   if(name==='pricing')calcPrice();
-  if(name==='handoff'){loadAndRenderHuddles();loadAndRenderRecaps();}
+  if(name==='handoff'){loadAndRenderHuddles();}
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1508,94 +1417,6 @@ function renderPastHandoffs(){
       }
     });
   });
-}
-
-// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-// SHIFT RECAP
-// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-function submitRecap(){
-  const r={
-    type:'recap',
-    date:TODAY_STR,
-    savedAt:new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),
-    shift:document.getElementById('recap-shift').value,
-    manager:document.getElementById('recap-manager').value.trim(),
-    guests:document.getElementById('recap-guests').value||'',
-    revenue:document.getElementById('recap-revenue').value.trim(),
-    shoutout:document.getElementById('recap-shoutout').value.trim(),
-    wins:document.getElementById('recap-wins').value.trim(),
-    issues:document.getElementById('recap-issues').value.trim(),
-    passalong:document.getElementById('recap-passalong').value.trim(),
-    notes:document.getElementById('recap-notes').value.trim(),
-  };
-  fetch(HUDDLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(r)});
-  document.getElementById('recapSavedBanner').style.display='block';
-  setTimeout(()=>{
-    document.getElementById('recapSavedBanner').style.display='none';
-    loadAndRenderRecaps();
-  },3000);
-}
-
-async function loadAndRenderRecaps(){
-  try{
-    const res=await fetch(HUDDLE_SCRIPT_URL+'?type=recap');
-    const data=await res.json();
-    if(data.success){
-      pastRecaps=(data.recaps||[]).slice(0,5).map(rc=>{
-        // Normalize Google Sheets auto-parsed dates
-        if(rc.date){try{const d=new Date(rc.date);if(!isNaN(d))rc.date=d.toLocaleDateString('en-CA');}catch(e){}}
-        if(rc.savedAt){try{const d=new Date(rc.savedAt);if(!isNaN(d))rc.savedAt=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}catch(e){}}
-        return rc;
-      });
-      renderRecaps();
-    }
-  }catch(e){console.warn('Recap fetch error',e);}
-}
-
-function renderRecaps(){
-  const list=document.getElementById('pastRecapsList');
-  const empty=document.getElementById('noRecaps');
-  if(!list)return;
-  if(!pastRecaps.length){list.innerHTML='';empty.style.display='block';return;}
-  empty.style.display='none';
-  list.innerHTML=pastRecaps.map(rc=>{
-    const isToday=rc.date===TODAY_STR;
-    const shiftBadge=rc.shift?`<span class="badge badge-cyan" style="margin-left:6px;">${escHtml(rc.shift)}</span>`:'';
-    const guestBadge=rc.guests?`<span class="badge" style="margin-left:6px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);color:var(--accent);">&#128101; ${escHtml(String(rc.guests))}</span>`:'';
-    const winBadge=rc.wins?`<span class="badge badge-gold" style="margin-left:6px;">&#127942; Win</span>`:'';
-    const issueBadge=rc.issues?`<span class="badge" style="margin-left:6px;background:rgba(255,100,100,.08);border:1px solid rgba(255,100,100,.25);color:rgba(255,120,120,1);">&#9888;</span>`:'';
-    return `<div class="handoff-entry" style="${isToday?'border-color:rgba(255,200,0,.3);':''}">
-      <div class="handoff-entry-header">
-        <div>
-          <strong style="font-size:13px;font-family:'DM Mono',monospace;color:${isToday?'var(--gold)':'var(--text)'};">${escHtml(rc.date||'Unknown')}${isToday?' &mdash; TODAY':''}</strong>
-          ${shiftBadge}${guestBadge}${winBadge}${issueBadge}
-        </div>
-        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${rc.manager?escHtml(rc.manager)+' &bull; ':''} ${rc.savedAt||''}</span>
-      </div>
-      <div class="handoff-body" style="display:none;">
-        ${rc.revenue?`<div class="hf-field"><div class="hf-field-label">Revenue</div><div class="hf-field-val">${escHtml(rc.revenue)}</div></div>`:''}
-        ${rc.wins?`<div class="hf-field"><div class="hf-field-label">&#127942; Biggest Win</div><div class="hf-field-val">${escHtml(rc.wins)}</div></div>`:''}
-        ${rc.issues?`<div class="hf-field"><div class="hf-field-label" style="color:rgba(255,120,120,1);">&#9888; Issues / Watch-Outs</div><div class="hf-field-val">${escHtml(rc.issues)}</div></div>`:''}
-        ${rc.passalong?`<div class="hf-field"><div class="hf-field-label">&#128226; Pass-Along Notes</div><div class="hf-field-val">${escHtml(rc.passalong)}</div></div>`:''}
-        ${rc.shoutout?`<div class="hf-field"><div class="hf-field-label">&#9733; Shoutout</div><div class="hf-field-val">${escHtml(rc.shoutout)}</div></div>`:''}
-        ${rc.notes?`<div class="hf-field"><div class="hf-field-label">Other Notes</div><div class="hf-field-val">${escHtml(rc.notes)}</div></div>`:''}
-      </div>
-      <div style="font-size:10px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">&#9660; click to expand</div>
-    </div>`;
-  }).join('');
-  list.querySelectorAll('.handoff-entry').forEach(el=>{
-    el.addEventListener('click',function(){
-      const body=this.querySelector('.handoff-body');
-      if(body)body.style.display=body.style.display==='block'?'none':'block';
-    });
-  });
-}
-
-function clearRecapForm(){
-  ['recap-manager','recap-guests','recap-revenue','recap-shoutout','recap-wins','recap-issues','recap-passalong','recap-notes'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value='';
-  });
-  const s=document.getElementById('recap-shift');if(s)s.value='';
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
