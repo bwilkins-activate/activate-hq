@@ -249,6 +249,80 @@ select{cursor:pointer;}
 .shift-option.sel-open{background:rgba(168,255,62,.12);color:var(--accent3);border-color:rgba(168,255,62,.35);}
 .shift-option.sel-close{background:rgba(255,77,109,.12);color:var(--accent2);border-color:rgba(255,77,109,.35);}
 
+/* ‚îÄ‚îÄ HUDDLE INLINE FORM ‚îÄ‚îÄ */
+.huddle-shift-bar{display:flex;gap:10px;margin-bottom:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;align-items:flex-end;flex-wrap:wrap;}
+.hsf{display:flex;flex-direction:column;gap:4px;}
+.hsf label{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+.hsf input,.hsf select{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:5px 10px;outline:none;transition:border-color .15s;}
+.hsf input:focus,.hsf select:focus{border-color:var(--accent);}
+.hsf.grow{flex:1;min-width:120px;}
+.huddle-sections{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
+.hspan3{grid-column:1/-1;}
+.sc{border-radius:10px;border:1px solid var(--border);overflow:hidden;}
+.sh{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;min-width:18px;text-align:center;}
+.st h2{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;line-height:1;margin-bottom:1px;}
+.st p{font-size:9px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:.4px;}
+.sb{padding:10px 12px;display:flex;flex-direction:column;gap:7px;}
+.qr{display:flex;flex-direction:column;gap:3px;}
+.ql{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.4px;}
+.ql span{opacity:.6;margin-right:3px;}
+.qi{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 10px;outline:none;width:100%;transition:border-color .15s;}
+.qi:focus{border-color:var(--accent);}
+textarea.qi{resize:vertical;min-height:46px;}
+.radio-row{display:flex;gap:6px;}
+.rpill{display:flex;align-items:center;gap:6px;flex:1;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;transition:border-color .15s;}
+.rpill:hover{border-color:var(--accent);}
+.rpill input{accent-color:var(--accent);width:13px;height:13px;cursor:pointer;}
+.hchips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:3px;}
+.hchip{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;white-space:nowrap;border:1px solid;}
+.s1{background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(0,229,255,.01));}
+.s1 .sh{background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.12);}
+.s1 .sn,.s1 .st h2{color:var(--accent);}
+.s2{background:linear-gradient(135deg,rgba(168,255,62,.06),rgba(168,255,62,.01));}
+.s2 .sh{background:rgba(168,255,62,.07);border-color:rgba(168,255,62,.12);}
+.s2 .sn,.s2 .st h2{color:var(--accent3);}
+.s3{background:linear-gradient(135deg,rgba(255,200,0,.06),rgba(255,200,0,.01));}
+.s3 .sh{background:rgba(255,200,0,.07);border-color:rgba(255,200,0,.12);}
+.s3 .sn,.s3 .st h2{color:var(--gold);}
+.s4{background:linear-gradient(135deg,rgba(255,77,109,.06),rgba(255,77,109,.01));}
+.s4 .sh{background:rgba(255,77,109,.07);border-color:rgba(255,77,109,.12);}
+.s4 .sn,.s4 .st h2{color:var(--accent2);}
+.s5{background:linear-gradient(135deg,rgba(167,139,250,.06),rgba(167,139,250,.01));}
+.s5 .sh{background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.12);}
+.s5 .sn,.s5 .st h2{color:#a78bfa;}
+.s6{background:linear-gradient(135deg,rgba(251,146,60,.06),rgba(251,146,60,.01));}
+.s6 .sh{background:rgba(251,146,60,.07);border-color:rgba(251,146,60,.12);}
+.s6 .sn,.s6 .st h2{color:#fb923c;}
+.s7{background:linear-gradient(135deg,rgba(236,72,153,.06),rgba(236,72,153,.01));}
+.s7 .sh{background:rgba(236,72,153,.07);border-color:rgba(236,72,153,.12);}
+.s7 .sn,.s7 .st h2{color:#ec4899;}
+.huddle-submit-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.huddle-success{background:rgba(168,255,62,.07);border:1px solid rgba(168,255,62,.28);border-radius:7px;padding:8px 14px;font-size:12px;color:var(--accent3);display:none;flex:1;}
+.huddle-success.show{display:block;}
+.btn-huddle-clear{padding:8px 18px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+.btn-huddle-clear:hover{border-color:var(--text);color:var(--text);}
+.btn-huddle-save{padding:8px 28px;border-radius:7px;border:none;background:var(--accent);color:#000;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;transition:opacity .15s;}
+.btn-huddle-save:hover{opacity:.85;}
+.btn-huddle-save:disabled{opacity:.5;cursor:not-allowed;}
+/* HUDDLE LOG */
+.huddle-log-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.huddle-log-entry{background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:7px;cursor:pointer;transition:border-color .15s;}
+.huddle-log-entry:hover,.huddle-log-entry.hl-today{border-color:rgba(0,229,255,.3);}
+.huddle-log-eh{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;gap:8px;flex-wrap:wrap;}
+.huddle-log-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.huddle-log-date{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--accent);}
+.huddle-log-mgr{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+.huddle-log-chev{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;transition:transform .2s;}
+.huddle-log-entry.hl-open .huddle-log-chev{transform:rotate(180deg);}
+.huddle-log-body{display:none;padding:0 13px 10px;border-top:1px solid var(--border);}
+.huddle-log-entry.hl-open .huddle-log-body{display:block;}
+.huddle-log-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:10px;}
+.huddle-sec-title{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,.05);}
+.hlf{display:flex;gap:8px;margin-bottom:3px;font-size:11px;}
+.hlfl{color:var(--muted);min-width:110px;font-size:10px;}
+.hlfv{color:var(--text);flex:1;}
+
 /* DIVIDER */
 hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
@@ -526,24 +600,147 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <div id="panel-handoff" class="panel">
 
-  <!-- FORM LINK -->
-  <div style="background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(0,229,255,.02));border:2px solid rgba(0,229,255,.3);border-radius:14px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-    <div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--accent);">SHIFT HUDDLE</div>
-      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:6px;">Start of every shift &nbsp;&bull;&nbsp; Fill out before opening</div>
+  <!-- SHIFT BAR -->
+  <div class="huddle-shift-bar">
+    <div class="hsf">
+      <label>Date</label>
+      <input type="date" id="hd-date">
     </div>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScF_Q0fHAyhTT80KVUJ3qiqlko4oPQow-kRaPl3ut9ETtlxYQ/viewform" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:10px;background:var(--accent);color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;text-decoration:none;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">&#128196; Fill Out Today's Huddle &#8599;</a>
+    <div class="hsf">
+      <label>Shift</label>
+      <select id="hd-shift">
+        <option value="">Select...</option>
+        <option>Open</option><option>Mid</option><option>Close</option>
+      </select>
+    </div>
+    <div class="hsf grow">
+      <label>Manager / Lead</label>
+      <input type="text" id="hd-manager" placeholder="Your name...">
+    </div>
   </div>
 
-  <!-- HUDDLE HISTORY -->
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <div class="section-title" style="margin-bottom:0;">&#128203; Huddle Log</div>
-      <a href="https://docs.google.com/spreadsheets/d/1GqwsS_3OC9cUgT2rBbxHcRxyog1ckctPhsrbyJLbEnw/edit" target="_blank" style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);text-decoration:none;padding:5px 12px;border:1px solid var(--border);border-radius:6px;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">&#128202; View All in Sheets</a>
+  <!-- SECTIONS GRID -->
+  <div class="huddle-sections">
+
+    <!-- 1 ¬∑ GUEST COUNT -->
+    <div class="sc s1">
+      <div class="sh"><div class="sn">1</div><div class="st"><h2>Guest Count</h2><p>Check-ins &middot; Bookings &middot; Remaining &middot; Last slot</p></div></div>
+      <div class="sb">
+        <div class="qr"><div class="ql"><span>A</span>Check-ins so far</div><input class="qi" type="number" min="0" placeholder="e.g. 42" id="g-checkins" oninput="huddleCalcRemaining()"></div>
+        <div class="qr"><div class="ql"><span>B</span>Total booked today</div><input class="qi" type="number" min="0" placeholder="e.g. 98" id="g-booked" oninput="huddleCalcRemaining()"></div>
+        <div class="qr"><div class="ql"><span>C</span>Expected remaining</div><input class="qi" type="number" min="0" placeholder="B &minus; A" id="g-remaining"></div>
+        <div class="qr"><div class="ql"><span>D</span>Last booking time today?</div><input class="qi" type="text" placeholder="e.g. 8:30 PM" id="g-lastbooking"></div>
+      </div>
     </div>
-    <div id="pastHandoffsList"></div>
-    <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:30px 0;">No huddles yet. Fill out the form above to get started.</div>
+
+    <!-- 2 ¬∑ ROOM HEALTH -->
+    <div class="sc s2">
+      <div class="sh"><div class="sn">2</div><div class="st"><h2>Room Health</h2><p>Problems &middot; Inspections &middot; Restrooms &middot; Notes</p></div></div>
+      <div class="sb">
+        <div class="qr"><div class="ql"><span>A</span>Room health problems this morning?</div><input class="qi" type="text" placeholder="Issues, or 'None'" id="r-morning"></div>
+        <div class="qr"><div class="ql"><span>B</span>Rooms inspected this morning?</div><input class="qi" type="text" placeholder="e.g. Rooms 1, 2, 3 cleared" id="r-inspected"></div>
+        <div class="qr"><div class="ql"><span>C</span>Room problems during shift?</div><input class="qi" type="text" placeholder="Issues, or 'None'" id="r-shift"></div>
+        <div class="qr"><div class="ql"><span>D</span>Restroom inspections today</div><input class="qi" type="number" min="0" placeholder="# times" id="r-restrooms"></div>
+        <div class="qr"><div class="ql"><span>E</span>Other facility notes</div><input class="qi" type="text" placeholder="Any other notes..." id="r-notes"></div>
+      </div>
+    </div>
+
+    <!-- 3 ¬∑ GUEST EXPERIENCE -->
+    <div class="sc s3">
+      <div class="sh"><div class="sn">3</div><div class="st"><h2>Guest Experience</h2><p>GICA &mdash; Greet &middot; Introduce &middot; Connect &middot; Ask</p></div></div>
+      <div class="sb">
+        <div class="hchips">
+          <span class="hchip" style="color:var(--gold);border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.08);">G &mdash; Greet &le;10 sec</span>
+          <span class="hchip" style="color:var(--gold);border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.08);">I &mdash; Introduce by name</span>
+          <span class="hchip" style="color:var(--gold);border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.08);">C &mdash; Connect every group</span>
+          <span class="hchip" style="color:var(--gold);border-color:rgba(255,200,0,.25);background:rgba(255,200,0,.08);">A &mdash; Ask &ldquo;Fun?&rdquo;</span>
+        </div>
+        <div class="qr"><div class="ql"><span>G</span>Greeting notes</div><input class="qi" type="text" placeholder="Issues or highlights..." id="ge-g"></div>
+        <div class="qr"><div class="ql"><span>I</span>Introduce notes</div><input class="qi" type="text" placeholder="Issues or highlights..." id="ge-i"></div>
+        <div class="qr"><div class="ql"><span>C</span>Connect notes</div><input class="qi" type="text" placeholder="Issues or highlights..." id="ge-c"></div>
+        <div class="qr"><div class="ql"><span>A</span>Ask notes</div><input class="qi" type="text" placeholder="Issues or highlights..." id="ge-a"></div>
+      </div>
+    </div>
+
+    <!-- 4 ¬∑ DEPLOYMENT -->
+    <div class="sc s4">
+      <div class="sh"><div class="sn">4</div><div class="st"><h2>Deployment</h2><p>Lobby &middot; Hub-Master &middot; Hub &middot; Flex</p></div></div>
+      <div class="sb">
+        <div class="hchips">
+          <span class="hchip" style="color:#ff8099;border-color:rgba(255,77,109,.25);background:rgba(255,77,109,.07);">LOBBY</span>
+          <span class="hchip" style="color:#ff8099;border-color:rgba(255,77,109,.25);background:rgba(255,77,109,.07);">HUB-MASTER</span>
+          <span class="hchip" style="color:#ff8099;border-color:rgba(255,77,109,.25);background:rgba(255,77,109,.07);">HUB</span>
+          <span class="hchip" style="color:#ff8099;border-color:rgba(255,77,109,.25);background:rgba(255,77,109,.07);">FLEX</span>
+        </div>
+        <div class="qr"><div class="ql"><span>A</span>Next shift deployments written in sheet?</div>
+          <div class="radio-row">
+            <label class="rpill"><input type="radio" name="dep-written" value="Yes"> &#9989; Yes &mdash; all set</label>
+            <label class="rpill"><input type="radio" name="dep-written" value="No"> &#10060; No &mdash; needs done</label>
+          </div>
+        </div>
+        <div class="qr"><div class="ql">Deployment notes</div><textarea class="qi" placeholder="Position notes or changes..." id="dep-notes"></textarea></div>
+      </div>
+    </div>
+
+    <!-- 5 ¬∑ PARTIES & GROUPS -->
+    <div class="sc s5">
+      <div class="sh"><div class="sn">5</div><div class="st"><h2>Parties &amp; Groups</h2><p>Party lounge &middot; Group sizes &middot; Arrival times</p></div></div>
+      <div class="sb">
+        <div class="qr"><div class="ql">Groups using party lounge next shift?</div>
+          <div class="radio-row">
+            <label class="rpill"><input type="radio" name="party-yn" value="Yes" onclick="document.getElementById('hd-party-detail').style.display='flex'"> Yes</label>
+            <label class="rpill"><input type="radio" name="party-yn" value="No" onclick="document.getElementById('hd-party-detail').style.display='none'"> No</label>
+          </div>
+        </div>
+        <div id="hd-party-detail" style="display:none;flex-direction:column;gap:7px;">
+          <div class="qr"><div class="ql"># of groups</div><input class="qi" type="number" min="1" placeholder="#" id="party-count"></div>
+          <div class="qr"><div class="ql">Sizes &amp; arrival times</div><input class="qi" type="text" placeholder="e.g. 12 guests @ 3pm" id="party-info"></div>
+          <div class="qr"><div class="ql">Special notes</div><input class="qi" type="text" placeholder="Dietary, decorations, VIP..." id="party-notes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 ¬∑ PROMOTIONS -->
+    <div class="sc s6">
+      <div class="sh"><div class="sn">6</div><div class="st"><h2>Promotions</h2><p>Active promos to communicate this shift</p></div></div>
+      <div class="sb">
+        <div class="qr"><div class="ql">Promo 1</div><input class="qi" type="text" placeholder="Active promotion..." id="promo1"></div>
+        <div class="qr"><div class="ql">Promo 2</div><input class="qi" type="text" placeholder="Active promotion..." id="promo2"></div>
+        <div class="qr"><div class="ql">Promo 3</div><input class="qi" type="text" placeholder="Active promotion..." id="promo3"></div>
+      </div>
+    </div>
+
+    <!-- 7 ¬∑ STORE SPECIFIC ‚Äî full width -->
+    <div class="sc s7 hspan3">
+      <div class="sh"><div class="sn">7</div><div class="st"><h2>Store Specific</h2><p>Shoutout &middot; Tasks &middot; Other notes</p></div></div>
+      <div class="sb" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+        <div class="qr"><div class="ql">&#11088; Agent Shoutout</div><input class="qi" type="text" placeholder="Name + what they did great..." id="ss-shoutout"></div>
+        <div class="qr"><div class="ql">Tasks for rest of day</div><textarea class="qi" placeholder="Outstanding tasks..." id="ss-tasks" style="min-height:52px;"></textarea></div>
+        <div class="qr"><div class="ql">Other notes</div><textarea class="qi" placeholder="Anything else to flag..." id="ss-notes" style="min-height:52px;"></textarea></div>
+      </div>
+    </div>
+
+  </div><!-- /huddle-sections -->
+
+  <!-- SUBMIT ROW -->
+  <div class="huddle-submit-row">
+    <div id="huddleSuccessBanner" class="huddle-success">&#10003; Huddle saved &mdash; it&rsquo;s now at the top of the log.</div>
+    <div style="display:flex;gap:8px;margin-left:auto;">
+      <button class="btn-huddle-clear" onclick="clearHuddleForm()">Clear</button>
+      <button class="btn-huddle-save" id="huddleSaveBtn" onclick="submitHuddleInline()">&#9654;&#9654; SAVE HUDDLE</button>
+    </div>
   </div>
+
+  <!-- HUDDLE LOG -->
+  <div class="huddle-log-hdr">
+    <div class="section-title" style="margin-bottom:0;">&#128203; Huddle Log</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span id="huddleLogCount" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);"></span>
+      <a href="https://docs.google.com/spreadsheets/d/1GqwsS_3OC9cUgT2rBbxHcRxyog1ckctPhsrbyJLbEnw/edit" target="_blank" style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:6px;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">&#128202; View in Sheets</a>
+    </div>
+  </div>
+  <div id="pastHandoffsList"></div>
+  <div id="noHandoffs" style="color:var(--muted);font-size:13px;text-align:center;padding:30px 0;display:none;">No huddles yet &mdash; fill out and save above.</div>
 
 </div>
 
@@ -934,6 +1131,7 @@ async function activateApp() {
   updateHeader(); renderAnnouncement(); renderTodos(); renderRoster();
   renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
   renderPricingGrid(); calcPrice(); loadAndRenderHuddles(); renderOrderList(); renderSuggestions(); renderIdeasList();
+  const hdDate=document.getElementById('hd-date'); if(hdDate&&!hdDate.value) hdDate.value=TODAY_STR;
   setInterval(calcPrice, 60000);
   await loadAllFromSupabase();
 }
@@ -970,7 +1168,6 @@ const HUDDLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHRXSQ0ND_qY
 let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
 let qaShift='';
-let huddleRoomChecks={};
 let roster=[], pastHandoffs=[];
 let state={announcement:'',todos:[],bathroomChecks:{},roomChecks:{}};
 let staffIdeas=JSON.parse(localStorage.getItem('activate_deploy_ideas')||'[]');
@@ -1015,7 +1212,7 @@ function switchTab(name,btn){
   document.getElementById('panel-'+name).classList.add('active');
   btn.classList.add('active');
   if(name==='pricing')calcPrice();
-  if(name==='handoff'){loadAndRenderHuddles();}
+  if(name==='handoff'){loadAndRenderHuddles();const hdDate=document.getElementById('hd-date');if(hdDate&&!hdDate.value)hdDate.value=TODAY_STR;}
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1339,31 +1536,68 @@ function renderPricingGrid(){
     </tr>`).join('');
 }
 
-// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-// HANDOFF
-// \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-// HUDDLE ROOM CHECKBOXES
-function renderHuddleRoomChecks(){
-  const grid = document.getElementById('huddleRoomChecks');
-  if(!grid) return;
-  grid.innerHTML = ROOMS.map(r => `
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);transition:border-color .2s;${huddleRoomChecks[r]?'border-color:rgba(168,255,62,.4);background:rgba(168,255,62,.05);':''}">
-      <input type="checkbox" ${huddleRoomChecks[r]?'checked':''} onchange="huddleRoomChecks['${r}']=this.checked;renderHuddleRoomChecks();" style="width:14px;height:14px;accent-color:var(--accent3);">
-      <span style="font-size:12px;${huddleRoomChecks[r]?'color:var(--accent3);font-weight:600;':'color:var(--text);'}">${escHtml(r)}</span>
-    </label>`).join('');
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+// SHIFT HUDDLE ‚Äî INLINE FORM
+// ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+function huddleCalcRemaining(){
+  const a=parseInt(document.getElementById('g-checkins').value)||0;
+  const b=parseInt(document.getElementById('g-booked').value)||0;
+  if(a||b) document.getElementById('g-remaining').value=Math.max(0,b-a);
 }
 
+function clearHuddleForm(){
+  ['g-checkins','g-booked','g-remaining','g-lastbooking',
+   'r-morning','r-inspected','r-shift','r-restrooms','r-notes',
+   'ge-g','ge-i','ge-c','ge-a','dep-notes',
+   'party-count','party-info','party-notes',
+   'promo1','promo2','promo3',
+   'ss-shoutout','ss-tasks','ss-notes'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.querySelectorAll('input[name="dep-written"],input[name="party-yn"]').forEach(r=>r.checked=false);
+  const pd=document.getElementById('hd-party-detail');
+  if(pd) pd.style.display='none';
+  document.getElementById('hd-shift').value='';
+  document.getElementById('hd-manager').value='';
+}
+
+async function submitHuddleInline(){
+  const hv=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const hRadio=name=>{const r=document.querySelector(`input[name="${name}"]:checked`);return r?r.value:'';};
+  const payload={
+    savedAt: new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),
+    date: hv('hd-date')||TODAY_STR,
+    shift: document.getElementById('hd-shift').value,
+    manager: hv('hd-manager'),
+    g_checkins: hv('g-checkins'), g_booked: hv('g-booked'),
+    g_remaining: hv('g-remaining'), g_lastbooking: hv('g-lastbooking'),
+    r_morning: hv('r-morning'), r_inspected: hv('r-inspected'),
+    r_shift: hv('r-shift'), r_restrooms: hv('r-restrooms'), r_notes: hv('r-notes'),
+    ge_g: hv('ge-g'), ge_i: hv('ge-i'), ge_c: hv('ge-c'), ge_a: hv('ge-a'),
+    dep_written: hRadio('dep-written'), dep_notes: hv('dep-notes'),
+    party_yn: hRadio('party-yn'), party_count: hv('party-count'),
+    party_info: hv('party-info'), party_notes: hv('party-notes'),
+    promo1: hv('promo1'), promo2: hv('promo2'), promo3: hv('promo3'),
+    ss_shoutout: hv('ss-shoutout'), ss_tasks: hv('ss-tasks'), ss_notes: hv('ss-notes'),
+  };
+  const btn=document.getElementById('huddleSaveBtn');
+  const banner=document.getElementById('huddleSuccessBanner');
+  if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  try{
+    await fetch(HUDDLE_SCRIPT_URL,{method:'POST',body:JSON.stringify(payload),headers:{'Content-Type':'text/plain'}});
+  }catch(e){console.warn('Huddle POST error',e);}
+  if(banner){banner.classList.add('show');setTimeout(()=>banner.classList.remove('show'),4000);}
+  if(btn){btn.disabled=false;btn.innerHTML='&#9654;&#9654; SAVE HUDDLE';}
+  setTimeout(loadAndRenderHuddles, 1800);
+}
 
 async function loadAndRenderHuddles(){
   try{
-    const r=await fetch(HUDDLE_SCRIPT_URL);
+    const r=await fetch(HUDDLE_SCRIPT_URL+'?t='+Date.now());
     const data=await r.json();
     if(data.success){
       pastHandoffs=(data.huddles||[]).map(h=>{
-        // Google Sheets auto-parses "2026-05-07" ‚Üí Date and "3:40 PM" ‚Üí 1899 epoch time
-        // Normalize both back to clean strings
         if(h.date){try{const d=new Date(h.date);if(!isNaN(d))h.date=d.toLocaleDateString('en-CA');}catch(e){}}
-        if(h.savedAt){try{const d=new Date(h.savedAt);if(!isNaN(d))h.savedAt=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}catch(e){}}
         return h;
       });
       renderPastHandoffs();
@@ -1371,53 +1605,77 @@ async function loadAndRenderHuddles(){
   }catch(e){console.warn('Huddle fetch error',e);}
 }
 
+function huddleLF(label,val){
+  return val?`<div class="hlf"><div class="hlfl">${label}</div><div class="hlfv">${escHtml(String(val))}</div></div>`:'';
+}
+
 function renderPastHandoffs(){
   const list=document.getElementById('pastHandoffsList');
   const empty=document.getElementById('noHandoffs');
+  const countEl=document.getElementById('huddleLogCount');
   if(!list)return;
-  if(!pastHandoffs.length){list.innerHTML='';if(empty)empty.style.display='block';return;}
+  if(!pastHandoffs.length){
+    list.innerHTML='';
+    if(empty)empty.style.display='block';
+    if(countEl)countEl.textContent='';
+    return;
+  }
   if(empty)empty.style.display='none';
-  // Most recent first (already reversed from server), first entry auto-expanded
+  if(countEl)countEl.textContent=`${pastHandoffs.length} / 20 entries`;
   list.innerHTML=pastHandoffs.map((h,idx)=>{
+    const isToday=(h.date||'')=== TODAY_STR;
     const isFirst=idx===0;
-    const isToday=(h.date||'')===TODAY_STR;
-    const dateStr=h.date||'Unknown';
-    const dateLabelText=isToday?'Today &mdash; '+dateStr:dateStr;
-    // Render all dynamic fields (from Google Form columns)
-    const fields=h._fields||{};
-    const fieldRows=Object.entries(fields)
-      .filter(([,v])=>v&&String(v).trim())
-      .map(([k,v])=>`<div class="hf-field"><div class="hf-field-label">${escHtml(k)}</div><div class="hf-field-val">${escHtml(String(v))}</div></div>`)
-      .join('');
-    return `<div class="handoff-entry" style="${isToday?'border-color:rgba(0,229,255,.35);':''}${isFirst?'margin-bottom:4px;':''}">
-      <div class="handoff-entry-header">
-        <div>
-          <strong style="font-size:14px;font-family:'DM Mono',monospace;color:${isToday?'var(--accent)':'var(--text)'};">${dateLabelText}</strong>
-          ${h.shift?`<span class="badge badge-cyan" style="margin-left:8px;">${escHtml(h.shift)}</span>`:''}
-          ${h.manager?`<span style="font-size:12px;color:var(--muted);margin-left:8px;">${escHtml(h.manager)}</span>`:''}
+    const promos=[h.promo1,h.promo2,h.promo3].filter(Boolean).join(' &middot; ');
+    return`<div class="huddle-log-entry${isToday?' hl-today':''}${isFirst?' hl-open':''}">
+      <div class="huddle-log-eh">
+        <div class="huddle-log-meta">
+          <span class="huddle-log-date">${escHtml(h.date||'Unknown')}</span>
+          ${h.shift?`<span class="badge badge-s">${escHtml(h.shift)}</span>`:''}
+          ${isToday?'<span class="badge badge-t">TODAY</span>':''}
         </div>
-        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${h.savedAt||''}</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="huddle-log-mgr">${h.manager?escHtml(h.manager)+' &middot; ':''}${escHtml(h.savedAt||'')}</span>
+          <span class="huddle-log-chev">&#9660;</span>
+        </div>
       </div>
-      <div class="handoff-body" style="display:${isFirst?'block':'none'};">
-        ${h.manager?`<div class="hf-field"><div class="hf-field-label">Manager</div><div class="hf-field-val">${escHtml(h.manager)}</div></div>`:''}
-        ${h.shift?`<div class="hf-field"><div class="hf-field-label">Shift</div><div class="hf-field-val">${escHtml(h.shift)}</div></div>`:''}
-        ${fieldRows}
+      <div class="huddle-log-body">
+        <div class="huddle-log-grid">
+          <div>
+            <div class="huddle-sec-title" style="color:var(--accent);">1 &middot; Guest Count</div>
+            ${huddleLF('Check-ins',h.g_checkins)}${huddleLF('Total booked',h.g_booked)}${huddleLF('Remaining',h.g_remaining)}${huddleLF('Last booking',h.g_lastbooking)}
+          </div>
+          <div>
+            <div class="huddle-sec-title" style="color:var(--accent3);">2 &middot; Room Health</div>
+            ${huddleLF('Morning issues',h.r_morning)}${huddleLF('Rooms inspected',h.r_inspected)}${huddleLF('Shift issues',h.r_shift)}${huddleLF('Restroom checks',h.r_restrooms)}${huddleLF('Facility notes',h.r_notes)}
+          </div>
+          <div>
+            <div class="huddle-sec-title" style="color:var(--gold);">3 &middot; Guest Experience</div>
+            ${huddleLF('G ‚Äî Greeting',h.ge_g)}${huddleLF('I ‚Äî Introduce',h.ge_i)}${huddleLF('C ‚Äî Connect',h.ge_c)}${huddleLF('A ‚Äî Ask',h.ge_a)}
+          </div>
+          <div>
+            <div class="huddle-sec-title" style="color:var(--accent2);">4 &middot; Deployment</div>
+            ${huddleLF('Sheet filled?',h.dep_written)}${huddleLF('Notes',h.dep_notes)}
+            <div class="huddle-sec-title" style="color:#a78bfa;margin-top:8px;">5 &middot; Parties</div>
+            ${huddleLF('Party lounge',h.party_yn==='Yes'?`${h.party_count||''} group(s) ‚Äî ${h.party_info||''}`:(h.party_yn||'')||'')}
+            ${huddleLF('Special notes',h.party_notes)}
+          </div>
+          <div>
+            <div class="huddle-sec-title" style="color:#fb923c;">6 &middot; Promotions</div>
+            ${huddleLF('Active promos',promos)}
+          </div>
+          <div>
+            <div class="huddle-sec-title" style="color:#ec4899;">7 &middot; Store Specific</div>
+            ${huddleLF('‚≠ê Shoutout',h.ss_shoutout)}${huddleLF('Tasks',h.ss_tasks)}${huddleLF('Other notes',h.ss_notes)}
+          </div>
+        </div>
       </div>
-      <div class="handoff-hint" style="font-size:10px;color:var(--muted);margin-top:6px;font-family:'DM Mono',monospace;">${isFirst?'&#9650; click to collapse':'&#9660; click to expand'}</div>
     </div>`;
   }).join('');
-  list.querySelectorAll('.handoff-entry').forEach(el=>{
-    el.addEventListener('click',function(){
-      const body=this.querySelector('.handoff-body');
-      const hint=this.querySelector('.handoff-hint');
-      if(body){
-        const open=body.style.display==='block';
-        body.style.display=open?'none':'block';
-        if(hint)hint.innerHTML=open?'&#9660; click to expand':'&#9650; click to collapse';
-      }
-    });
+  list.querySelectorAll('.huddle-log-entry').forEach(el=>{
+    el.addEventListener('click',function(){this.classList.toggle('hl-open');});
   });
 }
+
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 // ORDER REQUESTS
