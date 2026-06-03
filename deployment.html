@@ -423,7 +423,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
               <th>Name</th>
               <th>Shift</th>
               <th>Deployment</th>
-              <th>Break</th>
+              <th>Hours</th>
               <th>High Touch</th>
               <th class="edit-mode-show" style="display:none;"></th>
             </tr>
@@ -443,7 +443,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           <select class="qa-area" id="qaArea1">
             <option value="Hub">Hub</option>
             <option value="Lobby">Lobby</option>
-            <option value="Float">Float</option>
+            <option value="Hub Master">Hub Master</option>
+            <option value="Flex">Flex</option>
           </select>
           <span class="qa-label">&rarr; switches at</span>
           <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM">
@@ -451,10 +452,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="">&mdash; stays put &mdash;</option>
             <option value="Hub">&rarr; Hub</option>
             <option value="Lobby">&rarr; Lobby</option>
-            <option value="Float">&rarr; Float</option>
+            <option value="Hub Master">&rarr; Hub Master</option>
+            <option value="Flex">&rarr; Flex</option>
           </select>
+          <span class="qa-label">Start:</span>
+          <input type="text" class="qa-at" id="qaStart" placeholder="e.g. 10:00 AM">
           <span class="qa-label">Break:</span>
           <input type="text" class="qa-at" id="qaBreak" placeholder="e.g. 1:30 PM">
+          <span class="qa-label">End:</span>
+          <input type="text" class="qa-at" id="qaEnd" placeholder="e.g. 6:00 PM">
           <div style="width:100%;display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding-top:2px;">
             <span class="qa-label">High Touch:</span>
             <button type="button" class="ht-pill" data-ht="Screens" onclick="this.classList.toggle('sel')">Screens</button>
@@ -972,6 +978,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
     <div class="modal-grid">
       <div>
+        <div class="input-label">Start Time</div>
+        <input type="text" id="empStart" placeholder="e.g. 10:00 AM" style="width:100%;">
+      </div>
+      <div>
+        <div class="input-label">End Time</div>
+        <input type="text" id="empEnd" placeholder="e.g. 6:00 PM" style="width:100%;">
+      </div>
+      <div>
         <div class="input-label">Break Time</div>
         <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;">
       </div>
@@ -1146,7 +1160,7 @@ setInterval(() => { if (document.visibilityState === 'visible') loadAllFromSupab
 const ROOMS = ['Push','Mega Grid','Climb','Laser','Hoops','Arena','Trench','Hide'];
 const TIME_SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM',
   '4:00 PM','5:00 PM','6:00 PM','7:00 PM','8:00 PM','9:00 PM','10:00 PM'];
-const AREAS = ['Hub','Lobby','Float'];
+const AREAS = ['Hub','Lobby','Hub Master','Flex'];
 
 // Pricing: 0=Mon \u2026 6=Sun
 const P = {
@@ -1305,7 +1319,7 @@ function renderRoster(highlightIdx=-1){
       <td class="employee-name">${escHtml(e.name)}</td>
       <td>${shiftBadge(e.shift)}</td>
       <td>${renderDeploymentCell(e)}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${escHtml(e.breakTime||'\u2014')}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;">${[e.startTime,e.breakTime,e.endTime].map((t,i)=>{const labels=['S','B','E'];return t?`<span style="opacity:.5;font-size:9px;">${labels[i]}</span> ${escHtml(t)}`:''}).filter(Boolean).join(' <span style="opacity:.3;">\u00b7</span> ')||'\u2014'}</td>
       <td style="font-size:12px;max-width:180px;">${renderHighTouch(e.highTouch)}</td>
       <td><div class="roster-actions">
         <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
@@ -1358,13 +1372,17 @@ function quickAdd(){
   const deployment=[{area:area1}];
   if(area2&&at)deployment.push({area:area2,at});
   else if(area2&&!at)deployment.push({area:area2,at:''});
+  const startTime=document.getElementById('qaStart').value.trim();
   const breakTime=document.getElementById('qaBreak').value.trim();
+  const endTime=document.getElementById('qaEnd').value.trim();
   const highTouch=Array.from(document.querySelectorAll('#quickAddBar .ht-pill.sel')).map(b=>b.dataset.ht);
-  roster.push({name,shift:qaShift,deployment,breakTime,highTouch});
+  roster.push({name,shift:qaShift,deployment,startTime,breakTime,endTime,highTouch});
   document.getElementById('qaName').value='';
   document.getElementById('qaAt').value='';
   document.getElementById('qaArea2').value='';
+  document.getElementById('qaStart').value='';
   document.getElementById('qaBreak').value='';
+  document.getElementById('qaEnd').value='';
   clearQaHighTouch();
   saveAll();renderRoster(roster.length-1);
   document.getElementById('qaName').focus();
@@ -1408,7 +1426,9 @@ function openAddModal(){
   document.getElementById('empName').value='';
   empModalShift='';selectShift('');
   empDeployment=[{area:'Hub'}];renderDeployBuilder();
+  document.getElementById('empStart').value='';
   document.getElementById('empBreak').value='';
+  document.getElementById('empEnd').value='';
   clearModalHighTouch();
   document.getElementById('employeeModal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('empName').focus(),100);
@@ -1422,7 +1442,9 @@ function openEditModal(idx){
   empModalShift=e.shift;selectShift(e.shift,true);
   empDeployment=JSON.parse(JSON.stringify(e.deployment||[{area:e.area||'Hub'}]));
   renderDeployBuilder();
+  document.getElementById('empStart').value=e.startTime||'';
   document.getElementById('empBreak').value=e.breakTime||'';
+  document.getElementById('empEnd').value=e.endTime||'';
   setModalHighTouch(e.highTouch);
   document.getElementById('employeeModal').classList.remove('hidden');
 }
@@ -1438,7 +1460,7 @@ function selectShift(val){
 function saveEmployee(){
   const name=document.getElementById('empName').value.trim();
   if(!name){alert('Please enter a name.');return;}
-  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),breakTime:document.getElementById('empBreak').value.trim(),highTouch:getModalHighTouch()};
+  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),startTime:document.getElementById('empStart').value.trim(),breakTime:document.getElementById('empBreak').value.trim(),endTime:document.getElementById('empEnd').value.trim(),highTouch:getModalHighTouch()};
   const editIdx=document.getElementById('editingId').value;
   let newIdx=-1;
   if(editIdx!=='')roster[parseInt(editIdx)]=emp;else{roster.push(emp);newIdx=roster.length-1;}
