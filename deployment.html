@@ -1036,7 +1036,8 @@ async function syncAllToCloud() {
         roster,
         daily: { date: TODAY_STR, state },
         orders: orderRequests,
-        ideas: staffIdeas
+        ideas: staffIdeas,
+        suggestions
       };
       const resp = await fetch(`${SB_URL}/rest/v1/${DEP_TABLE}`, {
         method: 'POST', headers: sbHeaders(),
@@ -1082,9 +1083,13 @@ async function loadAllFromSupabase() {
       staffIdeas = d.ideas;
       localStorage.setItem('activate_deploy_ideas', JSON.stringify(d.ideas));
     }
+    if (Array.isArray(d.suggestions)) {
+      suggestions = d.suggestions;
+      localStorage.setItem('activate_deploy_suggestions', JSON.stringify(d.suggestions));
+    }
     renderAnnouncement(); renderTodos(); renderRoster();
     renderBathroomChecks(); renderRoomChecks(); updateCheckProgress();
-    renderPastHandoffs(); renderOrderList(); renderIdeasList();
+    renderPastHandoffs(); renderOrderList(); renderIdeasList(); renderSuggestions();
     setSyncStatus('synced','Synced \u2713');
   } catch(e) {
     setSyncStatus('error','Sync error \u2014 using local data');
@@ -1778,6 +1783,7 @@ function submitSuggestion(){
   suggestions.unshift({ id:Date.now(), name:name||'Anonymous', text,
     submittedAt: new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) });
   localStorage.setItem('activate_deploy_suggestions', JSON.stringify(suggestions));
+  syncAllToCloud();
   document.getElementById('suggestName').value='';
   document.getElementById('suggestText').value='';
   document.getElementById('suggestBanner').style.display='block';
