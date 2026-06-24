@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate — TV Playlist</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000626;--accent:#00ffff;--muted:#8893c9;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);overflow:hidden;}
+#frame{position:fixed;inset:0;width:100vw;height:100vh;border:0;background:var(--bg);}
+/* thin progress bar */
+#bar{position:fixed;left:0;bottom:0;height:5px;width:0;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);z-index:10;box-shadow:0 0 10px rgba(0,255,255,.5);}
+/* slide dots */
+#dots{position:fixed;bottom:14px;right:16px;display:flex;gap:7px;z-index:10;}
+#dots .dot{width:9px;height:9px;border-radius:50%;background:rgba(136,147,201,.4);transition:all .2s;}
+#dots .dot.on{background:var(--accent);box-shadow:0 0 8px var(--accent);}
+#paused{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--accent);background:rgba(0,6,38,.85);border:1px solid var(--accent);padding:6px 14px;border-radius:6px;}
+/* config screen (shown only when no slides + ?help) */
+#help{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#e5e9ff;font-family:'Space Mono',monospace;text-align:center;padding:40px;}
+#help h1{font-family:'Anton',sans-serif;font-size:clamp(28px,5vw,60px);letter-spacing:2px;background:linear-gradient(90deg,#00ffff,#ff00ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+#help code{display:block;background:#0c1657;border:1px solid #1d2b78;border-radius:8px;padding:14px 18px;font-size:13px;max-width:760px;word-break:break-all;color:var(--accent);}
+#help p{font-size:13px;color:var(--muted);max-width:620px;line-height:1.6;}
+</style>
+</head>
+<body>
+<iframe id="frame" allow="fullscreen" title="Activate playlist"></iframe>
+<div id="bar"></div>
+<div id="dots"></div>
+<div id="paused">⏸ PAUSED — press space to resume</div>
+
+<div id="help">
+  <h1>ACTIVATE TV PLAYLIST</h1>
+  <p>No slides configured. Add them to the URL like this:</p>
+  <code>playlist.html?loc=lexington&amp;slide2=https://your-roller-url&amp;slide3=https://corp-slide-url&amp;durations=180,120,90</code>
+  <p>slide1 defaults to this location's TV display. Use slide2, slide3, slide4, slide5 for extra pages. durations is a comma list of seconds, in slide order. Press any key to start with the default TV slide.</p>
+</div>
+
+<script>
+const SB_URL='https://pemmhbdggpgzykljchel.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+const qs=new URLSearchParams(location.search);
+const loc=(qs.get('loc')||'lexington').toLowerCase();
+
+// Collect slides slide1..slide5 (keep positions so slide1 can default)
+let raw=[];
+for(let i=1;i<=5;i++){const s=qs.get('slide'+i); raw.push(s&&s.trim()?s.trim():null);}
+const hadSlides=raw.some(s=>s!==null);
+while(raw.length && raw[raw.length-1]===null) raw.pop();   // drop trailing gaps
+if(!raw.length) raw=['tv.html'];
+if(raw[0]===null) raw[0]='tv.html';                        // slide1 defaults to the TV page
+let slides=raw.filter(s=>s!==null);                        // compact any interior gaps
+// Make a bare "tv.html" carry the location
+slides=slides.map(s=>(s==='tv.html'||s==='./tv.html'||s==='/tv.html')?('tv.html?loc='+encodeURIComponent(loc)):s);
+
+// Durations (seconds) parallel to slides; sensible defaults
+let durs=(qs.get('durations')||'').split(',').map(x=>parseInt(x,10)).filter(x=>!isNaN(x)&&x>0);
+function durFor(i){ return durs[i] || (i===0?180:120); }
+
+const frame=document.getElementById('frame');
+const bar=document.getElementById('bar');
+const dotsWrap=document.getElementById('dots');
+const pausedEl=document.getElementById('paused');
+
+let idx=0, timer=null, paused=false;
+
+function buildDots(){
+  if(slides.length<2){dotsWrap.style.display='none';return;}
+  dotsWrap.innerHTML=slides.map((_,i)=>`<div class="dot" data-i="${i}"></div>`).join('');
+}
+function markDot(){
+  [...dotsWrap.children].forEach((d,i)=>d.classList.toggle('on',i===idx));
+}
+function animateBar(seconds){
+  bar.style.transition='none'; bar.style.width='0%';
+  void bar.offsetWidth; // reflow
+  bar.style.transition=`width ${seconds}s linear`;
+  bar.style.width='100%';
+}
+function show(i){
+  idx=(i+slides.length)%slides.length;
+  frame.src=slides[idx];        // reload each time so live pages refresh
+  markDot();
+  const secs=durFor(idx);
+  if(!paused) animateBar(secs);
+  clearTimeout(timer);
+  if(!paused && slides.length>1) timer=setTimeout(()=>show(idx+1), secs*1000);
+}
+function next(){ show(idx+1); }
+function togglePause(){
+  paused=!paused;
+  pausedEl.style.display=paused?'block':'none';
+  if(paused){ clearTimeout(timer); bar.style.transition='none'; }
+  else { show(idx); }
+}
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('help').style.display==='flex'){ startPlayback(); return; }
+  if(e.code==='Space'){ e.preventDefault(); togglePause(); }
+  else if(e.code==='ArrowRight'){ e.preventDefault(); next(); }
+  else if(e.code==='ArrowLeft'){ e.preventDefault(); show(idx-1); }
+});
+
+function startPlayback(){
+  document.getElementById('help').style.display='none';
+  buildDots();
+  show(0);
+}
+
+// When no slides are set in the URL, pull this location's playlist from the
+// admin database (tv_slides). URL params, if present, always win (manual override).
+async function loadFromDB(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/tv_slides?location_id=eq.${encodeURIComponent(loc)}&enabled=eq.true&order=position.asc&select=*`,
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    if(!r.ok) return;
+    const rows=await r.json();
+    if(Array.isArray(rows)&&rows.length){
+      const built=rows.map(x=> x.kind==='deployment'
+        ? {url:'tv.html?loc='+encodeURIComponent(loc),dur:x.duration||30}
+        : {url:(x.src||'').trim(),dur:x.duration||30}).filter(s=>s.url);
+      if(built.length){ slides=built.map(s=>s.url); durs=built.map(s=>s.dur); }
+    }
+  }catch(e){ console.warn('playlist DB load failed',e); }
+}
+
+async function init(){
+  if(!hadSlides && qs.get('help')!==null){ document.getElementById('help').style.display='flex'; return; }
+  if(!hadSlides){ await loadFromDB(); }
+  startPlayback();
+}
+init();
+</script>
+</body>
+</html>
