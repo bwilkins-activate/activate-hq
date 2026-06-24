@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate Lexington — Deployment</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000626;--surface:#050d33;--surface2:#0c1657;--border:#1d2b78;--accent:#00ffff;--indigo:#3d5bf2;--text:#e5e9ff;--muted:#8893c9;
+  --z-lobby:#00ffff;--z-hubmaster:#5b7bff;--z-hub:#a8ff3e;--z-flex:#ff4da6;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:radial-gradient(1400px 700px at 50% -10%,rgba(61,91,242,.22),transparent 60%),var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow:hidden;padding:clamp(16px,2.4vw,38px);display:flex;flex-direction:column;gap:clamp(12px,1.6vw,22px);}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(61,91,242,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(61,91,242,.05) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);-webkit-mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);pointer-events:none;z-index:0;}
+.tvwrap{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;gap:clamp(12px,1.6vw,22px);min-height:0;}
+
+/* HEADER */
+.tv-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:clamp(10px,1.2vw,18px);border-bottom:1px solid rgba(61,91,242,.4);position:relative;flex-wrap:wrap;}
+.tv-head::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);opacity:.6;}
+.tv-brand{display:flex;align-items:center;gap:clamp(10px,1vw,16px);}
+.tv-wordmark{font-family:'Anton',sans-serif;font-size:clamp(30px,4.4vw,66px);letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.tv-loc{font-family:'Space Mono',monospace;font-size:clamp(11px,1vw,16px);font-weight:700;letter-spacing:4px;color:#000626;background:var(--accent);padding:4px 12px;border-radius:6px;align-self:center;}
+.tv-meta{text-align:right;}
+.tv-date{font-family:'Anton',sans-serif;font-size:clamp(20px,2.4vw,38px);letter-spacing:1px;line-height:1.05;}
+.tv-shift{color:var(--accent);}
+.tv-locked{font-family:'Space Mono',monospace;font-size:clamp(11px,1vw,16px);color:var(--muted);margin-top:6px;}
+
+/* ANNOUNCEMENT */
+.tv-ann{background:linear-gradient(135deg,rgba(0,255,255,.09),rgba(0,255,255,.03));border:1px solid rgba(0,255,255,.3);border-radius:14px;padding:clamp(12px,1.4vw,22px) clamp(16px,1.8vw,28px);}
+.tv-ann-label{font-family:'Space Mono',monospace;font-size:clamp(11px,1vw,15px);color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;}
+.tv-ann-text{font-size:clamp(16px,1.7vw,28px);line-height:1.4;white-space:pre-wrap;}
+
+/* ZONE GRID */
+.tv-zones{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.3vw,20px);min-height:0;}
+@media(max-width:1100px){.tv-zones{grid-template-columns:repeat(2,1fr);}}
+.zone{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:clamp(12px,1.4vw,22px);display:flex;flex-direction:column;min-height:0;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transition:all .3s;}
+.zone-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:clamp(8px,.9vw,14px);margin-bottom:clamp(8px,.9vw,14px);border-bottom:2px solid currentColor;}
+.zone-name{font-family:'Anton',sans-serif;font-size:clamp(18px,2vw,34px);letter-spacing:1.5px;line-height:1;}
+.zone.live{box-shadow:0 0 0 2px currentColor,0 0 32px -6px currentColor;}
+.live-dot{display:none;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,13px);font-weight:700;letter-spacing:2px;}
+.zone.live .live-dot{display:inline-flex;}
+.live-dot i{width:9px;height:9px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:pls 1.6s infinite;}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.25}}
+.people{display:flex;flex-direction:column;gap:clamp(8px,1vw,16px);overflow:hidden;}
+.person{}
+.p-name{font-size:clamp(17px,1.9vw,32px);font-weight:600;line-height:1.1;}
+.p-time{font-family:'Space Mono',monospace;font-size:clamp(12px,1.15vw,19px);color:var(--text);margin-top:2px;}
+.p-trans{font-size:clamp(12px,1.1vw,18px);color:var(--muted);margin-top:2px;}
+.p-trans b{color:var(--accent);font-weight:600;}
+.zone-empty{color:var(--muted);font-size:clamp(13px,1.2vw,20px);font-style:italic;padding-top:6px;}
+
+/* EXTRAS + FOOTER */
+.tv-extras{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:clamp(8px,1vw,16px) clamp(12px,1.4vw,22px);font-size:clamp(13px,1.2vw,20px);color:var(--muted);}
+.tv-extras b{color:var(--text);font-weight:600;}
+.tv-foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:clamp(10px,.95vw,15px);color:var(--muted);}
+.fresh-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--z-hub);box-shadow:0 0 8px var(--z-hub);margin-right:7px;vertical-align:middle;}
+.fresh-stale{background:#ff4d6d!important;box-shadow:0 0 8px #ff4d6d!important;}
+
+/* EMPTY STATE */
+.tv-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;}
+.tv-empty h2{font-family:'Anton',sans-serif;font-size:clamp(34px,5vw,80px);letter-spacing:2px;color:var(--muted);}
+.tv-empty p{font-size:clamp(15px,1.5vw,24px);color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="tvwrap" id="tvwrap">
+  <div class="tv-empty"><h2>Loading…</h2></div>
+</div>
+
+<script>
+const SB_URL='https://pemmhbdggpgzykljchel.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+const LOCATION_ID=(new URLSearchParams(location.search).get('loc')||'lexington').toLowerCase();
+function prettyLoc(id){return id.split('-').map(w=>w?w[0].toUpperCase()+w.slice(1):w).join(' ');}
+const ZONES=['Lobby','Hub Master','Hub','Flex'];
+const ZONE_VAR={'Lobby':'--z-lobby','Hub Master':'--z-hubmaster','Hub':'--z-hub','Flex':'--z-flex'};
+let lastSig=null, lastState=null;
+
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function parseMin(t){if(!t)return null;const m=String(t).trim().match(/^(\d{1,2})(?::(\d{2}))?\s*([AaPp][Mm])?$/);if(!m)return null;let h=parseInt(m[1],10);const mn=m[2]?parseInt(m[2],10):0;const ap=m[3]?m[3].toLowerCase():null;if(ap){if(h===12)h=0;if(ap==='pm')h+=12;}return h*60+mn;}
+function nowMin(){const d=new Date();return d.getHours()*60+d.getMinutes();}
+
+function fmtDate(ds){if(!ds)return'';const p=String(ds).split('-');if(p.length!==3)return ds;const d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});}
+function fmtClock(iso){if(!iso)return'';try{return new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}catch(e){return'';}}
+function minsAgo(iso){if(!iso)return null;try{return Math.max(0,Math.round((Date.now()-new Date(iso).getTime())/60000));}catch(e){return null;}}
+
+// current area for a person given the time now
+function currentArea(emp){
+  const dep=emp.deployment||[];
+  if(!dep.length)return null;
+  let area=dep[0].area, nm=nowMin();
+  for(let i=1;i<dep.length;i++){const at=parseMin(dep[i].at);if(at!=null&&nm>=at)area=dep[i].area;}
+  return area;
+}
+function isOnNow(emp){
+  const s=parseMin(emp.startTime), e=parseMin(emp.endTime), nm=nowMin();
+  if(s==null||e==null)return false;
+  return nm>=s&&nm<=e;
+}
+function timeRange(emp){
+  const s=emp.startTime||'', e=emp.endTime||'';
+  if(s&&e)return s+' – '+e;
+  return s||e||'';
+}
+
+function render(st){
+  const wrap=document.getElementById('tvwrap');
+  if(!st||!st.current_deployment||!Array.isArray(st.current_deployment)||!st.current_deployment.length){
+    wrap.innerHTML='<div class="tv-empty"><h2>Deployment not yet set</h2><p>Today’s deployment hasn’t been locked. Check back shortly.</p></div>';
+    return;
+  }
+  const roster=st.current_deployment;
+  const locName=(st.location_name||prettyLoc(LOCATION_ID)).toUpperCase();
+  const shift=st.shift_type?(' • '+esc(st.shift_type)):'';
+  const lockedLine=st.last_locked_by?('Locked by '+esc(st.last_locked_by)+(st.last_locked_at?' at '+fmtClock(st.last_locked_at):'')):'';
+
+  // group by first deployment area
+  const byZone={}; ZONES.forEach(z=>byZone[z]=[]); const extras=[];
+  roster.forEach(e=>{const a=(e.deployment&&e.deployment[0]&&e.deployment[0].area)||null; if(a&&byZone[a])byZone[a].push(e); else extras.push(e);});
+
+  const zoneHtml=ZONES.map(z=>{
+    const cv='var('+ZONE_VAR[z]+')';
+    const live=byZone[z].some(e=>currentArea(e)===z&&isOnNow(e));
+    const people=byZone[z].map(e=>{
+      const dep=e.deployment||[];
+      const trans=dep.slice(1).map(s=>`<div class="p-trans">↓ <b>${esc(s.area)}</b>${s.at?' '+esc(s.at):''}</div>`).join('');
+      const tr=timeRange(e);
+      return `<div class="person"><div class="p-name">${esc(e.name||'')}</div>${tr?`<div class="p-time">${esc(tr)}</div>`:''}${trans}</div>`;
+    }).join('')||'<div class="zone-empty">No one assigned</div>';
+    return `<div class="zone${live?' live':''}" style="color:${cv}">
+      <div class="zone-hd"><span class="zone-name">${z.toUpperCase()}</span><span class="live-dot"><i></i>LIVE</span></div>
+      <div class="people" style="color:var(--text)">${people}</div>
+    </div>`;
+  }).join('');
+
+  const extrasHtml=extras.length?`<div class="tv-extras">Also on shift: ${extras.map(e=>'<b>'+esc(e.name||'')+'</b>'+(timeRange(e)?' ('+esc(timeRange(e))+')':'')).join(', ')}</div>`:'';
+  const annHtml=(st.announcement&&st.announcement.trim())?`<div class="tv-ann"><div class="tv-ann-label">\u{1F4E2} Announcement</div><div class="tv-ann-text">${esc(st.announcement)}</div></div>`:'';
+
+  const ma=minsAgo(st.last_locked_at);
+  const stale=ma!=null&&ma>180;
+  const freshTxt=ma==null?'':(ma===0?'Updated just now':('Updated '+ma+' min ago'));
+
+  wrap.innerHTML=`
+    <div class="tv-head">
+      <div class="tv-brand"><span class="tv-wordmark">ACTIVATE</span><span class="tv-loc">${esc(locName)}</span></div>
+      <div class="tv-meta">
+        <div class="tv-date">${fmtDate(st.shift_date)}<span class="tv-shift">${shift}</span></div>
+        ${lockedLine?`<div class="tv-locked">${lockedLine}</div>`:''}
+      </div>
+    </div>
+    ${annHtml}
+    <div class="tv-zones">${zoneHtml}</div>
+    ${extrasHtml}
+    <div class="tv-foot">
+      <span>ACTIVATE DEPLOYMENT • BREAK ROOM DISPLAY</span>
+      <span><span class="fresh-dot${stale?' fresh-stale':''}"></span>${freshTxt}</span>
+    </div>`;
+}
+
+async function poll(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/tv_state?select=*&location_id=eq.${LOCATION_ID}&order=last_locked_at.desc&limit=1`,
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    const rows=await r.json();
+    const st=Array.isArray(rows)&&rows[0]?rows[0]:null;
+    const sig=JSON.stringify(st);
+    if(sig!==lastSig){ lastSig=sig; lastState=st; render(st); }
+  }catch(e){ console.warn('TV poll error',e); }
+}
+
+// refresh freshness label + live highlights every 30s even if data unchanged
+poll();
+setInterval(poll,30000);
+setInterval(()=>{ if(lastState) render(lastState); },30000);
+</script>
+</body>
+</html>
