@@ -509,11 +509,14 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="Flex">&rarr; Flex</option>
           </select>
           <span class="qa-label">Start:</span>
-          <input type="text" class="qa-at" id="qaStart" placeholder="e.g. 10:00 AM" onblur="autoFmtTime(this)">
+          <input type="text" class="qa-at" id="qaStart_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
+          <select id="qaStart_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
           <span class="qa-label">Break:</span>
-          <input type="text" class="qa-at" id="qaBreak" placeholder="e.g. 1:30 PM" onblur="autoFmtTime(this)">
+          <input type="text" class="qa-at" id="qaBreak_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
+          <select id="qaBreak_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
           <span class="qa-label">End:</span>
-          <input type="text" class="qa-at" id="qaEnd" placeholder="e.g. 6:00 PM" onblur="autoFmtTime(this)">
+          <input type="text" class="qa-at" id="qaEnd_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
+          <select id="qaEnd_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
           <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add Staff</button>
         </div>
 
@@ -737,15 +740,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <div class="modal-grid">
       <div>
         <div class="input-label">Start Time</div>
-        <input type="text" id="empStart" placeholder="e.g. 10:00 AM" style="width:100%;" onblur="autoFmtTime(this)">
+        <div style="display:flex;gap:6px;"><input type="text" id="empStart_t" placeholder="H:MM" style="flex:1;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');"><select id="empStart_ap" style="width:64px;padding:9px 4px;"><option>AM</option><option>PM</option></select></div>
       </div>
       <div>
         <div class="input-label">End Time</div>
-        <input type="text" id="empEnd" placeholder="e.g. 6:00 PM" style="width:100%;" onblur="autoFmtTime(this)">
+        <div style="display:flex;gap:6px;"><input type="text" id="empEnd_t" placeholder="H:MM" style="flex:1;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');"><select id="empEnd_ap" style="width:64px;padding:9px 4px;"><option>AM</option><option>PM</option></select></div>
       </div>
       <div>
         <div class="input-label">Break Time</div>
-        <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;" onblur="autoFmtTime(this)">
+        <div style="display:flex;gap:6px;"><input type="text" id="empBreak_t" placeholder="H:MM" style="flex:1;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');"><select id="empBreak_ap" style="width:64px;padding:9px 4px;"><option>AM</option><option>PM</option></select></div>
       </div>
     </div>
 
@@ -1053,28 +1056,58 @@ function saveAll(){
 }
 
 // --- ACTIVATE COACH / GROUPS ---
+function calcCoachWindow(g){
+  const arr=parseTimeToMin(g.arrival);
+  if(arr==null||!g.playtime) return null;
+  const playtime=parseInt(g.playtime)||0;
+  const coachStartMin=arr-15;
+  const playEndMin=arr+playtime;
+  const coachEndMin=playEndMin+(g.hasLounge?60:0)+15;
+  return {coachStart:minToTime(coachStartMin), coachEnd:minToTime(coachEndMin), playEnd:minToTime(playEndMin), totalMin:coachEndMin-coachStartMin};
+}
+function minToTime(m){
+  if(m==null) return '';
+  let h=Math.floor(m/60), mn=m%60;
+  const ap=h>=12?'PM':'AM';
+  if(h>12)h-=12; if(h===0)h=12;
+  return h+':'+(mn<10?'0':'')+mn+' '+ap;
+}
+
 function renderGroups(){
   const list=document.getElementById('groupList');
   const empty=document.getElementById('groupEmpty');
   if(!groupsToday.length){list.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   const coachOptions=['<option value="">-- Assign Coach --</option>',...roster.map(e=>`<option value="${escHtml(e.name)}">${escHtml(e.name)}</option>`)].join('');
-  list.innerHTML=groupsToday.map((g,i)=>`
-    <div class="group-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.2);border-radius:8px;padding:10px 12px;">
-      <input type="text" value="${escHtml(g.name||'')}" placeholder="Group / booking name" onchange="groupsToday[${i}].name=this.value;saveAll();" style="font-weight:600;">
-      <input type="text" value="${escHtml(g.arrival||'')}" placeholder="Arrival time" onblur="groupsToday[${i}].arrival=this.value;saveAll();" onchange="groupsToday[${i}].arrival=this.value;" style="">
-      <input type="number" value="${escHtml(g.headcount||'')}" placeholder="# guests" min="1" onchange="groupsToday[${i}].headcount=this.value;saveAll();" style="">
-      <select onchange="groupsToday[${i}].coach=this.value;saveAll();">
-        ${coachOptions.replace(`value="${escHtml(g.coach||'')}"`,`value="${escHtml(g.coach||'')}" selected`)}
-      </select>
-      <button onclick="groupsToday.splice(${i},1);saveAll();renderGroups();" style="background:transparent;border:1px solid rgba(255,77,109,.3);color:#ff4d6d;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;">&#10005;</button>
-    </div>`).join('');
+  list.innerHTML=groupsToday.map((g,i)=>{
+    const win=calcCoachWindow(g);
+    const windowStr=win?`<div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);margin-top:6px;padding:6px 10px;background:rgba(255,209,102,.08);border-radius:6px;">
+      Coach on from <b>${win.coachStart}</b> to <b>${win.coachEnd}</b> &nbsp;·&nbsp; ${win.totalMin} min total
+      ${g.hasLounge?'&nbsp;·&nbsp; <span style="color:var(--accent3);">+60 min lounge</span>':''}
+    </div>`:'';
+    return `<div class="group-row" style="background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.2);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;">
+        <input type="text" value="${escHtml(g.name||'')}" placeholder="Group / booking name" onchange="groupsToday[${i}].name=this.value;saveAll();" style="font-weight:600;">
+        <input type="text" id="gArr_t_${i}" value="${escHtml((g.arrival||'').replace(/\s*[AaPp][Mm]$/,''))}" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\\s*[AaPp][Mm]$/,'');groupsToday[${i}].arrival=this.value+' '+(document.getElementById('gArr_ap_${i}').value);saveAll();renderGroups();">
+        <select id="gArr_ap_${i}" style="width:58px;padding:9px 4px;" onchange="groupsToday[${i}].arrival=(document.getElementById('gArr_t_${i}').value)+' '+this.value;saveAll();renderGroups();"><option${(g.arrival||'').toUpperCase().includes('PM')?'':' selected'}>AM</option><option${(g.arrival||'').toUpperCase().includes('PM')?' selected':''}>PM</option></select>
+        <input type="number" value="${escHtml(g.playtime||'')}" placeholder="Play (min)" min="1" onchange="groupsToday[${i}].playtime=this.value;saveAll();renderGroups();" title="Playtime in minutes">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gold);cursor:pointer;white-space:nowrap;">
+          <input type="checkbox" ${g.hasLounge?'checked':''} onchange="groupsToday[${i}].hasLounge=this.checked;saveAll();renderGroups();" style="width:auto;accent-color:var(--gold);">
+          Party Lounge
+        </label>
+        <select onchange="groupsToday[${i}].coach=this.value;saveAll();">
+          ${coachOptions.replace(`value="${escHtml(g.coach||'')}"`,`value="${escHtml(g.coach||'')}" selected`)}
+        </select>
+        <button onclick="groupsToday.splice(${i},1);saveAll();renderGroups();" style="background:transparent;border:1px solid rgba(255,77,109,.3);color:#ff4d6d;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;">&#10005;</button>
+      </div>
+      ${windowStr}
+    </div>`;
+  }).join('');
 }
 
 function addGroup(){
-  groupsToday.push({name:'',arrival:'',headcount:'',coach:''});
+  groupsToday.push({name:'',arrival:'',playtime:'',hasLounge:false,headcount:'',coach:''});
   saveAll();renderGroups();
-  // focus the first input of the new row
   setTimeout(()=>{const rows=document.querySelectorAll('.group-row');if(rows.length)rows[rows.length-1].querySelector('input').focus();},50);
 }
 
@@ -1225,16 +1258,16 @@ function quickAdd(){
   const deployment=[{area:area1}];
   if(area2&&at)deployment.push({area:area2,at});
   else if(area2&&!at)deployment.push({area:area2,at:''});
-  const startTime=document.getElementById('qaStart').value.trim();
-  const breakTime=document.getElementById('qaBreak').value.trim();
-  const endTime=document.getElementById('qaEnd').value.trim();
+  const startTime=getTime('qaStart');
+  const breakTime=getTime('qaBreak');
+  const endTime=getTime('qaEnd');
   roster.push({name,shift:qaShift,deployment,startTime,breakTime,endTime});
   document.getElementById('qaName').value='';
   document.getElementById('qaAt').value='';
   document.getElementById('qaArea2').value='';
-  document.getElementById('qaStart').value='';
-  document.getElementById('qaBreak').value='';
-  document.getElementById('qaEnd').value='';
+  document.getElementById('qaStart_t').value='';
+  document.getElementById('qaBreak_t').value='';
+  document.getElementById('qaEnd_t').value='';
   saveAll();renderRoster(roster.length-1);
   document.getElementById('qaName').focus();
 }
@@ -1277,9 +1310,12 @@ function openAddModal(){
   document.getElementById('empName').value='';
   empModalShift='';selectShift('');
   empDeployment=[{area:'Hub'}];renderDeployBuilder();
-  document.getElementById('empStart').value='';
-  document.getElementById('empBreak').value='';
-  document.getElementById('empEnd').value='';
+  document.getElementById('empStart_t').value='';
+  document.getElementById('empStart_ap').value='AM';
+  document.getElementById('empBreak_t').value='';
+  document.getElementById('empBreak_ap').value='AM';
+  document.getElementById('empEnd_t').value='';
+  document.getElementById('empEnd_ap').value='AM';
   document.getElementById('employeeModal').classList.remove('hidden');
   setTimeout(()=>document.getElementById('empName').focus(),100);
 }
@@ -1292,9 +1328,9 @@ function openEditModal(idx){
   empModalShift=e.shift;selectShift(e.shift,true);
   empDeployment=JSON.parse(JSON.stringify(e.deployment||[{area:e.area||'Hub'}]));
   renderDeployBuilder();
-  document.getElementById('empStart').value=e.startTime||'';
-  document.getElementById('empBreak').value=e.breakTime||'';
-  document.getElementById('empEnd').value=e.endTime||'';
+  setTime('empStart',e.startTime||'');
+  setTime('empBreak',e.breakTime||'');
+  setTime('empEnd',e.endTime||'');
   document.getElementById('employeeModal').classList.remove('hidden');
 }
 
@@ -1309,7 +1345,7 @@ function selectShift(val){
 function saveEmployee(){
   const name=document.getElementById('empName').value.trim();
   if(!name){alert('Please enter a name.');return;}
-  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),startTime:document.getElementById('empStart').value.trim(),breakTime:document.getElementById('empBreak').value.trim(),endTime:document.getElementById('empEnd').value.trim()};
+  const emp={name,shift:empModalShift,deployment:JSON.parse(JSON.stringify(empDeployment)),startTime:getTime('empStart'),breakTime:getTime('empBreak'),endTime:getTime('empEnd')};
   const editIdx=document.getElementById('editingId').value;
   let newIdx=-1;
   if(editIdx!=='')roster[parseInt(editIdx)]=emp;else{roster.push(emp);newIdx=roster.length-1;}
@@ -1535,6 +1571,31 @@ applyScheme(activeScheme);
 const LOCATION_ID = 'lexington'; // fallback only; live value is currentLocationId
 const ZONES = ['Lobby','Hub Master','Hub','Flex'];
 let lastCheck = null;
+
+// Time input helpers — each time field is a text input + AM/PM select
+function getTime(id){
+  const t=(document.getElementById(id+'_t')||{}).value||'';
+  const ap=(document.getElementById(id+'_ap')||{}).value||'AM';
+  if(!t.trim()) return '';
+  // strip any existing AM/PM from text part
+  const clean=t.trim().replace(/\s*[AaPp][Mm]$/,'');
+  return clean+' '+ap;
+}
+function setTime(id, val){
+  if(!val){
+    const ti=document.getElementById(id+'_t'); if(ti) ti.value='';
+    return;
+  }
+  const m=String(val).trim().match(/^(\d{1,2}(?::\d{2})?)\s*([AaPp][Mm])?$/);
+  const ti=document.getElementById(id+'_t');
+  const ai=document.getElementById(id+'_ap');
+  if(ti) ti.value=m?m[1]:val;
+  if(ai&&m&&m[2]) ai.value=m[2].toUpperCase();
+}
+function timeInputHTML(id, placeholder){
+  return `<input type="text" id="${id}_t" placeholder="${placeholder||'H:MM'}" style="width:62px;" onblur="document.getElementById('${id}_t').value=document.getElementById('${id}_t').value.trim().replace(/\\s*[AaPp][Mm]$/,'');">
+  <select id="${id}_ap" style="width:58px;padding:9px 4px;"><option>AM</option><option>PM</option></select>`;
+}
 
 function fmtTimeAMPM(val){
   if(!val) return val;
