@@ -50,6 +50,22 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .person-live .p-name{font-weight:700;}
 .zone-empty{color:var(--muted);font-size:clamp(11px,1vw,15px);font-style:italic;padding:4px 0;}
 
+/* ROSTER STRIP */
+.tv-roster{display:flex;flex-wrap:wrap;gap:6px;padding:7px 10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;}
+.tv-roster-label{font-family:'Space Mono',monospace;font-size:clamp(8px,.7vw,10px);color:var(--muted);letter-spacing:2px;text-transform:uppercase;align-self:center;margin-right:6px;white-space:nowrap;}
+.roster-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+.roster-pill.on-now{border-color:var(--accent);box-shadow:0 0 8px rgba(0,255,255,.15);}
+.rp-name{font-size:clamp(11px,1.1vw,16px);font-weight:600;}
+.rp-time{font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);}
+.rp-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 5px var(--accent);animation:pls 1.6s infinite;flex-shrink:0;}
+
+/* COACH STRIP */
+.tv-coaches{display:flex;flex-wrap:wrap;gap:6px;padding:7px 10px;background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.25);border-radius:10px;}
+.tv-coaches-label{font-family:'Space Mono',monospace;font-size:clamp(8px,.7vw,10px);color:var(--gold);letter-spacing:2px;text-transform:uppercase;align-self:center;margin-right:6px;white-space:nowrap;}
+.coach-pill{display:flex;align-items:center;gap:7px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);border-radius:6px;padding:4px 10px;}
+.cp-group{font-size:clamp(10px,1vw,15px);font-weight:700;color:var(--gold);}
+.cp-detail{font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);}
+
 /* FOOTER */
 .tv-foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);padding-top:4px;}
 .fresh-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--z-hub);box-shadow:0 0 6px var(--z-hub);margin-right:6px;vertical-align:middle;}
@@ -166,8 +182,31 @@ function render(st){
     </div>`;
   }).join('');
 
-  const extrasHtml=extras.length?`<div class="tv-extras">Also on shift: ${extras.map(e=>'<b>'+esc(e.name||'')+'</b>'+(timeRange(e)?' ('+esc(timeRange(e))+')':'')).join(', ')}</div>`:'';
-  const annHtml=(st.announcement&&st.announcement.trim())?`<div class="tv-ann"><div class="tv-ann-label">\u{1F4E2} Announcement</div><div class="tv-ann-text">${esc(st.announcement)}</div></div>`:'';
+  const annHtml=(st.announcement&&st.announcement.trim())?`<div class="tv-ann"><div class="tv-ann-label">&#128226; Announcement</div><div class="tv-ann-text">${esc(st.announcement)}</div></div>`:'';
+
+  // Roster strip — all staff sorted by start time
+  const rosterSorted = [...roster].sort((a,b)=>(parseMin(a.startTime)??9999)-(parseMin(b.startTime)??9999));
+  const rosterPills = rosterSorted.map(e=>{
+    const s=parseMin(e.startTime), en=parseMin(e.endTime), now=nowMin();
+    const onNow = s!=null && en!=null && now>=s && now<=en;
+    const times = [e.startTime, e.endTime].filter(Boolean).join(' – ');
+    return `<div class="roster-pill${onNow?' on-now':''}">
+      ${onNow?'<span class="rp-dot"></span>':''}
+      <span class="rp-name">${esc(e.name||'')}</span>
+      ${times?`<span class="rp-time">${esc(times)}</span>`:''}
+    </div>`;
+  }).join('');
+
+  // Coach strip — groups today
+  const groups = Array.isArray(st.groups_today) ? st.groups_today : [];
+  const coachHtml = groups.length ? `<div class="tv-coaches">
+    <span class="tv-coaches-label">Groups Today</span>
+    ${groups.map(g=>`<div class="coach-pill">
+      <span class="cp-group">${esc(g.name||'Group')}</span>
+      <span class="cp-detail">${esc(g.arrival||'')}${g.headcount?' · '+g.headcount+' guests':''}</span>
+      ${g.coach?`<span class="cp-detail">Coach: <b style="color:var(--text)">${esc(g.coach)}</b></span>`:''}
+    </div>`).join('')}
+  </div>` : '';
 
   const ma=minsAgo(st.last_locked_at);
   const stale=ma!=null&&ma>180;
@@ -182,8 +221,9 @@ function render(st){
       </div>
     </div>
     ${annHtml}
+    <div class="tv-roster"><span class="tv-roster-label">Today's Roster</span>${rosterPills}</div>
+    ${coachHtml}
     <div class="tv-zones">${zoneHtml}</div>
-    ${extrasHtml}
     <div class="tv-foot">
       <span>ACTIVATE DEPLOYMENT • BREAK ROOM DISPLAY</span>
       <span><span class="fresh-dot${stale?' fresh-stale':''}"></span>${freshTxt}</span>

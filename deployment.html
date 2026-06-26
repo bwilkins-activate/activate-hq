@@ -522,6 +522,16 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         </div>
       </div>
 
+      <!-- ACTIVATE COACH -->
+      <div class="card" id="coachCard" style="border-color:rgba(255,209,102,.3);background:rgba(255,209,102,.04);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <div class="section-title" style="margin-bottom:0;color:var(--gold);">&#127775; Activate Coach <span style="font-size:12px;font-family:'Space Mono',monospace;font-weight:400;color:var(--muted);">groups &amp; events</span></div>
+          <button class="btn hide-on-view" onclick="addGroup()" style="background:rgba(255,209,102,.15);border:1px solid rgba(255,209,102,.3);color:var(--gold);font-size:12px;padding:6px 12px;">+ Add Group</button>
+        </div>
+        <div id="groupList" style="display:flex;flex-direction:column;gap:10px;"></div>
+        <div id="groupEmpty" style="text-align:center;padding:16px 0;color:var(--muted);font-size:13px;">No groups scheduled today.</div>
+      </div>
+
     </div>
 
   </div>
@@ -996,7 +1006,7 @@ async function activateApp() {
   document.getElementById('syncBar').style.display = 'flex';
   applyRoleUI();
   loadAll();
-  updateHeader(); renderAnnouncement(); renderRoster(); loadAndRenderHuddles();
+  updateHeader(); renderAnnouncement(); renderRoster(); renderGroups(); loadAndRenderHuddles();
   const hdDate=document.getElementById('hd-date'); if(hdDate&&!hdDate.value) hdDate.value=TODAY_STR;
   await loadAllFromSupabase();
 }
@@ -1018,7 +1028,8 @@ const HUDDLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHRXSQ0ND_qY
 let editMode=false, dragSrcIdx=null;
 let empModalShift='', empDeployment=[{area:'Hub'}];
 let qaShift='';
-let roster=[], pastHandoffs=[];
+let roster=[], pastHandoffs=[], groupsToday=[];
+
 let state={announcement:''};
 
 function loadAll(){
@@ -1027,15 +1038,44 @@ function loadAll(){
   const sd=localStorage.getItem('activate_deploy_daily_'+TODAY_STR);
   if(sd){
     state=JSON.parse(sd);
+    groupsToday=state.groups_today||[];
   } else {
     state={announcement:''};
+    groupsToday=[];
   }
-    }
+}
 
 function saveAll(){
+  state.groups_today=groupsToday;
   localStorage.setItem('activate_deploy_roster',JSON.stringify(roster));
   localStorage.setItem('activate_deploy_daily_'+TODAY_STR,JSON.stringify(state));
   syncAllToCloud();
+}
+
+// --- ACTIVATE COACH / GROUPS ---
+function renderGroups(){
+  const list=document.getElementById('groupList');
+  const empty=document.getElementById('groupEmpty');
+  if(!groupsToday.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  const coachOptions=['<option value="">-- Assign Coach --</option>',...roster.map(e=>`<option value="${escHtml(e.name)}">${escHtml(e.name)}</option>`)].join('');
+  list.innerHTML=groupsToday.map((g,i)=>`
+    <div class="group-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.2);border-radius:8px;padding:10px 12px;">
+      <input type="text" value="${escHtml(g.name||'')}" placeholder="Group / booking name" onchange="groupsToday[${i}].name=this.value;saveAll();" style="font-weight:600;">
+      <input type="text" value="${escHtml(g.arrival||'')}" placeholder="Arrival time" onblur="groupsToday[${i}].arrival=this.value;saveAll();" onchange="groupsToday[${i}].arrival=this.value;" style="">
+      <input type="number" value="${escHtml(g.headcount||'')}" placeholder="# guests" min="1" onchange="groupsToday[${i}].headcount=this.value;saveAll();" style="">
+      <select onchange="groupsToday[${i}].coach=this.value;saveAll();">
+        ${coachOptions.replace(`value="${escHtml(g.coach||'')}"`,`value="${escHtml(g.coach||'')}" selected`)}
+      </select>
+      <button onclick="groupsToday.splice(${i},1);saveAll();renderGroups();" style="background:transparent;border:1px solid rgba(255,77,109,.3);color:#ff4d6d;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:13px;">&#10005;</button>
+    </div>`).join('');
+}
+
+function addGroup(){
+  groupsToday.push({name:'',arrival:'',headcount:'',coach:''});
+  saveAll();renderGroups();
+  // focus the first input of the new row
+  setTimeout(()=>{const rows=document.querySelectorAll('.group-row');if(rows.length)rows[rows.length-1].querySelector('input').focus();},50);
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -1594,11 +1634,13 @@ async function confirmLock(){
     shift_date:TODAY_STR, shift_type:shiftType,
     roster_snapshot:roster, announcement:state.announcement||'',
     is_complete:lastCheck.status==='COMPLETE',
-    completeness_score:lastCheck.score, completeness_flags:lastCheck.flags
+    completeness_score:lastCheck.score, completeness_flags:lastCheck.flags,
+    groups_today:groupsToday.filter(g=>g.name)
   };
   const tvRow={
     location_id:locId, location_name:currentLocationName||locId, current_deployment:roster, announcement:state.announcement||'',
-    last_locked_at:nowIso, last_locked_by:lockedBy, shift_date:TODAY_STR, shift_type:shiftType
+    last_locked_at:nowIso, last_locked_by:lockedBy, shift_date:TODAY_STR, shift_type:shiftType,
+    groups_today:groupsToday.filter(g=>g.name)
   };
   let ok=true;
   try{
