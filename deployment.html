@@ -509,11 +509,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
             <option value="Flex">&rarr; Flex</option>
           </select>
           <span class="qa-label">Start:</span>
-          <input type="text" class="qa-at" id="qaStart" placeholder="e.g. 10:00 AM">
+          <input type="text" class="qa-at" id="qaStart" placeholder="e.g. 10:00 AM" onblur="autoFmtTime(this)">
           <span class="qa-label">Break:</span>
-          <input type="text" class="qa-at" id="qaBreak" placeholder="e.g. 1:30 PM">
+          <input type="text" class="qa-at" id="qaBreak" placeholder="e.g. 1:30 PM" onblur="autoFmtTime(this)">
           <span class="qa-label">End:</span>
-          <input type="text" class="qa-at" id="qaEnd" placeholder="e.g. 6:00 PM">
+          <input type="text" class="qa-at" id="qaEnd" placeholder="e.g. 6:00 PM" onblur="autoFmtTime(this)">
           <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add Staff</button>
         </div>
 
@@ -727,15 +727,15 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     <div class="modal-grid">
       <div>
         <div class="input-label">Start Time</div>
-        <input type="text" id="empStart" placeholder="e.g. 10:00 AM" style="width:100%;">
+        <input type="text" id="empStart" placeholder="e.g. 10:00 AM" style="width:100%;" onblur="autoFmtTime(this)">
       </div>
       <div>
         <div class="input-label">End Time</div>
-        <input type="text" id="empEnd" placeholder="e.g. 6:00 PM" style="width:100%;">
+        <input type="text" id="empEnd" placeholder="e.g. 6:00 PM" style="width:100%;" onblur="autoFmtTime(this)">
       </div>
       <div>
         <div class="input-label">Break Time</div>
-        <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;">
+        <input type="text" id="empBreak" placeholder="e.g. 1:30 PM" style="width:100%;" onblur="autoFmtTime(this)">
       </div>
     </div>
 
@@ -1496,6 +1496,23 @@ const LOCATION_ID = 'lexington'; // fallback only; live value is currentLocation
 const ZONES = ['Lobby','Hub Master','Hub','Flex'];
 let lastCheck = null;
 
+function fmtTimeAMPM(val){
+  if(!val) return val;
+  val = val.trim();
+  // already has AM/PM — normalize case
+  if(/[AaPp][Mm]$/.test(val)) return val.replace(/([AaPp][Mm])$/,s=>s.toUpperCase());
+  // bare number like "9" or "14"
+  const bare = val.match(/^(\d{1,2})(?::(\d{2}))?$/);
+  if(bare){
+    let h = parseInt(bare[1],10), m = bare[2]?parseInt(bare[2],10):0;
+    const ampm = h < 12 ? 'AM' : 'PM';
+    if(h > 12) h -= 12;
+    if(h === 0) h = 12;
+    return h + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+  }
+  return val;
+}
+function autoFmtTime(input){ input.value = fmtTimeAMPM(input.value); }
 function parseTimeToMin(t){
   if(!t) return null;
   const m = String(t).trim().match(/^(\d{1,2})(?::(\d{2}))?\s*([AaPp][Mm])?$/);
