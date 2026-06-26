@@ -1402,6 +1402,24 @@ async function submitHuddleInline(){
   try{
     await fetch(HUDDLE_SCRIPT_URL,{method:'POST',body:JSON.stringify(payload),headers:{'Content-Type':'text/plain'}});
   }catch(e){console.warn('Huddle POST error',e);}
+  // also write to Supabase huddle_logs
+  try{
+    const hrow={
+      location_id: currentLocationId||'unknown',
+      location_name: currentLocationName||currentLocationId||'unknown',
+      submitted_by: currentLocationName||currentLocationId||'',
+      shift_date: payload.date||TODAY_STR,
+      shift_type: payload.shift||'',
+      guest_count: parseInt(payload.g_checkins)||null,
+      sections: payload,
+      is_complete: true
+    };
+    await fetch(`${SB_URL}/rest/v1/huddle_logs`,{
+      method:'POST',
+      headers:{...sbHeaders(),'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(hrow)
+    });
+  }catch(e){console.warn('Huddle Supabase write error',e);}
   if(banner){banner.classList.add('show');setTimeout(()=>banner.classList.remove('show'),4000);}
   if(btn){btn.disabled=false;btn.innerHTML='&#9654;&#9654; SAVE HUDDLE';}
   setTimeout(loadAndRenderHuddles, 1800);

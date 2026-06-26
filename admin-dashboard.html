@@ -41,6 +41,8 @@ th{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-tra
 td{padding:12px 14px;border-bottom:1px solid rgba(29,43,120,.5);font-size:13px;vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:rgba(255,255,255,.02);}
+tr.clickable{cursor:pointer;}
+tr.clickable:hover td{background:rgba(0,255,255,.04);}
 
 .badge{padding:3px 8px;border-radius:4px;font-size:10px;font-family:'Space Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
 .badge-cyan{background:rgba(0,255,255,.1);color:var(--accent);border:1px solid rgba(0,255,255,.25);}
@@ -68,6 +70,7 @@ input::placeholder{color:var(--muted);}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,4,30,.75);z-index:200;align-items:center;justify-content:center;padding:24px;}
 .modal-bg.open{display:flex;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:480px;box-shadow:0 24px 60px rgba(0,4,30,.6);}
+.modal-wide{max-width:720px;}
 .modal-title{font-family:'Anton',sans-serif;font-size:20px;letter-spacing:2px;color:var(--accent);margin-bottom:20px;}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
 
@@ -78,8 +81,26 @@ input::placeholder{color:var(--muted);}
 .score-bar{height:6px;border-radius:3px;background:var(--surface2);overflow:hidden;margin-top:4px;}
 .score-fill{height:100%;border-radius:3px;transition:width .4s;}
 
-#loginScreen{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;}
+/* overview location status grid */
+.loc-status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.loc-status-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.loc-status-card.locked{border-color:rgba(168,255,62,.3);background:rgba(168,255,62,.04);}
+.loc-status-card.not-locked{border-color:rgba(255,77,109,.2);background:rgba(255,77,109,.03);}
+.loc-status-name{font-weight:600;font-size:14px;margin-bottom:4px;}
+.loc-status-time{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
 
+/* huddle bar chart */
+.chart-wrap{overflow-x:auto;padding-bottom:4px;}
+.chart-svg{display:block;}
+
+/* huddle detail in modal */
+.huddle-detail-row{display:flex;gap:8px;margin-bottom:6px;font-size:13px;}
+.huddle-detail-label{color:var(--muted);min-width:120px;font-size:11px;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px;padding-top:1px;}
+.huddle-detail-val{color:var(--text);flex:1;}
+.huddle-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.huddle-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+
+#loginScreen{position:fixed;inset:0;background:var(--bg);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;}
 .region-header{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:2px;color:var(--indigo);padding:10px 14px;background:rgba(61,91,242,.06);border-bottom:1px solid var(--border);}
 
 @media(max-width:700px){.form-row{grid-template-columns:1fr;}.card-grid{grid-template-columns:1fr 1fr;}}
@@ -123,6 +144,7 @@ input::placeholder{color:var(--muted);}
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('deploy',this)">Deployment Stats</button>
     <button class="tab-btn" onclick="switchTab('huddles',this)">Huddle Stats</button>
     <button class="tab-btn" onclick="switchTab('locations',this)">Locations</button>
     <button class="tab-btn" onclick="switchTab('users',this)">Users</button>
@@ -133,32 +155,46 @@ input::placeholder{color:var(--muted);}
     <div class="card-grid" id="overviewStats">
       <div class="stat-card"><div class="stat-val" id="statTotal" style="color:var(--accent);">—</div><div class="stat-label">Total Locations</div></div>
       <div class="stat-card"><div class="stat-val" id="statLockedToday" style="color:var(--accent3);">—</div><div class="stat-label">Locked Today</div></div>
-      <div class="stat-card"><div class="stat-val" id="statFillRate" style="color:var(--gold);">—</div><div class="stat-label">Fill Rate (30d)</div></div>
-      <div class="stat-card"><div class="stat-val" id="statAvgScore" style="color:var(--indigo);">—</div><div class="stat-label">Avg Score (30d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="statHuddleRate" style="color:var(--gold);">—</div><div class="stat-label">Huddle Rate (7d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="statFillRate" style="color:var(--indigo);">—</div><div class="stat-label">Deploy Fill Rate (30d)</div></div>
     </div>
 
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="section-title" style="margin:0;">LOCATIONS <span>deployment status</span></div>
+        <div class="section-title" style="margin:0;">TODAY'S STATUS</div>
         <button class="btn btn-ghost btn-sm" onclick="loadOverview()">&#8635; Refresh</button>
       </div>
+      <div class="loc-status-grid" id="locStatusGrid"><div style="color:var(--muted);font-size:13px;">Loading...</div></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title" style="margin-bottom:16px;">REGIONAL ROLLUP <span>last 30 days</span></div>
       <div style="overflow-x:auto;">
         <table>
-          <thead><tr>
-            <th>Location</th><th>Region</th><th>Last Locked</th><th>Shift</th><th>Locked By</th><th>Score</th><th>Status</th><th>30d Fill Rate</th>
-          </tr></thead>
-          <tbody id="overviewTable"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          <thead><tr><th>Region</th><th>Locations</th><th>Locked Today</th><th>Deploy Fill Rate</th><th>Huddle Rate (7d)</th></tr></thead>
+          <tbody id="regionTable"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr></tbody>
         </table>
       </div>
     </div>
+  </div>
 
-    <!-- Regional rollup -->
+  <!-- DEPLOYMENT STATS TAB -->
+  <div id="tab-deploy" class="panel">
+    <div class="card-grid">
+      <div class="stat-card"><div class="stat-val" id="dStatFill" style="color:var(--accent);">—</div><div class="stat-label">Fill Rate (30d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="dStatAvgScore" style="color:var(--accent3);">—</div><div class="stat-label">Avg Score (30d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="dStatToday" style="color:var(--gold);">—</div><div class="stat-label">Locked Today</div></div>
+      <div class="stat-card"><div class="stat-val" id="dStatTotal" style="color:var(--indigo);">—</div><div class="stat-label">Deployments (30d)</div></div>
+    </div>
     <div class="card">
-      <div class="section-title" style="margin-bottom:16px;">REGIONAL ROLLUP</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div class="section-title" style="margin:0;">LOCATION BREAKDOWN <span>deployment logs</span></div>
+        <button class="btn btn-ghost btn-sm" onclick="loadDeploy()">&#8635; Refresh</button>
+      </div>
       <div style="overflow-x:auto;">
         <table>
-          <thead><tr><th>Region</th><th>Locations</th><th>Locked Today</th><th>Avg Score (30d)</th><th>Fill Rate (30d)</th></tr></thead>
-          <tbody id="regionTable"><tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px;">Loading...</td></tr></tbody>
+          <thead><tr><th>Location</th><th>Region</th><th>Last Locked</th><th>Shift</th><th>Locked By</th><th>Score</th><th>Status</th><th>30d Fill Rate</th></tr></thead>
+          <tbody id="deployTable"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:30px;">Loading...</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -167,20 +203,30 @@ input::placeholder{color:var(--muted);}
   <!-- HUDDLE STATS TAB -->
   <div id="tab-huddles" class="panel">
     <div class="card-grid">
-      <div class="stat-card"><div class="stat-val" id="hStatToday" style="color:var(--accent);">—</div><div class="stat-label">Huddles Today</div></div>
-      <div class="stat-card"><div class="stat-val" id="hStat7d" style="color:var(--accent3);">—</div><div class="stat-label">Last 7 Days</div></div>
-      <div class="stat-card"><div class="stat-val" id="hStat30d" style="color:var(--gold);">—</div><div class="stat-label">Last 30 Days</div></div>
-      <div class="stat-card"><div class="stat-val" id="hStatRate" style="color:var(--indigo);">—</div><div class="stat-label">Completion Rate (7d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="hStatTotal30" style="color:var(--accent);">—</div><div class="stat-label">Huddles (30d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="hStatRate7" style="color:var(--accent3);">—</div><div class="stat-label">Completion Rate (7d)</div></div>
+      <div class="stat-card"><div class="stat-val" id="hStatToday" style="color:var(--gold);">—</div><div class="stat-label">Submitted Today</div></div>
+      <div class="stat-card"><div class="stat-val" id="hStatAvgWeek" style="color:var(--indigo);">—</div><div class="stat-label">Avg Per Week</div></div>
     </div>
+
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="section-title" style="margin:0;">HUDDLE COMPLETION <span>per location</span></div>
+        <div class="section-title" style="margin:0;">SUBMISSIONS <span>last 14 days</span></div>
         <button class="btn btn-ghost btn-sm" onclick="loadHuddles()">&#8635; Refresh</button>
+      </div>
+      <div class="chart-wrap" id="huddleChartWrap">
+        <div style="color:var(--muted);font-size:13px;padding:20px 0;">Loading...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div class="section-title" style="margin:0;">BY LOCATION <span>click to see last 10 huddles</span></div>
       </div>
       <div style="overflow-x:auto;">
         <table>
-          <thead><tr><th>Location</th><th>Region</th><th>Today</th><th>Last 7d</th><th>Last 30d</th><th>7d Rate</th></tr></thead>
-          <tbody id="huddleTable"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:30px;">Loading...</td></tr></tbody>
+          <thead><tr><th>Location</th><th>Region</th><th>Today</th><th>This Week</th><th>30 Days</th><th>Last Submitted</th><th>7d Rate</th></tr></thead>
+          <tbody id="huddleTable"><tr><td colspan="7" style="color:var(--muted);text-align:center;padding:30px;">Loading...</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -288,13 +334,24 @@ input::placeholder{color:var(--muted);}
   </div>
 </div>
 
+<!-- HUDDLE DRILL-DOWN MODAL -->
+<div class="modal-bg" id="huddleDrillModal">
+  <div class="modal modal-wide">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div class="modal-title" id="drillTitle" style="margin:0;">HUDDLES</div>
+      <button class="btn btn-ghost btn-sm" onclick="closeDrillModal()">✕ Close</button>
+    </div>
+    <div id="drillContent" style="max-height:70vh;overflow-y:auto;"></div>
+  </div>
+</div>
+
 <script>
 const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
 const SESSION_KEY = 'ag_admin_session';
 let _token = null, _refresh = null, _expiresAt = 0, _adminEmail = '', _adminRole = '';
 
-// --- AUTH ---
+// ── AUTH ──────────────────────────────────────────────────────────────
 async function getToken() {
   const raw = localStorage.getItem(SESSION_KEY);
   if (!raw) return null;
@@ -318,9 +375,7 @@ function saveSession(d, email) {
   localStorage.setItem(SESSION_KEY, JSON.stringify({access_token:_token,refresh_token:_refresh,expires_at:_expiresAt,email:_adminEmail}));
 }
 
-function clearSession() {
-  _token = null; localStorage.removeItem(SESSION_KEY);
-}
+function clearSession() { _token = null; localStorage.removeItem(SESSION_KEY); }
 
 function hdrs() {
   return {'apikey':SB_KEY,'Authorization':'Bearer '+(_token||SB_KEY),'Content-Type':'application/json','Prefer':'return=representation'};
@@ -342,24 +397,18 @@ async function doLogin() {
     saveSession(d, email);
     const pr = await fetch(`${SB_URL}/rest/v1/profiles?id=eq.${d.user.id}&select=*`, {headers:hdrs()});
     const profiles = await pr.json();
-    if (!Array.isArray(profiles)||!profiles.length) { clearSession(); btn.disabled=false; btn.innerHTML='Sign In &rarr;'; showLoginErr('No profile found. Contact IT.'); return; }
+    if (!Array.isArray(profiles)||!profiles.length) { clearSession(); btn.disabled=false; btn.innerHTML='Sign In &rarr;'; showLoginErr('No profile found.'); return; }
     const profile = profiles[0];
     if (!['admin','rd'].includes(profile.role)) { clearSession(); btn.disabled=false; btn.innerHTML='Sign In &rarr;'; showLoginErr('This account does not have admin access.'); return; }
     _adminRole = profile.role;
     document.getElementById('adminEmail').textContent = email;
     document.getElementById('adminBadge').textContent = profile.role.toUpperCase();
     enterApp();
-  } catch(e) { btn.disabled=false; btn.innerHTML='Sign In &rarr;'; showLoginErr('Connection error.'); console.error(e); }
+  } catch(e) { btn.disabled=false; btn.innerHTML='Sign In &rarr;'; showLoginErr('Connection error.'); }
 }
 
-function showLoginErr(msg) {
-  const el = document.getElementById('loginError');
-  el.textContent = msg; el.style.display = 'block';
-}
-
-function doSignOut() {
-  clearSession(); location.reload();
-}
+function showLoginErr(msg) { const el=document.getElementById('loginError'); el.textContent=msg; el.style.display='block'; }
+function doSignOut() { clearSession(); location.reload(); }
 
 function enterApp() {
   document.getElementById('loginScreen').style.display = 'none';
@@ -367,7 +416,6 @@ function enterApp() {
   loadOverview();
   loadLocations();
   loadUsers();
-  loadHuddles();
 }
 
 function switchTab(name, btn) {
@@ -375,72 +423,167 @@ function switchTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
+  if (name === 'deploy') loadDeploy();
+  if (name === 'huddles') loadHuddles();
 }
 
-// --- OVERVIEW ---
+// ── UTILS ─────────────────────────────────────────────────────────────
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso), now = new Date();
+  const diffH = (now-d)/36e5;
+  if (diffH<1) return Math.round(diffH*60)+'m ago';
+  if (diffH<24) return Math.round(diffH)+'h ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function fmtShiftDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso+'T12:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+function dateStr(daysAgo) {
+  const d = new Date(Date.now() - daysAgo*864e5);
+  return d.toISOString().slice(0,10);
+}
+function rateColor(pct) { return pct>=80?'var(--accent3)':pct>=50?'var(--gold)':'var(--accent2)'; }
+
+// ── OVERVIEW ──────────────────────────────────────────────────────────
+let _ovLocations = [], _ovLogs = [], _ovHuddles = [];
+
 async function loadOverview() {
-  const today = new Date().toISOString().slice(0,10);
-  const thirtyAgo = new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  const today = dateStr(0), sevenAgo = dateStr(7), thirtyAgo = dateStr(30);
+  const [locs, logs, huddles] = await Promise.all([
+    fetch(`${SB_URL}/rest/v1/locations?order=name&select=*`, {headers:hdrs()}).then(r=>r.json()),
+    fetch(`${SB_URL}/rest/v1/deployment_logs?shift_date=gte.${thirtyAgo}&select=location_id,shift_date,locked_at,shift_type,locked_by,completeness_score&limit=2000`, {headers:hdrs()}).then(r=>r.json()),
+    fetch(`${SB_URL}/rest/v1/huddle_logs?shift_date=gte.${sevenAgo}&select=location_id,shift_date,submitted_at&limit=2000`, {headers:hdrs()}).then(r=>r.json()),
+  ]);
+  if (!Array.isArray(locs)||!Array.isArray(logs)) return;
+  _ovLocations = locs; _ovLogs = logs; _ovHuddles = Array.isArray(huddles)?huddles:[];
 
-  // fetch all locations
-  const lr = await fetch(`${SB_URL}/rest/v1/locations?order=name&select=*`, {headers:hdrs()});
-  const locations = await lr.json();
+  const totalLocs = locs.length;
+  const activeLocs = locs.filter(l=>l.active);
+  const lockedToday = new Set(logs.filter(l=>l.shift_date===today).map(l=>l.location_id)).size;
 
-  // fetch deployment_logs last 30d
-  const dr = await fetch(`${SB_URL}/rest/v1/deployment_logs?shift_date=gte.${thirtyAgo}&order=locked_at.desc&select=*&limit=2000`, {headers:hdrs()});
-  const logs = await dr.json();
+  // fill rate (30d, active locs)
+  const locLogMap = {};
+  locs.forEach(l=>{locLogMap[l.id]={loc:l,days:new Set(),lastLog:null};});
+  logs.forEach(lg=>{
+    if(locLogMap[lg.location_id]){
+      locLogMap[lg.location_id].days.add(lg.shift_date);
+      if(!locLogMap[lg.location_id].lastLog) locLogMap[lg.location_id].lastLog=lg;
+    }
+  });
+  const totalExpected = activeLocs.length * 30;
+  const totalFilled = Object.values(locLogMap).filter(v=>v.loc.active).reduce((s,v)=>s+v.days.size,0);
+  const fillRate = totalExpected ? Math.round(totalFilled/totalExpected*100) : 0;
 
-  if (!Array.isArray(locations)||!Array.isArray(logs)) return;
+  // huddle rate (7d, active locs)
+  const huddleDays = new Set(_ovHuddles.map(h=>h.shift_date)).size || 7;
+  const huddleExpected = activeLocs.length * Math.min(huddleDays, 7);
+  const huddleActual = _ovHuddles.length;
+  const huddleRate = huddleExpected ? Math.round(huddleActual/huddleExpected*100) : 0;
 
-  // per-location stats
+  document.getElementById('statTotal').textContent = totalLocs;
+  document.getElementById('statLockedToday').textContent = lockedToday+' / '+activeLocs.length;
+  document.getElementById('statHuddleRate').textContent = huddleRate+'%';
+  document.getElementById('statFillRate').textContent = fillRate+'%';
+
+  // today's status grid
+  const grid = document.getElementById('locStatusGrid');
+  const todayLogs = logs.filter(l=>l.shift_date===today);
+  const todayLocIds = new Set(todayLogs.map(l=>l.location_id));
+  grid.innerHTML = locs.map(loc=>{
+    const locked = todayLocIds.has(loc.id);
+    const log = todayLogs.find(l=>l.location_id===loc.id);
+    return `<div class="loc-status-card ${locked?'locked':'not-locked'}">
+      <div class="loc-status-name">${esc(loc.name)}</div>
+      <div class="loc-status-time">
+        ${locked
+          ? `<span style="color:var(--accent3);">&#10003; LOCKED</span>${log?.shift_type?` &middot; ${esc(log.shift_type)}`:''}${log?.locked_at?` &middot; ${fmtDate(log.locked_at)}`:''}`
+          : `<span style="color:var(--accent2);">Not locked today</span>`}
+      </div>
+    </div>`;
+  }).join('');
+
+  // regional rollup
+  const regions = {};
+  locs.forEach(loc=>{
+    const reg = loc.region||'Unassigned';
+    if(!regions[reg]) regions[reg]={locs:0,active:0,lockedToday:0,deployDays:new Set(),expected:0,huddleCount:0,hExpected:0};
+    regions[reg].locs++;
+    if(loc.active){
+      regions[reg].active++;
+      regions[reg].expected+=30;
+      regions[reg].hExpected+=7;
+      if(todayLocIds.has(loc.id)) regions[reg].lockedToday++;
+    }
+  });
+  logs.forEach(lg=>{
+    const reg = locs.find(l=>l.id===lg.location_id)?.region||'Unassigned';
+    if(regions[reg]) regions[reg].deployDays.add(lg.location_id+'|'+lg.shift_date);
+  });
+  _ovHuddles.forEach(h=>{
+    const reg = locs.find(l=>l.id===h.location_id)?.region||'Unassigned';
+    if(regions[reg]) regions[reg].huddleCount++;
+  });
+
+  document.getElementById('regionTable').innerHTML = Object.entries(regions).sort().map(([reg,r])=>{
+    const fillPct = r.expected ? Math.round(r.deployDays.size/r.expected*100) : 0;
+    const hPct = r.hExpected ? Math.round(r.huddleCount/r.hExpected*100) : 0;
+    return `<tr>
+      <td style="font-weight:600;">${esc(reg)}</td>
+      <td>${r.locs}</td>
+      <td style="color:${r.lockedToday===r.active?'var(--accent3)':'var(--gold)'};">${r.lockedToday} / ${r.active}</td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:12px;color:${rateColor(fillPct)};">${fillPct}%</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:12px;color:${rateColor(hPct)};">${hPct}%</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── DEPLOYMENT STATS ──────────────────────────────────────────────────
+async function loadDeploy() {
+  const today = dateStr(0), thirtyAgo = dateStr(30);
+  const [locs, logs] = await Promise.all([
+    fetch(`${SB_URL}/rest/v1/locations?order=name&select=*`, {headers:hdrs()}).then(r=>r.json()),
+    fetch(`${SB_URL}/rest/v1/deployment_logs?shift_date=gte.${thirtyAgo}&order=locked_at.desc&select=*&limit=2000`, {headers:hdrs()}).then(r=>r.json()),
+  ]);
+  if (!Array.isArray(locs)||!Array.isArray(logs)) return;
+
+  const lockedToday = new Set(logs.filter(l=>l.shift_date===today).map(l=>l.location_id)).size;
+  const allScores = logs.filter(l=>l.completeness_score!=null).map(l=>l.completeness_score);
+  const avgScore = allScores.length ? Math.round(allScores.reduce((a,b)=>a+b,0)/allScores.length) : 0;
+  const activeLocs = locs.filter(l=>l.active);
+  const totalExpected = activeLocs.length * 30;
+  const filledDays = new Set(logs.filter(l=>activeLocs.find(loc=>loc.id===l.location_id)).map(l=>l.location_id+'|'+l.shift_date)).size;
+  const fillRate = totalExpected ? Math.round(filledDays/totalExpected*100) : 0;
+
+  document.getElementById('dStatFill').textContent = fillRate+'%';
+  document.getElementById('dStatAvgScore').textContent = avgScore||'—';
+  document.getElementById('dStatToday').textContent = lockedToday;
+  document.getElementById('dStatTotal').textContent = logs.length;
+
   const locMap = {};
-  locations.forEach(l => { locMap[l.id] = {loc:l, logs:[], lastLog:null}; });
-  logs.forEach(log => {
-    if (locMap[log.location_id]) {
-      locMap[log.location_id].logs.push(log);
-      if (!locMap[log.location_id].lastLog) locMap[log.location_id].lastLog = log;
+  locs.forEach(l=>{locMap[l.id]={loc:l,logs:[],lastLog:null};});
+  logs.forEach(lg=>{
+    if(locMap[lg.location_id]){
+      locMap[lg.location_id].logs.push(lg);
+      if(!locMap[lg.location_id].lastLog) locMap[lg.location_id].lastLog=lg;
     }
   });
 
-  // top stats
-  const totalLocs = locations.length;
-  const lockedToday = Object.values(locMap).filter(v => v.lastLog && v.lastLog.shift_date === today).length;
-  const allScores = logs.filter(l=>l.completeness_score!=null).map(l=>l.completeness_score);
-  const avgScore = allScores.length ? Math.round(allScores.reduce((a,b)=>a+b,0)/allScores.length) : 0;
-
-  // fill rate: % of days (last 30) that each active location locked
-  let totalExpected = 0, totalLocked = 0;
-  const days30 = 30;
-  Object.values(locMap).forEach(v => {
-    if (!v.loc.active) return;
-    totalExpected += days30;
-    const uniqueDays = new Set(v.logs.map(l=>l.shift_date)).size;
-    totalLocked += uniqueDays;
-  });
-  const fillRate = totalExpected ? Math.round(totalLocked/totalExpected*100) : 0;
-
-  document.getElementById('statTotal').textContent = totalLocs;
-  document.getElementById('statLockedToday').textContent = lockedToday;
-  document.getElementById('statFillRate').textContent = fillRate+'%';
-  document.getElementById('statAvgScore').textContent = avgScore;
-
-  // location table
-  const tbody = document.getElementById('overviewTable');
-  tbody.innerHTML = Object.values(locMap).sort((a,b)=>a.loc.name.localeCompare(b.loc.name)).map(v => {
+  document.getElementById('deployTable').innerHTML = Object.values(locMap).sort((a,b)=>a.loc.name.localeCompare(b.loc.name)).map(v=>{
     const last = v.lastLog;
     const sc = last?.completeness_score;
-    const status = sc==null ? 'NOT LOCKED' : sc<60 ? 'INCOMPLETE' : sc<90 ? 'PARTIAL' : 'COMPLETE';
+    const status = sc==null?'NOT LOCKED':sc<60?'INCOMPLETE':sc<90?'PARTIAL':'COMPLETE';
     const statusClass = {COMPLETE:'badge-green',PARTIAL:'badge-gold',INCOMPLETE:'badge-red','NOT LOCKED':'badge-muted'}[status];
-    const lastTime = last ? fmtDate(last.locked_at) : '<span style="color:var(--muted)">Never</span>';
     const uniqueDays = new Set(v.logs.map(l=>l.shift_date)).size;
-    const locFill = Math.round(uniqueDays/days30*100);
-    const scores = v.logs.filter(l=>l.completeness_score!=null).map(l=>l.completeness_score);
-    const locAvg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
-    const fillColor = locFill>=80?'var(--accent3)':locFill>=50?'var(--gold)':'var(--accent2)';
+    const locFill = Math.round(uniqueDays/30*100);
+    const fillColor = rateColor(locFill);
     return `<tr>
       <td style="font-weight:600;">${esc(v.loc.name)}</td>
       <td><span style="color:var(--muted);font-size:12px;">${esc(v.loc.region||'—')}</span></td>
-      <td style="font-family:'Space Mono',monospace;font-size:11px;">${lastTime}</td>
+      <td style="font-family:'Space Mono',monospace;font-size:11px;">${fmtDate(last?.locked_at)}</td>
       <td>${last?.shift_type?`<span class="badge badge-cyan">${esc(last.shift_type)}</span>`:'<span style="color:var(--muted)">—</span>'}</td>
       <td style="font-size:12px;color:var(--muted);">${esc(last?.locked_by||'—')}</td>
       <td>
@@ -454,82 +597,129 @@ async function loadOverview() {
       </td>
     </tr>`;
   }).join('');
-
-  // regional rollup
-  const regions = {};
-  Object.values(locMap).forEach(v => {
-    const reg = v.loc.region || 'Unassigned';
-    if (!regions[reg]) regions[reg] = {locs:0,lockedToday:0,scores:[],days:new Set(),expected:0};
-    regions[reg].locs++;
-    if (v.loc.active) {
-      regions[reg].expected += days30;
-      v.logs.forEach(l => { regions[reg].days.add(l.shift_date); if(l.completeness_score!=null) regions[reg].scores.push(l.completeness_score); });
-      if (v.lastLog?.shift_date===today) regions[reg].lockedToday++;
-    }
-  });
-
-  document.getElementById('regionTable').innerHTML = Object.entries(regions).sort().map(([reg,r]) => {
-    const avg = r.scores.length ? Math.round(r.scores.reduce((a,b)=>a+b,0)/r.scores.length) : 0;
-    const fill = r.expected ? Math.round(r.days.size/r.expected*100*r.locs) : 0;
-    return `<tr>
-      <td style="font-weight:600;">${esc(reg)}</td>
-      <td>${r.locs}</td>
-      <td style="color:${r.lockedToday===r.locs?'var(--accent3)':'var(--gold)'};">${r.lockedToday} / ${r.locs}</td>
-      <td><span style="font-family:'Anton',sans-serif;font-size:18px;color:${avg>=90?'var(--accent3)':avg>=60?'var(--gold)':'var(--accent2)'};">${avg||'—'}</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:12px;color:${fill>=80?'var(--accent3)':fill>=50?'var(--gold)':'var(--accent2)'};">${fill}%</span></td>
-    </tr>`;
-  }).join('');
 }
 
-// --- HUDDLE STATS ---
+// ── HUDDLE STATS ──────────────────────────────────────────────────────
+let _huddleLogs = [], _huddleLocs = [];
+
 async function loadHuddles() {
-  const today = new Date().toISOString().slice(0,10);
-  const sevenAgo = new Date(Date.now()-7*864e5).toISOString().slice(0,10);
-  const thirtyAgo = new Date(Date.now()-30*864e5).toISOString().slice(0,10);
-
-  const [lr, dr] = await Promise.all([
+  const today = dateStr(0), sevenAgo = dateStr(7), thirtyAgo = dateStr(30), fourteenAgo = dateStr(14);
+  const [locs, huddles] = await Promise.all([
     fetch(`${SB_URL}/rest/v1/locations?order=name&select=*`, {headers:hdrs()}).then(r=>r.json()),
-    fetch(`${SB_URL}/rest/v1/deployment_logs?shift_date=gte.${thirtyAgo}&select=location_id,shift_date,shift_type,huddle_submitted,locked_at&limit=2000`, {headers:hdrs()}).then(r=>r.json())
+    fetch(`${SB_URL}/rest/v1/huddle_logs?shift_date=gte.${thirtyAgo}&order=submitted_at.desc&select=*&limit=2000`, {headers:hdrs()}).then(r=>r.json()),
   ]);
+  if (!Array.isArray(locs)||!Array.isArray(huddles)) return;
+  _huddleLogs = huddles; _huddleLocs = locs;
 
-  if (!Array.isArray(lr)||!Array.isArray(dr)) return;
+  const activeLocs = locs.filter(l=>l.active);
+  const total30 = huddles.length;
+  const today_h = huddles.filter(h=>h.shift_date===today).length;
+  const seven_h = huddles.filter(h=>h.shift_date>=sevenAgo);
+  const hRate = activeLocs.length ? Math.round(seven_h.length/(activeLocs.length*7)*100) : 0;
+  const avgWeek = Math.round(total30/4.3*10)/10;
 
-  // huddle_submitted flag may not exist yet — fall back to checking huddle_score or just count
-  // For now use deployment_logs rows as proxy (one deployment = one potential huddle)
-  const todayLogs = dr.filter(l=>l.shift_date===today);
-  const sevenLogs = dr.filter(l=>l.shift_date>=sevenAgo);
+  document.getElementById('hStatTotal30').textContent = total30;
+  document.getElementById('hStatRate7').textContent = hRate+'%';
+  document.getElementById('hStatToday').textContent = today_h;
+  document.getElementById('hStatAvgWeek').textContent = avgWeek||'—';
 
-  document.getElementById('hStatToday').textContent = todayLogs.length;
-  document.getElementById('hStat7d').textContent = sevenLogs.length;
-  document.getElementById('hStat30d').textContent = dr.length;
+  // bar chart: last 14 days
+  const days = Array.from({length:14},(_,i)=>dateStr(13-i));
+  const counts = days.map(d=>huddles.filter(h=>h.shift_date===d).length);
+  const maxCount = Math.max(...counts, 1);
+  const chartW = Math.max(600, days.length * 46);
+  const barW = 32, barGap = 14, chartH = 140, labelH = 36, padL = 36, padT = 10;
+  const scaleH = chartH - padT;
 
-  // completion rate: huddles completed / shifts locked (proxy until huddle_submitted column exists)
-  const rate = dr.length ? '100%' : '—';
-  document.getElementById('hStatRate').textContent = rate;
+  const bars = days.map((d, i)=>{
+    const x = padL + i*(barW+barGap);
+    const count = counts[i];
+    const barH = Math.max(2, Math.round(count/maxCount*scaleH));
+    const y = padT + scaleH - barH;
+    const isToday = d === today;
+    const color = isToday ? 'var(--accent)' : count===0 ? 'rgba(136,147,201,.2)' : `rgba(0,255,255,${0.3+0.5*(count/maxCount)})`;
+    const label = new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
+    return `
+      <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="4" fill="${color}"/>
+      ${count>0?`<text x="${x+barW/2}" y="${y-4}" text-anchor="middle" fill="var(--text)" font-size="11" font-family="Space Mono,monospace">${count}</text>`:''}
+      <text x="${x+barW/2}" y="${chartH+labelH-18}" text-anchor="middle" fill="${isToday?'var(--accent)':'var(--muted)'}" font-size="10" font-family="Space Grotesk,sans-serif">${label}</text>
+      ${isToday?`<text x="${x+barW/2}" y="${chartH+labelH-4}" text-anchor="middle" fill="var(--accent)" font-size="8" font-family="Space Mono,monospace">TODAY</text>`:''}
+    `;
+  }).join('');
 
+  // y-axis ticks
+  const ticks = [0, Math.ceil(maxCount/2), maxCount].map(v=>{
+    const y = padT + scaleH - Math.round(v/maxCount*scaleH);
+    return `<text x="${padL-6}" y="${y+4}" text-anchor="end" fill="var(--muted)" font-size="9" font-family="Space Mono,monospace">${v}</text>
+    <line x1="${padL-2}" y1="${y}" x2="${padL + days.length*(barW+barGap)}" y2="${y}" stroke="rgba(29,43,120,.5)" stroke-width="1"/>`;
+  }).join('');
+
+  document.getElementById('huddleChartWrap').innerHTML =
+    `<svg class="chart-svg" width="${chartW}" height="${chartH+labelH}" viewBox="0 0 ${chartW} ${chartH+labelH}">${ticks}${bars}</svg>`;
+
+  // per-location table
   const locMap = {};
-  lr.forEach(l => { locMap[l.id] = {loc:l, today:0, seven:0, thirty:0}; });
-  dr.forEach(log => {
-    if (!locMap[log.location_id]) return;
-    locMap[log.location_id].thirty++;
-    if (log.shift_date >= sevenAgo) locMap[log.location_id].seven++;
-    if (log.shift_date === today) locMap[log.location_id].today++;
+  locs.forEach(l=>{locMap[l.id]={loc:l,today:0,seven:0,thirty:0,last:null};});
+  huddles.forEach(h=>{
+    if(!locMap[h.location_id]) return;
+    locMap[h.location_id].thirty++;
+    if(h.shift_date>=sevenAgo) locMap[h.location_id].seven++;
+    if(h.shift_date===today) locMap[h.location_id].today++;
+    if(!locMap[h.location_id].last) locMap[h.location_id].last=h;
   });
 
-  document.getElementById('huddleTable').innerHTML = Object.values(locMap).sort((a,b)=>a.loc.name.localeCompare(b.loc.name)).map(v => {
-    const rate7 = v.seven>0 ? '100%' : '—';
-    return `<tr>
-      <td style="font-weight:600;">${esc(v.loc.name)}</td>
+  document.getElementById('huddleTable').innerHTML = Object.values(locMap).sort((a,b)=>a.loc.name.localeCompare(b.loc.name)).map(v=>{
+    const rate7 = Math.round(v.seven/(7)*100);
+    const rColor = rateColor(rate7);
+    return `<tr class="clickable" onclick="openDrillModal('${esc(v.loc.id)}','${esc(v.loc.name)}')">
+      <td style="font-weight:600;">${esc(v.loc.name)} <span style="color:var(--muted);font-size:11px;">→</span></td>
       <td style="color:var(--muted);font-size:12px;">${esc(v.loc.region||'—')}</td>
       <td style="color:${v.today>0?'var(--accent3)':'var(--muted)'};">${v.today||'—'}</td>
       <td>${v.seven||'—'}</td>
       <td>${v.thirty||'—'}</td>
-      <td style="color:var(--accent3);font-family:'Space Mono',monospace;font-size:12px;">${rate7}</td>
+      <td style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">${v.last?fmtDate(v.last.submitted_at):'Never'}</td>
+      <td>
+        <span style="font-family:'Space Mono',monospace;font-size:12px;color:${rColor};">${v.seven>0?rate7+'%':'—'}</span>
+        ${v.seven>0?`<div class="score-bar" style="width:50px;margin-top:4px;"><div class="score-fill" style="width:${Math.min(rate7,100)}%;background:${rColor};"></div></div>`:''}
+      </td>
     </tr>`;
   }).join('');
 }
 
-// --- LOCATIONS ---
+function openDrillModal(locId, locName) {
+  const h10 = _huddleLogs.filter(h=>h.location_id===locId).slice(0,10);
+  document.getElementById('drillTitle').textContent = locName.toUpperCase() + ' — LAST 10 HUDDLES';
+  if (!h10.length) {
+    document.getElementById('drillContent').innerHTML = '<div style="color:var(--muted);text-align:center;padding:30px;">No huddles submitted yet.</div>';
+  } else {
+    document.getElementById('drillContent').innerHTML = h10.map(h=>{
+      const s = h.sections||{};
+      const rows = [
+        ['Manager', s.manager||h.submitted_by||'—'],
+        ['Shift', h.shift_type||s.shift||'—'],
+        ['Check-ins', s.g_checkins||'—'],
+        ['Booked', s.g_booked||'—'],
+        ['Last Booking', s.g_lastbooking||'—'],
+        ['Party?', s.party_yn||'—'],
+        ['Promos', [s.promo1,s.promo2,s.promo3].filter(Boolean).join(', ')||'—'],
+        ['Shoutout', s.ss_shoutout||'—'],
+        ['Notes', s.ss_notes||'—'],
+      ].filter(([,v])=>v&&v!=='—');
+      return `<div class="huddle-card">
+        <div class="huddle-card-header">
+          <span style="font-family:'Anton',sans-serif;font-size:16px;letter-spacing:1px;">${fmtShiftDate(h.shift_date)}</span>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);">${fmtDate(h.submitted_at)}</span>
+        </div>
+        ${rows.map(([l,v])=>`<div class="huddle-detail-row"><div class="huddle-detail-label">${esc(l)}</div><div class="huddle-detail-val">${esc(String(v))}</div></div>`).join('')}
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('huddleDrillModal').classList.add('open');
+}
+
+function closeDrillModal() { document.getElementById('huddleDrillModal').classList.remove('open'); }
+
+// ── LOCATIONS ─────────────────────────────────────────────────────────
 let allLocations = [];
 async function loadLocations() {
   const r = await fetch(`${SB_URL}/rest/v1/locations?order=name&select=*`, {headers:hdrs()});
@@ -537,19 +727,18 @@ async function loadLocations() {
   if (!Array.isArray(allLocations)) { allLocations=[]; return; }
   document.getElementById('locCount').textContent = allLocations.length + ' total';
   renderLocTable();
-  // populate location dropdowns
   const sel = document.getElementById('uLocation');
   sel.innerHTML = '<option value="">— None —</option>' + allLocations.map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join('');
 }
 
 function renderLocTable() {
-  document.getElementById('locTable').innerHTML = allLocations.map(l => `<tr>
+  document.getElementById('locTable').innerHTML = allLocations.map(l=>`<tr>
     <td style="font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);">${esc(l.id)}</td>
     <td style="font-weight:600;">${esc(l.name)}</td>
     <td>${esc(l.region||'—')}</td>
     <td><span class="badge ${l.active?'badge-green':'badge-muted'}">${l.active?'ACTIVE':'INACTIVE'}</span></td>
     <td style="display:flex;gap:8px;">
-      <button class="btn btn-ghost btn-sm" onclick="editLoc('${esc(l.id)}')">Edit</button>
+      <button class="btn btn-ghost btn-sm" onclick="openLocModal('${esc(l.id)}')">Edit</button>
       <button class="btn ${l.active?'btn-danger':'btn-ghost'} btn-sm" onclick="toggleLoc('${esc(l.id)}',${!l.active})">${l.active?'Deactivate':'Activate'}</button>
     </td>
   </tr>`).join('');
@@ -557,17 +746,16 @@ function renderLocTable() {
 
 let editingLocId = null;
 function openLocModal(id) {
-  editingLocId = id || null;
+  editingLocId = id||null;
   const loc = id ? allLocations.find(l=>l.id===id) : null;
   document.getElementById('locModalTitle').textContent = id ? 'EDIT LOCATION' : 'ADD LOCATION';
-  document.getElementById('locId').value = loc?.id || '';
+  document.getElementById('locId').value = loc?.id||'';
   document.getElementById('locId').disabled = !!id;
-  document.getElementById('locName').value = loc?.name || '';
-  document.getElementById('locRegion').value = loc?.region || '';
+  document.getElementById('locName').value = loc?.name||'';
+  document.getElementById('locRegion').value = loc?.region||'';
   document.getElementById('locModalError').style.display = 'none';
   document.getElementById('locModal').classList.add('open');
 }
-
 function closeLocModal() { document.getElementById('locModal').classList.remove('open'); }
 
 async function saveLocation() {
@@ -575,28 +763,24 @@ async function saveLocation() {
   const name = document.getElementById('locName').value.trim();
   const region = document.getElementById('locRegion').value.trim();
   if (!id||!name) { document.getElementById('locModalError').textContent='ID and Name required.'; document.getElementById('locModalError').style.display='block'; return; }
-  const btn = document.getElementById('locSaveBtn');
-  btn.disabled=true; btn.textContent='Saving...';
-  const body = {id, name, region:region||null, active:true};
+  const btn = document.getElementById('locSaveBtn'); btn.disabled=true; btn.textContent='Saving...';
   let r;
   if (editingLocId) {
     r = await fetch(`${SB_URL}/rest/v1/locations?id=eq.${editingLocId}`, {method:'PATCH',headers:hdrs(),body:JSON.stringify({name,region:region||null})});
   } else {
-    r = await fetch(`${SB_URL}/rest/v1/locations`, {method:'POST',headers:hdrs(),body:JSON.stringify(body)});
+    r = await fetch(`${SB_URL}/rest/v1/locations`, {method:'POST',headers:hdrs(),body:JSON.stringify({id,name,region:region||null,active:true})});
   }
   btn.disabled=false; btn.textContent='Save Location';
   if (r.ok) { closeLocModal(); await loadLocations(); }
   else { const e=await r.json(); document.getElementById('locModalError').textContent=e.message||'Save failed.'; document.getElementById('locModalError').style.display='block'; }
 }
 
-async function editLoc(id) { openLocModal(id); }
-
 async function toggleLoc(id, active) {
   await fetch(`${SB_URL}/rest/v1/locations?id=eq.${id}`, {method:'PATCH',headers:hdrs(),body:JSON.stringify({active})});
   await loadLocations();
 }
 
-// --- USERS ---
+// ── USERS ─────────────────────────────────────────────────────────────
 let allUsers = [];
 async function loadUsers() {
   const r = await fetch(`${SB_URL}/rest/v1/profiles?order=created_at.desc&select=*`, {headers:hdrs()});
@@ -607,8 +791,8 @@ async function loadUsers() {
 }
 
 function renderUserTable() {
-  const roleColors = {admin:'badge-cyan',rd:'badge-purple',gm:'badge-gold',manager:'badge-green',agent:'badge-muted'};
-  document.getElementById('userTable').innerHTML = allUsers.map(u => `<tr>
+  const roleColors = {admin:'badge-cyan',rd:'badge-gold',gm:'badge-gold',manager:'badge-green',agent:'badge-muted'};
+  document.getElementById('userTable').innerHTML = allUsers.map(u=>`<tr>
     <td style="font-family:'Space Mono',monospace;font-size:12px;">${esc(u.email||'—')}</td>
     <td>${esc(u.full_name||'—')}</td>
     <td><span class="badge ${roleColors[u.role]||'badge-muted'}">${esc(u.role)}</span></td>
@@ -623,9 +807,7 @@ function updateLocField() {
 }
 
 function openUserModal() {
-  document.getElementById('uUUID').value='';
-  document.getElementById('uEmail').value='';
-  document.getElementById('uName').value='';
+  ['uUUID','uEmail','uName'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('uRole').value='manager';
   document.getElementById('uLocation').value='';
   document.getElementById('userModalError').style.display='none';
@@ -635,7 +817,6 @@ function openUserModal() {
   updateLocField();
   document.getElementById('userModal').classList.add('open');
 }
-
 function closeUserModal() { document.getElementById('userModal').classList.remove('open'); }
 
 async function saveUser() {
@@ -647,57 +828,43 @@ async function saveUser() {
   const locName = locId ? (allLocations.find(l=>l.id===locId)?.name||locId) : null;
   if (!uuid) { showUserErr('Paste the UUID from Supabase.'); return; }
   if (!email) { showUserErr('Email is required.'); return; }
-  if (!/^[0-9a-f-]{36}$/.test(uuid)) { showUserErr('UUID format looks wrong — copy it directly from Supabase.'); return; }
+  if (!/^[0-9a-f-]{36}$/.test(uuid)) { showUserErr('UUID format looks wrong.'); return; }
   if (['manager','gm'].includes(role)&&!locId) { showUserErr('Select a location for this role.'); return; }
-  const btn = document.getElementById('userSaveBtn');
-  btn.disabled=true; btn.textContent='Saving...';
+  const btn = document.getElementById('userSaveBtn'); btn.disabled=true; btn.textContent='Saving...';
   try {
     const pr = await fetch(`${SB_URL}/rest/v1/profiles`, {
       method:'POST', headers:hdrs(),
       body:JSON.stringify({id:uuid,role,location_id:locId||null,location_name:locName,full_name:name||null,email})
     });
-    if (!pr.ok) { btn.disabled=false; btn.textContent='Create User'; const e=await pr.json(); showUserErr(e.message||'Profile insert failed — UUID may already exist.'); return; }
-    document.getElementById('userModalSuccess').textContent = `User ${email} added successfully.`;
+    if (!pr.ok) { btn.disabled=false; btn.textContent='Create User'; const e=await pr.json(); showUserErr(e.message||'Profile insert failed.'); return; }
+    document.getElementById('userModalSuccess').textContent=`User ${email} added.`;
     document.getElementById('userModalSuccess').style.display='block';
     btn.textContent='Saved!';
     await loadUsers();
     setTimeout(closeUserModal, 1500);
-  } catch(e) { btn.disabled=false; btn.textContent='Create User'; showUserErr('Connection error.'); console.error(e); }
+  } catch(e) { btn.disabled=false; btn.textContent='Create User'; showUserErr('Connection error.'); }
 }
 
 async function deleteUser(id) {
-  if (!confirm('Remove this user profile? They will lose access to the app.')) return;
+  if (!confirm('Remove this user profile? They will lose access.')) return;
   await fetch(`${SB_URL}/rest/v1/profiles?id=eq.${id}`, {method:'DELETE',headers:hdrs()});
   await loadUsers();
 }
 
-function showUserErr(msg) {
-  const el=document.getElementById('userModalError'); el.textContent=msg; el.style.display='block';
-}
+function showUserErr(msg) { const el=document.getElementById('userModalError'); el.textContent=msg; el.style.display='block'; }
 
-// --- UTILS ---
-function fmtDate(iso) {
-  if (!iso) return '—';
-  const d = new Date(iso);
-  const now = new Date();
-  const diffH = (now-d)/36e5;
-  if (diffH<1) return Math.round(diffH*60)+'m ago';
-  if (diffH<24) return Math.round(diffH)+'h ago';
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
-}
+// modal backdrop close
+['locModal','userModal','huddleDrillModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');}});
+});
 
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-// close modals on backdrop click
-document.getElementById('locModal').addEventListener('click', function(e){if(e.target===this)closeLocModal();});
-document.getElementById('userModal').addEventListener('click', function(e){if(e.target===this)closeUserModal();});
-
-// --- BOOT ---
+// ── BOOT ──────────────────────────────────────────────────────────────
 (async function boot() {
   const token = await getToken();
   if (token) {
     try {
-      const pr = await fetch(`${SB_URL}/rest/v1/profiles?id=eq.${JSON.parse(atob(_token.split('.')[1])).sub}&select=*`, {headers:hdrs()});
+      const sub = JSON.parse(atob(_token.split('.')[1])).sub;
+      const pr = await fetch(`${SB_URL}/rest/v1/profiles?id=eq.${sub}&select=*`, {headers:hdrs()});
       const profiles = await pr.json();
       if (Array.isArray(profiles)&&profiles.length&&['admin','rd'].includes(profiles[0].role)) {
         _adminRole = profiles[0].role;
