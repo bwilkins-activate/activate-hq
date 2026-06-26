@@ -45,8 +45,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .person{}
 .p-name{font-size:clamp(17px,1.9vw,32px);font-weight:600;line-height:1.1;}
 .p-time{font-family:'Space Mono',monospace;font-size:clamp(12px,1.15vw,19px);color:var(--text);margin-top:2px;}
-.p-trans{font-size:clamp(12px,1.1vw,18px);color:var(--muted);margin-top:2px;}
+.p-trans{font-size:clamp(12px,1.1vw,18px);color:var(--muted);margin-top:3px;}
 .p-trans b{color:var(--accent);font-weight:600;}
+.p-break{font-family:'Space Mono',monospace;font-size:clamp(11px,1vw,16px);color:var(--gold);margin-top:3px;}
+.p-live-pip{display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor;margin-right:7px;vertical-align:middle;animation:pls 1.6s infinite;}
+.person-live .p-name{font-weight:700;}
 .zone-empty{color:var(--muted);font-size:clamp(13px,1.2vw,20px);font-style:italic;padding-top:6px;}
 
 /* EXTRAS + FOOTER */
@@ -114,20 +117,55 @@ function render(st){
   const shift=st.shift_type?(' • '+esc(st.shift_type)):'';
   const lockedLine=st.last_locked_by?('Locked by '+esc(st.last_locked_by)+(st.last_locked_at?' at '+fmtClock(st.last_locked_at):'')):'';
 
-  // group by first deployment area
-  const byZone={}; ZONES.forEach(z=>byZone[z]=[]); const extras=[];
-  roster.forEach(e=>{const a=(e.deployment&&e.deployment[0]&&e.deployment[0].area)||null; if(a&&byZone[a])byZone[a].push(e); else extras.push(e);});
+  const extras=roster.filter(e=>!(e.deployment&&e.deployment[0]&&ZONES.includes(e.deployment[0].area)));
 
-  const zoneHtml=ZONES.map(z=>{
-    const cv='var('+ZONE_VAR[z]+')';
-    const live=byZone[z].some(e=>currentArea(e)===z&&isOnNow(e));
-    const people=byZone[z].map(e=>{
-      const dep=e.deployment||[];
-      const trans=dep.slice(1).map(s=>`<div class="p-trans">↓ <b>${esc(s.area)}</b>${s.at?' '+esc(s.at):''}</div>`).join('');
-      const tr=timeRange(e);
-      return `<div class="person"><div class="p-name">${esc(e.name||'')}</div>${tr?`<div class="p-time">${esc(tr)}</div>`:''}${trans}</div>`;
-    }).join('')||'<div class="zone-empty">No one assigned</div>';
-    return `<div class="zone${live?' live':''}" style="color:${cv}">
+  // Build per-zone assignments: each person appears in every zone they work
+  const zoneAssignments = {}; // zone -> [{name, zoneStart, zoneEnd, breakTime, isLive}]
+  ZONES.forEach(z => zoneAssignments[z] = []);
+  const nm = nowMin();
+
+  roster.forEach(e => {
+    const dep = e.deployment || [];
+    if (!dep.length) return;
+    // Build segments: [{area, start, end}]
+    const segs = dep.map((d, i) => {
+      const start = i === 0 ? (e.startTime || null) : (d.at || null);
+      const end = i < dep.length - 1 ? (dep[i+1].at || null) : (e.endTime || null);
+      return {area: d.area, start, end};
+    });
+    segs.forEach(seg => {
+      if (!seg.area || !zoneAssignments[seg.area]) return;
+      const segStartMin = parseMin(seg.start);
+      const segEndMin = parseMin(seg.end);
+      const breakMin = parseMin(e.breakTime);
+      const breakInZone = breakMin != null && segStartMin != null && segEndMin != null &&
+        breakMin >= segStartMin && breakMin <= segEndMin;
+      const isLive = segStartMin != null && segEndMin != null && nm >= segStartMin && nm <= segEndMin;
+      zoneAssignments[seg.area].push({
+        name: e.name || '',
+        zoneStart: seg.start,
+        zoneEnd: seg.end,
+        breakTime: breakInZone ? e.breakTime : null,
+        isLive
+      });
+    });
+  });
+
+  const zoneHtml = ZONES.map(z => {
+    const cv = 'var(' + ZONE_VAR[z] + ')';
+    const assignments = zoneAssignments[z];
+    const zoneIsLive = assignments.some(a => a.isLive);
+    const people = assignments.map(a => {
+      const timeStr = [a.zoneStart, a.zoneEnd].filter(Boolean).join(' – ');
+      const breakLabel = a.breakTime ? `<div class="p-break">Break ${esc(a.breakTime)}</div>` : '';
+      const livePip = a.isLive ? `<span class="p-live-pip"></span>` : '';
+      return `<div class="person${a.isLive?' person-live':''}">
+        <div class="p-name">${livePip}${esc(a.name)}</div>
+        ${timeStr ? `<div class="p-time">${esc(timeStr)}</div>` : ''}
+        ${breakLabel}
+      </div>`;
+    }).join('') || '<div class="zone-empty">No one assigned</div>';
+    return `<div class="zone${zoneIsLive?' live':''}" style="color:${cv}">
       <div class="zone-hd"><span class="zone-name">${z.toUpperCase()}</span><span class="live-dot"><i></i>LIVE</span></div>
       <div class="people" style="color:var(--text)">${people}</div>
     </div>`;
