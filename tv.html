@@ -138,14 +138,12 @@ function render(st){
       const segStartMin = parseMin(seg.start);
       const segEndMin = parseMin(seg.end);
       const breakMin = parseMin(e.breakTime);
-      const breakInZone = breakMin != null && segStartMin != null && segEndMin != null &&
-        breakMin >= segStartMin && breakMin <= segEndMin;
-      const isLive = segStartMin != null && segEndMin != null && nm >= segStartMin && nm <= segEndMin;
+      const isLive = segStartMin != null && nm >= segStartMin && (segEndMin == null || nm <= segEndMin);
       zoneAssignments[seg.area].push({
         name: e.name || '',
         zoneStart: seg.start,
         zoneEnd: seg.end,
-        breakTime: breakInZone ? e.breakTime : null,
+        breakTime: e.breakTime || null,
         isLive
       });
     });
