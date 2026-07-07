@@ -97,6 +97,7 @@ input::placeholder{color:var(--muted);}
 .file-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
 .kb{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:5px;white-space:nowrap;}
 .kb-deployment{background:rgba(0,255,255,.14);color:var(--accent);}
+.kb-huddle{background:rgba(255,230,0,.16);color:var(--gold);}
 .kb-image{background:rgba(168,255,62,.14);color:var(--accent3);}
 .kb-url{background:rgba(61,91,242,.2);color:var(--indigo);}
 #slToast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:300;padding:10px 18px;border-radius:8px;font-size:13px;font-family:'Space Grotesk',sans-serif;display:none;box-shadow:0 8px 30px rgba(0,4,30,.5);}
@@ -934,21 +935,19 @@ async function slSelect(val) {
   slRender();
 }
 
-function slKindBadge(k){const m={deployment:'kb-deployment',image:'kb-image',url:'kb-url'};const t={deployment:'Live deployment',image:'Image',url:'Web link'};return `<span class="kb ${m[k]||'kb-image'}">${t[k]||k}</span>`;}
+function slKindBadge(k){const m={deployment:'kb-deployment',huddle:'kb-huddle',image:'kb-image',url:'kb-url'};const t={deployment:'Live deployment',huddle:'Latest huddle',image:'Image',url:'Web link'};return `<span class="kb ${m[k]||'kb-image'}">${t[k]||k}</span>`;}
 
 function slRender() {
   const national = slScopeVal === NATIONAL;
   const name = national ? 'National' : ((slLocations.find(l=>l.id===slScopeVal)||{}).name || slScopeVal);
   const body = slSlides.length ? slSlides.map((s,i)=>slCard(s,i)).join('')
     : `<div style="color:var(--muted);font-size:13px;padding:16px 0;">No slides yet.${national?'':' The TV shows the live deployment by default.'}</div>`;
-  const addBtns = national
-    ? `<button class="btn btn-ghost btn-sm" onclick="slAdd('image')">＋ Image</button>
-       <button class="btn btn-ghost btn-sm" onclick="slAdd('url')">＋ Web link</button>`
-    : `<button class="btn btn-ghost btn-sm" onclick="slAdd('image')">＋ Image</button>
-       <button class="btn btn-ghost btn-sm" onclick="slAdd('url')">＋ Web link</button>
-       <button class="btn btn-ghost btn-sm" onclick="slAdd('deployment')">＋ Live deployment</button>`;
+  const addBtns = `<button class="btn btn-ghost btn-sm" onclick="slAdd('deployment')">＋ Live deployment</button>
+       <button class="btn btn-ghost btn-sm" onclick="slAdd('huddle')">＋ Latest huddle</button>
+       <button class="btn btn-ghost btn-sm" onclick="slAdd('image')">＋ Image</button>
+       <button class="btn btn-ghost btn-sm" onclick="slAdd('url')">＋ Web link</button>`;
   const sub = national
-    ? `Master list of slides shown on <b>every</b> location's TV. Edit here and Save, then <b>Push to all</b> to sync. Slides are matched by label — re-pushing updates instead of duplicating. Locations can still reorder or hide their copies.`
+    ? `Master list of slides shown on <b>every</b> location's TV. Edit here and Save, then <b>Push to all</b> to sync. Slides are matched by label — re-pushing updates instead of duplicating. <b>Live deployment</b> and <b>Latest huddle</b> slides automatically resolve to each location's own page.`
     : `Slides rotate on ${esc(name)}'s TV in this order. Reorder with ▲▼, toggle off to hide without deleting.`;
   const actions = national
     ? `<button class="btn btn-ghost btn-sm" onclick="slSave()">Save master</button>
@@ -967,7 +966,9 @@ function slCard(s, i) {
   const national = slScopeVal === NATIONAL;
   let srcUI;
   if (s.kind === 'deployment') {
-    srcUI = `<div style="font-size:12px;color:var(--muted);">Shows this location's live deployment page — no link needed.</div>`;
+    srcUI = `<div style="font-size:12px;color:var(--muted);">Shows the location's live deployment page — no link needed.</div>`;
+  } else if (s.kind === 'huddle') {
+    srcUI = `<div style="font-size:12px;color:var(--muted);">Shows the location's most recent shift huddle — no link needed.</div>`;
   } else if (s.kind === 'image') {
     srcUI = `<div class="sl-upload">
       ${s.src?`<img class="sl-thumb" src="${esc(s.src)}" alt="">`:''}
@@ -977,16 +978,12 @@ function slCard(s, i) {
   } else {
     srcUI = `<input type="text" placeholder="https://… (web page to display)" value="${esc(s.src)}" oninput="slUpd(${i},'src',this.value)">`;
   }
-  const kindSel = national
-    ? `<select onchange="slChangeKind(${i},this.value)">
-         <option value="image"${s.kind==='image'?' selected':''}>Image</option>
-         <option value="url"${s.kind==='url'?' selected':''}>Web link</option>
-       </select>`
-    : `<select onchange="slChangeKind(${i},this.value)">
-         <option value="deployment"${s.kind==='deployment'?' selected':''}>Live deployment</option>
-         <option value="image"${s.kind==='image'?' selected':''}>Image</option>
-         <option value="url"${s.kind==='url'?' selected':''}>Web link</option>
-       </select>`;
+  const kindSel = `<select onchange="slChangeKind(${i},this.value)">
+       <option value="deployment"${s.kind==='deployment'?' selected':''}>Live deployment</option>
+       <option value="huddle"${s.kind==='huddle'?' selected':''}>Latest huddle</option>
+       <option value="image"${s.kind==='image'?' selected':''}>Image</option>
+       <option value="url"${s.kind==='url'?' selected':''}>Web link</option>
+     </select>`;
   const removeAll = national
     ? `<button class="btn btn-danger btn-sm" onclick="slRemoveFromAll(${i})" title="Delete this slide from every location's TV">Remove everywhere</button>`
     : '';
@@ -1016,10 +1013,10 @@ function slCard(s, i) {
 }
 
 function slUpd(i,f,v){ if(slSlides[i]) slSlides[i][f]=v; }
-function slChangeKind(i,v){ slSlides[i].kind=v; if(v==='deployment')slSlides[i].src=''; slRender(); }
+function slChangeKind(i,v){ slSlides[i].kind=v; if(v==='deployment'||v==='huddle')slSlides[i].src=''; slRender(); }
 function slMove(i,d){ const j=i+d; if(j<0||j>=slSlides.length)return; const t=slSlides[i];slSlides[i]=slSlides[j];slSlides[j]=t; slRender(); }
 function slDel(i){ slSlides.splice(i,1); slRender(); }
-function slAdd(kind){ slSlides.push({kind,src:'',label:'',duration:kind==='deployment'?30:(kind==='image'?20:60),enabled:true}); slRender(); }
+function slAdd(kind){ const dur=kind==='deployment'?30:kind==='huddle'?45:(kind==='image'?20:60); slSlides.push({kind,src:'',label:'',duration:dur,enabled:true}); slRender(); }
 
 async function slUpload(i, input) {
   const file = input.files && input.files[0]; if(!file) return;
@@ -1039,8 +1036,9 @@ async function slUploadImage(file) {
 
 // Build clean DB rows for a location_id from a slide array
 function slRows(locId, arr) {
-  return arr.filter(s=>s.kind==='deployment'||(s.src&&s.src.trim()))
-    .map((s,i)=>({location_id:locId,position:i,kind:s.kind,src:s.kind==='deployment'?null:s.src.trim(),label:(s.label||'').trim()||null,duration:Math.max(3,parseInt(s.duration)||30),enabled:!!s.enabled,updated_by:_adminEmail,updated_at:new Date().toISOString()}));
+  const noSrc = s => s.kind==='deployment'||s.kind==='huddle';
+  return arr.filter(s=>noSrc(s)||(s.src&&s.src.trim()))
+    .map((s,i)=>({location_id:locId,position:i,kind:s.kind,src:noSrc(s)?null:s.src.trim(),label:(s.label||'').trim()||null,duration:Math.max(3,parseInt(s.duration)||30),enabled:!!s.enabled,updated_by:_adminEmail,updated_at:new Date().toISOString()}));
 }
 // Replace all rows for a location_id with the given rows
 async function slReplace(locId, rows) {
@@ -1067,8 +1065,8 @@ async function slPushToAll() {
   const labels = slSlides.map(s=>(s.label||'').trim());
   if (labels.some(l=>!l)) return slToast('Every national slide needs a label before pushing.','err');
   if (new Set(labels).size !== labels.length) return slToast('National slide labels must be unique.','err');
-  const valid = slSlides.filter(s=>s.src&&s.src.trim());
-  if (!valid.length) return slToast('Add at least one image or link first.','err');
+  const valid = slSlides.filter(s=>s.kind==='deployment'||s.kind==='huddle'||(s.src&&s.src.trim()));
+  if (!valid.length) return slToast('Add at least one slide first.','err');
   // Save the master list first so it stays the source of truth
   try { await slReplace(NATIONAL, slRows(NATIONAL, slSlides)); }
   catch(e){ console.error(e); return slToast('Could not save master list — '+(e.message||''),'err'); }

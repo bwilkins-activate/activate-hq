@@ -53,6 +53,8 @@ if(raw[0]===null) raw[0]='tv.html';                        // slide1 defaults to
 let slides=raw.filter(s=>s!==null);                        // compact any interior gaps
 // Make a bare "tv.html" carry the location
 slides=slides.map(s=>(s==='tv.html'||s==='./tv.html'||s==='/tv.html')?('tv.html?loc='+encodeURIComponent(loc)):s);
+// Slide kinds, parallel to slides (null in URL-param mode → detected by URL in show())
+let kinds=slides.map(()=>null);
 
 // Durations (seconds) parallel to slides; sensible defaults
 let durs=(qs.get('durations')||'').split(',').map(x=>parseInt(x,10)).filter(x=>!isNaN(x)&&x>0);
@@ -80,7 +82,17 @@ function animateBar(seconds){
 }
 function show(i){
   idx=(i+slides.length)%slides.length;
-  frame.src=slides[idx];        // reload each time so live pages refresh
+  const url=slides[idx];
+  // Images render inside a contain-fit wrapper so the WHOLE picture shows
+  // (letterboxed) instead of the browser's zoomed/cropped raw-image view.
+  const isImg = kinds[idx]==='image' || /\.(png|jpe?g|gif|webp|avif|bmp|svg)(\?.*)?$/i.test(url) || /\/tv-slides\//.test(url);
+  if(isImg){
+    frame.removeAttribute('src');
+    frame.srcdoc='<!doctype html><meta charset=utf-8><style>html,body{margin:0;height:100%;background:#000626;}img{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;}</style><img src="'+url.replace(/"/g,'&quot;')+'">';
+  } else {
+    frame.removeAttribute('srcdoc');
+    frame.src=url;             // reload each time so live pages refresh
+  }
   markDot();
   const secs=durFor(idx);
   if(!paused) animateBar(secs);
@@ -117,10 +129,14 @@ async function loadFromDB(){
     if(!r.ok) return;
     const rows=await r.json();
     if(Array.isArray(rows)&&rows.length){
-      const built=rows.map(x=> x.kind==='deployment'
-        ? {url:'tv.html?loc='+encodeURIComponent(loc),dur:x.duration||30}
-        : {url:(x.src||'').trim(),dur:x.duration||30}).filter(s=>s.url);
-      if(built.length){ slides=built.map(s=>s.url); durs=built.map(s=>s.dur); }
+      const built=rows.map(x=>{
+        let url;
+        if(x.kind==='deployment') url='tv.html?loc='+encodeURIComponent(loc);
+        else if(x.kind==='huddle') url='tv-huddle.html?loc='+encodeURIComponent(loc);
+        else url=(x.src||'').trim();
+        return {url,dur:x.duration||30,kind:x.kind||'image'};
+      }).filter(s=>s.url);
+      if(built.length){ slides=built.map(s=>s.url); durs=built.map(s=>s.dur); kinds=built.map(s=>s.kind); }
     }
   }catch(e){ console.warn('playlist DB load failed',e); }
 }

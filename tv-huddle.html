@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate — Shift Huddle</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000626;--surface:#050d33;--surface2:#0c1657;--border:#1d2b78;--accent:#00ffff;--indigo:#3d5bf2;--accent2:#ff4d6d;--accent3:#a8ff3e;--gold:#ffe600;--text:#e5e9ff;--muted:#8893c9;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:radial-gradient(1400px 700px at 50% -10%,rgba(61,91,242,.22),transparent 60%),var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;height:100vh;overflow:hidden;padding:10px 14px 8px;display:flex;flex-direction:column;gap:8px;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(61,91,242,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(61,91,242,.05) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);-webkit-mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;gap:8px;min-height:0;}
+
+/* HEADER */
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(61,91,242,.4);position:relative;}
+.hd::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);opacity:.6;}
+.brand{display:flex;align-items:center;gap:10px;}
+.wordmark{font-family:'Anton',sans-serif;font-size:clamp(22px,3vw,42px);letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.tag{font-family:'Space Mono',monospace;font-size:clamp(9px,.85vw,13px);font-weight:700;letter-spacing:3px;color:#000626;background:var(--gold);padding:3px 9px;border-radius:5px;align-self:center;}
+.loc{font-family:'Space Mono',monospace;font-size:clamp(9px,.85vw,13px);font-weight:700;letter-spacing:3px;color:#000626;background:var(--accent);padding:3px 9px;border-radius:5px;align-self:center;}
+.meta{text-align:right;line-height:1.2;}
+.m-date{font-family:'Anton',sans-serif;font-size:clamp(14px,1.8vw,26px);letter-spacing:1px;}
+.m-shift{color:var(--accent);}
+.m-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);margin-top:2px;}
+
+/* GRID */
+.grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:8px;min-height:0;}
+.span3{grid-column:1/-1;}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 12px;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+.sc-hd{display:flex;align-items:center;gap:8px;padding-bottom:6px;margin-bottom:7px;border-bottom:2px solid currentColor;}
+.sc-num{font-family:'Space Mono',monospace;font-size:clamp(10px,.8vw,13px);font-weight:700;background:currentColor;border-radius:5px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sc-num span{color:var(--bg);}
+.sc-title{font-family:'Anton',sans-serif;font-size:clamp(13px,1.4vw,21px);letter-spacing:1px;line-height:1;color:var(--text);}
+.rows{display:flex;flex-direction:column;gap:5px;overflow:hidden;}
+.qr{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.qk{font-size:clamp(10px,.95vw,15px);color:var(--muted);line-height:1.2;}
+.qv{font-size:clamp(11px,1.05vw,16px);color:var(--text);font-weight:600;text-align:right;line-height:1.2;}
+.qv.empty{color:var(--muted);font-weight:400;opacity:.5;}
+.qv-wide{font-size:clamp(11px,1.05vw,16px);color:var(--text);font-weight:600;line-height:1.3;margin-top:2px;}
+/* accent per section */
+.s1{color:var(--accent);}.s2{color:var(--z-hub,#7dffb3);}.s3{color:var(--indigo);}
+.s4{color:#8da4ff;}.s5{color:var(--gold);}.s6{color:var(--accent3);}.s7{color:var(--accent2);}
+/* big stats for guest count */
+.stats{display:flex;gap:10px;flex-wrap:wrap;}
+.stat{flex:1;min-width:70px;background:rgba(0,255,255,.05);border:1px solid rgba(0,255,255,.2);border-radius:8px;padding:6px 8px;text-align:center;}
+.stat b{display:block;font-family:'Anton',sans-serif;font-size:clamp(20px,2.6vw,40px);color:var(--accent);line-height:1;}
+.stat span{font-family:'Space Mono',monospace;font-size:clamp(8px,.7vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.gica{display:flex;flex-direction:column;gap:5px;}
+.gica-row{display:flex;align-items:center;gap:9px;}
+.gica-l{font-family:'Anton',sans-serif;font-size:clamp(14px,1.5vw,22px);color:var(--indigo);width:20px;text-align:center;flex-shrink:0;}
+.shout{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.25);border-radius:8px;padding:6px 10px;}
+.shout .qk{color:var(--accent2);}
+
+/* FOOTER */
+.foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);padding-top:4px;}
+.fresh-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);margin-right:6px;vertical-align:middle;}
+.fresh-stale{background:#ff4d6d!important;box-shadow:0 0 6px #ff4d6d!important;}
+
+/* EMPTY */
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;}
+.empty h2{font-family:'Anton',sans-serif;font-size:clamp(28px,4vw,60px);letter-spacing:2px;color:var(--muted);}
+.empty p{font-size:clamp(13px,1.3vw,20px);color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap"><div class="empty"><h2>Loading…</h2></div></div>
+
+<script>
+const SB_URL='https://pemmhbdggpgzykljchel.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+const LOCATION_ID=(new URLSearchParams(location.search).get('loc')||'lexington').toLowerCase();
+function prettyLoc(id){return id.split('-').map(w=>w?w[0].toUpperCase()+w.slice(1):w).join(' ');}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function has(v){return v!=null && String(v).trim()!=='';}
+let lastRow=null;
+
+// A key/value row; shows a muted dash when empty so the grid stays even
+function qr(k,v){return `<div class="qr"><div class="qk">${esc(k)}</div><div class="qv${has(v)?'':' empty'}">${has(v)?esc(v):'—'}</div></div>`;}
+function qwide(k,v){return `<div><div class="qk">${esc(k)}</div><div class="qv-wide${has(v)?'':' empty'}" style="${has(v)?'':'opacity:.5'}">${has(v)?esc(v):'—'}</div></div>`;}
+
+function fmtAgo(iso){
+  if(!iso) return '—';
+  const d=new Date(iso), diff=(Date.now()-d)/6e4;
+  if(diff<1) return 'just now';
+  if(diff<60) return Math.round(diff)+'m ago';
+  if(diff<1440) return Math.round(diff/60)+'h ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function fmtDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso+'T12:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+}
+
+function render(row){
+  const s=(row&&row.sections)||{};
+  const locName=(row&&row.location_name)||prettyLoc(LOCATION_ID);
+  const shiftDate=fmtDate(row&&row.shift_date)|| (s.date||'');
+  const shift=s.shift||row&&row.shift_type||'';
+  const staleClass=(Date.now()-new Date(row&&row.submitted_at||0))/6e4 > 24*60 ? 'fresh-stale':'';
+
+  const html=`
+  <div class="hd">
+    <div class="brand">
+      <span class="wordmark">ACTIVATE</span>
+      <span class="loc">${esc(locName)}</span>
+      <span class="tag">SHIFT HUDDLE</span>
+    </div>
+    <div class="meta">
+      <div class="m-date">${esc(shiftDate)}${shift?` · <span class="m-shift">${esc(shift)}</span>`:''}</div>
+      <div class="m-sub">Submitted ${fmtAgo(row&&row.submitted_at)}${has(s.manager)?` · by ${esc(s.manager)}`:''}</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="sc s1">
+      <div class="sc-hd"><div class="sc-num"><span>1</span></div><div class="sc-title">Guest Count</div></div>
+      <div class="rows">
+        <div class="stats">
+          <div class="stat"><b>${has(s.g_checkins)?esc(s.g_checkins):'—'}</b><span>Check-ins</span></div>
+          <div class="stat"><b>${has(s.g_booked)?esc(s.g_booked):'—'}</b><span>Booked</span></div>
+          <div class="stat"><b>${has(s.g_remaining)?esc(s.g_remaining):'—'}</b><span>Remaining</span></div>
+        </div>
+        ${qr('Last booking today',s.g_lastbooking)}
+      </div>
+    </div>
+
+    <div class="sc s2">
+      <div class="sc-hd"><div class="sc-num"><span>2</span></div><div class="sc-title">Room Health</div></div>
+      <div class="rows">
+        ${qr('AM problems',s.r_morning)}
+        ${qr('Rooms inspected',s.r_inspected)}
+        ${qr('Problems on shift',s.r_shift)}
+        ${qr('Restroom checks',s.r_restrooms)}
+        ${has(s.r_notes)?qr('Notes',s.r_notes):''}
+      </div>
+    </div>
+
+    <div class="sc s3">
+      <div class="sc-hd"><div class="sc-num"><span>3</span></div><div class="sc-title">Guest Experience</div></div>
+      <div class="rows gica">
+        <div class="gica-row"><span class="gica-l">G</span><span class="qk"><b style="color:var(--text)">Greeting</b> — within 10 seconds</span></div>
+        <div class="gica-row"><span class="gica-l">I</span><span class="qk"><b style="color:var(--text)">Introduce</b> — yourself by name</span></div>
+        <div class="gica-row"><span class="gica-l">C</span><span class="qk"><b style="color:var(--text)">Connect</b> — with every group</span></div>
+        <div class="gica-row"><span class="gica-l">A</span><span class="qk"><b style="color:var(--text)">Ask</b> — “Did you have fun?”</span></div>
+      </div>
+    </div>
+
+    <div class="sc s5">
+      <div class="sc-hd"><div class="sc-num"><span>5</span></div><div class="sc-title">Parties &amp; Groups</div></div>
+      <div class="rows">
+        ${qr('Party lounge next shift?',s.party_yn)}
+        ${has(s.party_count)?qr('# of groups',s.party_count):''}
+        ${has(s.party_info)?qwide('Sizes & arrivals',s.party_info):''}
+        ${has(s.party_notes)?qwide('Special notes',s.party_notes):''}
+        ${!has(s.party_count)&&!has(s.party_info)&&!has(s.party_notes)?'<div class="qv empty">No parties flagged</div>':''}
+      </div>
+    </div>
+
+    <div class="sc s6">
+      <div class="sc-hd"><div class="sc-num"><span>6</span></div><div class="sc-title">Promotions</div></div>
+      <div class="rows">
+        ${qwide('Promo 1',s.promo1)}
+        ${has(s.promo2)?qwide('Promo 2',s.promo2):''}
+        ${has(s.promo3)?qwide('Promo 3',s.promo3):''}
+      </div>
+    </div>
+
+    <div class="sc s7 span3">
+      <div class="sc-hd"><div class="sc-num"><span>7</span></div><div class="sc-title">Store Specific</div></div>
+      <div class="rows" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div class="shout">${qwide('⭐ Agent Shoutout',s.ss_shoutout)}</div>
+        ${qwide('Tasks for the day',s.ss_tasks)}
+        ${qwide('Other notes',s.ss_notes)}
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span><span class="fresh-dot ${staleClass}"></span>Shift Huddle · updated ${fmtAgo(row&&row.submitted_at)}</span>
+    <span>ACTIVATE DEPLOYMENT · BREAK ROOM DISPLAY</span>
+  </div>`;
+  document.getElementById('wrap').innerHTML=html;
+}
+
+function renderEmpty(){
+  document.getElementById('wrap').innerHTML=`<div class="hd">
+    <div class="brand"><span class="wordmark">ACTIVATE</span><span class="loc">${esc(prettyLoc(LOCATION_ID))}</span><span class="tag">SHIFT HUDDLE</span></div>
+  </div>
+  <div class="empty"><h2>No huddle yet</h2><p>The most recent shift huddle will appear here once submitted.</p></div>`;
+}
+
+async function poll(){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/huddle_logs?select=*&location_id=eq.${LOCATION_ID}&order=submitted_at.desc&limit=1`,
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    if(!r.ok) return;
+    const rows=await r.json();
+    if(Array.isArray(rows)&&rows.length){ lastRow=rows[0]; render(lastRow); }
+    else if(!lastRow){ renderEmpty(); }
+  }catch(e){ console.warn('huddle poll error',e); }
+}
+poll();
+setInterval(poll,60000);
+// refresh "x ago" labels without refetching
+setInterval(()=>{ if(lastRow) render(lastRow); },60000);
+</script>
+</body>
+</html>
