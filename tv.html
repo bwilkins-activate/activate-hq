@@ -76,20 +76,25 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cg-coach{font-size:clamp(11px,1vw,15px);color:var(--text);font-weight:600;}
 .coach-empty{color:var(--muted);font-size:clamp(11px,1vw,15px);font-style:italic;}
 
-/* HUDDLE BAR */
-.tv-huddle{background:linear-gradient(135deg,rgba(168,255,62,.06),rgba(168,255,62,.02));border:1px solid rgba(168,255,62,.28);border-radius:10px;padding:7px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.hb-label{font-family:'Anton',sans-serif;font-size:clamp(13px,1.4vw,21px);letter-spacing:1.5px;color:var(--z-hub);white-space:nowrap;}
-.hb-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,.78vw,12px);color:var(--muted);white-space:nowrap;}
-.hb-sep{width:1px;align-self:stretch;background:rgba(168,255,62,.25);margin:2px 0;}
-.hb-stats{display:flex;gap:12px;}
-.hb-stat{display:flex;align-items:baseline;gap:5px;}
-.hb-stat b{font-family:'Anton',sans-serif;font-size:clamp(16px,1.9vw,30px);color:var(--z-hub);line-height:1;}
-.hb-stat span{font-family:'Space Mono',monospace;font-size:clamp(8px,.68vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
-.hb-item{line-height:1.2;min-width:0;}
-.hb-item .k{font-family:'Space Mono',monospace;font-size:clamp(8px,.68vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:1px;}
-.hb-item .v{color:var(--text);font-weight:600;font-size:clamp(11px,1.1vw,16px);}
-.hb-shout .v{color:#ffd6de;}
-.hb-alert{color:var(--gold);font-weight:600;font-size:clamp(11px,1.1vw,16px);}
+/* HUDDLE BAND — bottom ~third of the screen */
+.tv-huddle{flex:0 0 31vh;min-height:0;display:flex;flex-direction:column;gap:8px;background:linear-gradient(135deg,rgba(168,255,62,.07),rgba(168,255,62,.02));border:1px solid rgba(168,255,62,.3);border-radius:12px;padding:10px 16px 12px;}
+.hb-head{display:flex;align-items:baseline;gap:12px;padding-bottom:7px;border-bottom:2px solid var(--z-hub);flex-shrink:0;}
+.hb-title{font-family:'Anton',sans-serif;font-size:clamp(15px,1.9vw,30px);letter-spacing:1.5px;color:var(--z-hub);line-height:1;}
+.hb-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,.85vw,13px);color:var(--muted);}
+.hb-cols{flex:1;display:grid;grid-template-columns:auto 1fr 1.2fr 1.2fr;gap:20px;min-height:0;overflow:hidden;}
+@media(max-width:900px){.hb-cols{grid-template-columns:1fr 1fr;gap:12px;}}
+.hb-col{display:flex;flex-direction:column;gap:7px;min-width:0;overflow:hidden;}
+.hb-col-label{font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border-left:2px solid rgba(168,255,62,.45);padding-left:8px;flex-shrink:0;}
+.hb-stats{display:flex;gap:16px;}
+.hb-stat{display:flex;flex-direction:column;}
+.hb-stat b{font-family:'Anton',sans-serif;font-size:clamp(22px,3.2vw,50px);color:var(--z-hub);line-height:1;}
+.hb-stat span{font-family:'Space Mono',monospace;font-size:clamp(8px,.7vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.hb-lastbook{font-family:'Space Mono',monospace;font-size:clamp(9px,.85vw,13px);color:var(--muted);margin-top:2px;}
+.hb-list{display:flex;flex-direction:column;gap:5px;overflow:hidden;}
+.hb-line{font-size:clamp(12px,1.2vw,19px);color:var(--text);font-weight:600;line-height:1.25;}
+.hb-alert{color:var(--gold);}
+.hb-shout-text{font-size:clamp(12px,1.25vw,20px);color:#ffd6de;font-weight:600;line-height:1.3;}
+.hb-muted{color:var(--muted);font-size:clamp(11px,1vw,15px);font-style:italic;}
 
 /* FOOTER */
 .tv-foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);padding-top:4px;}
@@ -145,7 +150,7 @@ function timeRange(emp){
   return s||e||'';
 }
 
-// Condensed most-recent-huddle bar for the deployment page
+// Most-recent-huddle band (~bottom third of the deployment TV)
 function buildHuddleBar(h){
   if(!h||!h.sections) return '';
   const s=h.sections;
@@ -157,16 +162,23 @@ function buildHuddleBar(h){
   const alerts=[];
   if((s.party_yn||'').toLowerCase()==='yes') alerts.push('🎉 '+(has(s.party_info)?esc(s.party_info):'Party lounge in use'));
   if(has(s.r_shift)&&!/^\s*none/i.test(s.r_shift)) alerts.push('⚠ '+esc(s.r_shift));
-  else if(has(s.r_morning)&&!/^\s*none/i.test(s.r_morning)) alerts.push('⚠ '+esc(s.r_morning));
-  const parts=[];
-  parts.push(`<div class="hb-stats">${stat(s.g_checkins,'In')}${stat(s.g_booked,'Booked')}${stat(s.g_remaining,'Left')}</div>`);
-  if(promos.length) parts.push(`<div class="hb-item"><span class="k">Promos</span><span class="v">${promos.map(esc).join(' · ')}</span></div>`);
-  if(has(s.ss_shoutout)) parts.push(`<div class="hb-item hb-shout"><span class="k">⭐ Shoutout</span><span class="v">${esc(s.ss_shoutout)}</span></div>`);
-  if(alerts.length) parts.push(`<div class="hb-item"><span class="k">Heads up</span><span class="hb-alert">${alerts.join('  ·  ')}</span></div>`);
+  if(has(s.r_morning)&&!/^\s*none/i.test(s.r_morning)) alerts.push('⚠ '+esc(s.r_morning));
+  const col=(label,inner)=>`<div class="hb-col"><div class="hb-col-label">${label}</div>${inner}</div>`;
+  const lastBook=has(s.g_lastbooking)?`<div class="hb-lastbook">Last booking ${esc(s.g_lastbooking)}</div>`:'';
+  const promoInner=promos.length?`<div class="hb-list">${promos.map(p=>`<div class="hb-line">${esc(p)}</div>`).join('')}</div>`:`<div class="hb-muted">None active</div>`;
+  const shoutInner=has(s.ss_shoutout)?`<div class="hb-shout-text">${esc(s.ss_shoutout)}</div>`:`<div class="hb-muted">—</div>`;
+  const alertInner=alerts.length?`<div class="hb-list">${alerts.map(a=>`<div class="hb-line hb-alert">${a}</div>`).join('')}</div>`:`<div class="hb-muted">All clear</div>`;
   return `<div class="tv-huddle">
-    <span class="hb-label">RECENT HUDDLE</span>
-    ${(shift||agoTxt)?`<span class="hb-sub">${[esc(shift),agoTxt?'· '+agoTxt:''].filter(Boolean).join(' ')}</span>`:''}
-    ${parts.map(p=>`<div class="hb-sep"></div>${p}`).join('')}
+    <div class="hb-head">
+      <span class="hb-title">RECENT SHIFT HUDDLE</span>
+      ${(shift||agoTxt)?`<span class="hb-sub">${[esc(shift),agoTxt?'· submitted '+agoTxt:''].filter(Boolean).join(' ')}</span>`:''}
+    </div>
+    <div class="hb-cols">
+      ${col('Guest Count',`<div class="hb-stats">${stat(s.g_checkins,'In')}${stat(s.g_booked,'Booked')}${stat(s.g_remaining,'Left')}</div>${lastBook}`)}
+      ${col('Active Promos',promoInner)}
+      ${col('⭐ Shoutout',shoutInner)}
+      ${col('Heads Up',alertInner)}
+    </div>
   </div>`;
 }
 
@@ -304,8 +316,8 @@ function render(st){
     <div class="tv-main">
       <div class="tv-zones">${zoneHtml}</div>
       ${coachCardHtml}
-      ${buildHuddleBar(lastHuddle)}
     </div>
+    ${buildHuddleBar(lastHuddle)}
     <div class="tv-foot">
       <span>ACTIVATE DEPLOYMENT • BREAK ROOM DISPLAY</span>
       <span><span class="fresh-dot${stale?' fresh-stale':''}"></span>${freshTxt}</span>
