@@ -76,6 +76,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cg-coach{font-size:clamp(11px,1vw,15px);color:var(--text);font-weight:600;}
 .coach-empty{color:var(--muted);font-size:clamp(11px,1vw,15px);font-style:italic;}
 
+/* HUDDLE BAR */
+.tv-huddle{background:linear-gradient(135deg,rgba(168,255,62,.06),rgba(168,255,62,.02));border:1px solid rgba(168,255,62,.28);border-radius:10px;padding:7px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hb-label{font-family:'Anton',sans-serif;font-size:clamp(13px,1.4vw,21px);letter-spacing:1.5px;color:var(--z-hub);white-space:nowrap;}
+.hb-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,.78vw,12px);color:var(--muted);white-space:nowrap;}
+.hb-sep{width:1px;align-self:stretch;background:rgba(168,255,62,.25);margin:2px 0;}
+.hb-stats{display:flex;gap:12px;}
+.hb-stat{display:flex;align-items:baseline;gap:5px;}
+.hb-stat b{font-family:'Anton',sans-serif;font-size:clamp(16px,1.9vw,30px);color:var(--z-hub);line-height:1;}
+.hb-stat span{font-family:'Space Mono',monospace;font-size:clamp(8px,.68vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.hb-item{line-height:1.2;min-width:0;}
+.hb-item .k{font-family:'Space Mono',monospace;font-size:clamp(8px,.68vw,11px);letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:1px;}
+.hb-item .v{color:var(--text);font-weight:600;font-size:clamp(11px,1.1vw,16px);}
+.hb-shout .v{color:#ffd6de;}
+.hb-alert{color:var(--gold);font-weight:600;font-size:clamp(11px,1.1vw,16px);}
+
 /* FOOTER */
 .tv-foot{display:flex;align-items:center;justify-content:space-between;font-family:'Space Mono',monospace;font-size:clamp(9px,.8vw,12px);color:var(--muted);padding-top:4px;}
 .fresh-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--z-hub);box-shadow:0 0 6px var(--z-hub);margin-right:6px;vertical-align:middle;}
@@ -99,9 +114,10 @@ const LOCATION_ID=(new URLSearchParams(location.search).get('loc')||'lexington')
 function prettyLoc(id){return id.split('-').map(w=>w?w[0].toUpperCase()+w.slice(1):w).join(' ');}
 const ZONES=['Lobby','Hub Master','Hub','Flex'];
 const ZONE_VAR={'Lobby':'--z-lobby','Hub Master':'--z-hubmaster','Hub':'--z-hub','Flex':'--z-flex'};
-let lastSig=null, lastState=null;
+let lastSig=null, lastState=null, lastHuddle=null;
 
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function has(v){return v!=null&&String(v).trim()!=='';}
 function parseMin(t){if(!t)return null;const m=String(t).trim().match(/^(\d{1,2})(?::(\d{2}))?\s*([AaPp][Mm])?$/);if(!m)return null;let h=parseInt(m[1],10);const mn=m[2]?parseInt(m[2],10):0;const ap=m[3]?m[3].toLowerCase():null;if(ap){if(h===12)h=0;if(ap==='pm')h+=12;}return h*60+mn;}
 function minToTime(m){if(m==null)return'';let h=Math.floor(m/60),mn=m%60;const ap=h>=12?'PM':'AM';if(h>12)h-=12;if(h===0)h=12;return h+':'+(mn<10?'0':'')+mn+' '+ap;}
 function nowMin(){const d=new Date();return d.getHours()*60+d.getMinutes();}
@@ -127,6 +143,31 @@ function timeRange(emp){
   const s=emp.startTime||'', e=emp.endTime||'';
   if(s&&e)return s+' – '+e;
   return s||e||'';
+}
+
+// Condensed most-recent-huddle bar for the deployment page
+function buildHuddleBar(h){
+  if(!h||!h.sections) return '';
+  const s=h.sections;
+  const ago=minsAgo(h.submitted_at);
+  const agoTxt=ago==null?'':(ago<60?ago+'m ago':ago<1440?Math.round(ago/60)+'h ago':fmtClock(h.submitted_at));
+  const shift=s.shift||h.shift_type||'';
+  const stat=(v,l)=>`<div class="hb-stat"><b>${has(v)?esc(v):'—'}</b><span>${l}</span></div>`;
+  const promos=[s.promo1,s.promo2,s.promo3].filter(has);
+  const alerts=[];
+  if((s.party_yn||'').toLowerCase()==='yes') alerts.push('🎉 '+(has(s.party_info)?esc(s.party_info):'Party lounge in use'));
+  if(has(s.r_shift)&&!/^\s*none/i.test(s.r_shift)) alerts.push('⚠ '+esc(s.r_shift));
+  else if(has(s.r_morning)&&!/^\s*none/i.test(s.r_morning)) alerts.push('⚠ '+esc(s.r_morning));
+  const parts=[];
+  parts.push(`<div class="hb-stats">${stat(s.g_checkins,'In')}${stat(s.g_booked,'Booked')}${stat(s.g_remaining,'Left')}</div>`);
+  if(promos.length) parts.push(`<div class="hb-item"><span class="k">Promos</span><span class="v">${promos.map(esc).join(' · ')}</span></div>`);
+  if(has(s.ss_shoutout)) parts.push(`<div class="hb-item hb-shout"><span class="k">⭐ Shoutout</span><span class="v">${esc(s.ss_shoutout)}</span></div>`);
+  if(alerts.length) parts.push(`<div class="hb-item"><span class="k">Heads up</span><span class="hb-alert">${alerts.join('  ·  ')}</span></div>`);
+  return `<div class="tv-huddle">
+    <span class="hb-label">RECENT HUDDLE</span>
+    ${(shift||agoTxt)?`<span class="hb-sub">${[esc(shift),agoTxt?'· '+agoTxt:''].filter(Boolean).join(' ')}</span>`:''}
+    ${parts.map(p=>`<div class="hb-sep"></div>${p}`).join('')}
+  </div>`;
 }
 
 function render(st){
@@ -263,6 +304,7 @@ function render(st){
     <div class="tv-main">
       <div class="tv-zones">${zoneHtml}</div>
       ${coachCardHtml}
+      ${buildHuddleBar(lastHuddle)}
     </div>
     <div class="tv-foot">
       <span>ACTIVATE DEPLOYMENT • BREAK ROOM DISPLAY</span>
@@ -271,13 +313,17 @@ function render(st){
 }
 
 async function poll(){
+  const H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
   try{
-    const r=await fetch(`${SB_URL}/rest/v1/tv_state?select=*&location_id=eq.${LOCATION_ID}&order=last_locked_at.desc&limit=1`,
-      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
-    const rows=await r.json();
+    const [rState,rHuddle]=await Promise.all([
+      fetch(`${SB_URL}/rest/v1/tv_state?select=*&location_id=eq.${LOCATION_ID}&order=last_locked_at.desc&limit=1`,{headers:H}),
+      fetch(`${SB_URL}/rest/v1/huddle_logs?select=*&location_id=eq.${LOCATION_ID}&order=submitted_at.desc&limit=1`,{headers:H})
+    ]);
+    const rows=await rState.json();
     const st=Array.isArray(rows)&&rows[0]?rows[0]:null;
-    const sig=JSON.stringify(st);
-    if(sig!==lastSig){ lastSig=sig; lastState=st; render(st); }
+    let hud=null; try{ const hr=await rHuddle.json(); hud=Array.isArray(hr)&&hr[0]?hr[0]:null; }catch(e){}
+    const sig=JSON.stringify(st)+'|'+JSON.stringify(hud);
+    if(sig!==lastSig){ lastSig=sig; lastState=st; lastHuddle=hud; render(st); }
   }catch(e){ console.warn('TV poll error',e); }
 }
 
