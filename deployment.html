@@ -361,6 +361,20 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 .dl-table{width:100%;border-collapse:collapse;}
 .dl-table th{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;padding:9px 11px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
 .dl-table td{padding:10px 11px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;}
+/* STAFF */
+.shift-option.sel-pos{background:rgba(0,255,255,.12);color:var(--accent);border-color:rgba(0,255,255,.35);}
+.cert-group{margin-bottom:12px;}
+.cert-group-label{font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:7px;}
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.cert-check{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;cursor:pointer;font-size:13px;transition:all .15s;}
+.cert-check:hover{border-color:var(--accent);}
+.cert-check.on{background:rgba(0,255,255,.08);border-color:rgba(0,255,255,.4);}
+.cert-check input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+.cert-chip{display:inline-block;background:rgba(0,255,255,.1);color:var(--accent);border-radius:4px;padding:2px 7px;font-size:11px;font-family:'Space Mono',monospace;margin:2px 3px 2px 0;}
+.pos-badge{font-family:'Space Mono',monospace;font-size:11px;padding:3px 8px;border-radius:5px;letter-spacing:.5px;white-space:nowrap;}
+.pos-facilitator{background:rgba(168,255,62,.12);color:var(--accent3);}
+.pos-assistant_manager{background:rgba(61,91,242,.22);color:#8da4ff;}
+.pos-general_manager{background:rgba(255,230,0,.14);color:var(--gold);}
 .dl-row{cursor:pointer;transition:background .15s;}
 .dl-row:hover{background:var(--surface2);}
 .dl-status{padding:3px 8px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;}
@@ -444,6 +458,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   
   <button class="tab-btn hide-on-view" onclick="switchTab('handoff',this)">&#128101; Shift Huddle</button>
   <button class="tab-btn" onclick="switchTab('deploylog',this)">&#128203; Deploy Log</button>
+  <button class="tab-btn hide-on-view" onclick="switchTab('staff',this)">&#129489; Staff</button>
 </div>
 
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
@@ -487,7 +502,8 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
         <!-- Add Staff Bar (unified) -->
         <div class="quick-add-bar hide-on-view" id="quickAddBar">
           <span class="qa-label">Add Staff &rarr;</span>
-          <input type="text" class="qa-name" id="qaName" placeholder="Name" onkeydown="if(event.key==='Enter')quickAdd()">
+          <input type="text" class="qa-name" id="qaName" list="staffNames" placeholder="Pick or type a name" onkeydown="if(event.key==='Enter')quickAdd()">
+          <datalist id="staffNames"></datalist>
           <div class="qa-shift-group">
             <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
             <button class="qa-shift-btn" id="qaShiftMid" onclick="qaSelectShift('Mid')" title="Mid shift">M</button>
@@ -696,6 +712,26 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   </div>
 </div>
 
+<!-- PANEL: STAFF -->
+<div id="panel-staff" class="panel">
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px;">
+      <div class="section-title" style="margin-bottom:0;">&#129489; Staff <span id="staffCount"></span></div>
+      <button class="btn btn-primary btn-sm" onclick="openStaffModal()">&#43; Add Staff Member</button>
+    </div>
+    <div style="color:var(--muted);font-size:12px;margin-bottom:14px;">Your team roster. Saved staff appear in the deployment name dropdown on the Today tab.</div>
+    <div style="overflow-x:auto;">
+      <table class="dl-table" id="staffTable">
+        <thead><tr>
+          <th>Name</th><th>Position</th><th>Rank</th><th>Certifications</th><th style="text-align:right;">Actions</th>
+        </tr></thead>
+        <tbody id="staffBody"></tbody>
+      </table>
+    </div>
+    <div id="staffEmpty" style="text-align:center;padding:30px 0;color:var(--muted);font-size:13px;display:none;">No staff yet. Add your team so you can pick them when building the deployment.</div>
+  </div>
+</div>
+
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 <!-- PANEL: NEED TO ORDER                     -->
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
@@ -710,6 +746,40 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
 </div><!-- /app -->
 
+<!-- STAFF MODAL -->
+<div class="modal-overlay hidden" id="staffModal">
+  <div class="modal">
+    <h3 id="staffModalTitle">Add Staff Member</h3>
+    <input type="hidden" id="staffEditingId">
+    <div class="modal-grid" style="grid-template-columns:2fr 1fr;">
+      <div>
+        <div class="input-label">First Name</div>
+        <input type="text" id="staffFirstName" placeholder="First name" style="width:100%;">
+      </div>
+      <div>
+        <div class="input-label">Rank</div>
+        <input type="number" id="staffRank" min="0" placeholder="#" style="width:100%;">
+      </div>
+    </div>
+    <div style="margin:14px 0;">
+      <div class="input-label" style="margin-bottom:8px;">Position</div>
+      <div class="shift-toggle" id="staffPositionToggle">
+        <button type="button" class="shift-option" data-pos="facilitator" onclick="selectStaffPosition('facilitator')">Facilitator</button>
+        <button type="button" class="shift-option" data-pos="assistant_manager" onclick="selectStaffPosition('assistant_manager')">Assistant Manager</button>
+        <button type="button" class="shift-option" data-pos="general_manager" onclick="selectStaffPosition('general_manager')">General Manager</button>
+      </div>
+    </div>
+    <div style="margin-bottom:6px;">
+      <div class="input-label" style="margin-bottom:8px;">Certifications Completed</div>
+      <div id="staffCertGroups"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeStaffModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStaffMember()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- EMPLOYEE MODAL -->
 <div class="modal-overlay hidden" id="employeeModal">
   <div class="modal">
@@ -718,7 +788,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
     <div style="margin-bottom:12px;">
       <div class="input-label">Name</div>
-      <input type="text" id="empName" placeholder="First name or nickname" style="width:100%;" onkeydown="if(event.key==='Enter')saveEmployee()">
+      <input type="text" id="empName" list="staffNames" placeholder="First name or nickname" style="width:100%;" onkeydown="if(event.key==='Enter')saveEmployee()">
     </div>
 
     <div style="margin-bottom:14px;">
@@ -1009,7 +1079,7 @@ async function activateApp() {
   document.getElementById('syncBar').style.display = 'flex';
   applyRoleUI();
   loadAll();
-  updateHeader(); renderAnnouncement(); renderRoster(); renderGroups(); loadAndRenderHuddles();
+  updateHeader(); renderAnnouncement(); renderRoster(); renderGroups(); loadAndRenderHuddles(); loadStaff();
   const hdDate=document.getElementById('hd-date'); if(hdDate&&!hdDate.value) hdDate.value=TODAY_STR;
   await loadAllFromSupabase();
 }
@@ -1141,6 +1211,109 @@ function switchTab(name,btn){
   btn.classList.add('active');
   if(name==='handoff'){renderHuddleDeployment();loadAndRenderHuddles();const hdDate=document.getElementById('hd-date');if(hdDate&&!hdDate.value)hdDate.value=TODAY_STR;}
   if(name==='deploylog'){loadDeployLog();}
+  if(name==='staff'){loadStaff();}
+}
+
+// ── STAFF ──────────────────────────────────────────────────────────────
+const FACILITATOR_CERTS=['Beginner Tech','Deployment','Facilitator Training','Hub Master','Intermediate Tech'];
+const AM_CERTS=['Advanced Tech','Guest Management','Interviewing & Hiring','Leadership & Coaching','Marketing 101','Training'];
+const POS_LABELS={facilitator:'Facilitator',assistant_manager:'Assistant Manager',general_manager:'General Manager'};
+let staffList=[], staffPositionSel='facilitator';
+
+async function loadStaff(){
+  if(!currentLocationId) return;
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/staff_members?location_id=eq.${encodeURIComponent(currentLocationId)}&active=eq.true&order=first_name.asc&select=*`,{headers:sbHeaders()});
+    if(!r.ok) throw new Error(await r.text());
+    staffList=await r.json();
+  }catch(e){ console.warn('loadStaff',e); staffList=[]; }
+  renderStaffTable(); buildStaffDatalist();
+}
+
+function buildStaffDatalist(){
+  const dl=document.getElementById('staffNames'); if(!dl) return;
+  dl.innerHTML=staffList.map(s=>`<option value="${escHtml(s.first_name||'')}">`).join('');
+}
+
+function renderStaffTable(){
+  const body=document.getElementById('staffBody'); if(!body) return;
+  const cnt=document.getElementById('staffCount'); if(cnt) cnt.textContent=staffList.length?`(${staffList.length})`:'';
+  const empty=document.getElementById('staffEmpty');
+  if(!staffList.length){ body.innerHTML=''; if(empty) empty.style.display='block'; return; }
+  if(empty) empty.style.display='none';
+  body.innerHTML=staffList.map(s=>{
+    const certs=Array.isArray(s.certifications)?s.certifications:[];
+    const chips=certs.length?certs.map(c=>`<span class="cert-chip">${escHtml(c)}</span>`).join(''):'<span style="color:var(--muted);">—</span>';
+    return `<tr>
+      <td style="font-weight:600;">${escHtml(s.first_name||'')}</td>
+      <td><span class="pos-badge pos-${escHtml(s.position||'facilitator')}">${escHtml(POS_LABELS[s.position]||s.position||'')}</span></td>
+      <td>${s.rank!=null&&s.rank!==''?escHtml(String(s.rank)):'—'}</td>
+      <td style="white-space:normal;max-width:340px;">${chips}</td>
+      <td style="text-align:right;white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openStaffModal('${s.id}')">Edit</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--accent2);border-color:rgba(255,77,109,.4);margin-left:6px;" onclick="deleteStaffMember('${s.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function selectStaffPosition(pos){
+  staffPositionSel=pos;
+  document.querySelectorAll('#staffPositionToggle .shift-option').forEach(b=>b.classList.toggle('sel-pos',b.dataset.pos===pos));
+}
+
+function renderCertGroups(selected){
+  const sel=new Set(selected||[]);
+  const group=(label,certs)=>`<div class="cert-group">
+    <div class="cert-group-label">${label}</div>
+    <div class="cert-grid">${certs.map(c=>`
+      <label class="cert-check${sel.has(c)?' on':''}">
+        <input type="checkbox" value="${escHtml(c)}" ${sel.has(c)?'checked':''} onchange="this.closest('.cert-check').classList.toggle('on',this.checked)">
+        <span>${escHtml(c)}</span>
+      </label>`).join('')}</div>
+  </div>`;
+  document.getElementById('staffCertGroups').innerHTML=group('Facilitator Certifications',FACILITATOR_CERTS)+group('Assistant Manager Certifications',AM_CERTS);
+}
+
+function openStaffModal(id){
+  const editing = id ? staffList.find(s=>s.id===id) : null;
+  document.getElementById('staffEditingId').value = editing?editing.id:'';
+  document.getElementById('staffModalTitle').textContent = editing?'Edit Staff Member':'Add Staff Member';
+  document.getElementById('staffFirstName').value = editing?(editing.first_name||''):'';
+  document.getElementById('staffRank').value = (editing&&editing.rank!=null)?editing.rank:'';
+  selectStaffPosition(editing?editing.position:'facilitator');
+  renderCertGroups(editing&&Array.isArray(editing.certifications)?editing.certifications:[]);
+  document.getElementById('staffModal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('staffFirstName').focus(),100);
+}
+function closeStaffModal(){ document.getElementById('staffModal').classList.add('hidden'); }
+
+async function saveStaffMember(){
+  const name=document.getElementById('staffFirstName').value.trim();
+  if(!name){ alert('Enter a first name.'); return; }
+  const rankVal=document.getElementById('staffRank').value.trim();
+  const certs=[...document.querySelectorAll('#staffCertGroups input:checked')].map(i=>i.value);
+  const id=document.getElementById('staffEditingId').value;
+  const row={ location_id:currentLocationId, first_name:name, position:staffPositionSel,
+    rank:rankVal===''?null:parseInt(rankVal,10), certifications:certs, active:true, updated_at:new Date().toISOString() };
+  const btn=document.querySelector('#staffModal .btn-primary'); if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  try{
+    const url=id?`${SB_URL}/rest/v1/staff_members?id=eq.${id}`:`${SB_URL}/rest/v1/staff_members`;
+    const r=await fetch(url,{method:id?'PATCH':'POST',headers:{...sbHeaders(),'Prefer':'return=minimal'},body:JSON.stringify(row)});
+    if(!r.ok) throw new Error(await r.text());
+    closeStaffModal(); await loadStaff();
+  }catch(e){ console.error('saveStaffMember',e); alert('Save failed — '+(e.message||'try again')); }
+  finally{ if(btn){btn.disabled=false;btn.textContent='Save';} }
+}
+
+async function deleteStaffMember(id){
+  const s=staffList.find(x=>x.id===id);
+  if(!confirm(`Remove ${s?s.first_name:'this staff member'} from your roster?`)) return;
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/staff_members?id=eq.${id}`,{method:'DELETE',headers:{...sbHeaders(),'Prefer':'return=minimal'}});
+    if(!r.ok) throw new Error(await r.text());
+    await loadStaff();
+  }catch(e){ console.error('deleteStaffMember',e); alert('Delete failed — '+(e.message||'try again')); }
 }
 
 // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500

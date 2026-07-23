@@ -173,3 +173,23 @@ INSERT INTO locations (id, name, region) VALUES
   ('lexington', 'Activate Lexington', 'Southeast')
 ON CONFLICT (id) DO NOTHING;
 -- ============================================================
+
+-- ============================================================
+-- STAFF MEMBERS — per-location team roster for the manager app.
+-- Powers the "Staff" tab + the deployment name dropdown.
+-- Run once; idempotent. RLS disabled (matches deployment_logs/tv_state).
+-- ============================================================
+CREATE TABLE IF NOT EXISTS staff_members (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  location_id text NOT NULL,
+  first_name text NOT NULL,
+  position text NOT NULL DEFAULT 'facilitator',  -- 'facilitator' | 'assistant_manager' | 'general_manager'
+  rank int,                                       -- manually entered number
+  certifications jsonb NOT NULL DEFAULT '[]'::jsonb,  -- array of completed cert names
+  active boolean NOT NULL DEFAULT true,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_staff_location ON staff_members(location_id, active);
+ALTER TABLE staff_members DISABLE ROW LEVEL SECURITY;
+-- ============================================================
