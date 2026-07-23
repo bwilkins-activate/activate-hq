@@ -458,7 +458,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
   
   <button class="tab-btn hide-on-view" onclick="switchTab('handoff',this)">&#128101; Shift Huddle</button>
   <button class="tab-btn" onclick="switchTab('deploylog',this)">&#128203; Deploy Log</button>
-  <button class="tab-btn hide-on-view" onclick="switchTab('staff',this)">&#129489; Staff</button>
+  <button class="tab-btn" id="staffTabBtn" onclick="switchTab('staff',this)" style="display:none;">&#129489; Staff</button>
 </div>
 
 <!-- &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552; -->
@@ -1196,6 +1196,15 @@ function applyRoleUI(){
   const view = currentRole==='view';
   document.body.classList.toggle('view-mode',view);
   const rb=document.getElementById('roleBadge'); if(rb) rb.style.display = view?'inline-block':'none';
+  // Staff tab: manager / GM / admin only — hidden for agent (staff) accounts
+  const canStaff = ['manager','gm','admin'].includes(currentRole);
+  const stab = document.getElementById('staffTabBtn'); if(stab) stab.style.display = canStaff ? '' : 'none';
+  if(!canStaff && document.getElementById('panel-staff').classList.contains('active')){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('panel-today').classList.add('active');
+    const tb=document.querySelector('.tab-btn[onclick*="today"]'); if(tb)tb.classList.add('active');
+  }
   if(view && document.getElementById('panel-handoff').classList.contains('active')){
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
