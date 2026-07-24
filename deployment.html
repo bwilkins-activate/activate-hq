@@ -1193,8 +1193,11 @@ function updateHeader(){
 }
 
 function applyRoleUI(){
-  const view = currentRole==='view';
+  // Only manager / GM / admin can edit. Everyone else (agent/staff = "view")
+  // is read-only: hides Edit Mode, Quick Add, Lock, Add Group, huddle submit.
+  const view = !['manager','gm','admin'].includes(currentRole);
   document.body.classList.toggle('view-mode',view);
+  if(view){ editMode=false; document.body.classList.remove('edit-mode'); }
   const rb=document.getElementById('roleBadge'); if(rb) rb.style.display = view?'inline-block':'none';
   // Staff tab: manager / GM / admin only — hidden for agent (staff) accounts
   const canStaff = ['manager','gm','admin'].includes(currentRole);

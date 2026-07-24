@@ -191,5 +191,11 @@ CREATE TABLE IF NOT EXISTS staff_members (
   updated_at timestamptz DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS idx_staff_location ON staff_members(location_id, active);
-ALTER TABLE staff_members DISABLE ROW LEVEL SECURITY;
+-- RLS on with an open policy (Supabase keeps RLS enabled on new tables;
+-- a permissive policy is more reliable than trying to DISABLE it, and
+-- matches the pilot posture of the other app tables).
+ALTER TABLE staff_members ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS staff_all ON staff_members;
+CREATE POLICY staff_all ON staff_members FOR ALL USING (true) WITH CHECK (true);
+GRANT ALL ON staff_members TO anon, authenticated;
 -- ============================================================
