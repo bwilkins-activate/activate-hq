@@ -37,7 +37,6 @@ function subjectAndBody(args: SendArgs) {
   const body =
     `Hey team,\n\n` +
     `Attached is ${who} ${args.formName}${forTitle}${over}.\n\n` +
-    `Give it a read, and reply here with any questions.\n\n` +
     `Thanks,\n${args.author || "Activate Training"}`;
   return { subject, body };
 }
