@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activate &mdash; Forms</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000626;--surface:#050d33;--surface2:#0c1657;--border:#1d2b78;--accent:#00ffff;--indigo:#3d5bf2;--accent2:#ff4d6d;--accent3:#a8ff3e;--text:#e5e9ff;--muted:#8893c9;--gold:#ffd166;--purple:#c084fc;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:radial-gradient(1200px 620px at 50% -12%,rgba(61,91,242,.20),transparent 60%),var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(61,91,242,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(61,91,242,.045) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);-webkit-mask-image:radial-gradient(circle at 50% 0%,#000 55%,transparent 95%);pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:0 18px 120px;}
+
+/* HEADER */
+header{position:relative;display:flex;align-items:center;justify-content:space-between;padding:18px 0 16px;border-bottom:1px solid rgba(61,91,242,.35);margin-bottom:4px;flex-wrap:wrap;gap:10px;}
+header::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);opacity:.55;}
+.brand-wordmark{font-family:'Anton',sans-serif;font-size:clamp(26px,3.8vw,38px);letter-spacing:2px;line-height:1;background:linear-gradient(90deg,#00ffff,#3d5bf2 50%,#ff00ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.brand-tag{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:3px;color:#000626;background:var(--accent);padding:3px 9px;border-radius:5px;}
+.logo-area h1{font-family:'Anton',sans-serif;font-size:clamp(18px,3vw,26px);letter-spacing:2px;color:var(--accent);line-height:1;}
+.logo-area p{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:5px;font-family:'Space Mono',monospace;}
+
+/* FORM PICKER */
+.picker-wrap{margin:20px 0 6px;}
+.picker-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.form-select{width:100%;background:var(--surface);border:1px solid var(--indigo);border-radius:12px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;padding:15px 44px 15px 16px;outline:none;cursor:pointer;appearance:none;transition:border-color .2s,box-shadow .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath fill='%2300ffff' d='M7 9L0 0h14z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;}
+.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,255,.14);}
+
+/* STICKY PROGRESS */
+.progress-wrap{position:sticky;top:0;z-index:20;background:rgba(0,6,38,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 0 10px;margin:0 -18px 18px;border-bottom:1px solid var(--border);display:none;}
+.progress-wrap.show{display:block;}
+.progress-inner{max-width:820px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:14px;}
+.progress-bar{flex:1;height:8px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#00ffff,#3d5bf2 60%,#ff00ff);border-radius:6px;transition:width .3s ease;}
+.progress-pct{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);white-space:nowrap;min-width:38px;text-align:right;}
+.save-status{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.5px;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);}
+.save-status.saving .save-dot{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+
+/* SECTION NAV CHIPS */
+.section-nav{display:flex;gap:6px;overflow-x:auto;padding:2px 0 2px;margin-bottom:16px;-webkit-overflow-scrolling:touch;}
+.section-nav::-webkit-scrollbar{height:0;}
+.nav-chip{flex-shrink:0;padding:6px 12px;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:'Space Grotesk',sans-serif;}
+.nav-chip:hover{border-color:var(--accent);color:var(--accent);}
+.nav-chip.complete{border-color:rgba(168,255,62,.4);color:var(--accent3);}
+
+/* SECTION CARD */
+.section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 24px rgba(0,4,30,.45);scroll-margin-top:96px;}
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+.section-letter{font-family:'Anton',sans-serif;font-size:22px;color:var(--indigo);letter-spacing:1px;}
+.section-title{font-family:'Anton',sans-serif;font-size:19px;letter-spacing:1.5px;color:var(--accent);}
+.section-desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin:6px 0 14px;}
+.section-optional{font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);border:1px solid rgba(255,209,102,.35);background:rgba(255,209,102,.1);padding:2px 7px;border-radius:4px;letter-spacing:1px;text-transform:uppercase;align-self:center;}
+
+/* FIELD */
+.field{margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+.field-label{display:block;font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:7px;line-height:1.45;}
+.field-q{font-family:'Space Mono',monospace;font-size:11px;color:var(--indigo);margin-right:7px;}
+.field-hint{font-size:11.5px;color:var(--muted);margin-bottom:7px;line-height:1.45;}
+.field-opt{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);border:1px solid var(--border);padding:1px 6px;border-radius:4px;margin-left:6px;letter-spacing:.5px;text-transform:uppercase;vertical-align:middle;}
+input[type="text"],input[type="email"],input[type="number"],input[type="date"],select.fld,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:10px 12px;outline:none;transition:border-color .2s,box-shadow .2s;}
+input:focus,select.fld:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,255,.12);}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.7;}
+select.fld{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238893c9' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px;}
+textarea{resize:vertical;min-height:88px;line-height:1.55;}
+.date-range{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.date-range input{flex:1;min-width:130px;}
+.date-arrow{color:var(--muted);font-size:16px;}
+
+/* CHECKS */
+.check-group{display:flex;flex-wrap:wrap;gap:8px;}
+.check-pill{padding:8px 14px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none;}
+.check-pill:hover{border-color:var(--accent);color:var(--text);}
+.check-pill.sel{background:rgba(0,255,255,.12);border-color:var(--accent);color:var(--accent);font-weight:600;}
+
+/* REPEATER */
+.repeat-block{border:1px solid var(--border);border-left:3px solid var(--indigo);border-radius:10px;padding:16px;margin-bottom:12px;background:rgba(12,22,87,.4);position:relative;}
+.repeat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.repeat-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--indigo);letter-spacing:1.5px;text-transform:uppercase;}
+.add-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px;border:1px dashed var(--border);background:transparent;color:var(--muted);border-radius:9px;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;transition:all .2s;}
+.add-btn:hover{border-color:var(--accent);color:var(--accent);}
+.add-btn:disabled{opacity:.4;cursor:not-allowed;}
+.remove-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer;transition:all .15s;font-family:'Space Grotesk',sans-serif;}
+.remove-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+
+/* TABLE */
+.ops-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
+.ops-table{border-collapse:collapse;min-width:640px;width:100%;}
+.ops-table th{font-family:'Space Mono',monospace;font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 6px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.ops-table td{padding:5px 4px;border-bottom:1px solid rgba(29,43,120,.5);}
+.ops-table input,.ops-table select.fld{padding:7px 8px;font-size:12.5px;}
+
+/* SUBMIT BAR */
+.submit-bar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(0,6,38,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--border);padding:12px 18px;display:none;}
+.submit-bar.show{display:block;}
+.submit-inner{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap;}
+.submit-meta{font-size:12px;color:var(--muted);}
+.submit-meta b{color:var(--text);}
+.btn{border:none;border-radius:9px;padding:12px 22px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary{background:linear-gradient(90deg,#00ffff,#ff00ff);color:#000;}
+.btn-primary:hover{box-shadow:0 0 18px rgba(0,255,255,.4);transform:translateY(-1px);filter:brightness(1.08);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;filter:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+/* MISC */
+.intro{font-size:13.5px;color:var(--muted);line-height:1.6;margin:16px 0 20px;padding:16px 18px;background:linear-gradient(135deg,rgba(0,255,255,.06),rgba(0,255,255,.02));border:1px solid rgba(0,255,255,.2);border-radius:12px;}
+.intro b{color:var(--text);}
+.chooser{text-align:center;padding:48px 24px;color:var(--muted);}
+.chooser .big{font-family:'Anton',sans-serif;font-size:22px;color:var(--text);letter-spacing:1px;margin-bottom:10px;}
+.chooser p{font-size:13.5px;line-height:1.6;max-width:440px;margin:0 auto;}
+.footer-note{text-align:center;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:24px;text-transform:uppercase;}
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,6,38,.9);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px;}
+.overlay.show{display:flex;}
+.overlay-card{max-width:460px;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 30px;}
+.overlay-icon{font-size:46px;margin-bottom:14px;}
+.overlay-card h2{font-family:'Anton',sans-serif;font-size:26px;letter-spacing:1px;color:var(--accent);margin-bottom:12px;}
+.overlay-card p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+.overlay-card .recips{color:var(--text);font-weight:600;}
+.overlay-card input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:10px 12px;outline:none;}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 18px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:560px){.section{padding:16px;}.submit-meta{display:none;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo-area">
+      <h1>ACTIVATE FORMS</h1>
+      <p id="headerTag">Report Center</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="brand-wordmark">ACTIVATE</span>
+      <span class="brand-tag">HQ</span>
+    </div>
+  </header>
+
+  <div class="picker-wrap">
+    <label class="picker-label" for="formPicker">Select a form</label>
+    <select class="form-select" id="formPicker"></select>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-inner">
+      <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+      <div class="progress-pct" id="progPct">0%</div>
+      <div class="save-status" id="saveStatus"><span class="save-dot"></span><span id="saveText">Saved</span></div>
+    </div>
+  </div>
+
+  <div class="section-nav" id="sectionNav"></div>
+  <div class="intro" id="intro" style="display:none"></div>
+
+  <div class="chooser" id="chooser">
+    <div class="big">Pick a form to get started</div>
+    <p>Choose a form from the dropdown above. Your answers save automatically to this device as you go, and when you submit, a polished report is generated and emailed to the recipients you list.</p>
+  </div>
+
+  <form id="theForm"></form>
+
+  <div class="footer-note">Confidential &mdash; Internal Use Only &nbsp;&bull;&nbsp; Activate</div>
+</div>
+
+<div class="submit-bar" id="submitBar">
+  <div class="submit-inner">
+    <div class="submit-meta"><b id="answeredCount">0</b> of <b id="totalCount">0</b> questions answered</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button type="button" class="btn btn-ghost" id="clearBtn">Clear form</button>
+      <button type="button" class="btn btn-primary" id="submitBtn">Generate &amp; Send Report &nbsp;&rarr;</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"><div class="overlay-card" id="overlayCard"></div></div>
+
+<div class="overlay" id="gateOverlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🔒</div>
+    <h2>Access code</h2>
+    <p>This tool is for Activate leadership. Enter the shared access code to continue.</p>
+    <input type="password" id="gateInput" placeholder="Access code" style="text-align:center;letter-spacing:2px;margin:6px 0 4px;" autocomplete="off">
+    <div id="gateErr" style="color:var(--accent2);font-size:12px;min-height:16px;margin-bottom:8px;"></div>
+    <button class="btn btn-primary" id="gateBtn" style="width:100%">Unlock</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     FORM DEFINITIONS
+     Each form is one entry in FORMS. To add a form: add an object
+     here (questions) AND a matching system prompt in the Edge
+     Function (supabase/functions/submit-form/forms.ts).
+     Field types: text | email | textarea | select | date-range |
+                  checks | repeater | table
+     ============================================================ -->
+<script src="forms/site-visit.js"></script>
+<script src="forms/gm-training.js"></script>
+<script>
+const FORMS = window.ACTIVATE_FORMS || [];
+
+// Backend
+const SB_URL = 'https://pemmhbdggpgzykljchel.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlbW1oYmRnZ3BnenlrbGpjaGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNDczNjgsImV4cCI6MjA4NzYyMzM2OH0.yPgAcVlfExTWxqcIPwpcCvOa6WosfLn7ha14edu1XMA';
+const SUBMIT_URL = SB_URL + '/functions/v1/submit-form';
+const authHeaders = {'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON};
+const ACCESS_KEY = 'activate_forms_access';
+function accessHeaders(){ const c=localStorage.getItem(ACCESS_KEY); return c?{'x-access-code':c}:{}; }
+
+let currentForm = null;   // active form def
+let state = null;         // { answers:{}, rep:{}, tbl:{} }
+
+function el(tag, attrs={}, html){ const e=document.createElement(tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(html!=null) e.innerHTML=html; return e; }
+function draftKey(formId){ return 'activate_forms_draft_v1__'+formId; }
+function loadDraft(formId){ try{ return JSON.parse(localStorage.getItem(draftKey(formId))) || null; }catch(e){ return null; } }
+
+/* ---------- BUILD PICKER ---------- */
+const picker = document.getElementById('formPicker');
+function buildPicker(){
+  picker.innerHTML='';
+  picker.appendChild(el('option',{value:''},'— Choose a form —'));
+  FORMS.forEach(f=>picker.appendChild(el('option',{value:f.id}, f.name)));
+  picker.addEventListener('change',()=>{ selectForm(picker.value); });
+}
+
+/* ---------- SELECT / LOAD A FORM ---------- */
+function freshState(form){
+  const s={answers:{},rep:{},tbl:{}};
+  (form.sections||[]).forEach(sec=>sec.fields.forEach(f=>{
+    if(f.type==='repeater') s.rep[f.id]=[{}];
+    if(f.type==='table') s.tbl[f.id]=[{}];
+  }));
+  return s;
+}
+function selectForm(id){
+  const form = FORMS.find(f=>f.id===id) || null;
+  currentForm = form;
+  picker.value = id||'';
+  // update URL (?form=)
+  const url=new URL(window.location.href);
+  if(id) url.searchParams.set('form',id); else url.searchParams.delete('form');
+  history.replaceState(null,'',url);
+
+  const show = !!form;
+  document.getElementById('chooser').style.display = show?'none':'block';
+  document.getElementById('intro').style.display = show?'block':'none';
+  document.getElementById('progressWrap').classList.toggle('show',show);
+  document.getElementById('submitBar').classList.toggle('show',show);
+  document.getElementById('theForm').innerHTML='';
+  document.getElementById('sectionNav').innerHTML='';
+  if(!form){ document.getElementById('headerTag').textContent='Report Center'; document.title='Activate — Forms'; return; }
+
+  document.getElementById('headerTag').textContent = form.tagline || 'Report Center';
+  document.title = 'Activate — '+form.name;
+  document.getElementById('intro').innerHTML = form.intro || '';
+
+  // restore or init draft
+  const saved = loadDraft(form.id);
+  state = saved || freshState(form);
+  if(!state.answers) state.answers={}; if(!state.rep) state.rep={}; if(!state.tbl) state.tbl={};
+  (form.sections||[]).forEach(sec=>sec.fields.forEach(f=>{
+    if(f.type==='repeater' && (!state.rep[f.id]||!state.rep[f.id].length)) state.rep[f.id]=[{}];
+    if(f.type==='table' && (!state.tbl[f.id]||!state.tbl[f.id].length)) state.tbl[f.id]=[{}];
+  }));
+  build();
+}
+
+/* ---------- RENDER FIELDS ---------- */
+const form = document.getElementById('theForm');
+const nav = document.getElementById('sectionNav');
+
+function renderField(f){
+  if(f.type==='repeater') return renderRepeater(f);
+  if(f.type==='table') return renderTable(f);
+  const wrap = el('div',{class:'field'});
+  if(f.label){
+    const qnum = f.q ? `<span class="field-q">${f.q}</span>` : '';
+    const opt = f.optional ? '<span class="field-opt">Optional</span>' : '';
+    wrap.appendChild(el('label',{class:'field-label',for:f.id}, qnum+f.label+opt));
+  }
+  if(f.hint) wrap.appendChild(el('div',{class:'field-hint'}, f.hint));
+  const val = state.answers[f.id];
+
+  if(f.type==='text'||f.type==='email'){
+    const i=el('input',{type:f.type==='email'?'email':'text',id:f.id,placeholder:f.ph||''});
+    if(val!=null) i.value=val;
+    i.addEventListener('input',()=>{ state.answers[f.id]=i.value; save(); });
+    wrap.appendChild(i);
+  } else if(f.type==='textarea'){
+    const t=el('textarea',{id:f.id,placeholder:f.ph||'Paragraph-length response'});
+    if(val!=null) t.value=val;
+    t.addEventListener('input',()=>{ state.answers[f.id]=t.value; save(); });
+    wrap.appendChild(t);
+  } else if(f.type==='select'){
+    const s=el('select',{id:f.id,class:'fld'});
+    s.appendChild(el('option',{value:''},'Select…'));
+    f.options.forEach(o=>{ const op=el('option',{value:o},o); if(val===o) op.setAttribute('selected','selected'); s.appendChild(op); });
+    s.addEventListener('change',()=>{ state.answers[f.id]=s.value; save(); });
+    wrap.appendChild(s);
+  } else if(f.type==='date-range'){
+    const box=el('div',{class:'date-range'});
+    const a=el('input',{type:'date',id:f.id+'_start'}); const b=el('input',{type:'date',id:f.id+'_end'});
+    const cur=val||{}; if(cur.start)a.value=cur.start; if(cur.end)b.value=cur.end;
+    const upd=()=>{ state.answers[f.id]={start:a.value,end:b.value}; save(); };
+    a.addEventListener('change',upd); b.addEventListener('change',upd);
+    box.append(a, el('span',{class:'date-arrow'},'→'), b); wrap.appendChild(box);
+  } else if(f.type==='checks'){
+    const g=el('div',{class:'check-group'}); const sel=new Set(val||[]);
+    f.options.forEach(o=>{
+      const p=el('div',{class:'check-pill'+(sel.has(o)?' sel':'')},o);
+      p.addEventListener('click',()=>{ if(sel.has(o))sel.delete(o); else sel.add(o); p.classList.toggle('sel'); state.answers[f.id]=[...sel]; save(); });
+      g.appendChild(p);
+    });
+    wrap.appendChild(g);
+  }
+  return wrap;
+}
+
+function renderTable(f){
+  const box=el('div',{class:'field'});
+  if(f.label) box.appendChild(el('label',{class:'field-label'}, f.label + (f.optional?'<span class="field-opt">Optional</span>':'')));
+  if(f.hint) box.appendChild(el('div',{class:'field-hint'}, f.hint));
+  const rows = state.tbl[f.id] || (state.tbl[f.id]=[{}]);
+  const scroll=el('div',{class:'ops-scroll'});
+  const tbl=el('table',{class:'ops-table'});
+  const thead=el('thead'); const htr=el('tr');
+  f.columns.forEach(c=>htr.appendChild(el('th',{},c.label))); htr.appendChild(el('th',{},'')); thead.appendChild(htr); tbl.appendChild(thead);
+  const tb=el('tbody');
+  rows.forEach((row,idx)=>{
+    const tr=el('tr');
+    f.columns.forEach(c=>{
+      const td=el('td'); let inp;
+      if(c.type==='select'){ inp=el('select',{class:'fld'}); inp.appendChild(el('option',{value:''},'—')); c.options.forEach(o=>{const op=el('option',{value:o},o); if(row[c.id]===o)op.setAttribute('selected','selected'); inp.appendChild(op);}); }
+      else { inp=el('input',{type:c.type==='date'?'date':'text',placeholder:c.ph||''}); if(row[c.id]!=null)inp.value=row[c.id]; }
+      if(c.w) inp.style.width=c.w+'px';
+      const ev=c.type==='select'?'change':'input';
+      inp.addEventListener(ev,()=>{ state.tbl[f.id][idx][c.id]=inp.value; save(); });
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    const rmtd=el('td');
+    if(rows.length>1){ const rm=el('button',{type:'button',class:'remove-btn'},'✕'); rm.addEventListener('click',()=>{ state.tbl[f.id].splice(idx,1); save(); rerender(); }); rmtd.appendChild(rm); }
+    tr.appendChild(rmtd); tb.appendChild(tr);
+  });
+  tbl.appendChild(tb); scroll.appendChild(tbl); box.appendChild(scroll);
+  const add=el('button',{type:'button',class:'add-btn',style:'margin-top:12px'}, f.addLabel||'+ Add row');
+  add.addEventListener('click',()=>{ state.tbl[f.id].push({}); save(); rerender(); });
+  box.appendChild(add);
+  return box;
+}
+
+function renderRepeater(f){
+  const box=el('div',{class:'field'});
+  const items = state.rep[f.id] || (state.rep[f.id]=[{}]);
+  items.forEach((item,idx)=>{
+    const blk=el('div',{class:'repeat-block'});
+    const head=el('div',{class:'repeat-head'});
+    head.appendChild(el('div',{class:'repeat-title'}, (f.title||'Entry')+' '+(idx+1)));
+    if(items.length>1){ const rm=el('button',{type:'button',class:'remove-btn'},'Remove'); rm.addEventListener('click',()=>{ state.rep[f.id].splice(idx,1); save(); rerender(); }); head.appendChild(rm); }
+    blk.appendChild(head);
+    f.fields.forEach(sf=>{
+      const fw=el('div',{class:'field'});
+      fw.appendChild(el('label',{class:'field-label'}, sf.label + (sf.optional?'<span class="field-opt">Optional</span>':'')));
+      let inp;
+      if(sf.type==='textarea'){ inp=el('textarea',{placeholder:sf.ph||'Paragraph-length response'}); }
+      else if(sf.type==='select'){ inp=el('select',{class:'fld'}); inp.appendChild(el('option',{value:''},'Select…')); sf.options.forEach(o=>{const op=el('option',{value:o},o); if(item[sf.id]===o)op.setAttribute('selected','selected'); inp.appendChild(op);}); }
+      else { inp=el('input',{type:'text',placeholder:sf.ph||''}); }
+      if(sf.type!=='select'&&item[sf.id]!=null) inp.value=item[sf.id];
+      const ev=sf.type==='select'?'change':'input';
+      inp.addEventListener(ev,()=>{ state.rep[f.id][idx][sf.id]=inp.value; save(); });
+      fw.appendChild(inp); blk.appendChild(fw);
+    });
+    box.appendChild(blk);
+  });
+  const max=f.max||99;
+  const add=el('button',{type:'button',class:'add-btn'}, f.addLabel||'+ Add another');
+  if(items.length>=max) add.disabled=true;
+  add.addEventListener('click',()=>{ if(state.rep[f.id].length<max){ state.rep[f.id].push({}); save(); rerender(); } });
+  box.appendChild(add);
+  return box;
+}
+
+function build(){
+  form.innerHTML=''; nav.innerHTML='';
+  (currentForm.sections||[]).forEach(sec=>{
+    const s=el('section',{class:'section',id:'sec_'+sec.id});
+    const head=el('div',{class:'section-head'});
+    if(sec.letter) head.appendChild(el('span',{class:'section-letter'},sec.letter));
+    head.appendChild(el('span',{class:'section-title'},sec.title));
+    if(sec.optional) head.appendChild(el('span',{class:'section-optional'},'Optional'));
+    s.appendChild(head);
+    if(sec.desc) s.appendChild(el('div',{class:'section-desc'},sec.desc));
+    sec.fields.forEach(f=>s.appendChild(renderField(f)));
+    form.appendChild(s);
+    const chip=el('div',{class:'nav-chip',id:'chip_'+sec.id}, (sec.letter?sec.letter+' &middot; ':'')+sec.title);
+    chip.addEventListener('click',()=>document.getElementById('sec_'+sec.id).scrollIntoView({behavior:'smooth'}));
+    nav.appendChild(chip);
+  });
+  updateProgress();
+}
+function rerender(){ const y=window.scrollY; build(); window.scrollTo(0,y); }
+
+/* ---------- SAVE + PROGRESS ---------- */
+let saveTimer=null, saveEl=document.getElementById('saveStatus'), saveTxt=document.getElementById('saveText');
+function save(){
+  saveEl.classList.add('saving'); saveTxt.textContent='Saving…';
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    localStorage.setItem(draftKey(currentForm.id), JSON.stringify(state));
+    saveEl.classList.remove('saving'); saveTxt.textContent='Saved';
+    updateProgress();
+  },400);
+}
+function coreFields(){
+  const out=[];
+  (currentForm.sections||[]).forEach(s=>s.fields.forEach(f=>{
+    if(['text','email','textarea','select','date-range','checks'].includes(f.type) && !f.optional) out.push(f);
+  }));
+  return out;
+}
+function isAnswered(f){
+  const v=state.answers[f.id];
+  if(v==null) return false;
+  if(Array.isArray(v)) return v.length>0;
+  if(typeof v==='object') return !!(v.start&&v.end);
+  return String(v).trim().length>0;
+}
+function updateProgress(){
+  const core=coreFields();
+  let done=0; core.forEach(f=>{ if(isAnswered(f)) done++; });
+  const total=core.length||1;
+  const pct=Math.round(done/total*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('answeredCount').textContent=done;
+  document.getElementById('totalCount').textContent=total;
+  (currentForm.sections||[]).forEach(sec=>{
+    const fs=sec.fields.filter(f=>['text','email','textarea','select','date-range','checks'].includes(f.type)&&!f.optional);
+    const chip=document.getElementById('chip_'+sec.id);
+    if(!chip) return;
+    if(fs.length && fs.every(isAnswered)) chip.classList.add('complete'); else chip.classList.remove('complete');
+  });
+}
+
+/* ---------- BRIEF (client-built, sent to the AI) ---------- */
+function fmtVal(v){
+  if(v==null) return '';
+  if(Array.isArray(v)) return v.join(', ');
+  if(typeof v==='object') return (v.start||'?')+' → '+(v.end||'?');
+  return String(v).trim();
+}
+function buildBrief(){
+  const A=state.answers; const lines=[];
+  (currentForm.sections||[]).forEach(sec=>{
+    lines.push('\n'+(sec.letter?sec.letter+' — ':'')+sec.title.toUpperCase());
+    sec.fields.forEach(f=>{
+      if(f.type==='repeater'){
+        const items=(state.rep[f.id]||[]).filter(it=>Object.values(it).some(x=>x&&String(x).trim()));
+        if(!items.length){ lines.push(`- ${f.title||'Entries'}: (none)`); return; }
+        items.forEach((it,i)=>{
+          lines.push(`  ${f.title||'Entry'} ${i+1}:`);
+          f.fields.forEach(sf=>{ const val=fmtVal(it[sf.id]); if(val) lines.push(`    - ${sf.label}: ${val}`); });
+        });
+      } else if(f.type==='table'){
+        const rows=(state.tbl[f.id]||[]).filter(r=>Object.values(r).some(x=>x&&String(x).trim()));
+        if(!rows.length){ lines.push(`- ${f.label||'Table'}: (none)`); return; }
+        lines.push(`- ${f.label||'Table'} (${f.columns.map(c=>c.label).join(' | ')}):`);
+        rows.forEach(r=>lines.push('    '+f.columns.map(c=>r[c.id]||'?').join(' | ')));
+      } else {
+        const val=fmtVal(A[f.id]);
+        lines.push(`- ${f.label}: ${val||'(not provided)'}`);
+      }
+    });
+  });
+  return lines.join('\n');
+}
+
+/* ---------- SUBMIT ---------- */
+const overlay=document.getElementById('overlay'), overlayCard=document.getElementById('overlayCard');
+function showOverlay(html){ overlayCard.innerHTML=html; overlay.classList.add('show'); }
+function hideOverlay(){ overlay.classList.remove('show'); }
+document.getElementById('submitBtn').addEventListener('click', submitForm);
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(confirm('Clear all answers for this form on this device?')){ localStorage.removeItem(draftKey(currentForm.id)); state=freshState(currentForm); build(); }
+});
+
+function recipientsList(){
+  return String(state.answers[currentForm.recipientsField]||'').split(',').map(s=>s.trim()).filter(Boolean);
+}
+function validate(){
+  const missing=[];
+  (currentForm.required||[]).forEach(id=>{
+    const f=findField(id); if(f && !isAnswered(f)) missing.push(id);
+  });
+  return missing;
+}
+function findField(id){
+  let found=null;
+  (currentForm.sections||[]).forEach(s=>s.fields.forEach(f=>{ if(f.id===id) found=f; }));
+  return found;
+}
+
+async function submitForm(){
+  const missing=validate();
+  const recips=recipientsList();
+  if(missing.length || !recips.length){
+    alert('Please complete the required fields (including at least one delivery email) before submitting.');
+    return;
+  }
+  const header = currentForm.header ? currentForm.header(state.answers) : {title:currentForm.name, subtitle:currentForm.name, dates:''};
+  const payload = {
+    form_id: currentForm.id,
+    form_name: currentForm.name,
+    brief: buildBrief(),
+    header,
+    recipients: recips,
+    answers: state.answers, rep: state.rep, tbl: state.tbl,
+    meta: { submitted_at: new Date().toISOString() }
+  };
+  showOverlay('<div class="spinner"></div><h2>Submitting</h2><p>Sending your answers to the report service. The report is assembled and the branded PDF is emailed within a couple of minutes.</p>');
+  try{
+    const res=await fetch(SUBMIT_URL,{ method:'POST', headers:{'Content-Type':'application/json',...authHeaders,...accessHeaders()}, body:JSON.stringify(payload) });
+    if(res.status===401){ hideOverlay(); showGate(); return; }
+    if(!res.ok){ const txt=await res.text().catch(()=> ''); throw new Error('HTTP '+res.status+' '+txt); }
+    showOverlay('<div class="overlay-icon">📨</div><h2>Report on its way</h2><p>Your <span class="recips">'+currentForm.name+'</span> is being generated and will arrive as a PDF within a couple of minutes at:</p><p class="recips">'+recips.join('<br>')+'</p><p style="margin-top:14px;">You can safely close this page — your draft stays saved on this device until you clear it.</p><button class="btn btn-ghost" style="margin-top:18px" onclick="hideOverlay()">Done</button>');
+  }catch(err){
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    showOverlay('<div class="overlay-icon">⚠️</div><h2>Couldn’t reach the report service</h2><p>Your answers are safe — saved on this device.</p><p style="font-family:Space Mono,monospace;font-size:11px;color:var(--muted)">'+String(err.message)+'</p><a class="btn btn-primary" style="margin-top:16px;text-decoration:none" href="'+url+'" download="'+currentForm.id+'-submission.json">Download my answers</a><button class="btn btn-ghost" style="margin-top:10px" onclick="hideOverlay()">Back to form</button>');
+  }
+}
+
+/* ---------- ACCESS GATE ---------- */
+const gateOverlay=document.getElementById('gateOverlay');
+const gateInput=document.getElementById('gateInput');
+const gateErr=document.getElementById('gateErr');
+function showGate(){ gateOverlay.classList.add('show'); setTimeout(()=>gateInput.focus(),50); }
+function hideGate(){ gateOverlay.classList.remove('show'); }
+async function checkGate(){
+  try{
+    const res=await fetch(SUBMIT_URL,{method:'GET',headers:{...authHeaders,...accessHeaders()}});
+    if(!res.ok) return;
+    const j=await res.json();
+    if(j.required && !j.valid) showGate();
+  }catch(e){ /* fail-open; submit enforces */ }
+}
+async function tryUnlock(){
+  const code=gateInput.value.trim(); if(!code) return; gateErr.textContent='';
+  try{
+    const res=await fetch(SUBMIT_URL,{method:'GET',headers:{...authHeaders,'x-access-code':code}});
+    const j=await res.json();
+    if(j.valid){ localStorage.setItem(ACCESS_KEY,code); hideGate(); }
+    else gateErr.textContent='That code didn’t work. Try again.';
+  }catch(e){ gateErr.textContent='Couldn’t reach the server — check your connection.'; }
+}
+document.getElementById('gateBtn').addEventListener('click', tryUnlock);
+gateInput.addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
+
+/* ---------- INIT ---------- */
+buildPicker();
+const startId = new URLSearchParams(window.location.search).get('form');
+if(startId && FORMS.some(f=>f.id===startId)) selectForm(startId); else selectForm('');
+checkGate();
+</script>
+</body>
+</html>
