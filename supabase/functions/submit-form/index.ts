@@ -47,7 +47,7 @@ interface Payload {
   form_id: string;
   form_name?: string;
   brief: string;
-  header?: Partial<HeaderMeta> & { title?: string; subtitle?: string; dates?: string; footer?: string };
+  header?: Partial<HeaderMeta> & { title?: string; subtitle?: string; dates?: string; footer?: string; author?: string };
   recipients?: string[];
   answers?: unknown;
   rep?: unknown;
@@ -115,7 +115,7 @@ async function process(id: string, payload: Payload, systemPrompt: string) {
     });
     const pdfName = `${(payload.form_name || "report").replace(/[^a-z0-9]+/gi, "-")}-${title.replace(/[^a-z0-9]+/gi, "-")}.pdf`;
 
-    await sendReport({ to, formName: payload.form_name || "Report", title, dates, pdf, pdfName });
+    await sendReport({ to, formName: payload.form_name || "Report", title, dates, author: h.author || "", pdf, pdfName });
     await dbUpdate(id, { status: "emailed", emailed_at: new Date().toISOString(), pdf_size_bytes: pdf.length });
     console.log(`Submission ${id} (${payload.form_id}) emailed to ${to.join(", ")}`);
   } catch (err) {
