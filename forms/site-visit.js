@@ -47,7 +47,7 @@
         subtitle: "Site Visit Debrief — " + (A.q1 || "Visiting GM") + (A.q2 ? " (" + A.q2 + ")" : ""),
         dates: datesStr(A.q5),
         author: A.q1 || "",
-        footer: (A.q1 || "Visiting GM") + "  |  Training Team  |  bwilkins@activate.games",
+        footer: (A.q1 || "Visiting GM") + "   ·   " + (A.q3 || "Location") + (datesStr(A.q5) ? "   ·   " + datesStr(A.q5) : ""),
       };
     },
     sections: [

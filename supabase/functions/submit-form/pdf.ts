@@ -52,7 +52,7 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.setTextColor(...MUTED);
-    const line = `${meta.footerContact}  |  Confidential`;
+    const line = `${meta.footerContact}   ·   Confidential`;
     doc.text(line, PAGE_W / 2, FOOTER_Y, { align: "center" });
     doc.setDrawColor(210, 216, 226);
     doc.setLineWidth(0.5);
@@ -89,6 +89,9 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
   doc.setTextColor(...BODY);
   report.sections.forEach((s) => {
     ensure(15);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(...BODY);
     doc.text(`${s.n}.  ${s.title}`, MARGIN, y);
     y += 15;
   });
@@ -109,12 +112,14 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
   };
 
   const paragraph = (text: string) => {
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor(...BODY);
     const lines = doc.splitTextToSize(text, CONTENT_W) as string[];
     lines.forEach((ln) => {
       ensure(14);
+      // Re-apply style every line: a mid-paragraph page break runs footer(),
+      // which leaves the font small+gray. (Fixes the "footer continuation" at top of a page.)
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(...BODY);
       doc.text(ln, MARGIN, y);
       y += 14;
     });
@@ -138,6 +143,8 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
       const lines = doc.splitTextToSize(it.text, CONTENT_W - 16) as string[];
       lines.forEach((ln, i) => {
         ensure(14);
+        doc.setFont("helvetica", it.priority ? "bold" : "normal"); // re-apply after any page break
+        doc.setFontSize(10);
         if (i === 0) {
           doc.setTextColor(...CRIMSON);
           doc.text("•", MARGIN + 2, y);

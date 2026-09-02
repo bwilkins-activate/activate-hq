@@ -32,11 +32,11 @@ Return ONLY a JSON object (no markdown fences, no prose before/after) with this 
 
 Block types: "paragraph" (text), "subhead" (short bold label — a name or themed heading), "bullets" (items[] each {text, priority?}), "table" (columns[] + rows[][]), "columns" (cols[] — each {heading, items[]} — renders as side-by-side columns). Set "priority": true on any safety-critical or urgent bullet — it renders bold and in red.
 
-ALWAYS end the report with a final section titled "Snapshot" (numbered after your last content section) whose single block is a "columns" block with EXACTLY two columns:
+A "Snapshot" section is a single "columns" block with EXACTLY two columns:
   { "type": "columns", "cols": [
     { "heading": "Major Wins", "items": ["...", "..."] },
     { "heading": "Coaching Priorities", "items": ["...", "..."] } ] }
-Each column is a short, scannable list of 3–6 punchy bullets (a few words to one line each) — the at-a-glance takeaways, drawn from everything above. "Major Wins" = strengths/highlights; "Coaching Priorities" = what to work on next.`;
+Each column is a short, scannable list of 3–6 punchy bullets (a few words to one line each) that synthesize the WHOLE report — "Major Wins" = strengths/highlights, "Coaching Priorities" = what to work on next. Place the Snapshot section wherever the section list below specifies.`;
 
 // ---- Site Visit Report ----
 const SITE_VISIT_SECTIONS = `
@@ -49,7 +49,8 @@ Sections to produce, in this order (keep the numbering; if the input had nothing
 6 — Facility Issues (use bullets; mark safety-critical items priority:true)
 7 — Outreach & Guest Engagement
 8 — GM Assessment & Coaching Conversations
-9 — Strategic Recommendations`;
+9 — Strategic Recommendations
+10 — Snapshot (the two-column Major Wins / Coaching Priorities described above, synthesizing the visit)`;
 
 const SITE_VISIT_PROMPT = `You are the Activate Games Training Team's report writer. You are given raw field notes from an experienced Activate GM who just visited another location and worked shifts there. Turn those notes into a polished Site Visit Debrief.
 
@@ -69,12 +70,13 @@ ${SITE_VISIT_SECTIONS}`;
 // ---- New GM Training Debrief ----
 const GM_TRAINING_SECTIONS = `
 Sections to produce, in this order (keep the numbering; if the input had little for a section, write one short paragraph noting it rather than inventing content):
-1 — Trainee Overview (who they are, background, their "why", and values/culture fit)
-2 — Training Recap (a day-by-day / block-by-block account of what was covered and how they did — use "subhead" for each day/date, then paragraphs)
-3 — Ideal Team Player (three "subhead" blocks: Hungry, Humble, Smart — each with the host's read and specific moments)
-4 — Operating Competencies (Organization & Admin, Pace & Drive, Tech, Endurance — use subheads or paragraphs; flag real concerns plainly)
-5 — Team Development & Leadership (team impact, leadership instincts, coaching given)
-6 — Overall Assessment & Recommendations (greatest strengths; development areas/flags; honest on-track read; open questions for the next trainer; recommended next steps)`;
+1 — Snapshot (the two-column Major Wins / Coaching Priorities described above, synthesizing the whole debrief — placed FIRST so a busy owner sees the takeaways the moment it hits their desk)
+2 — Trainee Overview (a CONCISE executive recap for leaders skimming: one or two sentences on who the trainee is, then the overall read, then a brief summary of the biggest wins and the top coaching priorities. Lead with the punchline — do NOT open with a long paragraph or a drawn-out backstory. Name the training week here. Keep the whole section tight.)
+3 — Training Recap (a day-by-day / block-by-block account of what was covered and how they did — use "subhead" for each day/date, then paragraphs)
+4 — Ideal Team Player (three "subhead" blocks: Hungry, Humble, Smart — each with the host's read and specific moments)
+5 — Operating Competencies (Organization & Admin, Pace & Drive, Tech, Endurance — use subheads or paragraphs; flag real concerns plainly)
+6 — Team Development & Leadership (team impact, leadership instincts, coaching given)
+7 — Overall Assessment & Recommendations (honest on-track read; open questions for the next trainer; recommended next steps)`;
 
 const GM_TRAINING_PROMPT = `You are the Activate Games Training Team's report writer. You are given field notes from an experienced Activate GM/trainer who just hosted and trained a new (incoming) General Manager for a multi-day visit. Turn those notes into a polished New GM Training Debrief about the trainee.
 

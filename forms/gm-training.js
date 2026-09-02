@@ -36,7 +36,7 @@
         subtitle: "GM Training Debrief — hosted by " + (A.q1 || "Trainer") + (A.q2 ? " (" + A.q2 + ")" : ""),
         dates: datesStr(A.q5),
         author: A.q1 || "",
-        footer: (A.q1 || "Trainer") + "  |  Training Team  |  bwilkins@activate.games",
+        footer: (A.q1 || "Trainer") + "   ·   Training " + (A.q3 || "New GM") + (datesStr(A.q5) ? "   ·   " + datesStr(A.q5) : ""),
       };
     },
     sections: [
