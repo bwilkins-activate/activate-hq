@@ -52,7 +52,7 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.setTextColor(...MUTED);
-    const line = `${meta.footerContact}   ·   Confidential`;
+    const line = meta.footerContact;
     doc.text(line, PAGE_W / 2, FOOTER_Y, { align: "center" });
     doc.setDrawColor(210, 216, 226);
     doc.setLineWidth(0.5);
