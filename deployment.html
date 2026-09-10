@@ -378,6 +378,55 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 .pos-training{background:rgba(255,159,69,.16);color:#ff9f45;}
 .pos-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .pos-toggle .shift-option{border-radius:7px;border:1px solid var(--border);}
+/* ===== DEPLOYMENT TIMELINE EDITOR (Today roster) ===== */
+.roster-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.roster-hd-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hub-toggle{display:flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;}
+.hub-toggle input{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;}
+#rosterCards{display:flex;flex-direction:column;gap:12px;}
+.pcard{background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:14px 16px;}
+.pcard-hd{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.pcard .namepick{appearance:none;-webkit-appearance:none;font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.4px;background:transparent;border:none;color:var(--text);cursor:pointer;padding:2px 20px 2px 2px;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 7px) 13px,calc(100% - 3px) 13px;background-size:5px 5px;background-repeat:no-repeat;}
+.pcard .namepick:focus{outline:none;color:var(--accent);}
+.pcard .namepick option{font-family:'Space Grotesk',sans-serif;font-size:14px;background:var(--surface);color:var(--text);}
+.posrole{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;padding:5px 10px;border-radius:7px;white-space:nowrap;}
+.posrole.pos-facilitator{background:rgba(125,255,179,.14);color:#7dffb3;border:1px solid rgba(125,255,179,.4);}
+.posrole.pos-assistant_manager{background:rgba(141,164,255,.16);color:#8da4ff;border:1px solid rgba(141,164,255,.4);}
+.posrole.pos-general_manager{background:rgba(255,230,0,.14);color:var(--gold);border:1px solid rgba(255,230,0,.4);}
+.posrole.pos-training{background:rgba(255,159,69,.16);color:#ff9f45;border:1px solid rgba(255,159,69,.4);}
+.posrole.pos-none{background:var(--surface);color:var(--muted);border:1px dashed var(--border);}
+.pcard .shiftbox{display:flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.pcard .shiftbox input[type=time]{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Space Mono',monospace;font-size:12px;padding:5px 7px;color-scheme:dark;cursor:pointer;}
+.pcard .shiftbox input[type=time]:focus{outline:none;border-color:var(--accent);}
+.pcard-del{margin-left:auto;background:transparent;border:1px solid rgba(255,77,109,.35);color:var(--accent2);border-radius:7px;width:28px;height:28px;cursor:pointer;font-size:13px;flex-shrink:0;}
+.pcard-del:hover{background:var(--accent2);color:#fff;}
+.tl-palette{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px;}
+.tl-chip{display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;border:1.5px solid var(--tc);background:transparent;color:var(--tc);font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;cursor:grab;touch-action:none;user-select:none;}
+.tl-chip i{width:10px;height:10px;border-radius:3px;background:var(--tc);}
+.tl-chip:hover{background:color-mix(in srgb,var(--tc) 14%,transparent);}
+.tl-ticks{position:relative;height:14px;margin:0 2px 3px;}
+.tl-tick{position:absolute;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:9.5px;color:var(--muted);top:0;white-space:nowrap;}
+.tl{position:relative;height:88px;background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden;touch-action:none;user-select:none;}
+.tl.drop{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);}
+.tl-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12.5px;font-style:italic;pointer-events:none;text-align:center;padding:0 10px;}
+.tl-gl{position:absolute;top:0;bottom:0;width:1px;background:rgba(61,91,242,.16);}
+.tl-block{position:absolute;top:5px;bottom:5px;border-radius:7px;display:flex;flex-direction:column;justify-content:center;padding:6px 10px;overflow:hidden;cursor:grab;box-shadow:0 2px 8px rgba(0,4,26,.4);}
+.tl-block .bz{font-size:12.5px;font-weight:700;color:#00061a;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tl-block .bt{font-family:'Space Mono',monospace;font-size:10px;color:rgba(0,6,26,.72);margin-top:1px;white-space:nowrap;}
+.tl-block .bx{position:absolute;top:4px;right:5px;width:16px;height:16px;border-radius:50%;background:rgba(0,6,26,.35);color:#00061a;font-size:11px;line-height:16px;text-align:center;cursor:pointer;opacity:0;font-weight:700;}
+.tl-block:hover .bx{opacity:1;}
+.tl-h{position:absolute;top:0;bottom:0;width:15px;cursor:ew-resize;display:flex;align-items:center;justify-content:center;touch-action:none;z-index:3;}
+.tl-h.l{left:-3px;}.tl-h.r{right:-3px;}
+.tl-h::before{content:'';width:4px;height:28px;border-radius:3px;background:rgba(0,6,26,.5);}
+.tl-h:hover::before{background:rgba(0,6,26,.85);}
+.tl-brk{position:absolute;top:5px;bottom:5px;z-index:2;cursor:ew-resize;touch-action:none;border-radius:5px;background:repeating-linear-gradient(45deg,rgba(255,230,0,.85) 0 6px,rgba(0,6,26,.85) 6px 12px);border:1.5px solid var(--gold);}
+.tl-brk .bl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--gold);}
+.tl-tools{display:flex;gap:8px;margin-top:9px;}
+.tl-tools .btn{font-size:12px;padding:6px 11px;}
+.tl-ghost{position:fixed;z-index:600;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#00061a;padding:4px 9px;border-radius:6px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.add-person-bar{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.add-person-bar select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;padding:9px 12px;cursor:pointer;}
+.add-hint{font-size:11.5px;color:var(--muted);}
 .dl-row{cursor:pointer;transition:background .15s;}
 .dl-row:hover{background:var(--surface2);}
 .dl-status{padding:3px 8px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;}
@@ -483,64 +532,23 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
       <!-- Roster -->
       <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div class="roster-hd">
           <div class="section-title" style="margin-bottom:0;">&#128100; Today's Roster <span id="rosterCount"></span></div>
-          <button class="btn btn-lock hide-on-view" onclick="openLockModal()">&#128274; Lock Deployment</button>
-        </div>
-
-        <table class="roster-table" id="rosterTable">
-          <thead>
-            <tr>
-              <th style="width:20px;"></th>
-              <th>Name</th>
-              <th>Shift</th>
-              <th>Deployment</th>
-              <th>Hours</th>
-              <th class="edit-mode-show" style="display:none;"></th>
-            </tr>
-          </thead>
-          <tbody id="rosterBody"></tbody>
-        </table>
-
-        <!-- Add Staff Bar (unified) -->
-        <div class="quick-add-bar hide-on-view" id="quickAddBar">
-          <span class="qa-label">Add Staff &rarr;</span>
-          <input type="text" class="qa-name" id="qaName" list="staffNames" placeholder="Pick or type a name" onkeydown="if(event.key==='Enter')quickAdd()">
-          <datalist id="staffNames"></datalist>
-          <div class="qa-shift-group">
-            <button class="qa-shift-btn" id="qaShiftOpen" onclick="qaSelectShift('Open')" title="Open shift">O</button>
-            <button class="qa-shift-btn" id="qaShiftMid" onclick="qaSelectShift('Mid')" title="Mid shift">M</button>
-            <button class="qa-shift-btn" id="qaShiftClose" onclick="qaSelectShift('Close')" title="Close shift">C</button>
+          <div class="roster-hd-actions">
+            <label class="hub-toggle hide-on-view"><input type="checkbox" id="hubSplitToggle" onchange="toggleHubSplit(this.checked)"> Split Hub into 2 zones</label>
+            <button class="btn btn-lock hide-on-view" onclick="openLockModal()">&#128274; Lock Deployment</button>
           </div>
-          <select class="qa-area" id="qaArea1">
-            <option value="Hub">Hub</option>
-            <option value="Lobby">Lobby</option>
-            <option value="Hub Master">Hub Master</option>
-            <option value="Flex">Flex</option>
-          </select>
-          <span class="qa-label">&rarr; switches at</span>
-          <input type="text" class="qa-at" id="qaAt" placeholder="2:00 PM">
-          <select class="qa-area2" id="qaArea2">
-            <option value="">&mdash; stays put &mdash;</option>
-            <option value="Hub">&rarr; Hub</option>
-            <option value="Lobby">&rarr; Lobby</option>
-            <option value="Hub Master">&rarr; Hub Master</option>
-            <option value="Flex">&rarr; Flex</option>
-          </select>
-          <span class="qa-label">Start:</span>
-          <input type="text" class="qa-at" id="qaStart_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
-          <select id="qaStart_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
-          <span class="qa-label">Break:</span>
-          <input type="text" class="qa-at" id="qaBreak_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
-          <select id="qaBreak_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
-          <span class="qa-label">End:</span>
-          <input type="text" class="qa-at" id="qaEnd_t" placeholder="H:MM" style="width:62px;" onblur="this.value=this.value.trim().replace(/\s*[AaPp][Mm]$/,'');">
-          <select id="qaEnd_ap" class="qa-at" style="width:58px;padding:7px 4px;"><option>AM</option><option>PM</option></select>
-          <button class="btn btn-primary btn-sm" onclick="quickAdd()">+ Add Staff</button>
         </div>
 
-        <div id="rosterEmpty" style="text-align:center;padding:20px 0;color:var(--muted);font-size:13px;display:none;">
-          No roster set yet. Use Quick Add above or &#9998; Edit Mode to get started.
+        <div id="rosterCards"></div>
+
+        <div id="rosterEmpty" style="text-align:center;padding:26px 0;color:var(--muted);font-size:13px;display:none;">
+          No one on the roster yet. Add a team member below.
+        </div>
+
+        <div class="add-person-bar hide-on-view">
+          <select id="addPersonSelect" onchange="addPersonFromStaff(this.value)"><option value="">&#65291; Add a team member&hellip;</option></select>
+          <span class="add-hint">Add your whole team on the <b>Staff</b> tab and they'll show up here.</span>
         </div>
       </div>
 
@@ -1383,30 +1391,103 @@ function shiftBadge(shift){
   return '<span class="badge badge-red">Close</span>';
 }
 
+// ===== Timeline deployment editor =====
+const T_SNAP=5, T_MIN=30, T_DEF=180, T_MAG=18, DAY_S=8*60, DAY_E=24*60;
+let hubSplit=false, tlDrag=null, _blockUid=1;
+const ZC={'Lobby':'#00ffff','Hub Master':'#5b7bff','Hub':'#7dffb3','Hub Zone 1':'#7dffb3','Hub Zone 2':'#26c6da','Flex':'#ff4da6','Activate Coach':'#ffe600'};
+function zonesList(){return hubSplit?['Lobby','Hub Master','Hub Zone 1','Hub Zone 2','Flex','Activate Coach']:['Lobby','Hub Master','Hub','Flex','Activate Coach'];}
+const zoneColor=z=>ZC[z]||'#8893c9';
+function mlabel(m){m=((m%1440)+1440)%1440;let h=Math.floor(m/60),mn=m%60;const ap=h>=12?'PM':'AM';if(h>=13)h-=12;if(h===0)h=12;return h+':'+String(mn).padStart(2,'0')+' '+ap;}
+const tsnap=m=>Math.round(m/T_SNAP)*T_SNAP;
+const toHM=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const hmToMin=v=>{if(!v)return null;const[a,b]=v.split(':').map(Number);return a*60+b;};
+function empBounds(e){let s=parseTimeToMin(e.startTime),en=parseTimeToMin(e.endTime);if(s==null)s=DAY_S;if(en==null||en<=s)en=Math.min(DAY_E,s+480);return[s,en];}
+function ensureBlocks(e){
+  if(Array.isArray(e.blocks)){e.blocks.forEach(b=>{if(b.id==null)b.id=_blockUid++;else _blockUid=Math.max(_blockUid,b.id+1);});return;}
+  const[s,en]=empBounds(e);const dep=(e.deployment&&e.deployment.length)?e.deployment:[];
+  e.blocks=dep.map((st,i)=>{const start=i===0?s:(parseTimeToMin(st.at)??s);const end=i<dep.length-1?(parseTimeToMin(dep[i+1].at)??en):en;return{id:_blockUid++,zone:st.area||'Hub',start:Math.max(s,Math.min(en,start)),end:Math.max(s,Math.min(en,end))};}).filter(b=>b.end>b.start);
+  if(e.breakTime&&!e.brk){const bs=parseTimeToMin(e.breakTime);if(bs!=null)e.brk={start:bs,dur:30};}
+}
+// Keep legacy fields in sync so completeness / huddle / lock / TV keep working unchanged
+function deriveLegacy(e){const bl=[...(e.blocks||[])].sort((a,b)=>a.start-b.start);e.deployment=bl.map((b,i)=>i===0?{area:b.zone}:{area:b.zone,at:mlabel(b.start)});e.breakTime=e.brk?mlabel(e.brk.start):(e.breakTime||'');}
+function getBlock(idx,bid){return (roster[idx].blocks||[]).find(b=>b.id==bid);}
+function nbrs(e,bid){const s=[...e.blocks].sort((a,b)=>a.start-b.start);const i=s.findIndex(b=>b.id==bid);return{prev:s[i-1],next:s[i+1]};}
+function magnetE(e,val,excl){let best=val,bd=T_MAG+1;const[s,en]=empBounds(e);const c=[s,en];e.blocks.forEach(b=>{if(b.id!=excl)c.push(b.start,b.end);});c.forEach(x=>{const d=Math.abs(x-val);if(d<bd){bd=d;best=x;}});return{v:bd<=T_MAG?best:val,hit:bd<=T_MAG};}
+function xToMinE(e,tl,clientX){const[s,en]=empBounds(e);const r=tl.getBoundingClientRect();return Math.max(s,Math.min(en,tsnap(s+((clientX-r.left)/r.width)*(en-s))));}
+
+function tlTicks(s,en){const r=en-s,step=r>480?120:60;let h='';const f=Math.ceil(s/step)*step;for(let m=f;m<=en;m+=step)h+=`<span class="tl-tick" style="left:${((m-s)/r)*100}%">${mlabel(m).replace(':00','')}</span>`;return h;}
+function tlInner(e,i){const[s,en]=empBounds(e),r=en-s,p=m=>((m-s)/r)*100;let h='';for(let m=Math.ceil(s/60)*60;m<en;m+=60)h+=`<div class="tl-gl" style="left:${p(m)}%"></div>`;const bl=[...(e.blocks||[])].sort((a,b)=>a.start-b.start);
+  if(!bl.length&&!e.brk)h+=`<div class="tl-empty">Drag a zone down to deploy ${escHtml(e.name||'them')}</div>`;
+  bl.forEach(b=>{h+=`<div class="tl-block" data-idx="${i}" data-bid="${b.id}" style="left:${p(b.start)}%;width:${p(b.end)-p(b.start)}%;background:${zoneColor(b.zone)}"><div class="bz">${escHtml(b.zone)}</div><div class="bt">${mlabel(b.start)} \u2013 ${mlabel(b.end)}</div><div class="tl-h l" data-idx="${i}" data-bid="${b.id}"></div><div class="tl-h r" data-idx="${i}" data-bid="${b.id}"></div><div class="bx" data-idx="${i}" data-delbid="${b.id}">&times;</div></div>`;});
+  if(e.brk)h+=`<div class="tl-brk" data-idx="${i}" style="left:${p(e.brk.start)}%;width:${p(e.brk.start+e.brk.dur)-p(e.brk.start)}%"><span class="bl">BREAK</span></div>`;
+  return h;}
+function tlRerender(idx){const tl=document.querySelector('.tl[data-idx="'+idx+'"]');if(tl)tl.innerHTML=tlInner(roster[idx],idx);}
+function namePickerOptions(cur){const names=staffList.map(s=>s.first_name);if(cur&&!names.includes(cur))names.unshift(cur);return names.map(n=>`<option value="${escHtml(n)}"${n===cur?' selected':''}>${escHtml(n)}</option>`).join('');}
+function personCard(e,i){const[s,en]=empBounds(e);const sMin=parseTimeToMin(e.startTime),enMin=parseTimeToMin(e.endTime);const pos=e.position||'';const posLabel=pos?(POS_LABELS[pos]||pos):'No position';
+  return `<div class="pcard" data-idx="${i}"><div class="pcard-hd">
+      <select class="namepick" onchange="setCardName(${i},this.value)">${namePickerOptions(e.name)}</select>
+      <span class="posrole pos-${pos||'none'}">${escHtml(posLabel)}</span>
+      <div class="shiftbox">Arrives <input type="time" value="${sMin!=null?toHM(sMin):''}" onchange="setCardShift(${i},'start',this.value)"> &rarr; Leaves <input type="time" value="${enMin!=null?toHM(enMin):''}" onchange="setCardShift(${i},'end',this.value)"></div>
+      <button class="pcard-del hide-on-view" onclick="removeEmployee(${i})" title="Remove">&#10005;</button>
+    </div>
+    <div class="tl-palette">${zonesList().map(z=>`<div class="tl-chip" data-idx="${i}" data-z="${escHtml(z)}" style="--tc:${zoneColor(z)}"><i></i>${escHtml(z)}</div>`).join('')}</div>
+    <div class="tl-ticks">${tlTicks(s,en)}</div>
+    <div class="tl" data-idx="${i}">${tlInner(e,i)}</div>
+    <div class="tl-tools hide-on-view"><button class="btn btn-ghost btn-sm" onclick="addCardBreak(${i})">&#65291; Add break</button><button class="btn btn-ghost btn-sm" onclick="clearCardBlocks(${i})">Clear</button></div>
+  </div>`;}
+function populateAddPerson(){const sel=document.getElementById('addPersonSelect');if(!sel)return;const on=new Set(roster.map(r=>r.name));const opts=staffList.filter(s=>!on.has(s.first_name)).map(s=>`<option value="${escHtml(s.first_name)}">${escHtml(s.first_name)} \u00b7 ${escHtml(POS_LABELS[s.position]||'')}</option>`).join('');sel.innerHTML='<option value="">&#65291; Add a team member&hellip;</option>'+opts;}
+
 function renderRoster(highlightIdx=-1){
   renderHuddleDeployment();
-  const tbody=document.getElementById('rosterBody');
-  const empty=document.getElementById('rosterEmpty');
-  const count=document.getElementById('rosterCount');
-  if(!roster.length){tbody.innerHTML='';empty.style.display='block';count.textContent='';return;}
-  empty.style.display='none';
-  count.textContent=roster.length+' on shift';
-  tbody.innerHTML=roster.map((e,i)=>`
-    <tr class="roster-row${i===highlightIdx?' just-added':''}" draggable="${editMode}"
-        ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})"
-        ondrop="drop(event,${i})" ondragleave="dragLeave(event)" ondragend="dragEnd(event)">
-      <td><span class="drag-handle">\u283f</span></td>
-      <td class="employee-name">${escHtml(e.name)}</td>
-      <td>${shiftBadge(e.shift)}</td>
-      <td>${renderDeploymentCell(e)}</td>
-      <td style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;">${[e.startTime,e.breakTime,e.endTime].map((t,i)=>{const labels=['S','B','E'];return t?`<span style="opacity:.5;font-size:9px;">${labels[i]}</span> ${escHtml(t)}`:''}).filter(Boolean).join(' <span style="opacity:.3;">\u00b7</span> ')||'\u2014'}</td>
-      <td style="font-size:12px;max-width:180px;"></td>
-      <td><div class="roster-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEditModal(${i})">Edit</button>
-        <button class="btn btn-danger" onclick="removeEmployee(${i})">\u2715</button>
-      </div></td>
-    </tr>`).join('');
+  const wrap=document.getElementById('rosterCards');const empty=document.getElementById('rosterEmpty');const count=document.getElementById('rosterCount');
+  if(!wrap)return;
+  hubSplit=localStorage.getItem('dep_hubsplit_'+currentLocationId)==='1';
+  const hst=document.getElementById('hubSplitToggle');if(hst)hst.checked=hubSplit;
+  populateAddPerson();
+  if(!roster.length){wrap.innerHTML='';if(empty)empty.style.display='block';if(count)count.textContent='';return;}
+  if(empty)empty.style.display='none';if(count)count.textContent=roster.length+' on shift';
+  roster.forEach(e=>{ensureBlocks(e);if(!e.position){const st=staffList.find(s=>s.first_name===e.name);if(st)e.position=st.position;}});
+  wrap.innerHTML=roster.map((e,i)=>personCard(e,i)).join('');
 }
+
+function setCardName(idx,name){const e=roster[idx];e.name=name;const st=staffList.find(s=>s.first_name===name);e.position=st?st.position:'';deriveLegacy(e);saveAll();renderRoster();}
+function setCardShift(idx,which,hm){const e=roster[idx];const m=hmToMin(hm);if(m==null)return;if(which==='start')e.startTime=mlabel(m);else e.endTime=mlabel(m);const[s,en]=empBounds(e);e.blocks=(e.blocks||[]).map(b=>({...b,start:Math.max(b.start,s),end:Math.min(b.end,en)})).filter(b=>b.end-b.start>=T_MIN);if(e.brk)e.brk.start=Math.max(s,Math.min(en-e.brk.dur,e.brk.start));deriveLegacy(e);saveAll();renderRoster();}
+function addCardBreak(idx){const e=roster[idx];if(!e.brk){const[s,en]=empBounds(e);e.brk={start:tsnap(s+(en-s)/2-15),dur:30};}deriveLegacy(e);saveAll();tlRerender(idx);}
+function clearCardBlocks(idx){const e=roster[idx];e.blocks=[];e.brk=null;deriveLegacy(e);saveAll();tlRerender(idx);}
+function addPersonFromStaff(name){if(!name)return;const st=staffList.find(s=>s.first_name===name);roster.push({name,shift:'',position:st?st.position:'',startTime:'',endTime:'',blocks:[],brk:null});const e=roster[roster.length-1];deriveLegacy(e);saveAll();renderRoster();}
+function toggleHubSplit(on){hubSplit=on;localStorage.setItem('dep_hubsplit_'+currentLocationId,on?'1':'');renderRoster();}
+
+// timeline pointer interactions (delegated on the cards container)
+function _gmove(x,y){const g=document.getElementById('tlghost');if(g){g.style.left=(x+12)+'px';g.style.top=(y+12)+'px';}}
+(function initTimelineEvents(){
+  const wrap=document.getElementById('rosterCards');if(!wrap)return;
+  wrap.addEventListener('pointerdown',e=>{
+    const chip=e.target.closest('.tl-chip');
+    if(chip){e.preventDefault();tlDrag={type:'palette',idx:+chip.dataset.idx,zone:chip.dataset.z};const g=document.createElement('div');g.className='tl-ghost';g.id='tlghost';g.style.background=zoneColor(chip.dataset.z);g.textContent=chip.dataset.z;document.body.appendChild(g);_gmove(e.clientX,e.clientY);return;}
+    const del=e.target.closest('.bx');if(del){const idx=+del.dataset.idx;roster[idx].blocks=roster[idx].blocks.filter(b=>b.id!=del.dataset.delbid);deriveLegacy(roster[idx]);saveAll();tlRerender(idx);renderHuddleDeployment();return;}
+    const h=e.target.closest('.tl-h'),blk=e.target.closest('.tl-block'),bk=e.target.closest('.tl-brk');
+    if(h)tlDrag={type:h.classList.contains('l')?'rL':'rR',idx:+h.dataset.idx,bid:h.dataset.bid};
+    else if(blk){const idx=+blk.dataset.idx;const b=getBlock(idx,blk.dataset.bid);const tl=blk.closest('.tl');tlDrag={type:'mv',idx,bid:blk.dataset.bid,off:xToMinE(roster[idx],tl,e.clientX)-b.start};}
+    else if(bk){const idx=+bk.dataset.idx;const tl=bk.closest('.tl');tlDrag={type:'brk',idx,off:xToMinE(roster[idx],tl,e.clientX)-roster[idx].brk.start};}
+  });
+  window.addEventListener('pointermove',e=>{
+    if(!tlDrag)return;const idx=tlDrag.idx,emp=roster[idx];const tl=document.querySelector('.tl[data-idx="'+idx+'"]');if(!tl)return;
+    if(tlDrag.type==='palette'){_gmove(e.clientX,e.clientY);const r=tl.getBoundingClientRect();tl.classList.toggle('drop',e.clientX>=r.left-20&&e.clientX<=r.right+20&&e.clientY>=r.top-30&&e.clientY<=r.bottom+30);return;}
+    const t=xToMinE(emp,tl,e.clientX),b=getBlock(idx,tlDrag.bid),[s,en]=empBounds(emp);
+    if(tlDrag.type==='rL'&&b){const{prev}=nbrs(emp,b.id);const m=magnetE(emp,t,b.id);b.start=Math.max(prev?prev.end:s,Math.min(b.end-T_MIN,m.v));tlRerender(idx);}
+    else if(tlDrag.type==='rR'&&b){const{next}=nbrs(emp,b.id);const m=magnetE(emp,t,b.id);b.end=Math.min(next?next.start:en,Math.max(b.start+T_MIN,m.v));tlRerender(idx);}
+    else if(tlDrag.type==='mv'&&b){const len=b.end-b.start;const{prev,next}=nbrs(emp,b.id);let ns=tsnap(t-tlDrag.off);const mL=magnetE(emp,ns,b.id),mR=magnetE(emp,ns+len,b.id);if(mL.hit)ns=mL.v;else if(mR.hit)ns=mR.v-len;ns=Math.max(prev?prev.end:s,Math.min((next?next.start:en)-len,ns));b.start=ns;b.end=ns+len;tlRerender(idx);}
+    else if(tlDrag.type==='brk'&&emp.brk){let ns=tsnap(t-tlDrag.off);emp.brk.start=Math.max(s,Math.min(en-emp.brk.dur,ns));tlRerender(idx);}
+  });
+  window.addEventListener('pointerup',e=>{
+    if(!tlDrag)return;const idx=tlDrag.idx,emp=roster[idx];
+    if(tlDrag.type==='palette'){const g=document.getElementById('tlghost');if(g)g.remove();const tl=document.querySelector('.tl[data-idx="'+idx+'"]');
+      if(tl){tl.classList.remove('drop');const r=tl.getBoundingClientRect();
+        if(e.clientX>=r.left-20&&e.clientX<=r.right+20&&e.clientY>=r.top-30&&e.clientY<=r.bottom+30){const[s,en]=empBounds(emp);let start=xToMinE(emp,tl,e.clientX);let end=Math.min(en,start+T_DEF);start=Math.max(s,end-T_DEF);const id=_blockUid++;const mL=magnetE(emp,start,id);if(mL.hit){const len=end-start;start=mL.v;end=start+len;}else{const mR=magnetE(emp,end,id);if(mR.hit){const len=end-start;end=mR.v;start=end-len;}}start=Math.max(s,start);end=Math.min(en,end);emp.blocks.push({id,zone:tlDrag.zone,start,end});}}}
+    if(emp){deriveLegacy(emp);saveAll();tlRerender(idx);renderHuddleDeployment();}
+    tlDrag=null;
+  });
+})();
 
 function removeEmployee(idx){
   roster.splice(idx,1);saveAll();renderRoster();
