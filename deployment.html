@@ -375,6 +375,9 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 .pos-facilitator{background:rgba(168,255,62,.12);color:var(--accent3);}
 .pos-assistant_manager{background:rgba(61,91,242,.22);color:#8da4ff;}
 .pos-general_manager{background:rgba(255,230,0,.14);color:var(--gold);}
+.pos-training{background:rgba(255,159,69,.16);color:#ff9f45;}
+.pos-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.pos-toggle .shift-option{border-radius:7px;border:1px solid var(--border);}
 .dl-row{cursor:pointer;transition:background .15s;}
 .dl-row:hover{background:var(--surface2);}
 .dl-status{padding:3px 8px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;}
@@ -763,10 +766,11 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
     </div>
     <div style="margin:14px 0;">
       <div class="input-label" style="margin-bottom:8px;">Position</div>
-      <div class="shift-toggle" id="staffPositionToggle">
-        <button type="button" class="shift-option" data-pos="facilitator" onclick="selectStaffPosition('facilitator')">Facilitator</button>
+      <div class="pos-toggle" id="staffPositionToggle">
+        <button type="button" class="shift-option" data-pos="facilitator" onclick="selectStaffPosition('facilitator')">Game Facilitator</button>
         <button type="button" class="shift-option" data-pos="assistant_manager" onclick="selectStaffPosition('assistant_manager')">Assistant Manager</button>
         <button type="button" class="shift-option" data-pos="general_manager" onclick="selectStaffPosition('general_manager')">General Manager</button>
+        <button type="button" class="shift-option" data-pos="training" onclick="selectStaffPosition('training')">Training</button>
       </div>
     </div>
     <div style="margin-bottom:6px;">
@@ -1229,7 +1233,7 @@ function switchTab(name,btn){
 // ── STAFF ──────────────────────────────────────────────────────────────
 const FACILITATOR_CERTS=['Beginner Tech','Deployment','Facilitator Training','Hub Master','Intermediate Tech'];
 const AM_CERTS=['Advanced Tech','Guest Management','Interviewing & Hiring','Leadership & Coaching','Marketing 101','Training'];
-const POS_LABELS={facilitator:'Facilitator',assistant_manager:'Assistant Manager',general_manager:'General Manager'};
+const POS_LABELS={facilitator:'Game Facilitator',assistant_manager:'Assistant Manager',general_manager:'General Manager',training:'Training'};
 let staffList=[], staffPositionSel='facilitator';
 
 async function loadStaff(){
