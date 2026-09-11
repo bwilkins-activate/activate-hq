@@ -427,6 +427,41 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
 .add-person-bar{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .add-person-bar select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;padding:9px 12px;cursor:pointer;}
 .add-hint{font-size:11.5px;color:var(--muted);}
+/* --- compact cards + scroll window + daily overview --- */
+.roster-window{max-height:462px;overflow-y:auto;padding-right:5px;display:flex;flex-direction:column;gap:9px;}
+.roster-window::-webkit-scrollbar{width:8px;}
+.roster-window::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+#rosterCards{gap:9px;}
+.pcard{padding:10px 12px;border-radius:11px;}
+.pcard-hd{margin-bottom:8px;gap:9px;}
+.pcard .namepick{font-size:16px;padding:1px 18px 1px 2px;background-position:calc(100% - 6px) 10px,calc(100% - 2px) 10px;}
+.posrole{font-size:10px;padding:4px 9px;}
+.pcard .shiftbox{font-size:9px;gap:5px;}
+.pcard .shiftbox input[type=time]{font-size:11px;padding:4px 6px;}
+.pcard-del{width:24px;height:24px;font-size:12px;}
+.tl-palette{gap:5px;margin-bottom:8px;}
+.tl-chip{padding:4px 9px;font-size:11.5px;gap:5px;}
+.tl-chip i{width:9px;height:9px;}
+.tl-ticks{height:12px;margin-bottom:2px;}
+.tl-tick{font-size:8.5px;}
+.tl{height:56px;border-radius:9px;}
+.tl-block{top:4px;bottom:4px;padding:4px 8px;border-radius:6px;}
+.tl-block .bz{font-size:11px;}
+.tl-block .bt{font-size:8.5px;margin-top:0;}
+.tl-h::before{height:22px;}
+.tl-tools{margin-top:6px;gap:6px;}
+.tl-tools .btn{font-size:11px;padding:5px 9px;}
+/* daily overview gantt */
+.ov-axis{position:relative;height:14px;margin:0 0 5px 96px;}
+.ov-tick{position:absolute;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap;}
+.ov-row{display:flex;align-items:center;height:32px;gap:8px;}
+.ov-name{width:88px;flex-shrink:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ov-track{position:relative;flex:1;height:24px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.ov-gl{position:absolute;top:0;bottom:0;width:1px;background:rgba(61,91,242,.14);}
+.ov-blk{position:absolute;top:2px;bottom:2px;border-radius:4px;display:flex;align-items:center;padding:0 6px;overflow:hidden;}
+.ov-blk span{font-size:9.5px;font-weight:700;color:#00061a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ov-now{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--accent);box-shadow:0 0 8px var(--accent);z-index:4;}
+.ov-empty{color:var(--muted);font-size:13px;font-style:italic;padding:14px 0;text-align:center;}
 .dl-row{cursor:pointer;transition:background .15s;}
 .dl-row:hover{background:var(--surface2);}
 .dl-status{padding:3px 8px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;}
@@ -540,16 +575,23 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
           </div>
         </div>
 
-        <div id="rosterCards"></div>
-
-        <div id="rosterEmpty" style="text-align:center;padding:26px 0;color:var(--muted);font-size:13px;display:none;">
-          No one on the roster yet. Add a team member below.
+        <div class="roster-window"><div id="rosterCards"></div>
+          <div id="rosterEmpty" style="text-align:center;padding:26px 0;color:var(--muted);font-size:13px;display:none;">
+            No one on the roster yet. Add a team member below.
+          </div>
         </div>
 
         <div class="add-person-bar hide-on-view">
           <select id="addPersonSelect" onchange="addPersonFromStaff(this.value)"><option value="">&#65291; Add a team member&hellip;</option></select>
           <span class="add-hint">Add your whole team on the <b>Staff</b> tab and they'll show up here.</span>
         </div>
+      </div>
+
+      <!-- DAILY OVERVIEW -->
+      <div class="card" id="overviewCard">
+        <div class="section-title" style="margin-bottom:4px;">&#128197; Today at a Glance <span id="ovSpan" style="font-size:12px;font-family:'Space Mono',monospace;font-weight:400;color:var(--muted);"></span></div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:12px;">Who's where, all day &mdash; on one timeline.</div>
+        <div id="dailyOverview"></div>
       </div>
 
       <!-- ACTIVATE COACH -->
@@ -1437,6 +1479,26 @@ function personCard(e,i){const[s,en]=empBounds(e);const sMin=parseTimeToMin(e.st
   </div>`;}
 function populateAddPerson(){const sel=document.getElementById('addPersonSelect');if(!sel)return;const on=new Set(roster.map(r=>r.name));const opts=staffList.filter(s=>!on.has(s.first_name)).map(s=>`<option value="${escHtml(s.first_name)}">${escHtml(s.first_name)} \u00b7 ${escHtml(POS_LABELS[s.position]||'')}</option>`).join('');sel.innerHTML='<option value="">&#65291; Add a team member&hellip;</option>'+opts;}
 
+const nowMinutes=()=>{const d=new Date();return d.getHours()*60+d.getMinutes();};
+function renderDailyOverview(){
+  const el=document.getElementById('dailyOverview');const span=document.getElementById('ovSpan');if(!el)return;
+  if(!roster.length){el.innerHTML='<div class="ov-empty">Add staff above and the day fills in here.</div>';if(span)span.textContent='';return;}
+  let lo=Infinity,hi=-Infinity;
+  roster.forEach(e=>{const[s,en]=empBounds(e);lo=Math.min(lo,s);hi=Math.max(hi,en);(e.blocks||[]).forEach(b=>{lo=Math.min(lo,b.start);hi=Math.max(hi,b.end);});});
+  if(!isFinite(lo)){lo=DAY_S;hi=DAY_E;}
+  lo=Math.floor(lo/60)*60;hi=Math.ceil(hi/60)*60;const r=Math.max(60,hi-lo),p=m=>((m-lo)/r)*100;
+  if(span)span.textContent=mlabel(lo)+' – '+mlabel(hi);
+  const step=r>600?120:60;let axis='';for(let m=Math.ceil(lo/step)*step;m<=hi;m+=step)axis+=`<span class="ov-tick" style="left:${p(m)}%">${mlabel(m).replace(':00','')}</span>`;
+  let gl='';for(let m=Math.ceil(lo/60)*60;m<hi;m+=60)gl+=`<div class="ov-gl" style="left:${p(m)}%"></div>`;
+  const now=nowMinutes();const nowLine=(now>=lo&&now<=hi)?`<div class="ov-now" style="left:${p(now)}%"></div>`:'';
+  const rows=roster.map(e=>{
+    const bl=[...(e.blocks||[])].sort((a,b)=>a.start-b.start);
+    const blocks=bl.map(b=>`<div class="ov-blk" style="left:${p(b.start)}%;width:${Math.max(0,p(b.end)-p(b.start))}%;background:${zoneColor(b.zone)}"><span>${escHtml(b.zone)}</span></div>`).join('');
+    const brk=e.brk?`<div class="ov-blk" style="left:${p(e.brk.start)}%;width:${p(e.brk.start+e.brk.dur)-p(e.brk.start)}%;background:repeating-linear-gradient(45deg,rgba(255,230,0,.8) 0 5px,rgba(0,6,26,.8) 5px 10px);"></div>`:'';
+    return `<div class="ov-row"><div class="ov-name">${escHtml(e.name||'—')}</div><div class="ov-track">${gl}${blocks}${brk}${nowLine}</div></div>`;
+  }).join('');
+  el.innerHTML=`<div class="ov-axis">${axis}</div>${rows}`;
+}
 function renderRoster(highlightIdx=-1){
   renderHuddleDeployment();
   const wrap=document.getElementById('rosterCards');const empty=document.getElementById('rosterEmpty');const count=document.getElementById('rosterCount');
@@ -1444,16 +1506,17 @@ function renderRoster(highlightIdx=-1){
   hubSplit=localStorage.getItem('dep_hubsplit_'+currentLocationId)==='1';
   const hst=document.getElementById('hubSplitToggle');if(hst)hst.checked=hubSplit;
   populateAddPerson();
-  if(!roster.length){wrap.innerHTML='';if(empty)empty.style.display='block';if(count)count.textContent='';return;}
+  if(!roster.length){wrap.innerHTML='';if(empty)empty.style.display='block';if(count)count.textContent='';renderDailyOverview();return;}
   if(empty)empty.style.display='none';if(count)count.textContent=roster.length+' on shift';
   roster.forEach(e=>{ensureBlocks(e);if(!e.position){const st=staffList.find(s=>s.first_name===e.name);if(st)e.position=st.position;}});
   wrap.innerHTML=roster.map((e,i)=>personCard(e,i)).join('');
+  renderDailyOverview();
 }
 
 function setCardName(idx,name){const e=roster[idx];e.name=name;const st=staffList.find(s=>s.first_name===name);e.position=st?st.position:'';deriveLegacy(e);saveAll();renderRoster();}
 function setCardShift(idx,which,hm){const e=roster[idx];const m=hmToMin(hm);if(m==null)return;if(which==='start')e.startTime=mlabel(m);else e.endTime=mlabel(m);const[s,en]=empBounds(e);e.blocks=(e.blocks||[]).map(b=>({...b,start:Math.max(b.start,s),end:Math.min(b.end,en)})).filter(b=>b.end-b.start>=T_MIN);if(e.brk)e.brk.start=Math.max(s,Math.min(en-e.brk.dur,e.brk.start));deriveLegacy(e);saveAll();renderRoster();}
-function addCardBreak(idx){const e=roster[idx];if(!e.brk){const[s,en]=empBounds(e);e.brk={start:tsnap(s+(en-s)/2-15),dur:30};}deriveLegacy(e);saveAll();tlRerender(idx);}
-function clearCardBlocks(idx){const e=roster[idx];e.blocks=[];e.brk=null;deriveLegacy(e);saveAll();tlRerender(idx);}
+function addCardBreak(idx){const e=roster[idx];if(!e.brk){const[s,en]=empBounds(e);e.brk={start:tsnap(s+(en-s)/2-15),dur:30};}deriveLegacy(e);saveAll();tlRerender(idx);renderDailyOverview();}
+function clearCardBlocks(idx){const e=roster[idx];e.blocks=[];e.brk=null;deriveLegacy(e);saveAll();tlRerender(idx);renderDailyOverview();}
 function addPersonFromStaff(name){if(!name)return;const st=staffList.find(s=>s.first_name===name);roster.push({name,shift:'',position:st?st.position:'',startTime:'',endTime:'',blocks:[],brk:null});const e=roster[roster.length-1];deriveLegacy(e);saveAll();renderRoster();}
 function toggleHubSplit(on){hubSplit=on;localStorage.setItem('dep_hubsplit_'+currentLocationId,on?'1':'');renderRoster();}
 
@@ -1484,7 +1547,7 @@ function _gmove(x,y){const g=document.getElementById('tlghost');if(g){g.style.le
     if(tlDrag.type==='palette'){const g=document.getElementById('tlghost');if(g)g.remove();const tl=document.querySelector('.tl[data-idx="'+idx+'"]');
       if(tl){tl.classList.remove('drop');const r=tl.getBoundingClientRect();
         if(e.clientX>=r.left-20&&e.clientX<=r.right+20&&e.clientY>=r.top-30&&e.clientY<=r.bottom+30){const[s,en]=empBounds(emp);let start=xToMinE(emp,tl,e.clientX);let end=Math.min(en,start+T_DEF);start=Math.max(s,end-T_DEF);const id=_blockUid++;const mL=magnetE(emp,start,id);if(mL.hit){const len=end-start;start=mL.v;end=start+len;}else{const mR=magnetE(emp,end,id);if(mR.hit){const len=end-start;end=mR.v;start=end-len;}}start=Math.max(s,start);end=Math.min(en,end);emp.blocks.push({id,zone:tlDrag.zone,start,end});}}}
-    if(emp){deriveLegacy(emp);saveAll();tlRerender(idx);renderHuddleDeployment();}
+    if(emp){deriveLegacy(emp);saveAll();tlRerender(idx);renderHuddleDeployment();renderDailyOverview();}
     tlDrag=null;
   });
 })();
