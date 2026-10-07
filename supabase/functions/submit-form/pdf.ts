@@ -1,15 +1,13 @@
 // ============================================================
-// Branded PDF renderer for the Site Visit Debrief.
-// Consumes the structured JSON from Claude and lays it out to
-// match the Union Square debrief reference: navy header band,
-// crimson section rules, navy/white data table, red bullets.
-// Pure jsPDF — no headless browser (runs in Supabase Edge / Deno).
+// Branded PDF renderer for Activate reports (Activate brand).
+// Light document on a Gray-100 page border with a white Space Window.
+// Fonts: Space Grotesk (body/headlines — Rapid fallback per brand),
+// Space Mono (labels/data). Palette: Indigo / Cyan / Gray only.
+// Pure jsPDF — runs in Supabase Edge (Deno), no headless browser.
 // ============================================================
 import { jsPDF } from "npm:jspdf@2.5.2";
-// Side-effect import: registers the `autoTable` method on the jsPDF prototype.
-// (In Deno's npm interop the default export is a helpers bag, not callable — the
-// plugin method form `doc.autoTable(opts)` is the reliable path. Verified locally.)
 import "npm:jspdf-autotable@3.8.4";
+import { SPACE_GROTESK_BOLD, SPACE_GROTESK_REGULAR, SPACE_MONO_REGULAR, WORDMARK_INDIGO_PNG } from "./brandassets.ts";
 
 export interface ReportBlock {
   type: "paragraph" | "subhead" | "bullets" | "table" | "columns";
@@ -17,108 +15,145 @@ export interface ReportBlock {
   items?: { text: string; priority?: boolean }[];
   columns?: string[];
   rows?: string[][];
-  cols?: { heading: string; items: string[] }[]; // for the "columns" snapshot block
+  cols?: { heading: string; items: string[] }[];
 }
 export interface ReportSection { n: number; title: string; blocks: ReportBlock[]; }
 export interface Report { sections: ReportSection[]; }
 
 export interface HeaderMeta {
-  title: string;         // navy-band title, e.g. "Union Square"
-  subtitle: string;      // line under it, e.g. "Site Visit Debrief — Brett Wilkins (GM, Lexington)"
-  dates: string;         // "August 2026" or "8/7 → 8/9/2026" (may be "")
-  footerContact: string; // e.g. "Brett Wilkins  |  Training Team  |  bwilkins@activate.games"
+  title: string;         // subject, e.g. "Clay Haton — Town Square, Las Vegas"
+  subtitle: string;      // e.g. "GM Training Debrief — hosted by Brett Wilkins (GM, Lexington)"
+  dates: string;
+  footerContact: string; // e.g. "Brett Wilkins · Training Clay Haton · Aug 11–15, 2026"
 }
 
-// Brand palette (RGB)
-const NAVY: [number, number, number] = [26, 58, 92];
-const CRIMSON: [number, number, number] = [192, 20, 60];
-const GREEN: [number, number, number] = [39, 119, 60];
-const BODY: [number, number, number] = [42, 46, 54];
-const MUTED: [number, number, number] = [140, 148, 165];
-const ROW_ALT: [number, number, number] = [240, 244, 248];
+// ---- Activate palette (RGB) ----
+type RGB = [number, number, number];
+const INDIGO100: RGB = [61, 91, 242];
+const INDIGO200: RGB = [0, 23, 140];
+const INDIGO300: RGB = [0, 11, 64];
+const CYAN: RGB = [0, 255, 255];
+const MAGENTA: RGB = [255, 0, 255]; // warning marker (icon use only)
+const GRAY100: RGB = [229, 233, 255];
+const GRAY200: RGB = [195, 201, 229];
+const GRAY300: RGB = [87, 89, 102];
+const WHITE: RGB = [255, 255, 255];
+const BODY = INDIGO300;
 
-const PAGE_W = 612;   // Letter, 72dpi points
+// ---- Page geometry (points, 72dpi Letter) ----
+const PAGE_W = 612;
 const PAGE_H = 792;
-const MARGIN = 54;    // 0.75"
+const INSET = 17;    // Gray-100 border band ≈ 0.24in
+const CUT = 18;      // 45° Space Window corner cut
+const MARGIN = 52;   // content margin (inside the white window)
 const CONTENT_W = PAGE_W - MARGIN * 2;
-const FOOTER_Y = PAGE_H - 34;
-const BOTTOM_LIMIT = PAGE_H - 56;
+const FOOTER_Y = PAGE_H - INSET - 16;
+const BOTTOM_LIMIT = FOOTER_Y - 20;
+
+// Space Window (symmetric octagon) filled with `color`.
+// deno-lint-ignore no-explicit-any
+function fillWindow(doc: any, x: number, y: number, w: number, h: number, c: number, color: RGB) {
+  doc.setFillColor(...color);
+  const segs = [
+    [w - 2 * c, 0], [c, c], [0, h - 2 * c], [-c, c],
+    [-(w - 2 * c), 0], [-c, -c], [0, -(h - 2 * c)], [c, -c],
+  ];
+  doc.lines(segs, x + c, y, [1, 1], "F", true);
+}
 
 export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
   const doc = new jsPDF({ unit: "pt", format: "letter" });
+
+  // Register brand fonts.
+  doc.addFileToVFS("SG-Regular.ttf", SPACE_GROTESK_REGULAR);
+  doc.addFont("SG-Regular.ttf", "SpaceGrotesk", "normal");
+  doc.addFileToVFS("SG-Bold.ttf", SPACE_GROTESK_BOLD);
+  doc.addFont("SG-Bold.ttf", "SpaceGrotesk", "bold");
+  doc.addFileToVFS("SM-Regular.ttf", SPACE_MONO_REGULAR);
+  doc.addFont("SM-Regular.ttf", "SpaceMono", "normal");
+
+  const display = (s: number) => { doc.setFont("SpaceGrotesk", "bold"); doc.setFontSize(s); };
+  const bodyFont = (s: number) => { doc.setFont("SpaceGrotesk", "normal"); doc.setFontSize(s); };
+  const mono = (s: number) => { doc.setFont("SpaceMono", "normal"); doc.setFontSize(s); };
+
   let y = 0;
 
   const footer = () => {
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8);
-    doc.setTextColor(...MUTED);
-    const line = meta.footerContact;
-    doc.text(line, PAGE_W / 2, FOOTER_Y, { align: "center" });
-    doc.setDrawColor(210, 216, 226);
+    mono(7.5);
+    doc.setTextColor(...GRAY300);
+    doc.text(meta.footerContact || "", PAGE_W / 2, FOOTER_Y, { align: "center" });
+    doc.setDrawColor(...GRAY200);
     doc.setLineWidth(0.5);
     doc.line(MARGIN, FOOTER_Y - 12, PAGE_W - MARGIN, FOOTER_Y - 12);
   };
 
-  const newPage = () => { doc.addPage(); footer(); y = MARGIN; };
+  const chrome = () => {
+    doc.setFillColor(...GRAY100);
+    doc.rect(0, 0, PAGE_W, PAGE_H, "F");
+    fillWindow(doc, INSET, INSET, PAGE_W - 2 * INSET, PAGE_H - 2 * INSET, CUT, WHITE);
+    footer();
+  };
 
+  const newPage = () => { doc.addPage(); chrome(); y = MARGIN; };
   const ensure = (needed: number) => { if (y + needed > BOTTOM_LIMIT) newPage(); };
 
-  // ---- Header band (page 1) ----
-  doc.setFillColor(...NAVY);
-  doc.rect(0, 0, PAGE_W, 74, "F");
-  doc.setTextColor(255, 255, 255);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(18);
-  doc.text(`ACTIVATE GAMES — ${(meta.title || "").toUpperCase()}`, MARGIN, 40);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9.5);
-  doc.setTextColor(198, 212, 232);
-  const sub = [meta.subtitle, meta.dates].filter(Boolean).join("  |  ");
-  doc.text(sub, MARGIN, 58);
-  footer();
-  y = 104;
+  // ---- Page 1 chrome + masthead ----
+  chrome();
+  // Wordmark (Indigo on white) — placed, never typed.
+  const logoW = 132, logoH = logoW * (240 / 1600);
+  doc.addImage("data:image/png;base64," + WORDMARK_INDIGO_PNG, "PNG", MARGIN, 40, logoW, logoH);
+  y = 40 + logoH + 26;
+  // Report subject (big title)
+  display(16);
+  doc.setTextColor(...INDIGO100);
+  const titleLines = doc.splitTextToSize((meta.title || "").toUpperCase(), CONTENT_W) as string[];
+  titleLines.forEach((ln) => { doc.text(ln, MARGIN, y); y += 19; });
+  // Subtitle + dates
+  mono(9);
+  doc.setTextColor(...GRAY300);
+  const subLine = [meta.subtitle, meta.dates].filter(Boolean).join("   ·   ");
+  doc.splitTextToSize(subLine, CONTENT_W).forEach((ln: string) => { y += 2; doc.text(ln, MARGIN, y); y += 12; });
+  y += 10;
+  doc.setDrawColor(...INDIGO100);
+  doc.setLineWidth(1.4);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+  y += 20;
 
   // ---- Table of contents ----
-  doc.setTextColor(...NAVY);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
+  mono(10);
+  doc.setTextColor(...INDIGO200);
   doc.text("CONTENTS", MARGIN, y);
   y += 16;
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(...BODY);
   report.sections.forEach((s) => {
     ensure(15);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
+    mono(9);
+    doc.setTextColor(...INDIGO100);
+    doc.text(String(s.n).padStart(2, "0"), MARGIN, y);
+    bodyFont(10);
     doc.setTextColor(...BODY);
-    doc.text(`${s.n}.  ${s.title}`, MARGIN, y);
+    doc.text(s.title, MARGIN + 24, y);
     y += 15;
   });
-  y += 12;
+  y += 14;
 
-  // ---- Sections ----
+  // ---- Section helpers ----
   const heading = (s: ReportSection) => {
-    ensure(40);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.setTextColor(...NAVY);
-    doc.text(`${s.n}.  ${s.title.toUpperCase()}`, MARGIN, y);
-    y += 7;
-    doc.setDrawColor(...CRIMSON);
-    doc.setLineWidth(1.2);
+    ensure(42);
+    display(12.5);
+    doc.setTextColor(...INDIGO100);
+    doc.text(`${String(s.n).padStart(2, "0")}   ${s.title.toUpperCase()}`, MARGIN, y);
+    y += 8;
+    doc.setDrawColor(...INDIGO100);
+    doc.setLineWidth(1);
     doc.line(MARGIN, y, PAGE_W - MARGIN, y);
-    y += 16;
+    y += 17;
   };
 
   const paragraph = (text: string) => {
     const lines = doc.splitTextToSize(text, CONTENT_W) as string[];
     lines.forEach((ln) => {
       ensure(14);
-      // Re-apply style every line: a mid-paragraph page break runs footer(),
-      // which leaves the font small+gray. (Fixes the "footer continuation" at top of a page.)
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(10);
+      bodyFont(10);
       doc.setTextColor(...BODY);
       doc.text(ln, MARGIN, y);
       y += 14;
@@ -128,28 +163,25 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
 
   const subhead = (text: string) => {
     ensure(20);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10.5);
-    doc.setTextColor(...NAVY);
+    display(10.5);
+    doc.setTextColor(...INDIGO200);
     doc.text(text, MARGIN, y);
     y += 15;
   };
 
   const bullets = (items: { text: string; priority?: boolean }[]) => {
     items.forEach((it) => {
-      const color = it.priority ? CRIMSON : BODY;
-      doc.setFont("helvetica", it.priority ? "bold" : "normal");
-      doc.setFontSize(10);
       const lines = doc.splitTextToSize(it.text, CONTENT_W - 16) as string[];
       lines.forEach((ln, i) => {
         ensure(14);
-        doc.setFont("helvetica", it.priority ? "bold" : "normal"); // re-apply after any page break
-        doc.setFontSize(10);
+        bodyFont(10);
+        if (it.priority) doc.setFont("SpaceGrotesk", "bold");
         if (i === 0) {
-          doc.setTextColor(...CRIMSON);
-          doc.text("•", MARGIN + 2, y);
+          // priority marker = magenta ▲ (warning icon); otherwise indigo •
+          doc.setTextColor(...(it.priority ? MAGENTA : INDIGO100));
+          doc.text(it.priority ? "▲" : "•", MARGIN + 2, y);
         }
-        doc.setTextColor(...color);
+        doc.setTextColor(...BODY);
         doc.text(ln, MARGIN + 16, y);
         y += 14;
       });
@@ -166,54 +198,59 @@ export function buildPdf(report: Report, meta: HeaderMeta): Uint8Array {
       head: [cols],
       body: rows,
       margin: { left: MARGIN, right: MARGIN },
-      styles: { font: "helvetica", fontSize: 9, cellPadding: 6, textColor: BODY, lineColor: [210, 216, 226], lineWidth: 0.5 },
-      headStyles: { fillColor: NAVY, textColor: [255, 255, 255], fontStyle: "bold", halign: "left" },
-      alternateRowStyles: { fillColor: ROW_ALT },
-      // keep footer painting on any page autotable adds
+      styles: { font: "SpaceMono", fontSize: 9, cellPadding: 6, textColor: INDIGO300, lineColor: GRAY200, lineWidth: 0.5 },
+      headStyles: { font: "SpaceGrotesk", fontStyle: "bold", fillColor: INDIGO200, textColor: WHITE, halign: "left" },
+      alternateRowStyles: { fillColor: GRAY100 },
       didDrawPage: () => footer(),
     });
-    // advance cursor past the table
     // deno-lint-ignore no-explicit-any
     const finalY = (doc as any).lastAutoTable?.finalY;
     y = (finalY ? finalY : y) + 16;
   };
 
-  // Two-column snapshot (e.g. Major Wins | Coaching Priorities).
+  // Two-column snapshot inside a Gray-100 Space Window (no red/green coding).
   const twocol = (cols: { heading: string; items: string[] }[]) => {
     const pair = cols.slice(0, 2);
-    const gutter = 22;
-    const colW = (CONTENT_W - gutter) / 2;
-    ensure(96); // keep the snapshot together; push to a new page if tight
-    const startY = y;
-    let maxY = y;
+    const padX = 16, padY = 15, gutter = 22;
+    const innerW = CONTENT_W - padX * 2;
+    const colW = (innerW - gutter) / 2;
+    // measure tallest column (lines*12 + 2px gap per item)
+    let maxColH = 0;
+    const colLineSets = pair.map((c) => {
+      bodyFont(9.5);
+      const sets = (c.items || []).map((it) => doc.splitTextToSize(it, colW - 12) as string[]);
+      const h = sets.reduce((a, s) => a + s.length * 12 + 2, 0);
+      if (h > maxColH) maxColH = h;
+      return sets;
+    });
+    const headH = 22;
+    const boxH = padY * 2 + headH + maxColH;
+    ensure(boxH + 6);
+    fillWindow(doc, MARGIN, y, CONTENT_W, boxH, 10, GRAY100);
+    const top = y + padY;
     pair.forEach((c, ci) => {
-      const accent = ci === 0 ? GREEN : CRIMSON;
-      const x = MARGIN + ci * (colW + gutter);
-      let cy = startY;
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(10.5);
-      doc.setTextColor(...accent);
+      const x = MARGIN + padX + ci * (colW + gutter);
+      let cy = top;
+      display(10.5);
+      doc.setTextColor(...INDIGO200);
       doc.text((c.heading || "").toUpperCase(), x, cy);
-      cy += 7;
-      doc.setDrawColor(...accent);
-      doc.setLineWidth(1);
+      cy += 8;
+      doc.setDrawColor(...INDIGO100);
+      doc.setLineWidth(0.8);
       doc.line(x, cy, x + colW, cy);
-      cy += 15;
-      doc.setFontSize(9.5);
-      (c.items || []).forEach((it) => {
-        const lines = doc.splitTextToSize(it, colW - 12) as string[];
-        lines.forEach((ln, i) => {
-          if (i === 0) { doc.setFont("helvetica", "bold"); doc.setTextColor(...accent); doc.text("•", x, cy); }
-          doc.setFont("helvetica", "normal");
+      cy += 14;
+      (colLineSets[ci]).forEach((set) => {
+        set.forEach((ln, i) => {
+          bodyFont(9.5);
+          if (i === 0) { doc.setTextColor(...INDIGO100); doc.text("•", x, cy); }
           doc.setTextColor(...BODY);
           doc.text(ln, x + 12, cy);
-          cy += 13;
+          cy += 12;
         });
-        cy += 3;
+        cy += 2;
       });
-      if (cy > maxY) maxY = cy;
     });
-    y = maxY + 8;
+    y += boxH + 10;
   };
 
   report.sections.forEach((s) => {
