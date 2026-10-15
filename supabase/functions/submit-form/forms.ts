@@ -40,24 +40,27 @@ Each column is a short, scannable list of 3–6 punchy bullets (a few words to o
 
 // ---- Site Visit Report ----
 const SITE_VISIT_SECTIONS = `
-Sections to produce, in this order (keep the numbering; if the input had nothing for a section, write one short paragraph noting it was not covered rather than inventing content):
-1 — Overall Snapshot & Weekend Data (include the ops figures as a "table" block ONLY if ops data was provided)
-2 — Team Culture & Communication
-3 — Leadership Assessment (one "subhead" with the AM's name + paragraphs per Assistant Manager)
-4 — Technical Knowledge & Certifications
-5 — Labor & Productivity
-6 — Facility Issues (use bullets; mark safety-critical items priority:true)
-7 — Outreach & Guest Engagement
-8 — GM Assessment & Coaching Conversations
-9 — Strategic Recommendations
-10 — Snapshot (the two-column Major Wins / Coaching Priorities described above, synthesizing the visit)`;
+Sections to produce, in this order. The numbers below show ORDER only — number your OUTPUT sections consecutively starting at 1 with NO gaps (so if you omit an optional section, shift every later section's number up). If the input had little for a section, write one short paragraph noting it rather than inventing content:
+1 — Snapshot (the two-column Major Wins / Coaching Priorities described above, synthesizing the whole visit — placed FIRST so a busy owner sees the takeaways immediately)
+2 — Weekend Data & Ops (include the ops figures as a "table" block ONLY if ops data was provided; otherwise a one-line note)
+3 — Team Culture & Communication (hub & lobby engagement, radios & amps, shift huddles, whether the team is having fun / ranks fit tenure, potential recognition, behavior concerns, and overall energy)
+4 — Leadership Assessment (one "subhead" with the AM's name + paragraphs per Assistant Manager; reference their 1–5 ratings for holding standards and delegating)
+5 — Technical Knowledge & Standards (tech knowledge, any tech issues, tech-room organization, Room Health Mode execution, MaintainX adherence, Activate Coach awareness, and certifications/appetite for learning)
+6 — Labor & Productivity
+7 — Facility Issues (group as Appearance / Guest-impacting / Safety & Compliance; use bullets and mark safety-critical items priority:true)
+8 — Outreach & Local Awareness (outbound calls & emails / lead gen, neighborhood recognition, and untapped opportunities)
+9 — GM Assessment & Coaching (OPTIONAL — include this section ONLY if the host provided GM assessment input; if it was left blank, omit the section entirely)
+10 — Strategic Recommendations & Culture Delivered (priorities, goals with owners, and how the visiting manager promoted Activate culture)
+11 — Overall (the visiting manager's final operational read on the location)`;
 
 const SITE_VISIT_PROMPT = `You are the Activate Games Training Team's report writer. You are given raw field notes from an experienced Activate GM who just visited another location and worked shifts there. Turn those notes into a polished Site Visit Debrief.
 
 Rules:
-- Treat every answer as direct input from the visiting GM. Write in third person from their perspective, preserving their specific language and phrasing — quote their words rather than paraphrasing wherever it strengthens the point.
+- Treat every answer as direct input from the visiting manager. Write in third person from their perspective, preserving their specific language and phrasing — quote their words rather than paraphrasing wherever it strengthens the point.
 - Organize the report using the fixed section structure provided. Mirror the questionnaire.
-- Include the ops data table in Section 1 only if ops data was provided.
+- The notes state the REASON for the visit (new-store opening vs. manager support for an existing location). Frame the report to that reason.
+- Include the ops data table in Section 2 only if ops data was provided.
+- The GM Assessment section is optional — omit it entirely if the host left it blank.
 - Flag any safety-critical facility issues prominently (priority bullets).
 - For personnel conversations, coaching plans, PIPs, and performance thresholds: write with directness and specificity. DO NOT soften the language. This report is for a GM, Regional Director, Head of Training & Development, and VP of Operations.
 - Do not invent details not present in the notes. If a section was skipped or marked N/A, note that briefly.
@@ -69,7 +72,7 @@ ${SITE_VISIT_SECTIONS}`;
 
 // ---- New GM Training Debrief ----
 const GM_TRAINING_SECTIONS = `
-Sections to produce, in this order (keep the numbering; if the input had little for a section, write one short paragraph noting it rather than inventing content):
+Sections to produce, in this order. The numbers below show ORDER only — number your OUTPUT sections consecutively starting at 1 with NO gaps (so if you omit an optional section, shift every later section's number up). If the input had little for a section, write one short paragraph noting it rather than inventing content:
 1 — Snapshot (the two-column Major Wins / Coaching Priorities described above, synthesizing the whole debrief — placed FIRST so a busy owner sees the takeaways the moment it hits their desk)
 2 — Trainee Overview (a CONCISE executive recap for leaders skimming: one or two sentences on who the trainee is, then the overall read, then a brief summary of the biggest wins and the top coaching priorities. Lead with the punchline — do NOT open with a long paragraph or a drawn-out backstory. Name the training week here. Keep the whole section tight.)
 3 — Training Recap (a day-by-day / block-by-block account of what was covered and how they did — use "subhead" for each day/date, then paragraphs)

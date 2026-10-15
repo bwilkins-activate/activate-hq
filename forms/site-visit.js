@@ -1,8 +1,8 @@
 /* ============================================================
    FORM DEFINITION — Site Visit Report
-   Registers itself into window.ACTIVATE_FORMS (read by forms.html).
-   To add a new form, copy this file's shape and add a matching
-   system prompt in supabase/functions/submit-form/forms.ts.
+   Restructured per RD feedback (Oct 2026): works for new-store
+   openings AND manager-support visits. Registers into
+   window.ACTIVATE_FORMS (read by forms.html).
    ============================================================ */
 (function () {
   window.ACTIVATE_FORMS = window.ACTIVATE_FORMS || [];
@@ -18,8 +18,8 @@
     { id: "style", label: "Leadership style in one sentence", type: "text", ph: "One sentence" },
     { id: "strength", label: "Greatest strength", type: "textarea" },
     { id: "develop", label: "Most important development area", type: "textarea" },
-    { id: "standards", label: "When this AM is managing, does the team maintain the GM's standards?", type: "select", options: ["Yes", "Mostly", "Inconsistent", "No"] },
-    { id: "delegate", label: "Do they delegate effectively, or absorb tasks themselves?", type: "select", options: ["Delegates well", "Mixed", "Tends to absorb tasks"] },
+    { id: "standards", label: "When managing, how well do they hold the GM's standards?", type: "scale", max: 5, lowLabel: "Rarely", highLabel: "Always" },
+    { id: "delegate", label: "How effectively do they delegate (vs. absorbing tasks)?", type: "scale", max: 5, lowLabel: "Absorbs", highLabel: "Delegates" },
     { id: "notes", label: "Any additional observations about this AM?", optional: true, type: "textarea" },
   ];
 
@@ -36,82 +36,90 @@
   window.ACTIVATE_FORMS.push({
     id: "site-visit",
     name: "Site Visit Report",
-    tagline: "GM Debrief Tool",
-    recipientsField: "q7",
-    required: ["q1", "q2", "q3", "q4", "q5", "q7"],
+    tagline: "Manager Support & NSO Debrief",
+    recipientsField: "emails",
+    required: ["name", "homerole", "location", "reason", "rd", "dates", "emails"],
     intro:
-      'Work through each section from your visit. Your answers <b>save automatically to this device</b> as you type — you can close this and come back across a multi-day visit. When you submit, AI assembles a polished debrief in your voice and emails a branded PDF to the addresses you list in Section A. <b>Quote-worthy specifics beat vague notes</b> — the report is only as sharp as what you put in.',
+      'For a visiting manager to document a location visit — a new-store opening or manager support for an existing location. Your answers <b>save automatically to this device</b> as you go. On submit, AI assembles a polished debrief in your voice and emails a branded PDF to the recipients in Section A. <b>Specifics beat vague notes</b> — the report is only as sharp as what you put in.',
     header: function (A) {
       return {
-        title: A.q3 || "Location",
-        subtitle: "Site Visit Debrief — " + (A.q1 || "Visiting GM") + (A.q2 ? " (" + A.q2 + ")" : ""),
-        dates: datesStr(A.q5),
-        author: A.q1 || "",
-        footer: (A.q1 || "Visiting GM") + "   ·   " + (A.q3 || "Location") + (datesStr(A.q5) ? "   ·   " + datesStr(A.q5) : ""),
+        title: A.location || "Location",
+        subtitle: "Site Visit Report — " + (A.name || "Visiting Manager") + (A.homerole ? " (" + A.homerole + ")" : ""),
+        dates: datesStr(A.dates),
+        author: A.name || "",
+        footer: (A.name || "Visiting Manager") + "   ·   " + (A.location || "Location") + (datesStr(A.dates) ? "   ·   " + datesStr(A.dates) : ""),
       };
     },
     sections: [
-      { id: "A", letter: "A", title: "Visit Basics", desc: "Populates the report header and delivery. All required.", fields: [
-        { id: "q1", q: "Q1", label: "Your full name", type: "text", ph: "e.g. Brett Wilkins" },
-        { id: "q2", q: "Q2", label: "Your home location and role", type: "text", ph: "e.g. GM, Lexington" },
-        { id: "q3", q: "Q3", label: "Location you are visiting", type: "text", ph: "e.g. Union Square" },
-        { id: "q4", q: "Q4", label: "General Manager of the location you are visiting", type: "text", ph: "GM name" },
-        { id: "q5", q: "Q5", label: "Dates of your visit", type: "date-range" },
-        { id: "q6", q: "Q6", label: "Which shifts did you work during your visit?", hint: "Check all that apply.", type: "checks", options: ["Opening", "Mid", "Closing", "Overnight"] },
-        { id: "q7", q: "Q7", label: "Email addresses for report delivery", hint: "One or more, comma-separated.", type: "email", ph: "name@activate.games, name2@activate.games" },
+      { id: "A", letter: "A", title: "Visit Basics", desc: "Populates the report header and delivery.", fields: [
+        { id: "name", q: "Q1", label: "Your full name", type: "text", ph: "e.g. Brett Wilkins" },
+        { id: "homerole", q: "Q2", label: "Your home location and role", type: "text", ph: "e.g. GM, Lexington" },
+        { id: "location", q: "Q3", label: "Location you are visiting", type: "text", ph: "e.g. Union Square" },
+        { id: "reason", q: "Q4", label: "Reason for the visit", type: "select", options: ["New Store Opening (NSO)", "Coverage for PTO / illness", "Support for a team without a GM", "General manager support", "Other"] },
+        { id: "gm", q: "Q5", label: "General Manager of the location", hint: "Leave blank if the location has no GM.", optional: true, type: "text", ph: "GM name" },
+        { id: "rd", q: "Q6", label: "Regional Director of the location", type: "text", ph: "RD name" },
+        { id: "dates", q: "Q7", label: "Dates of your visit", type: "date-range" },
+        { id: "shifts", q: "Q8", label: "Which shifts did you work during your visit?", hint: "Check all that apply.", type: "checks", options: ["Opening", "Mid", "Closing", "Overnight"] },
+        { id: "emails", q: "Q9", label: "Email addresses for report delivery", hint: "Comma-separated. Include the location's GM (if any), the RD, and Logan.", type: "email", ph: "name@activate.games, name2@activate.games" },
       ]},
       { id: "B", letter: "B", title: "Ops Data", optional: true, desc: "Optional. If you have the ops sheet, add a row per day. Populates the data table in the report.", fields: [
         { id: "ops", type: "table", label: "Per-day performance", hint: "One row per day visited.", addLabel: "+ Add another day", columns: OPS_COLS },
       ]},
-      { id: "C", letter: "C", title: "Overall Impression", fields: [
-        { id: "q9", q: "Q9", label: "This location's overall operational health", type: "select", options: ["Excellent", "Strong", "Mixed", "Needs attention", "Struggling"] },
-        { id: "q10", q: "Q10", label: "In one or two sentences, what is this location doing best right now?", type: "textarea" },
-        { id: "q11", q: "Q11", label: "What is the single most important area this location needs to improve?", type: "textarea" },
-        { id: "q12", q: "Q12", label: "Traffic volume during your visit, relative to what you’d expect", type: "select", options: ["Well above expected", "Above expected", "About as expected", "Below expected", "Well below expected"] },
+      { id: "C", letter: "C", title: "Team Culture & Communication", fields: [
+        { id: "eng", q: "Q10", label: "Proactive guest engagement — note the hub (recommendations, celebrating wins) and the lobby (greeting, check-ins) separately.", type: "textarea" },
+        { id: "radios", q: "Q11", label: "Radios & amps — how well did the team use them to communicate across deployments?", type: "text", ph: "1–3 sentences" },
+        { id: "huddles", q: "Q12", label: "Shift huddles — effectiveness and execution", type: "text", ph: "1–3 sentences" },
+        { id: "fun", q: "Q13", label: "Is the team having fun? Are agent ranks appropriate for their tenure?", type: "text", ph: "1–3 sentences" },
+        { id: "recognition", q: "Q14", label: "Potential recognition — any high-performing facilitators who want or could do more?", type: "text", ph: "Names + why" },
+        { id: "behavior", q: "Q15", label: "Any staff behavior concerns — things that wouldn't meet Activate's standard?", type: "text", ph: 'or "none observed"' },
+        { id: "energy", q: "Q16", label: "Overall, how would you describe the team's energy and culture?", type: "textarea" },
       ]},
-      { id: "D", letter: "D", title: "Team Culture & Communication", fields: [
-        { id: "q13", q: "Q13", label: "How would you describe the team's overall energy and culture?", type: "textarea" },
-        { id: "q14", q: "Q14", label: "How well did staff communicate across deployments (e.g. lobby to hub)?", type: "text", ph: "1–3 sentences" },
-        { id: "q15", q: "Q15", label: "Did staff engage guests proactively in the hub — conversations, recs, celebrating wins?", type: "select", options: ["Yes — consistently", "Somewhat", "Rarely", "No"] },
-        { id: "q16", q: "Q16", label: "Describe any guest engagement strengths you observed.", type: "textarea" },
-        { id: "q17", q: "Q17", label: "Any staff behavior concerns — things that wouldn't meet Activate's standard?", type: "text", ph: 'or "none observed"' },
-      ]},
-      { id: "E", letter: "E", title: "Leadership Assessment", desc: "Repeats per Assistant Manager observed. Add up to 4.", fields: [
+      { id: "D", letter: "D", title: "Leadership Assessment", desc: "Repeats per Assistant Manager observed. Add up to 4. Rate 1–5.", fields: [
         { id: "ams", type: "repeater", title: "Assistant Manager", max: 4, addLabel: "+ Add another Assistant Manager", fields: AM_FIELDS },
       ]},
-      { id: "F", letter: "F", title: "Technical Knowledge & Certifications", fields: [
-        { id: "q25", q: "Q25", label: "The team's overall technical knowledge", type: "select", options: ["Strong", "Solid", "Developing", "Weak"] },
-        { id: "q26", q: "Q26", label: "Were there any tech issues during your visit? Describe what happened, resolution time, and why.", type: "textarea" },
-        { id: "q27", q: "Q27", label: "Is the tech room organized so any team member could navigate it independently?", type: "select", options: ["Yes", "Partially", "No"] },
-        { id: "q28", q: "Q28", label: "Are certifications being actively pursued — by leadership? by facilitators?", type: "text", ph: "1–3 sentences" },
-        { id: "q29", q: "Q29", label: "Your read on the team's appetite for learning — pursuing new knowledge, or content with what they know?", type: "textarea" },
+      { id: "E", letter: "E", title: "Technical Knowledge & Standards", fields: [
+        { id: "techknow", q: "Q17", label: "The team's overall technical knowledge", type: "select", options: ["Strong", "Solid", "Developing", "Weak"] },
+        { id: "techissues", q: "Q18", label: "Were there any tech issues during your visit? What happened, resolution time, and why.", type: "textarea" },
+        { id: "techroom", q: "Q19", label: "Is the tech room organized so any team member could navigate it independently?", type: "select", options: ["Yes", "Partially", "No"] },
+        { id: "rhm", q: "Q20", label: "Is Room Health Mode (RHM) being executed properly?", type: "select", options: ["Yes", "Partially", "No", "Not observed"] },
+        { id: "maintainx", q: "Q21", label: "MaintainX adherence", type: "select", options: ["Strong", "Inconsistent", "Poor", "Not observed"] },
+        { id: "coach", q: "Q22", label: "Activate Coach — is it being observed, and is the team aware of it?", type: "text", ph: "1–3 sentences" },
+        { id: "learning", q: "Q23", label: "Certifications & learning — are certs being actively pursued (leadership & facilitators), and what's the team's appetite for learning?", type: "textarea" },
       ]},
-      { id: "G", letter: "G", title: "Labor & Productivity", fields: [
-        { id: "q30", q: "Q30", label: "Staffing levels relative to traffic during your visit", type: "select", options: ["Overstaffed", "Appropriate", "Understaffed", "Varied by shift"] },
-        { id: "q31", q: "Q31", label: "What were staff doing during slow periods with limited guest interaction?", type: "textarea" },
-        { id: "q32", q: "Q32", label: "What should or could they have been doing instead?", type: "textarea" },
-        { id: "q33", q: "Q33", label: "Labor hour recommendation for this location? Suggested weekly breakdown by day.", optional: true, type: "textarea" },
+      { id: "F", letter: "F", title: "Labor & Productivity", fields: [
+        { id: "staffing", q: "Q24", label: "Staffing levels relative to traffic during your visit", type: "select", options: ["Overstaffed", "Appropriate", "Understaffed", "Varied by shift"] },
+        { id: "slowperiod", q: "Q25", label: "What were staff doing during slow periods with limited guest interaction?", type: "textarea" },
+        { id: "shouldhave", q: "Q26", label: "What should or could they have been doing instead?", type: "textarea" },
+        { id: "laborrec", q: "Q27", label: "Labor hour recommendation for this location? Suggested weekly breakdown by day.", optional: true, type: "textarea" },
       ]},
-      { id: "H", letter: "H", title: "Facility Issues", fields: [
-        { id: "q34", q: "Q34", label: "List facility issues you observed — equipment, safety, cleanliness, infrastructure. Flag anything safety-critical.", type: "textarea" },
-        { id: "q35", q: "Q35", label: "Issues already known to leadership that you want to follow up on or escalate?", optional: true, type: "textarea" },
+      { id: "G", letter: "G", title: "Facility Issues", desc: "Flag anything safety-critical.", fields: [
+        { id: "facappear", q: "Q28", label: "Appearance — paint, flooring, doors, signage / vinyls", type: "textarea" },
+        { id: "facguest", q: "Q29", label: "Guest-impacting — bathrooms, water fountains, HVAC", type: "textarea" },
+        { id: "facsafety", q: "Q30", label: "Safety & compliance — fire extinguishers, exterior door locks, cameras. Flag anything critical.", type: "textarea" },
+        { id: "facknown", q: "Q31", label: "Issues already known to leadership you want to follow up on or escalate?", optional: true, type: "textarea" },
       ]},
-      { id: "I", letter: "I", title: "Outreach & Guest Engagement", fields: [
-        { id: "q36", q: "Q36", label: "Did you observe or participate in any outreach (street teams, canvassing, BOGO distribution)?", type: "text", ph: "1–3 sentences" },
-        { id: "q37", q: "Q37", label: "The team's instinct for talking to people — guests inside and potential guests outside", type: "textarea" },
-        { id: "q38", q: "Q38", label: "What outreach opportunities exist that this location is not currently leveraging?", type: "textarea" },
+      { id: "H", letter: "H", title: "Outreach & Local Awareness", fields: [
+        { id: "calls", q: "Q32", label: "Calls & emails — how is the team doing on outbound calls, emails, lead generation, group sales, and follow-ups?", type: "textarea" },
+        { id: "neighborhood", q: "Q33", label: "Neighborhood recognition — as you visited nearby restaurants/hotels, did they know Activate exists? Note gaps within sight of the location.", type: "textarea" },
+        { id: "opps", q: "Q34", label: "What outreach or community opportunities is this location not currently leveraging?", type: "textarea" },
       ]},
-      { id: "J", letter: "J", title: "GM Assessment & Coaching", fields: [
-        { id: "q39", q: "Q39", label: "How much time did you spend working alongside the GM?", type: "select", options: ["Extensively — most shifts", "Several shifts", "Some", "Minimal"] },
-        { id: "q40", q: "Q40", label: "The GM's greatest operational strength", type: "textarea" },
-        { id: "q41", q: "Q41", label: "The GM's most important development area", type: "textarea" },
-        { id: "q42", q: "Q42", label: "Describe any key coaching conversations you had with the GM.", type: "textarea" },
-        { id: "q43", q: "Q43", label: "Any personnel situations that need documenting — coaching plans, PIPs, performance conversations?", hint: "Be specific and direct — this section is written without softening.", optional: true, type: "textarea" },
+      { id: "I", letter: "I", title: "GM Assessment & Coaching", optional: true, desc: "Optional — complete only if the location has a GM you worked with.", fields: [
+        { id: "gmstrength", q: "Q35", label: "The GM's greatest operational strength", optional: true, type: "textarea" },
+        { id: "gmdev", q: "Q36", label: "The GM's most important development area", optional: true, type: "textarea" },
+        { id: "gmcoach", q: "Q37", label: "Key coaching conversations you had with the GM", optional: true, type: "textarea" },
+        { id: "gmpersonnel", q: "Q38", label: "Personnel situations to document — coaching plans, PIPs, performance conversations", optional: true, type: "textarea" },
       ]},
-      { id: "K", letter: "K", title: "Strategic Recommendations", fields: [
-        { id: "q44", q: "Q44", label: "What 1–3 strategic priorities would you recommend over the next 30–60 days?", type: "textarea" },
-        { id: "q45", q: "Q45", label: "Specific goals you’d suggest — each with a named owner and a deadline?", type: "textarea" },
-        { id: "q46", q: "Q46", label: "Anything else you observed or want documented that hasn’t been covered?", optional: true, type: "textarea" },
+      { id: "J", letter: "J", title: "Strategic Recommendations & Culture", fields: [
+        { id: "priorities", q: "Q39", label: "What 1–3 strategic priorities would you recommend over the next 30–60 days?", type: "textarea" },
+        { id: "goals", q: "Q40", label: "Specific goals you'd suggest — each with a named owner and a deadline", type: "textarea" },
+        { id: "culture", q: "Q41", label: "How did you deliver on our culture this visit? (e.g. lunch with a top performer, snacks on a busy shift, recognizing an agent, running a fun contest)", type: "textarea" },
+      ]},
+      { id: "K", letter: "K", title: "Overall", desc: "Final insights — your overall read on the location.", fields: [
+        { id: "health", q: "Q42", label: "This location's overall operational health", type: "select", options: ["Excellent", "Strong", "Mixed", "Needs attention", "Struggling"] },
+        { id: "best", q: "Q43", label: "What is this location doing best right now?", type: "textarea" },
+        { id: "improve", q: "Q44", label: "The single most important area this location needs to improve?", type: "textarea" },
+        { id: "traffic", q: "Q45", label: "Traffic volume during your visit, relative to what you'd expect", type: "select", options: ["Well above expected", "Above expected", "About as expected", "Below expected", "Well below expected"] },
+        { id: "anyelse", q: "Q46", label: "Anything else you observed or want documented that hasn't been covered?", optional: true, type: "textarea" },
       ]},
     ],
   });
